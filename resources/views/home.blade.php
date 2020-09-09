@@ -13,7 +13,16 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
+                    @if (Route::has('register'))
+                    <ul>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register user') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('apps.mailmerge') }}">{{ __('Mail merge') }}</a>
+                        </li>
+                    </ul>
+                    @endif
                     {{ __('You are logged in!') }}
                 </div>
             </div>

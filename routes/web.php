@@ -13,13 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'PagesController@index');
+
+Route::get('/setup', 'SetupController@setupPage');
+Route::post('/setup', 'SetupController@saveSetup')->name('setup');
 
 Auth::routes([
     'reset' => false,
-    'verify' => false
+    'verify' => false,
 ]);
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/apps/mailmerge', 'AppController@mailmerge')->name('apps.mailmerge');
