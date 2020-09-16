@@ -21,8 +21,13 @@ class MailMergeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    // public function index()
-    // {
-    //     return view('apps.mailmerge');
-    // }
+    public function index()
+    {
+        return view('apps.mailmerge.index');
+    }
+
+    public function create()
+    {
+        return view('apps.mailmerge.create');
+    }
 }
