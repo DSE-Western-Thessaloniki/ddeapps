@@ -16,7 +16,7 @@
                     {{ __('Create Mail merge!') }}
                     {!! Form::open(['action' => 'MailMergeController@store',
                                     'method' => 'POST']) !!}
-                        <vform-component></vform-component>
+                        <mailmerge-component></mailmerge-component>
 
                         <br/>
                         <div class="col-md-10 d-flex justify-content-end">
