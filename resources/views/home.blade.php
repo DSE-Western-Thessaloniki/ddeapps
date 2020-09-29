@@ -19,7 +19,7 @@
                             <a class="nav-link" href="{{ route('register') }}">{{ __('Register user') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('apps.mailmerge') }}">{{ __('Mail merge') }}</a>
+                            <a class="nav-link" href="{{ route('apps.mailmerge.index') }}">{{ __('Mail merge') }}</a>
                         </li>
                     </ul>
                     @endif
