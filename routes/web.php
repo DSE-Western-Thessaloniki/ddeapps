@@ -27,4 +27,7 @@ Auth::routes([
 Route::get('/home', 'HomeController@index')->name('home');
 Route::prefix('apps')->name('apps.')->group(function () {
     Route::resource('mailmerge', 'MailMergeController');
+    Route::prefix('mailmerge')->name('mailmerge.')->group(function () {
+        Route::resource('doclogo', 'DocLogoController');
+    });
 });
