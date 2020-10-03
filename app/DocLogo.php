@@ -13,4 +13,12 @@ class DocLogo extends Model
     // Timestamps
     public $timestamps = true;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title', 'image', 'text', 'active',
+    ];
 }

@@ -26,7 +26,7 @@ class DocLogoController extends Controller
      */
     public function create()
     {
-        //
+        return view('apps.mailmerge.doclogo.create');
     }
 
     /**
@@ -37,7 +37,18 @@ class DocLogoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'doclogotitle'=>'required',
+        ]);
+
+        $doclogo = new DocLogo([
+            'title' => $request->get('doclogotitle'),
+            'image' => $request->get('image'),
+            'text' => $request->get('doclogotext'),
+            'active' => $request->get('active') == 1 ? 1 : 0,
+        ]);
+        $doclogo->save();
+        return redirect(route('apps.mailmerge.doclogo.index'))->with('status', 'Logo saved!');
     }
 
     /**
@@ -59,7 +70,8 @@ class DocLogoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $doclogo = DocLogo::find($id);
+        return view('apps.mailmerge.doclogo.edit', compact('doclogo'));
     }
 
     /**
@@ -71,7 +83,18 @@ class DocLogoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'doclogotitle'=>'required',
+        ]);
+
+        $doclogo = DocLogo::find($id);
+        $doclogo->title = $request->get('doclogotitle');
+        $doclogo->image = $request->get('image');
+        $doclogo->text = $request->get('doclogotext');
+        $doclogo->active = $request->get('active') == 1 ? 1 : 0;
+        $doclogo->save();
+
+        return redirect(route('apps.mailmerge.doclogo.index'))->with('status', 'Logo updated!');
     }
 
     /**
@@ -82,6 +105,9 @@ class DocLogoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $doclogo = DocLogo::find($id);
+        $doclogo->delete();
+
+        return redirect(route('apps.mailmerge.doclogo.index'))->with('status', 'Logo deleted!');
     }
 }

@@ -16,6 +16,9 @@
                     {{ __('Mail merge!') }}
                     <ul>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('apps.mailmerge.doclogo.index') }}">{{ __('Logos') }}</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('apps.mailmerge.create') }}">{{ __('New mail merge') }}</a>
                         </li>
                     </ul>
