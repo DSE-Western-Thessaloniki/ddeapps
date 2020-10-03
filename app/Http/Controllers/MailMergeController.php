@@ -30,4 +30,9 @@ class MailMergeController extends Controller
     {
         return view('apps.mailmerge.create');
     }
+
+    public function show()
+    {
+        return view('apps.mailmerge.show');
+    }
 }
