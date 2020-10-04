@@ -59,7 +59,8 @@ class DocLogoController extends Controller
      */
     public function show($id)
     {
-        //
+        $doclogo = DocLogo::find($id);
+        return view('apps.mailmerge.doclogo.show', compact('doclogo'));
     }
 
     /**
