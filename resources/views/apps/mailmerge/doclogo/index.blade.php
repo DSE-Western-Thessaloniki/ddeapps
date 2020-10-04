@@ -37,9 +37,9 @@
                                 @forelse($doclogos as $doclogo)
                                 <tr>
                                     <td>{{$doclogo->id}}</td>
-                                    <td>{{$doclogo->title}}</td>
+                                    <td><a href="{{ route('apps.mailmerge.doclogo.show', $doclogo->id) }}">{{$doclogo->title}}</a></td>
                                     <td>{{$doclogo->image}}</td>
-                                    <td>{{$doclogo->text}}</td>
+                                    <td><pre class="text-center">{{$doclogo->text}}</pre></td>
                                     <td>{{$doclogo->active}}</td>
                                     <td>
                                         <a href="{{ route('apps.mailmerge.doclogo.edit',$doclogo->id)}}" class="btn btn-primary">Edit</a>
