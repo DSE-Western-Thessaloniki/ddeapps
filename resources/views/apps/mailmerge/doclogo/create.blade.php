@@ -57,8 +57,13 @@
                         </div>
                     </div>
 
-                    <div class="col-md-10 d-flex justify-content-end">
-                        {{Form::submit(__('Save'), ['class' => 'btn btn-primary'])}}
+                    <div class="form-group row">
+                        <div class="col-md-2">
+                            <a class="btn btn-danger" href="{{ route('apps.mailmerge.doclogo.index') }}">{{ __('Cancel')}}</a>
+                        </div>
+                        <div class="col-md-10 d-flex justify-content-end">
+                            {{Form::submit(__('Save'), ['class' => 'btn btn-primary'])}}
+                        </div>
                     </div>
                     {!! Form::close() !!}
 
