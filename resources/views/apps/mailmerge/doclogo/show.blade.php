@@ -34,6 +34,7 @@
                         <div class="col-3">{{ __('Image') }}</div>
                         <div class="col-9 align-self-center">
                             {{ $doclogo->image }}
+                            <img src="/images/{{$doclogo->image}}">
                         </div>
                     </div>
 
@@ -56,10 +57,10 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-2">
                             <a class="btn btn-danger" href="{{ route('apps.mailmerge.doclogo.index') }}">{{ __('Back') }}</a>
                         </div>
-                        <div class="col-md-10 d-flex justify-content-end">
+                        <div class="col-10 d-flex justify-content-end">
                             <a class="btn btn-primary" href="{{ route('apps.mailmerge.doclogo.edit', $doclogo->id)}}">{{ __('Edit') }}</a>
                         </div>
                     </div>
