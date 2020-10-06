@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-striped table-hover">
+                        <table class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -46,7 +46,15 @@
                                     <td><a href="{{ route('apps.mailmerge.doclogo.show', $doclogo->id) }}">{{$doclogo->title}}</a></td>
                                     <td>{{$doclogo->image}}</td>
                                     <td><pre class="text-center">{{$doclogo->text}}</pre></td>
-                                    <td>{{$doclogo->active}}</td>
+                                    @if($doclogo->active)
+                                        <td class="text-center text-success">
+                                            @icon('check')
+                                        </td>
+                                    @else
+                                        <td class="text-center text-danger">
+                                            @icon('times')
+                                        </td>
+                                    @endif
                                     <td>
                                         <a href="{{ route('apps.mailmerge.doclogo.edit',$doclogo->id)}}" class="btn btn-primary">Edit</a>
                                     </td>
