@@ -26,7 +26,13 @@
                     {!! Form::open(['action' => ['DocLogoController@update', $doclogo->id],
                     'method' => 'POST']) !!}
 
-                    <doclogoform></doclogoform>
+                    <doclogoform
+                        title="{{ $doclogo->title }}"
+                        logofile="{{ $doclogo->image}}"
+                        text="{{ $doclogo->text}}"
+                        active="{{ $doclogo->active}}"
+                    >
+                    </doclogoform>
 
                     <div class="form-group row">
                         <div class="col-2">

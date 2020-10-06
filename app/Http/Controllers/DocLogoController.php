@@ -38,11 +38,11 @@ class DocLogoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'doclogotitle'=>'required',
+            'title'=>'required',
         ]);
 
         $doclogo = new DocLogo([
-            'title' => $request->get('doclogotitle'),
+            'title' => $request->get('title'),
             'image' => $request->get('image'),
             'text' => $request->get('doclogotext'),
             'active' => $request->get('active') == 1 ? 1 : 0,
@@ -85,11 +85,11 @@ class DocLogoController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'doclogotitle'=>'required',
+            'title'=>'required',
         ]);
 
         $doclogo = DocLogo::find($id);
-        $doclogo->title = $request->get('doclogotitle');
+        $doclogo->title = $request->get('title');
         $doclogo->image = $request->get('image');
         $doclogo->text = $request->get('doclogotext');
         $doclogo->active = $request->get('active') == 1 ? 1 : 0;
