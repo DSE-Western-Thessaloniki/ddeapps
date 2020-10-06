@@ -1,0 +1,64 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">{{ __('Logos') }}</div>
+
+                <div class="card-body">
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                      <ul>
+                          @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                          @endforeach
+                      </ul>
+                    </div><br />
+                    @endif
+
+                    {!! Form::open(['action' => 'DocAddressController@store',
+                    'method' => 'POST']) !!}
+
+                    <div class="form-group">
+                        <label for="title">{{ __('Title') }}</label>
+                        <input type="text" id="title" name="title" class="form-control" value="{{ old('title') }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">{{ __('Address') }}</label>
+                        <input type="text" id="address" name="address" class="form-control" value="{{ old('address') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">{{ __('Name') }}</label>
+                        <input type="text" id="name" name="name" class="form-control" value="{{ old('name') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="telephone">{{ __('Telephone') }}</label>
+                        <input type="text" id="telephone" name="telephone" class="form-control" value="{{ old('telephone') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">{{ __('Email') }}</label>
+                        <input type="email" id="email" name="email" class="form-control" value="{{ old('email') }}">
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <a class="btn btn-danger" href="{{ route('apps.mailmerge.docaddress.index') }}">{{ __('Cancel')}}</a>
+                        </div>
+                        <div class="col-10 d-flex justify-content-end">
+                            {{Form::submit(__('Save'), ['class' => 'btn btn-primary'])}}
+                        </div>
+                    </div>
+                    {!! Form::close() !!}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
