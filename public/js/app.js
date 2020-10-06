@@ -1899,6 +1899,90 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/mailmerge/DocLogoForm.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/mailmerge/DocLogoForm.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    title: String,
+    logofile: {
+      "default": "logo.jpg",
+      type: String
+    },
+    text: String,
+    active: {
+      "default": false,
+      type: Boolean
+    }
+  },
+  mounted: function mounted() {
+    console.log('DocLogoForm mounted.');
+  },
+  data: function data() {
+    return {
+      dtitle: this.title,
+      dlogofile: this.logofile,
+      dtext: this.text,
+      dactive: this.active
+    };
+  },
+  methods: {},
+  computed: {
+    logofullpath: function logofullpath() {
+      return '/images/' + this.logofile;
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/mailmerge/MailMergeComponent.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/mailmerge/MailMergeComponent.vue?vue&type=script&lang=js& ***!
@@ -37658,6 +37742,194 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/mailmerge/DocLogoForm.vue?vue&type=template&id=574aa85e&":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/mailmerge/DocLogoForm.vue?vue&type=template&id=574aa85e& ***!
+  \************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "form-group row" }, [
+      _c(
+        "label",
+        { staticClass: "col-3 col-form-label", attrs: { for: "title" } },
+        [_vm._v("Title")]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-9 align-self-center" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.dtitle,
+              expression: "dtitle"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text", name: "title", id: "title", required: "" },
+          domProps: { value: _vm.dtitle },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.dtitle = $event.target.value
+            }
+          }
+        })
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group row" }, [
+      _c(
+        "label",
+        { staticClass: "col-3 col-form-label", attrs: { for: "image" } },
+        [_vm._v("Image")]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-9 align-self-center" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.dlogofile,
+              expression: "dlogofile"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text", name: "image", id: "image" },
+          domProps: { value: _vm.dlogofile },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.dlogofile = $event.target.value
+            }
+          }
+        })
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group row" }, [
+      _c(
+        "label",
+        { staticClass: "col-3 col-form-label", attrs: { for: "imagepreview" } },
+        [_vm._v("Image preview:")]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-9 align-self-center" }, [
+        _c("img", { attrs: { id: "imagepreview", src: _vm.logofullpath } })
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group row" }, [
+      _c(
+        "label",
+        { staticClass: "col-3 col-form-label", attrs: { for: "text" } },
+        [_vm._v("Text")]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-9 align-self-center" }, [
+        _c("textarea", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.dtext,
+              expression: "dtext"
+            }
+          ],
+          staticClass: "form-control text-center",
+          attrs: { name: "doclogotext", rows: "10", id: "text" },
+          domProps: { value: _vm.dtext },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.dtext = $event.target.value
+            }
+          }
+        })
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group row" }, [
+      _c(
+        "label",
+        { staticClass: "col-3 col-form-label", attrs: { for: "active" } },
+        [_vm._v("Active")]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-9" }, [
+        _c("div", { staticClass: "form-check" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.dactive,
+                expression: "dactive"
+              }
+            ],
+            staticClass: "form-check-input",
+            attrs: {
+              type: "checkbox",
+              name: "active",
+              id: "active",
+              value: "1"
+            },
+            domProps: {
+              checked: Array.isArray(_vm.dactive)
+                ? _vm._i(_vm.dactive, "1") > -1
+                : _vm.dactive
+            },
+            on: {
+              change: function($event) {
+                var $$a = _vm.dactive,
+                  $$el = $event.target,
+                  $$c = $$el.checked ? true : false
+                if (Array.isArray($$a)) {
+                  var $$v = "1",
+                    $$i = _vm._i($$a, $$v)
+                  if ($$el.checked) {
+                    $$i < 0 && (_vm.dactive = $$a.concat([$$v]))
+                  } else {
+                    $$i > -1 &&
+                      (_vm.dactive = $$a
+                        .slice(0, $$i)
+                        .concat($$a.slice($$i + 1)))
+                  }
+                } else {
+                  _vm.dactive = $$c
+                }
+              }
+            }
+          })
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/mailmerge/MailMergeComponent.vue?vue&type=template&id=fc45dbd6&":
 /*!*******************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/mailmerge/MailMergeComponent.vue?vue&type=template&id=fc45dbd6& ***!
@@ -50064,6 +50336,7 @@ Vue.component('mailmerge-doc-logo', __webpack_require__(/*! ./components/mailmer
 Vue.component('mailmerge-doc-contact-info', __webpack_require__(/*! ./components/mailmerge/MailMergeDocContactInfo.vue */ "./resources/js/components/mailmerge/MailMergeDocContactInfo.vue")["default"]);
 Vue.component('mailmerge-doc-date-priority', __webpack_require__(/*! ./components/mailmerge/MailMergeDocDatePriority.vue */ "./resources/js/components/mailmerge/MailMergeDocDatePriority.vue")["default"]);
 Vue.component('mailmerge-recipients', __webpack_require__(/*! ./components/mailmerge/MailMergeRecipients.vue */ "./resources/js/components/mailmerge/MailMergeRecipients.vue")["default"]);
+Vue.component('doclogoform', __webpack_require__(/*! ./components/mailmerge/DocLogoForm.vue */ "./resources/js/components/mailmerge/DocLogoForm.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -50118,6 +50391,75 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/mailmerge/DocLogoForm.vue":
+/*!***********************************************************!*\
+  !*** ./resources/js/components/mailmerge/DocLogoForm.vue ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _DocLogoForm_vue_vue_type_template_id_574aa85e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DocLogoForm.vue?vue&type=template&id=574aa85e& */ "./resources/js/components/mailmerge/DocLogoForm.vue?vue&type=template&id=574aa85e&");
+/* harmony import */ var _DocLogoForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DocLogoForm.vue?vue&type=script&lang=js& */ "./resources/js/components/mailmerge/DocLogoForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _DocLogoForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _DocLogoForm_vue_vue_type_template_id_574aa85e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _DocLogoForm_vue_vue_type_template_id_574aa85e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/mailmerge/DocLogoForm.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/mailmerge/DocLogoForm.vue?vue&type=script&lang=js&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/mailmerge/DocLogoForm.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DocLogoForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./DocLogoForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/mailmerge/DocLogoForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DocLogoForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/mailmerge/DocLogoForm.vue?vue&type=template&id=574aa85e&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/mailmerge/DocLogoForm.vue?vue&type=template&id=574aa85e& ***!
+  \******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DocLogoForm_vue_vue_type_template_id_574aa85e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./DocLogoForm.vue?vue&type=template&id=574aa85e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/mailmerge/DocLogoForm.vue?vue&type=template&id=574aa85e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DocLogoForm_vue_vue_type_template_id_574aa85e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DocLogoForm_vue_vue_type_template_id_574aa85e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 

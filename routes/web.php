@@ -29,6 +29,7 @@ Route::prefix('apps')->name('apps.')->group(function () {
     Route::prefix('mailmerge')->name('mailmerge.')->group(function () {
         Route::resource('doclogo', 'DocLogoController');
         Route::resource('docaddress', 'DocAddressController');
+        Route::resource('exactcopy', 'ExactCopyController');
     });
     Route::resource('mailmerge', 'MailMergeController');
 });
