@@ -24,6 +24,7 @@ Vue.component('mailmerge-doc-logo', require('./components/mailmerge/MailMergeDoc
 Vue.component('mailmerge-doc-contact-info', require('./components/mailmerge/MailMergeDocContactInfo.vue').default);
 Vue.component('mailmerge-doc-date-priority', require('./components/mailmerge/MailMergeDocDatePriority.vue').default);
 Vue.component('mailmerge-recipients', require('./components/mailmerge/MailMergeRecipients.vue').default);
+Vue.component('doclogoform', require('./components/mailmerge/DocLogoForm.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
