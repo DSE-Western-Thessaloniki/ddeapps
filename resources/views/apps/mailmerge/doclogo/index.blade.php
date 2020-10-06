@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        <div class="col-12">
             <div class="card">
                 <div class="card-header">{{ __('Logos') }}</div>
 
@@ -16,9 +16,12 @@
 
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                        <a class="btn btn-primary" href="{{ route('apps.mailmerge.doclogo.create')}}">
+                            <a class="btn btn-dark" href="{{ route('apps.mailmerge.index')}}">
+                                @icon('arrow-circle-left') Back
+                            </a>
+                            <a class="btn btn-primary" href="{{ route('apps.mailmerge.doclogo.create')}}">
                             @icon('plus-circle') New Logo
-                        </a>
+                            </a>
                         </li>
                         <li class="list-group-item">
                         <table class="table table-striped table-hover">
