@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MailMergeController extends Controller
 {
@@ -28,7 +29,8 @@ class MailMergeController extends Controller
 
     public function create()
     {
-        return view('apps.mailmerge.create');
+        $logos = DB::table('mmdoclogo')->get();
+        return view('apps.mailmerge.create')->with('logos', $logos);
     }
 
     public function show()
