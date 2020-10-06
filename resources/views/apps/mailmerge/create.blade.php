@@ -46,14 +46,30 @@
                             </select>
                         </div>
 
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="protocol">{{ __('Protocol number:') }}</label>
+                                    <input type="text" id="protocol" name="protocol" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="date">{{ __('Date:') }}</label>
+                                    <input type="date" id="date" name="date" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-group">
-                            <label for="docsubj">Subject:</label>
-                            <textarea id="docsubj" name="docsubj" class="form-control">
+                            <label for="subject">Subject:</label>
+                            <textarea id="subject" name="subject" class="form-control">
                             </textarea>
                         </div>
                         <div class="form-group">
-                            <label for="doctext">Text:</label>
-                            <textarea id="doctext" name="doctext" class="form-control" rows="10">
+                            <label for="text">Text:</label>
+                            <textarea id="text" name="text" class="form-control" rows="10">
                             </textarea>
                         </div>
 
