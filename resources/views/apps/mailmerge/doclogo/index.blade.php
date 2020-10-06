@@ -14,16 +14,19 @@
                         </div>
                     @endif
 
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
+                    <div class="btn-toolbar pb-2" role="toolbar">
+                        <div class="btn-group mr-2">
                             <a class="btn btn-dark" href="{{ route('apps.mailmerge.index')}}">
                                 @icon('arrow-circle-left') Back
                             </a>
+                        </div>
+                        <div class="btn-group mr-2">
                             <a class="btn btn-primary" href="{{ route('apps.mailmerge.doclogo.create')}}">
                             @icon('plus-circle') New Logo
                             </a>
-                        </li>
-                        <li class="list-group-item">
+                        </div>
+                    </div>
+                    <div class="table-responsive">
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
@@ -62,8 +65,7 @@
                                 @endforelse
                             </tbody>
                         </table>
-                        </li>
-                    </ul>
+                    </div>
                 </div>
             </div>
         </div>
