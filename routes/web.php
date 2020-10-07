@@ -30,6 +30,7 @@ Route::prefix('apps')->name('apps.')->group(function () {
         Route::resource('doclogo', 'DocLogoController');
         Route::resource('docaddress', 'DocAddressController');
         Route::resource('exactcopy', 'ExactCopyController');
+        Route::resource('signature', 'SignatureController');
     });
     Route::resource('mailmerge', 'MailMergeController');
 });
