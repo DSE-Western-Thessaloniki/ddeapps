@@ -33,7 +33,20 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        @auth
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              {{__('Mail Merge')}} <span class="caret"></span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                              <a class="dropdown-item" href="{{ route('apps.mailmerge.doclogo.index') }}">{{ __('Logos') }}</a>
+                              <a class="dropdown-item" href="{{ route('apps.mailmerge.docaddress.index') }}">{{ __('Addresses') }}</a>
+                              <a class="dropdown-item" href="{{ route('apps.mailmerge.exactcopy.index') }}">{{ __('Exact Copies') }}</a>
+                              <a class="dropdown-item" href="{{ route('apps.mailmerge.signature.index') }}">{{ __('Signatures') }}</a>
+                              <a class="dropdown-item" href="{{ route('apps.mailmerge.index') }}">{{ __('Mail Merge') }}</a>
+                            </div>
+                          </div>
+                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->
