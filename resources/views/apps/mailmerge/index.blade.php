@@ -28,7 +28,7 @@
                                 <tr>
                                     <th>{{ __('Id') }}</th>
                                     <th>{{ __('Protocol number') }}</th>
-                                    <th>{{ __('Active') }}</th>
+                                    <th>{{ __('Subject') }}</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -37,16 +37,8 @@
                                 @forelse($mailmerges as $mailmerge)
                                 <tr>
                                     <td>{{$mailmerge->id}}</td>
-                                    <td><a href="{{ route('apps.mailmerge.show', $mailmerge->id) }}">{{$mailmerge->protocol}}</a></td>
-                                    @if($mailmerge->active)
-                                        <td class="text-center text-success">
-                                            @icon('check')
-                                        </td>
-                                    @else
-                                        <td class="text-center text-danger">
-                                            @icon('times')
-                                        </td>
-                                    @endif
+                                    <td><a href="{{ route('apps.mailmerge.show', $mailmerge->id) }}">{{$mailmerge->protocol_num}}/{{$mailmerge->date}}</a></td>
+                                    <td>{{$mailmerge->subject}}</td>
 
                                     <td>
                                         <a href="{{ route('apps.mailmerge.edit',$mailmerge->id)}}" class="btn btn-primary">{{ __('Edit') }}</a>

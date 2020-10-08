@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\MailMerge;
+use Illuminate\Support\Facades\Auth;
 
 class MailMergeController extends Controller
 {
@@ -19,9 +20,9 @@ class MailMergeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -29,15 +30,121 @@ class MailMergeController extends Controller
         return view('apps.mailmerge.index')->with('mailmerges', $mailmerges);
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
-        $logos = DB::table('mmdoclogo')->get();
+        $doc_logos = DB::table('doc_logos')->get();
+        $exact_copies = DB::table('exact_copies')->get();
+        $signatures = DB::table('signatures')->get();
+        $doc_addresses = DB::table('doc_addresses')->get();
 
-        return view('apps.mailmerge.create')->with('logos', $logos);
+        return view('apps.mailmerge.create')
+                ->with('doc_logos', $doc_logos)
+                ->with('exact_copies', $exact_copies)
+                ->with('signatures', $signatures)
+                ->with('doc_addresses', $doc_addresses);
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'protocol' => 'required',
+            'logoselect' => 'required',
+            'addressselect' => 'required',
+            'exactcopyselect' => 'required',
+            'signatureselect' => 'required',
+        ]);
+
+        $signature = new MailMerge([
+            'user_id' => Auth::user()->id,
+            'logo_id' => $request->get('logoselect'),
+            'address_id' => $request->get('addressselect'),
+            'protocol_num' => $request->get('protocol'),
+            'date' => $request->get('date'),
+            'subject' => $request->get('subject'),
+            'text' => $request->get('text'),
+            'exact_copy_id' => $request->get('exactcopyselect'),
+            'signature_id' => $request->get('signatureselect'),
+        ]);
+        $signature->save();
+        return redirect(route('apps.mailmerge.index'))->with('status', 'Mail merge saved!');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
     public function show()
     {
         return view('apps.mailmerge.show');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(int $id)
+    {
+        $mailmerge = MailMerge::find($id);
+        return view('apps.mailmerge.edit', compact('mailmerge'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, int $id)
+    {
+        $request->validate([
+            'protocol'=>'required',
+            'logoselect' => 'required',
+            'addressselect' => 'required',
+            'exactcopyselect' => 'required',
+            'signatureselect' => 'required',
+        ]);
+
+        $mailmerge = MailMerge::find($id);
+        $mailmerge->logo_id = $request->get('logoselect');
+        $mailmerge->address_id = $request->get('addressselect');
+        $mailmerge->protocol_num = $request->get('protocol');
+        $mailmerge->date = $request->get('date');
+        $mailmerge->subject = $request->get('subject');
+        $mailmerge->text = $request->get('text');
+        $mailmerge->exact_copy_id = $request->get('exactcopyselect');
+        $mailmerge->signature_id = $request->get('signatureselect');
+        $mailmerge->save();
+
+        return redirect(route('apps.mailmerge.index'))->with('status', 'Mail merge updated!');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(int $id)
+    {
+        $mailmerge = MailMerge::find($id);
+        $mailmerge->delete();
+
+        return redirect(route('apps.mailmerge.index'))->with('status', 'Mail merge deleted!');
     }
 }

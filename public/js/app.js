@@ -1958,7 +1958,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     text: String,
     active: {
-      "default": false,
+      "default": true,
       type: Boolean
     }
   },
