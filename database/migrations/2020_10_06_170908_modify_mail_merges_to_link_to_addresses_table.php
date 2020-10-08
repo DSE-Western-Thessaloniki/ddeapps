@@ -14,10 +14,10 @@ class ModifyMailMergesToLinkToAddressesTable extends Migration
     public function up()
     {
         Schema::table('mail_merges', function (Blueprint $table) {
-            $table->removeColumn('address');
-            $table->removeColumn('name');
-            $table->removeColumn('telephone');
-            $table->removeColumn('email');
+            $table->dropColumn('address');
+            $table->dropColumn('name');
+            $table->dropColumn('telephone');
+            $table->dropColumn('email');
             $table->foreignId('address_id');
         });
     }
@@ -34,7 +34,7 @@ class ModifyMailMergesToLinkToAddressesTable extends Migration
             $table->string('name');
             $table->string('telephone');
             $table->string('email');
-            $table->removeColumn('address_id');
+            $table->dropColumn('address_id');
         });
     }
 }
