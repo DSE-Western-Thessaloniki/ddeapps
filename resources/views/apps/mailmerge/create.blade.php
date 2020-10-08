@@ -28,7 +28,7 @@
 
                         <!--<mailmerge-component></mailmerge-component>-->
 
-                        @empty($logos->toArray())
+                        @empty($doc_logos->toArray())
                         <div class="alert alert-danger">
                             <ul>
                             <li>{{ __('Cannot continue without creating a logo') }}</li>
@@ -40,7 +40,7 @@
                         <div class="form-group">
                             <label for="logoselect">Logo:</label>
                             <select class="form-control" id="logoselect" name="logoselect">
-                                @foreach($logos as $logo)
+                                @foreach($doc_logos as $logo)
                                     <option value="{{ $logo->id }}">{{ $logo->title }}</option>
                                 @endforeach
                             </select>
