@@ -50,7 +50,7 @@
             },
             text: String,
             active: {
-                default: false,
+                default: true,
                 type: Boolean
             },
         },
