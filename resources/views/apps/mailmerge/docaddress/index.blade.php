@@ -15,15 +15,10 @@
                     @endif
 
                     <div class="btn-toolbar pb-2" role="toolbar">
-                        <div class="btn-group mr-2" role="group">
-                        <a class="btn btn-dark" href="{{ route('apps.mailmerge.index')}}">
-                            @icon('arrow-circle-left') Back
-                        </a>
-                        </div>
                         <div class="btn-group" role="group">
-                        <a class="btn btn-primary mr-2" href="{{ route('apps.mailmerge.docaddress.create')}}">
-                        @icon('plus-circle') {{ __('New Address') }}
-                        </a>
+                            <a class="btn btn-primary mr-2" href="{{ route('apps.mailmerge.docaddress.create')}}">
+                                @icon('plus-circle') {{ __('New Address') }}
+                            </a>
                         </div>
                     </div>
                     <div class="table-responsive">

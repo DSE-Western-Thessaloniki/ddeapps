@@ -16,13 +16,8 @@
 
                     <div class="btn-toolbar pb-2" role="toolbar">
                         <div class="btn-group mr-2">
-                            <a class="btn btn-dark" href="{{ route('apps.mailmerge.index')}}">
-                                @icon('arrow-circle-left') Back
-                            </a>
-                        </div>
-                        <div class="btn-group mr-2">
                             <a class="btn btn-primary" href="{{ route('apps.mailmerge.doclogo.create')}}">
-                            @icon('plus-circle') New Logo
+                            @icon('plus-circle') {{ __('New Logo') }}
                             </a>
                         </div>
                     </div>
@@ -30,11 +25,11 @@
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Title</th>
-                                    <th>Image</th>
-                                    <th>Text</th>
-                                    <th>Active</th>
+                                    <th>{{ __('ID') }}</th>
+                                    <th>{{ __('Title') }}</th>
+                                    <th>{{ __('Image') }}</th>
+                                    <th>{{ __('Text') }}</th>
+                                    <th>{{ __('Active') }}</th>
                                     <th></th>
                                     <th></th>
                                 </tr>

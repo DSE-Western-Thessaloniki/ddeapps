@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\MailMerge;
 
 class MailMergeController extends Controller
 {
@@ -24,12 +25,14 @@ class MailMergeController extends Controller
      */
     public function index()
     {
-        return view('apps.mailmerge.index');
+        $mailmerges = MailMerge::all();
+        return view('apps.mailmerge.index')->with('mailmerges', $mailmerges);
     }
 
     public function create()
     {
         $logos = DB::table('mmdoclogo')->get();
+
         return view('apps.mailmerge.create')->with('logos', $logos);
     }
 
