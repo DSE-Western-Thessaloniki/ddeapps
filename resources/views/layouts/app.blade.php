@@ -39,11 +39,11 @@
                               {{__('Mail Merge')}} <span class="caret"></span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                              <a class="dropdown-item" href="{{ route('apps.mailmerge.doclogo.index') }}">{{ __('Logos') }}</a>
-                              <a class="dropdown-item" href="{{ route('apps.mailmerge.docaddress.index') }}">{{ __('Addresses') }}</a>
-                              <a class="dropdown-item" href="{{ route('apps.mailmerge.exactcopy.index') }}">{{ __('Exact Copies') }}</a>
-                              <a class="dropdown-item" href="{{ route('apps.mailmerge.signature.index') }}">{{ __('Signatures') }}</a>
-                              <a class="dropdown-item" href="{{ route('apps.mailmerge.index') }}">{{ __('Mail Merge') }}</a>
+                              <a class="dropdown-item" href="{{ route('apps.mailmerge.doclogo.index') }}">@icon('university') {{ __('Logos') }}</a>
+                              <a class="dropdown-item" href="{{ route('apps.mailmerge.docaddress.index') }}">@icon('map-marked-alt') {{ __('Addresses') }}</a>
+                              <a class="dropdown-item" href="{{ route('apps.mailmerge.exactcopy.index') }}">@icon('copy') {{ __('Exact Copies') }}</a>
+                              <a class="dropdown-item" href="{{ route('apps.mailmerge.signature.index') }}">@icon('file-signature') {{ __('Signatures') }}</a>
+                              <a class="dropdown-item" href="{{ route('apps.mailmerge.index') }}">@icon('file-medical-alt') {{ __('Mail Merge') }}</a>
                             </div>
                           </div>
                         @endauth
