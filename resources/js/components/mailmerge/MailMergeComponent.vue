@@ -50,6 +50,9 @@
 
             <!-- All OK, present the form -->
             <div v-show="step == 1">
+                <xlsxcomponent></xlsxcomponent>
+            </div>
+            <div v-show="step == 2">
                 <div class="form-group">
                     <label for="logoselect">{{ __('Logo:') }}</label>
                     <select class="form-control" id="logoselect" name="logoselect">
@@ -91,7 +94,7 @@
                 </div>
             </div>
 
-            <div v-show="step == 2">
+            <div v-show="step == 3">
                 <div class="form-group">
                     <label for="subject">{{ __('Subject:') }}</label>
                     <textarea id="subject" name="subject" class="form-control">
@@ -104,7 +107,7 @@
                 </div>
             </div>
 
-            <div v-show="step == 3">
+            <div v-show="step == 4">
                 <div class="form-group">
                     <label for="exactcopyselect">{{ __('Exact Copy:') }}</label>
                     <select class="form-control" id="exactcopyselect" name="exactcopyselect">
@@ -132,12 +135,10 @@
 
             <div class="form-group row justify-content-center h1">
                 <a class="fas fa-fw fa-arrow-left" v-show="step > 1" v-on:click="step -= 1" href="#"></a>
-                <i v-show="step != 1" class="fas fa-fw fa-square"></i>
-                <i v-show="step == 1" class="far fa-fw fa-square"></i>
-                <i v-show="step != 2" class="fas fa-fw fa-square"></i>
-                <i v-show="step == 2" class="far fa-fw fa-square"></i>
-                <i v-show="step != 3" class="fas fa-fw fa-square"></i>
-                <i v-show="step == 3" class="far fa-fw fa-square"></i>
+                <span v-for="i in steps" :key="i">
+                    <i v-show="step != i" class="fas fa-fw fa-square"></i>
+                    <i v-show="step == i" class="far fa-fw fa-square"></i>
+                </span>
                 <a class="fas fa-fw fa-arrow-right" v-show="step < 3" v-on:click="step += 1" href="#"></a>
             </div>
 
@@ -147,7 +148,7 @@
                     <a class="btn btn-danger" :href="route_index">{{ __('Cancel') }}</a>
                 </div>
                 <div class="col-10"></div>
-                <div v-show="step == 3" class="col-1">
+                <div v-show="step == steps" class="col-1">
                     <button class="btn btn-primary" type="submit">{{ __('Save') }}</button>
                 </div>
             </div>
@@ -175,6 +176,7 @@
         data: function() {
             return {
                 step: 1,
+                steps: 4
             }
         },
         methods: {

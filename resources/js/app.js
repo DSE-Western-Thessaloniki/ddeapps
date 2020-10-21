@@ -28,6 +28,7 @@ Vue.component('mailmerge-doc-contact-info', require('./components/mailmerge/Mail
 Vue.component('mailmerge-doc-date-priority', require('./components/mailmerge/MailMergeDocDatePriority.vue').default);
 Vue.component('mailmerge-recipients', require('./components/mailmerge/MailMergeRecipients.vue').default);
 Vue.component('doclogoform', require('./components/mailmerge/DocLogoForm.vue').default);
+Vue.component('xlsxcomponent', require('./components/mailmerge/XlsxComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -38,3 +39,5 @@ Vue.component('doclogoform', require('./components/mailmerge/DocLogoForm.vue').d
 const app = new Vue({
     el: '#app',
 });
+
+window.XLSX = require('xlsx');
