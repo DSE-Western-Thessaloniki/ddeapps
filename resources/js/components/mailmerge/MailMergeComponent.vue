@@ -50,7 +50,10 @@
 
             <!-- All OK, present the form -->
             <div v-show="step == 1">
-                <xlsxcomponent></xlsxcomponent>
+                <xlsxcomponent
+                    v-on:setmergefields="setmergefields"
+                >
+                </xlsxcomponent>
             </div>
             <div v-show="step == 2">
                 <div class="form-group">
@@ -100,10 +103,22 @@
                     <textarea id="subject" name="subject" class="form-control">
                     </textarea>
                 </div>
-                <div class="form-group">
-                    <label for="text">{{ __('Text:') }}</label>
-                    <textarea id="text" name="text" class="form-control" rows="10">
-                    </textarea>
+                <div class="form-group row">
+                    <div class="col-md-9">
+                        <label for="text">{{ __('Text:') }}</label>
+                        <textarea id="text" name="text" class="form-control" rows="10">
+                        </textarea>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="fields">{{ __('Fields:') }}</label>
+                        <ul class="list-group">
+                            <li class="list-group-item"
+                                v-for="text in mergefields"
+                                :key="text"
+                                v-on:click="fieldclick"
+                            >{{text}}</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
@@ -176,10 +191,19 @@
         data: function() {
             return {
                 step: 1,
-                steps: 4
+                steps: 4,
+                mergefields: [],
             }
         },
         methods: {
+            setmergefields: function(fields) {
+                this.mergefields = fields
+            },
+            fieldclick: function(e) {
+                var el = document.getElementById("text")
+                const [start, end] = [el.selectionStart, el.selectionEnd];
+                el.setRangeText('**'+e.target.outerText+'**', start, end, 'select');
+            }
         },
         computed: {
             doc_logos: function() {
