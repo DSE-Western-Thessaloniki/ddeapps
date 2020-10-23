@@ -154,7 +154,7 @@
                     <i v-show="step != i" class="fas fa-fw fa-square"></i>
                     <i v-show="step == i" class="far fa-fw fa-square"></i>
                 </span>
-                <a class="fas fa-fw fa-arrow-right" v-show="step < 3" v-on:click="step += 1" href="#"></a>
+                <a class="fas fa-fw fa-arrow-right" v-show="step < steps" v-on:click="step += 1" href="#"></a>
             </div>
 
             <br/>
