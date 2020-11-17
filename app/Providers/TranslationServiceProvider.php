@@ -30,10 +30,10 @@ class TranslationServiceProvider extends ServiceProvider
             $locales = array_map(
                 function($dir) {
                     return basename($dir);
-                }, glob('../resources/lang/*')
+                }, glob('../resources/lang/*', GLOB_ONLYDIR)
             );
 
-            foreach ($locales as $locale) { // suported locales
+            foreach ($locales as $locale) { // supported locales
                 $translations[$locale] = [
                     'php' => $this->phpTranslations($locale),
                     'json' => $this->jsonTranslations($locale),

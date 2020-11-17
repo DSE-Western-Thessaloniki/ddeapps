@@ -25,7 +25,7 @@
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>{{ __('Id') }}</th>
                                     <th>{{ __('Title') }}</th>
                                     <th>{{ __('Address') }}</th>
                                     <th>{{ __('Name') }}</th>
