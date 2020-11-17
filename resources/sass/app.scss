@@ -13,3 +13,9 @@
 @import '~@fortawesome/fontawesome-free/scss/solid';
 @import '~@fortawesome/fontawesome-free/scss/brands';
 
+// Fixed Width Icons
+// -------------------------
+.#{$fa-css-prefix}-fw {
+    text-align: unset;
+    width: $fa-fw-width;
+  }
