@@ -5,7 +5,7 @@
         <div v-if="doc_logos.length == 0">
             <div class="alert alert-danger">
                 <ul>
-                <li>{{ __('Cannot continue without creating a logo') }}</li>
+                <li>{{ __('Cannot continue without creating a logo.') }}</li>
                 </ul>
             </div><br />
             <a class="btn btn-primary" :href="route_doc_logo_create">
@@ -57,7 +57,7 @@
             </div>
             <div v-show="step == 2">
                 <div class="form-group">
-                    <label for="logoselect">{{ __('Logo:') }}</label>
+                    <label for="logoselect">{{ __('Logo')+':' }}</label>
                     <select class="form-control" id="logoselect" name="logoselect">
                         <option v-for="doc_logo in doc_logos"
                                 :key="doc_logo.id"
@@ -69,7 +69,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="addressselect">{{ __('Address:') }}</label>
+                    <label for="addressselect">{{ __('Address')+':' }}</label>
                     <select class="form-control" id="addressselect" name="addressselect">
                         <option v-for="doc_address in doc_addresses"
                                 :key="doc_address.id"
@@ -83,14 +83,14 @@
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
-                            <label for="protocol">{{ __('Protocol number:') }}</label>
+                            <label for="protocol">{{ __('Protocol number')+':' }}</label>
                             <input type="text" id="protocol" name="protocol" class="form-control" required>
                         </div>
                     </div>
 
                     <div class="col">
                         <div class="form-group">
-                            <label for="date">{{ __('Date:') }}</label>
+                            <label for="date">{{ __('Date')+':' }}</label>
                             <input type="date" id="date" name="date" :value="new Date().toLocaleDateString('en-CA')" class="form-control">
                         </div>
                     </div>
@@ -99,18 +99,18 @@
 
             <div v-show="step == 3">
                 <div class="form-group">
-                    <label for="subject">{{ __('Subject:') }}</label>
+                    <label for="subject">{{ __('Subject')+':' }}</label>
                     <textarea id="subject" name="subject" class="form-control">
                     </textarea>
                 </div>
                 <div class="form-group row">
                     <div class="col-md-9">
-                        <label for="text">{{ __('Text:') }}</label>
+                        <label for="text">{{ __('Text')+':' }}</label>
                         <textarea id="text" name="text" class="form-control" rows="10">
                         </textarea>
                     </div>
                     <div class="col-md-3">
-                        <label for="fields">{{ __('Fields:') }}</label>
+                        <label for="fields">{{ __('Fields')+':' }}</label>
                         <ul class="list-group">
                             <li class="list-group-item"
                                 v-for="text in mergefields"

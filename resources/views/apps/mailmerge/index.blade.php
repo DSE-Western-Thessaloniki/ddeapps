@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">{{ __('Mailmerge') }}</div>
+                <div class="card-header">{{ __('Mail merge') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -17,7 +17,7 @@
                     <div class="btn-toolbar pb-2" role="toolbar">
                         <div class="btn-group" role="group">
                             <a class="btn btn-primary" href="{{ route('apps.mailmerge.create') }}">
-                                @icon('plus-circle') {{ __('New mail merge') }}
+                                @icon('plus-circle') {{ __('New Mail Merge') }}
                             </a>
                         </div>
                     </div>
@@ -29,6 +29,7 @@
                                     <th>{{ __('Id') }}</th>
                                     <th>{{ __('Protocol number') }}</th>
                                     <th>{{ __('Subject') }}</th>
+                                    <th>{{ __('User') }}</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -39,6 +40,7 @@
                                     <td>{{$mailmerge->id}}</td>
                                     <td><a href="{{ route('apps.mailmerge.show', $mailmerge->id) }}">{{$mailmerge->protocol_num}}/{{$mailmerge->date}}</a></td>
                                     <td>{{$mailmerge->subject}}</td>
+                                    <td></td>
 
                                     <td>
                                         <a href="{{ route('apps.mailmerge.edit',$mailmerge->id)}}" class="btn btn-primary">{{ __('Edit') }}</a>
