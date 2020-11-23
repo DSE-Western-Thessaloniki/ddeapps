@@ -8,6 +8,8 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+require('vue-context');
+
 // Add translation capabilities to vue components
 Vue.mixin(require('./trans'));
 

@@ -3,14 +3,32 @@
         <div class="form-group">
             <input class="form-control-file" type="file" multiple="false" id="sheetjs-input" accept=".xlsx,.xls,.csv" @change="onchange"/>
             <br/>
-            <div id="out-table"></div>
+            <div id="out-table"
+                @contextmenu.prevent="$refs.menu.open($event, {
+                    item: $event.target,
+                    selected: $event.target.classList.contains('recipient-col')
+                })"
+            ></div>
         </div>
+
+        <vue-context ref="menu" v-slot="{ data }">
+            <li v-if="data && data.selected">
+                <a @click.prevent="onClick($event, data.item, 'unselcol')">Remove column from receipient list</a>
+            </li>
+            <li v-else>
+                <a @click.prevent="onClick($event, data.item, 'selcol')">Select column as receipient list</a>
+            </li>
+        </vue-context>
+
     </div>
 </template>
 
 <script>
+    import VueContext from 'vue-context';
+
 
     export default {
+        components: { VueContext },
         props: {
             mergefields: Array,
         },
@@ -20,6 +38,7 @@
         data: function() {
             return {
                 mydata: [],
+                selected_cols: [],
             }
         },
         watch: {
@@ -65,6 +84,41 @@
 
                 reader.readAsArrayBuffer(file)
 
+            },
+            onClick(e, item, code) {
+                switch(code) {
+                    case 'selcol':
+                        var col = /[A-Z]+/.exec(item.id)
+                        if (col) {
+                            this.selected_cols.push(col[0])
+                            this.toggleColorSelectedCol(col[0])
+                        }
+                        break
+                    case 'unselcol':
+                        var col = /[A-Z]+/.exec(item.id)
+                        if (col) {
+                            var colidx = this.selected_cols.indexOf(col[0])
+                            this.selected_cols.splice(colidx, 1)
+                            this.toggleColorSelectedCol(col[0])
+                        }
+                        break
+                    default:
+                        alert(`You clicked "${e.target.innerHTML}"!`)
+                }
+
+            },
+            calcColumn(str) {
+                if (str.length == 1) {
+                    return (str[0].charCodeAt() - "A".charCodeAt())
+                }
+                return ((str[0][0].charCodeAt() - "A".charCodeAt() + 1) * 26 + str[0][1].charCodeAt() - "A".charCodeAt())
+            },
+            toggleColorSelectedCol(col) {
+                var HTML = document.getElementById('out-table')
+                var tds = HTML.querySelectorAll("td[id^='sjs-"+col+"']")
+                tds.forEach(function(td) {
+                    td.classList.toggle("recipient-col")
+                })
             },
         },
         computed: {

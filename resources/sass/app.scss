@@ -19,3 +19,9 @@
     text-align: unset;
     width: $fa-fw-width;
   }
+
+// Vue-context
+@import '~vue-context/src/sass/vue-context';
+
+// Custom styles
+@import 'custom';
