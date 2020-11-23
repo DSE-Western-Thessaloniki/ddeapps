@@ -13,10 +13,10 @@
 
         <vue-context ref="menu" v-slot="{ data }">
             <li v-if="data && data.selected">
-                <a @click.prevent="onClick($event, data.item, 'unselcol')">Remove column from receipient list</a>
+                <a @click.prevent="onClick($event, data.item, 'unselcol')">{{__('Remove column from recipient list')}}</a>
             </li>
             <li v-else>
-                <a @click.prevent="onClick($event, data.item, 'selcol')">Select column as receipient list</a>
+                <a @click.prevent="onClick($event, data.item, 'selcol')">{{__('Select column as recipient list')}}</a>
             </li>
         </vue-context>
 
