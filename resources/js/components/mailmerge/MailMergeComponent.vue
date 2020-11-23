@@ -159,11 +159,10 @@
 
             <br/>
             <div class="form-group row">
-                <div class="col-1">
+                <div class="col-auto mr-auto">
                     <a class="btn btn-danger" :href="route_index">{{ __('Cancel') }}</a>
                 </div>
-                <div class="col-10"></div>
-                <div v-show="step == steps" class="col-1">
+                <div v-show="step == steps" class="col-auto">
                     <button class="btn btn-primary" type="submit">{{ __('Save') }}</button>
                 </div>
             </div>
