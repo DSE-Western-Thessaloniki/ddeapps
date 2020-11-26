@@ -50,6 +50,17 @@
 
             <!-- All OK, present the form -->
             <div v-show="step == 1">
+                <div class="card bg-success">
+                    <div class="card-body">
+                    <h5 class="class-title">
+                        {{ __("Select data source") }}
+                    </h5>
+                    <div class="class-text">
+                        {{ __("You can select one or more columns to be used as a recipient list by right clicking on each column.") }}
+                    </div>
+                    </div>
+                </div>
+                <br />
                 <xlsxcomponent
                     v-on:setmergefields="setmergefields"
                 >
@@ -103,13 +114,15 @@
                     <textarea id="subject" name="subject" class="form-control">
                     </textarea>
                 </div>
-                <div class="form-group row">
-                    <div class="col-md-9">
+                <div class="form-group">
+                    <!--<div class="col-md-9">-->
                         <label for="text">{{ __('Text')+':' }}</label>
-                        <textarea id="text" name="text" class="form-control" rows="10">
+                        <textarea id="text" name="text" class="form-control" rows="10" v-model="editorData" hidden>
                         </textarea>
-                    </div>
-                    <div class="col-md-3">
+                        <ckeditor ref="ckeditor" v-model="editorData" :config="editorConfig" @ready="ckEditorReadyCallback"></ckeditor>
+                        <!--<ckeditor ref="ckeditor" :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-3">
                         <label for="fields">{{ __('Fields')+':' }}</label>
                         <ul class="list-group">
                             <li class="list-group-item"
@@ -118,7 +131,7 @@
                                 v-on:click="fieldclick"
                             >{{text}}</li>
                         </ul>
-                    </div>
+                    </div>-->
                 </div>
             </div>
 
@@ -173,6 +186,9 @@
 <script>
 
     export default {
+        components: {
+            ckeditor: CKEditor_Vue.component
+        },
         props: {
             doc_logos_str: String,
             doc_addresses_str: String,
@@ -184,24 +200,104 @@
             route_doc_address_create: String,
             route_index: String,
         },
+        created() {
+        },
         mounted() {
-            console.log('MailMerge mounted.')
+            console.log('MailMerge mounted.');
         },
         data: function() {
             return {
                 step: 1,
                 steps: 4,
                 mergefields: [],
-            }
+                editorData: '',
+                editorConfig: {
+                    language: 'el',
+                    removePlugins: ['stylescombo'],
+                    placeholder_select: {
+                        placeholders: ['Firstname', 'Lastname', 'Email'],
+                    }
+                },
+                placeholders: [],
+                autocomplete: Object,
+                config: {},
+            };
         },
         methods: {
             setmergefields: function(fields) {
-                this.mergefields = fields
+                console.log(fields);
+                var new_placeholders = new Array();
+                var i = 1;
+                fields.forEach(function(field) {
+                    new_placeholders.push({id: i, title: field});
+                    i++;
+                });
+                window.itemsArray = new_placeholders;
+                this.editorConfig.placeholder_select = fields;
+                console.log(this.autocomplete);
             },
-            fieldclick: function(e) {
+            /*fieldclick: function(e) {
                 var el = document.getElementById("text")
                 const [start, end] = [el.selectionStart, el.selectionEnd];
                 el.setRangeText('**'+e.target.outerText+'**', start, end, 'select');
+            }*/
+            ckEditorReadyCallback: function(readyEvent) {
+                window.itemsArray = this.placeholders;
+
+                function matchCallback(text, offset) {
+
+                    var pattern = /\[{2}([A-zΑ-ω]|\])*$/,
+                    match = text.slice(0, offset)
+                    .match(pattern);
+
+                    if ( !match ) {
+                        return null;
+                    }
+
+                    return {
+                        start: match.index,
+                        end: offset
+                    };
+                }
+
+                function textTestCallback(range) {
+
+                    if (!range.collapsed) {
+                        return null;
+                    }
+
+                    return CKEDITOR.plugins.textMatch.match(range, matchCallback);
+                }
+
+                this.config.textTestCallback = textTestCallback;
+
+                function dataCallback(matchInfo, callback) {
+
+                    var data = window.itemsArray.filter(function(item) {
+                        var itemName = '[[' + item.title + ']]';
+                        return itemName.toUpperCase()
+                                        .indexOf(matchInfo.query.toUpperCase()) == 0;
+                    });
+
+                    callback(data);
+                }
+
+                this.config.dataCallback = dataCallback;
+
+                this.config.itemTemplate = '<li data-id="{id}">' +
+                '<div><strong class="item-title">{title}</strong></div>' +
+                '</li>';
+                this.config.outputTemplate = '[[{title}]]<span>&nbsp;</span>';
+
+                this.myAutocomplete(readyEvent, this.config);
+            },
+            myAutocomplete: function(editor, config) {
+
+                this.autocomplete = new CKEDITOR.plugins.autocomplete(editor, config);
+                // Override default getHtmlToInsert to enable rich content output.
+                /*this.autocomplete.getHtmlToInsert = function(item) {
+                    return config.outputTemplate.output(item);
+                }*/
             }
         },
         computed: {

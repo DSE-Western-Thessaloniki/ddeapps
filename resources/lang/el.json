@@ -54,6 +54,7 @@
     "Reset Password": "Επαναφορά Κωδικού",
     "Save": "Αποθήκευση",
     "Select column as recipient list": "Επιλογή στήλης ως λίστας παραληπτών",
+    "Select data source": "Επιλογή πηγής δεδομένων",
     "Send Password Reset Link": "Αποστολή Συνδέσμου Επαναφοράς Κωδικού",
     "Signature": "Υπογραφή",
     "Signatures": "Υπογραφές",
@@ -67,5 +68,6 @@
     "User level": "Επίπεδο χρήστη",
     "Username": "Όνομα χρήστη",
     "Verify Your Email Address": "Επαλήθευση της email διεύθυνσής σας",
-    "You are logged in!": "Είστε συνδεδεμένος/η!"
+    "You are logged in!": "Είστε συνδεδεμένος/η!",
+    "You can select one or more columns to be used as a recipient list by right clicking on each column.": "Μπορείτε να επιλέξετε μια ή περισσότερες στήλες να χρησιμοποιηθούν ως λίστα παραληπτών κάνοντας δεξί κλικ επάνω σε κάθε στήλη."
 }

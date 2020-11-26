@@ -10,6 +10,17 @@ window.Vue = require('vue');
 
 require('vue-context');
 
+
+CKEDITOR_BASEPATH = 'http://ddeapps.test/resources/js/ckeditor/';
+require('../../public/resources/js/ckeditor/ckeditor.js');
+window.CKEditor_Vue = require('ckeditor4-vue');
+
+//window.CKEditor = require('@ckeditor/ckeditor5-vue2');
+//window.ClassicEditor = require('@ckeditor/ckeditor5-build-classic/build/ckeditor');
+
+//require('@ckeditor/ckeditor5-build-classic/build/translations/el');
+//Vue.use(CKEditor);
+
 // Add translation capabilities to vue components
 Vue.mixin(require('./trans'));
 
