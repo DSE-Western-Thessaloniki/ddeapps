@@ -233,7 +233,7 @@
                     i++;
                 });
                 window.itemsArray = new_placeholders;
-                this.editorConfig.placeholder_select = fields;
+                this.editorConfig.placeholder_select.placeholders = fields;
                 console.log(this.autocomplete);
             },
             /*fieldclick: function(e) {
