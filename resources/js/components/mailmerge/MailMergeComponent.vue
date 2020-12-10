@@ -214,6 +214,7 @@
                 editorConfig: {
                     language: 'el',
                     removePlugins: ['stylescombo'],
+                    extraPlugins: ['placeholder_select'],
                     placeholder_select: {
                         placeholders: ['Firstname', 'Lastname', 'Email'],
                     }
@@ -235,6 +236,8 @@
                 window.itemsArray = new_placeholders;
                 this.editorConfig.placeholder_select.placeholders = fields;
                 console.log(this.autocomplete);
+                CKEDITOR.instances.editor1.config.placeholder_select.placeholders = JSON.parse(JSON.stringify(fields));
+                CKEDITOR.instances.editor1.ui.instances.placeholder_select.buildList();
             },
             /*fieldclick: function(e) {
                 var el = document.getElementById("text")
