@@ -55,7 +55,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="6">No signatures available</td>
+                                    <td colspan="6">{{ __('No mail merge available') }}</td>
                                 </tr>
                                 @endforelse
                             </tbody>
