@@ -19,7 +19,8 @@
                 <a @click.prevent="onClick($event, data.item, 'selcol')">{{__('Select column as recipient list')}}</a>
             </li>
         </vue-context>
-
+        <input type="text" class="form-control" hidden id="xlsxdata" name="xlsxdata" :value="getData">
+        <input type="text" class="form-control" hidden id="mergefields" name="mergefields" :value="getMergeFields">
     </div>
 </template>
 
@@ -37,7 +38,7 @@
         },
         data: function() {
             return {
-                mydata: [],
+                xlsxdata: [],
                 selected_cols: [],
             }
         },
@@ -72,8 +73,7 @@
 
                     /* generate HTML */
                     var HTML = XLSX.utils.sheet_to_html(ws)
-                    vueobj.mydata = XLSX.utils.sheet_to_json(ws)
-                    //vueobj.mergefields = vueobj.mydata
+                    vueobj.xlsxdata = XLSX.utils.sheet_to_json(ws)
                     vueobj.$emit('setmergefields', vueobj.getHeader)
 
                     /* update table */
@@ -90,14 +90,14 @@
                     case 'selcol':
                         var col = /[A-Z]+/.exec(item.id)
                         if (col) {
-                            this.selected_cols.push(col[0])
+                            this.selected_cols.push(Object.keys(this.xlsxdata[0])[this.calcColumn(col[0])])
                             this.toggleColorSelectedCol(col[0])
                         }
                         break
                     case 'unselcol':
                         var col = /[A-Z]+/.exec(item.id)
                         if (col) {
-                            var colidx = this.selected_cols.indexOf(col[0])
+                            var colidx = this.selected_cols.indexOf(Object.keys(this.xlsxdata[0])[this.calcColumn(col[0])])
                             this.selected_cols.splice(colidx, 1)
                             this.toggleColorSelectedCol(col[0])
                         }
@@ -123,7 +123,13 @@
         },
         computed: {
             getHeader() {
-                return(this.mydata.length ? Object.keys(this.mydata[0]) : [])
+                return(this.xlsxdata.length ? Object.keys(this.xlsxdata[0]) : [])
+            },
+            getData() {
+                return JSON.stringify(this.xlsxdata);
+            },
+            getMergeFields() {
+                return JSON.stringify(this.selected_cols);
             }
         },
     }

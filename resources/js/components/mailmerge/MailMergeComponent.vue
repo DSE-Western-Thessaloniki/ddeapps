@@ -115,23 +115,10 @@
                     </textarea>
                 </div>
                 <div class="form-group">
-                    <!--<div class="col-md-9">-->
-                        <label for="text">{{ __('Text')+':' }}</label>
-                        <textarea id="text" name="text" class="form-control" rows="10" v-model="editorData" hidden>
-                        </textarea>
-                        <ckeditor ref="ckeditor" v-model="editorData" :config="editorConfig" @ready="ckEditorReadyCallback"></ckeditor>
-                        <!--<ckeditor ref="ckeditor" :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>-->
-                    <!--</div>-->
-                    <!--<div class="col-md-3">
-                        <label for="fields">{{ __('Fields')+':' }}</label>
-                        <ul class="list-group">
-                            <li class="list-group-item"
-                                v-for="text in mergefields"
-                                :key="text"
-                                v-on:click="fieldclick"
-                            >{{text}}</li>
-                        </ul>
-                    </div>-->
+                    <label for="text">{{ __('Text')+':' }}</label>
+                    <textarea id="text" name="text" class="form-control" rows="10" v-model="editorData" hidden>
+                    </textarea>
+                    <ckeditor ref="ckeditor" v-model="editorData" :config="editorConfig" @ready="ckEditorReadyCallback"></ckeditor>
                 </div>
             </div>
 
@@ -222,6 +209,7 @@
                 placeholders: [],
                 autocomplete: Object,
                 config: {},
+                xlsxdata: "",
             };
         },
         methods: {
@@ -239,11 +227,7 @@
                 CKEDITOR.instances.editor1.config.placeholder_select.placeholders = JSON.parse(JSON.stringify(fields));
                 CKEDITOR.instances.editor1.ui.instances.placeholder_select.buildList();
             },
-            /*fieldclick: function(e) {
-                var el = document.getElementById("text")
-                const [start, end] = [el.selectionStart, el.selectionEnd];
-                el.setRangeText('**'+e.target.outerText+'**', start, end, 'select');
-            }*/
+
             ckEditorReadyCallback: function(readyEvent) {
                 window.itemsArray = this.placeholders;
 

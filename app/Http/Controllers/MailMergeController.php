@@ -75,6 +75,8 @@ class MailMergeController extends Controller
             'text' => $request->get('text'),
             'exact_copy_id' => $request->get('exactcopyselect'),
             'signature_id' => $request->get('signatureselect'),
+            'xlsxdata' => $request->get('xlsxdata'),
+            'mergefields' => $request->get('mergefields'),
         ]);
         $signature->save();
         return redirect(route('apps.mailmerge.index'))->with('status', 'Mail merge saved!');
