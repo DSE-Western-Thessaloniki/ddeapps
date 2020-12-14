@@ -22,6 +22,7 @@ class MailMerge extends Model
         'exact_copy_id',
         'signature_id',
         'xlsxdata',
+        'xlsxdata_header',
         'mergefields',
     ];
 

@@ -76,6 +76,7 @@ class MailMergeController extends Controller
             'exact_copy_id' => $request->get('exactcopyselect'),
             'signature_id' => $request->get('signatureselect'),
             'xlsxdata' => $request->get('xlsxdata'),
+            'xlsxdata_header' => $request->get('xlsxdata_header'),
             'mergefields' => $request->get('mergefields'),
         ]);
         $signature->save();
@@ -102,7 +103,16 @@ class MailMergeController extends Controller
     public function edit(int $id)
     {
         $mailmerge = MailMerge::find($id);
-        return view('apps.mailmerge.edit', compact('mailmerge'));
+        $doc_logos = DB::table('doc_logos')->get();
+        $exact_copies = DB::table('exact_copies')->get();
+        $signatures = DB::table('signatures')->get();
+        $doc_addresses = DB::table('doc_addresses')->get();
+
+        return view('apps.mailmerge.edit', compact('mailmerge'))
+                ->with('doc_logos', $doc_logos)
+                ->with('exact_copies', $exact_copies)
+                ->with('signatures', $signatures)
+                ->with('doc_addresses', $doc_addresses);
     }
 
     /**
