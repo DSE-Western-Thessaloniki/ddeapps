@@ -62,14 +62,18 @@
                 </div>
                 <br />
                 <xlsxcomponent
+                    ref="xlsxcomponent"
                     v-on:setmergefields="setmergefields"
+                    :docdata="doc_data"
+                    :docdataheader="doc_data_header"
+                    :mfields="doc_mfields"
                 >
                 </xlsxcomponent>
             </div>
             <div v-show="step == 2">
                 <div class="form-group">
                     <label for="logoselect">{{ __('Logo')+':' }}</label>
-                    <select class="form-control" id="logoselect" name="logoselect">
+                    <select class="form-control" id="logoselect" name="logoselect" v-model="logo_selected">
                         <option v-for="doc_logo in doc_logos"
                                 :key="doc_logo.id"
                                 :value="doc_logo.id"
@@ -81,7 +85,7 @@
 
                 <div class="form-group">
                     <label for="addressselect">{{ __('Address')+':' }}</label>
-                    <select class="form-control" id="addressselect" name="addressselect">
+                    <select class="form-control" id="addressselect" name="addressselect" v-model="address_selected">
                         <option v-for="doc_address in doc_addresses"
                                 :key="doc_address.id"
                                 :value="doc_address.id"
@@ -95,14 +99,14 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="protocol">{{ __('Protocol number')+':' }}</label>
-                            <input type="text" id="protocol" name="protocol" class="form-control" required>
+                            <input type="text" id="protocol" name="protocol" class="form-control" required v-model="prot_num">
                         </div>
                     </div>
 
                     <div class="col">
                         <div class="form-group">
                             <label for="date">{{ __('Date')+':' }}</label>
-                            <input type="date" id="date" name="date" :value="new Date().toLocaleDateString('en-CA')" class="form-control">
+                            <input type="date" id="date" name="date" :value="get_date" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -111,7 +115,7 @@
             <div v-show="step == 3">
                 <div class="form-group">
                     <label for="subject">{{ __('Subject')+':' }}</label>
-                    <textarea id="subject" name="subject" class="form-control">
+                    <textarea id="subject" name="subject" class="form-control" v-model="subject">
                     </textarea>
                 </div>
                 <div class="form-group">
@@ -125,7 +129,7 @@
             <div v-show="step == 4">
                 <div class="form-group">
                     <label for="exactcopyselect">{{ __('Exact Copy:') }}</label>
-                    <select class="form-control" id="exactcopyselect" name="exactcopyselect">
+                    <select class="form-control" id="exactcopyselect" name="exactcopyselect" v-model="exact_copy_selected">
                         <option v-for="exact_copy in exact_copies"
                                 :key="exact_copy.id"
                                 :value="exact_copy.id"
@@ -137,7 +141,7 @@
 
                 <div class="form-group">
                     <label for="signatureselect">{{ __('Signature:') }}</label>
-                    <select class="form-control" id="signatureselect" name="signatureselect">
+                    <select class="form-control" id="signatureselect" name="signatureselect" v-model="signature_selected">
                             <option v-for="signature in signatures"
                                     :key="signature.id"
                                     :value="signature.id"
@@ -178,9 +182,20 @@
         },
         props: {
             doc_logos_str: String,
+            doc_logos_selected: String,
             doc_addresses_str: String,
+            doc_addresses_selected: String,
             signatures_str: String,
+            signatures_selected: String,
             exact_copies_str: String,
+            exact_copies_selected: String,
+            protocol_num: String,
+            doc_date: String,
+            doc_subject: String,
+            doc_text: String,
+            doc_data: String,
+            doc_data_header: String,
+            doc_mfields: String,
             route_exact_copy_create: String,
             route_doc_logo_create: String,
             route_signature_create: String,
@@ -197,7 +212,7 @@
                 step: 1,
                 steps: 4,
                 mergefields: [],
-                editorData: '',
+                editorData: this.doc_text,
                 editorConfig: {
                     language: 'el',
                     removePlugins: ['stylescombo'],
@@ -208,8 +223,13 @@
                 },
                 placeholders: [],
                 autocomplete: Object,
+                prot_num: this.protocol_num,
+                subject: this.doc_subject,
                 config: {},
-                xlsxdata: "",
+                logo_selected: this.doc_logos_selected,
+                address_selected: this.doc_addresses_selected,
+                signature_selected: this.signatures_selected,
+                exact_copy_selected: this.exact_copies_selected,
             };
         },
         methods: {
@@ -277,6 +297,7 @@
                 this.config.outputTemplate = '[[{title}]]<span>&nbsp;</span>';
 
                 this.myAutocomplete(readyEvent, this.config);
+                this.$refs.xlsxcomponent.parseDocData();
             },
             myAutocomplete: function(editor, config) {
 
@@ -299,6 +320,12 @@
             },
             exact_copies: function() {
                 return JSON.parse(this.exact_copies_str)
+            },
+            get_date: function() {
+                if (typeof this.doc_date === 'undefined' || this.doc_date == "") {
+                    return new Date().toISOString().slice(0, 10);
+                }
+                return this.doc_date;
             }
         }
     }

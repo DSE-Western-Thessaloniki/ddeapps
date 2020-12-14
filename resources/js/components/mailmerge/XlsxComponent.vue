@@ -20,6 +20,7 @@
             </li>
         </vue-context>
         <input type="text" class="form-control" hidden id="xlsxdata" name="xlsxdata" :value="getData">
+        <input type="text" class="form-control" hidden id="xlsxdata_header" name="xlsxdata_header" :value="getDataHeader">
         <input type="text" class="form-control" hidden id="mergefields" name="mergefields" :value="getMergeFields">
     </div>
 </template>
@@ -31,14 +32,18 @@
     export default {
         components: { VueContext },
         props: {
-            mergefields: Array,
+            docdata: String,
+            docdataheader: String,
+            mfields: String,
         },
         mounted() {
-            console.log('XlsxComponent mounted.')
+            console.log('XlsxComponent mounted.');
+            //document.onreadystatechange = () => {
         },
         data: function() {
             return {
                 xlsxdata: [],
+                xlsxdata_header: [],
                 selected_cols: [],
             }
         },
@@ -71,20 +76,14 @@
                     var wsname = wb.SheetNames[0]
                     var ws = wb.Sheets[wsname]
 
-                    /* generate HTML */
-                    var HTML = XLSX.utils.sheet_to_html(ws)
                     vueobj.xlsxdata = XLSX.utils.sheet_to_json(ws)
-                    vueobj.$emit('setmergefields', vueobj.getHeader)
-
-                    /* update table */
-                    var table = document.getElementById('out-table')
-                    table.innerHTML = HTML
-                    table.getElementsByTagName('table')[0].setAttribute('class', 'table-striped table-bordered table-responsive')
+                    vueobj.xlsxdata_header = vueobj.getHeader;
+                    vueobj.xlsxToTable(vueobj, ws);
                 }
 
                 reader.readAsArrayBuffer(file)
-
             },
+
             onClick(e, item, code) {
                 switch(code) {
                     case 'selcol':
@@ -105,20 +104,48 @@
                     default:
                         alert(`You clicked "${e.target.innerHTML}"!`)
                 }
-
             },
+
             calcColumn(str) {
                 if (str.length == 1) {
                     return (str[0].charCodeAt() - "A".charCodeAt())
                 }
                 return ((str[0][0].charCodeAt() - "A".charCodeAt() + 1) * 26 + str[0][1].charCodeAt() - "A".charCodeAt())
             },
+
             toggleColorSelectedCol(col) {
                 var HTML = document.getElementById('out-table')
                 var tds = HTML.querySelectorAll("td[id^='sjs-"+col+"']")
                 tds.forEach(function(td) {
                     td.classList.toggle("recipient-col")
                 })
+            },
+
+            parseDocData() {
+                if (typeof this.docdata !== 'undefined') {
+                    if (this.docdata != "") {
+                        this.xlsxdata = JSON.parse(this.docdata);
+                        this.xlsxdata_header = JSON.parse(this.docdataheader);
+                        this.selected_cols = JSON.parse(this.mfields);
+                        var ws = XLSX.utils.json_to_sheet(this.xlsxdata, {header: this.xlsxdata_header});
+                        this.xlsxToTable(this, ws);
+                        var vueobj = this;
+                        this.selected_cols.forEach(function(field) {
+                            vueobj.toggleColorSelectedCol(String.fromCharCode("A".charCodeAt() + vueobj.xlsxdata_header.indexOf(field)));
+                        });
+                    }
+                }
+            },
+
+            xlsxToTable(obj, ws) {
+                /* generate HTML */
+                var HTML = XLSX.utils.sheet_to_html(ws);
+                obj.$emit('setmergefields', obj.getHeader);
+
+                /* update table */
+                var table = document.getElementById('out-table');
+                table.innerHTML = HTML;
+                table.getElementsByTagName('table')[0].setAttribute('class', 'table-striped table-bordered table-responsive');
             },
         },
         computed: {
@@ -127,6 +154,9 @@
             },
             getData() {
                 return JSON.stringify(this.xlsxdata);
+            },
+            getDataHeader() {
+                return JSON.stringify(this.xlsxdata_header);
             },
             getMergeFields() {
                 return JSON.stringify(this.selected_cols);
