@@ -89,9 +89,19 @@ class MailMergeController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show(int $id)
     {
-        return view('apps.mailmerge.show');
+        $mailmerge = MailMerge::find($id);
+        $doc_logos = DB::table('doc_logos')->get();
+        $exact_copies = DB::table('exact_copies')->get();
+        $signatures = DB::table('signatures')->get();
+        $doc_addresses = DB::table('doc_addresses')->get();
+
+        return view('apps.mailmerge.show', compact('mailmerge'))
+                ->with('doc_logos', $doc_logos)
+                ->with('exact_copies', $exact_copies)
+                ->with('signatures', $signatures)
+                ->with('doc_addresses', $doc_addresses);
     }
 
     /**

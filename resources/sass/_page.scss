@@ -1,0 +1,17 @@
+div.page {
+    background: white;
+    display: block;
+    padding: 2.54cm 3.18cm;
+    margin: 0 auto;
+    margin-bottom: 0.5cm;
+    box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+}
+
+div.page[size="A4"] {
+    width: 21cm;
+    height: 29.7cm;
+}
+
+a.btn-label {
+    pointer-events:none;
+}

@@ -42,6 +42,7 @@ Vue.component('mailmerge-doc-date-priority', require('./components/mailmerge/Mai
 Vue.component('mailmerge-recipients', require('./components/mailmerge/MailMergeRecipients.vue').default);
 Vue.component('doclogoform', require('./components/mailmerge/DocLogoForm.vue').default);
 Vue.component('xlsxcomponent', require('./components/mailmerge/XlsxComponent.vue').default);
+Vue.component('pagepreview', require('./components/mailmerge/PagePreview.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
