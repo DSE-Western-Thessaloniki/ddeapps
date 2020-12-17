@@ -38,7 +38,6 @@
         },
         mounted() {
             console.log('XlsxComponent mounted.');
-            //document.onreadystatechange = () => {
         },
         data: function() {
             return {
