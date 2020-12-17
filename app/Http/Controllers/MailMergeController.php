@@ -92,16 +92,16 @@ class MailMergeController extends Controller
     public function show(int $id)
     {
         $mailmerge = MailMerge::find($id);
-        $doc_logos = DB::table('doc_logos')->get();
-        $exact_copies = DB::table('exact_copies')->get();
-        $signatures = DB::table('signatures')->get();
-        $doc_addresses = DB::table('doc_addresses')->get();
+        $doc_logo = DB::table('doc_logos')->find($mailmerge->logo_id);
+        $exact_copy = DB::table('exact_copies')->find($mailmerge->exact_copy_id);
+        $signature = DB::table('signatures')->find($mailmerge->signature_id);
+        $doc_address = DB::table('doc_addresses')->find($mailmerge->address_id);
 
         return view('apps.mailmerge.show', compact('mailmerge'))
-                ->with('doc_logos', $doc_logos)
-                ->with('exact_copies', $exact_copies)
-                ->with('signatures', $signatures)
-                ->with('doc_addresses', $doc_addresses);
+                ->with('doc_logo', $doc_logo)
+                ->with('exact_copy', $exact_copy)
+                ->with('signature', $signature)
+                ->with('doc_address', $doc_address);
     }
 
     /**

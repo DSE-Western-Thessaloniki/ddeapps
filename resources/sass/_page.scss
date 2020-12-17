@@ -15,3 +15,16 @@ div.page[size="A4"] {
 a.btn-label {
     pointer-events:none;
 }
+
+table.doc-address-col tr td {
+    padding: 0;
+    font-size: 90%;
+}
+
+table.doc-recipient-col {
+    height: 100%;
+}
+
+td.no-wrap {
+    white-space:nowrap;
+}

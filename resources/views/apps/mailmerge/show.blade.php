@@ -23,7 +23,22 @@
                     </div><br />
                     @endif
 
-                    <pagepreview></pagepreview>
+                    <pagepreview
+                        doc_address_address="{{ $doc_address->address }}"
+                        doc_address_name="{{ $doc_address->name }}"
+                        doc_address_telephone="{{ $doc_address->telephone }}"
+                        doc_address_email="{{ $doc_address->email }}"
+                        doc_logo_image="{{ $doc_logo->image }}"
+                        doc_logo_text="{{ $doc_logo->text }}"
+                        exact_copy_text="{{ $exact_copy->text }}"
+                        signature_text="{{ $signature->text }}"
+                        protocol_num="{{ $mailmerge->protocol_num }}"
+                        doc_date="{{ $mailmerge->date }}"
+                        doc_subject="{{ $mailmerge->subject }}"
+                        doc_text="{{ $mailmerge->text }}"
+                    >
+
+                    </pagepreview>
                 </div>
             </div>
         </div>
