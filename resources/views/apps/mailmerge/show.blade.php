@@ -36,6 +36,7 @@
                         doc_date="{{ $mailmerge->date }}"
                         doc_subject="{{ $mailmerge->subject }}"
                         doc_text="{{ $mailmerge->text }}"
+                        xls_data="{{ $mailmerge->xlsxdata }}"
                     >
 
                     </pagepreview>

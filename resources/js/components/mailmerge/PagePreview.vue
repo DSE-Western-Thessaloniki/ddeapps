@@ -3,8 +3,8 @@
         <div class="btn-toolbar"> <!-- toolbar -->
             <div class="btn-toolbar" role="toolbar" aria-label="Preview toolbar">
                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                    <a href="#" role="button" class="btn btn-light btn-label" aria-disabled="true">Zoom:</a>
-                    <select class="btn btn-light    "
+                    <a href="#" role="button" class="btn btn-dark" aria-disabled="true">Zoom:</a>
+                    <select class="btn btn-dark    "
                             name="pagezoom"
                             v-on:change="setZoom"
                             >
@@ -15,6 +15,16 @@
                             {{zoom}}
                         </option>
                     </select>
+                    <a href="#" role="button" class="btn btn-dark" aria-disabled="true">Record:</a>
+                    <select class="btn btn-dark" @change="currentRecordChanged($event)">
+                        <option v-for="record in records"
+                            :value="record.id - 1"
+                            :key="record.id"
+                        >
+                        {{ record.id }}
+                        </option>
+                    </select>
+                    <a href="#" role="button" class="btn btn-dark btn-label" aria-disabled="true" id="last-record">/0</a>
                 </div>
             </div>
         </div>
@@ -61,7 +71,7 @@
             </div>
 
             <p class="font-weight-bold">Θέμα: «{{ doc_subject }}»</p>
-            <p v-html="doc_text"></p>
+            <p id="doc_text"></p>
 
             <table>
                 <tr>
@@ -90,14 +100,20 @@
             doc_date: String,
             doc_subject: String,
             doc_text: String,
-
+            xls_data: String,
         },
         mounted() {
             console.log('Pagepreview mounted.');
+            console.log(this.xls_data)
+            console.log(this.records)
             this.setZoom();
+            this.getLastRecord();
+            this.showCurrentRecordText();
         },
         data: function() {
             return {
+                records: this.setIds(JSON.parse(this.xls_data)),
+                current_record: 0,
             }
         },
         watch: {
@@ -123,6 +139,45 @@
             showVal: function(a){
                 var zoomScale = Number(a)/10;
                 setZoom(zoomScale,document.getElementsByClassName('container')[0])
+            },
+
+            setIds: function(data) {
+                var i = 1;
+                data.forEach(el => {
+                    el.id = i;
+                    i++;
+                });
+
+                return data;
+            },
+
+            getLastRecord: function() {
+                $('#last-record').html('/ ' + this.records[this.records.length - 1].id);
+            },
+
+            currentRecordChanged: function(e) {
+                this.current_record = e.target.value;
+                this.showCurrentRecordText();
+            },
+
+            showCurrentRecordText: function() {
+                var text = this.doc_text;
+                var pattern = /\[\[.+?\]\]/g;
+                var matches = [];
+                var result;
+
+                // Βρες όλες τις ετικέτες
+                while((result = pattern.exec(text)) !== null) {
+                    matches.push(result[0]);
+                };
+
+                // Για κάθε ετικέτα κάνε αντικατάσταση με την αντίστοιχη τιμή
+                var vueobj = this;
+                matches.forEach(function(match) {
+                    var field = match.slice(2, match.length - 2);
+                    text = text.replaceAll(match, vueobj.records[vueobj.current_record][field]);
+                });
+                $('#doc_text').html(text);
             },
         },
         computed: {
