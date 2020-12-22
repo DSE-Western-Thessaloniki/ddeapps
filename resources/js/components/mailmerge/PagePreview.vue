@@ -3,7 +3,7 @@
         <div class="btn-toolbar"> <!-- toolbar -->
             <div class="btn-toolbar" role="toolbar" aria-label="Preview toolbar">
                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                    <a href="#" role="button" class="btn btn-dark" aria-disabled="true">Zoom:</a>
+                    <a href="#" role="button" class="btn btn-dark btn-label" aria-disabled="true">Zoom:</a>
                     <select class="btn btn-dark    "
                             name="pagezoom"
                             v-on:change="setZoom"
@@ -15,16 +15,13 @@
                             {{zoom}}
                         </option>
                     </select>
-                    <a href="#" role="button" class="btn btn-dark" aria-disabled="true">Record:</a>
-                    <select class="btn btn-dark" @change="currentRecordChanged($event)">
-                        <option v-for="record in records"
-                            :value="record.id - 1"
-                            :key="record.id"
-                        >
-                        {{ record.id }}
-                        </option>
-                    </select>
-                    <a href="#" role="button" class="btn btn-dark btn-label" aria-disabled="true" id="last-record">/0</a>
+                    <a href="#" role="button" class="btn btn-dark btn-label" aria-disabled="true">Record:</a>
+                    <button class="btn btn-dark" aria-disabled="true" @click="leftArrowClicked"><i class="fa fa-arrow-left"></i></button>
+                    <a href="#" role="button" class="btn btn-dark" aria-disabled="true" id="current_record" @click="showCurrentRecordInput">1</a>
+                    <input type="text" class="btn-light d-none" id="current_record_input" size="3" @change="currentRecordInputChanged($event)">
+                    <a href="#" role="button" class="btn btn-dark btn-label" aria-disabled="true">/</a>
+                    <a href="#" role="button" class="btn btn-dark btn-label" aria-disabled="true" id="last-record">0</a>
+                    <button class="btn btn-dark" aria-disabled="true" @click="rightArrowClicked"><i class="fa fa-arrow-right"></i></button>
                 </div>
             </div>
         </div>
@@ -73,7 +70,7 @@
             <p class="font-weight-bold">Θέμα: «{{ doc_subject }}»</p>
             <p id="doc_text"></p>
 
-            <table>
+            <table class="table table-borderless signature-table">
                 <tr>
                     <td class="text-center" v-html="exact_copy_html">
                     </td>
@@ -152,7 +149,7 @@
             },
 
             getLastRecord: function() {
-                $('#last-record').html('/ ' + this.records[this.records.length - 1].id);
+                $('#last-record').html(this.records[this.records.length - 1].id);
             },
 
             currentRecordChanged: function(e) {
@@ -179,6 +176,50 @@
                 });
                 $('#doc_text').html(text);
             },
+
+            showCurrentRecordInput: function() {
+                $('#current_record').addClass('d-none');
+                $('#current_record_input').removeClass('d-none');
+                $('#current_record_input').focus();
+            },
+
+            currentRecordInputChanged: function(e) {
+                var cur = e.target.value;
+                if (cur < 0 || cur > this.records[this.records.length - 1].id) {
+                    $('#current_record').removeClass('d-none');
+                    $('#current_record_input').addClass('d-none');
+                }
+                else {
+                    $('#current_record').removeClass('d-none');
+                    $('#current_record_input').addClass('d-none');
+                    $('#current_record').html(cur);
+                    this.current_record = cur - 1;
+                    this.showCurrentRecordText();
+                }
+            },
+
+            leftArrowClicked: function() {
+                $('#current_record').removeClass('d-none');
+                $('#current_record_input').addClass('d-none');
+                if (this.current_record > 0) {
+                    this.current_record--;
+                    $('#current_record').html(this.current_record + 1);
+                    $('#current_record_input').val(this.current_record + 1);
+                    this.showCurrentRecordText();
+                }
+            },
+
+            rightArrowClicked: function() {
+                $('#current_record').removeClass('d-none');
+                $('#current_record_input').addClass('d-none');
+                if (this.current_record < (this.records[this.records.length - 1].id - 1)) {
+                    this.current_record++;
+                    $('#current_record').html(this.current_record + 1);
+                    $('#current_record_input').val(this.current_record + 1);
+                    this.showCurrentRecordText();
+                }
+            },
+
         },
         computed: {
             zoomLevel: function() {
