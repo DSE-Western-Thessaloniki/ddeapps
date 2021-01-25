@@ -49,7 +49,7 @@
                             route_index="{{ route('apps.mailmerge.index') }}"
                         >
                         </mailmerge-component>
-
+                    {{Form::hidden('_method', 'PUT')}}
                     {!! Form::close() !!}
 
                 </div>

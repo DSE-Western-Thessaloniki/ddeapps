@@ -22,6 +22,7 @@
                     <a href="#" role="button" class="btn btn-dark btn-label" aria-disabled="true">/</a>
                     <a href="#" role="button" class="btn btn-dark btn-label" aria-disabled="true" id="last-record">0</a>
                     <button class="btn btn-dark" aria-disabled="true" @click="rightArrowClicked"><i class="fa fa-arrow-right"></i></button>
+                    <button class="btn btn-dark" aria-disabled="true" @click="printClicked"><i class="fas fa-print"></i></button>
                 </div>
             </div>
         </div>
@@ -58,8 +59,15 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="align-bottom">
-                                <p class="font-weight-bold">ΠΡΟΣ</p>
+                            <td class="align-bottom" id="recipients">
+                                <p class="font-weight-bold mb-0">ΠΡΟΣ</p>
+                                <p>[[ΟΝΟΜΑ]] [[ΕΠΩΝΥΜΟ]]<br/>
+                                ΚΛΑΔΟΥ: [[ΚΛΑΔΟΣ]]<br/>
+                                Α.Μ.: [[ΑΜ]]<br/>
+                                </p>
+                                <p class="font-weight-bold mb-0">ΚΟΙΝ</p>
+                                1. ΑΦ [[ΑΦ]]<br/>
+                                <span id="recipient-list"></span>
                             </td>
                         </tr>
                     </table>
@@ -97,6 +105,7 @@
             doc_date: String,
             doc_subject: String,
             doc_text: String,
+            doc_recipient_fields: String,
             xls_data: String,
         },
         mounted() {
@@ -111,6 +120,7 @@
             return {
                 records: this.setIds(JSON.parse(this.xls_data)),
                 current_record: 0,
+                recipient_fields: JSON.parse(this.doc_recipient_fields),
             }
         },
         watch: {
@@ -157,8 +167,7 @@
                 this.showCurrentRecordText();
             },
 
-            showCurrentRecordText: function() {
-                var text = this.doc_text;
+            replaceFields: function(text) {
                 var pattern = /\[\[.+?\]\]/g;
                 var matches = [];
                 var result;
@@ -172,9 +181,34 @@
                 var vueobj = this;
                 matches.forEach(function(match) {
                     var field = match.slice(2, match.length - 2);
-                    text = text.replaceAll(match, vueobj.records[vueobj.current_record][field]);
+                    if (typeof vueobj.records[vueobj.current_record][field] !== 'undefined') {
+                        text = text.replaceAll(match, vueobj.records[vueobj.current_record][field]);
+                    }
+                    else {
+                        text = text.replaceAll(match, '');
+                    }
                 });
+                return text;
+            },
+
+            showCurrentRecordText: function() {
+                var text = this.doc_text;
+                text = this.replaceFields(text);
                 $('#doc_text').html(text);
+
+                text = $('#recipients').html();
+                text = this.replaceFields(text);
+                $('#recipients').html(text);
+
+                var i = 2;
+                var recipient_list = "";
+                var vueobj = this;
+                this.recipient_fields.forEach(function(field) {
+                    recipient_list += i+". "+vueobj.records[vueobj.current_record][field]+"<br/>";
+                    i += 1;
+                });
+                console.log(recipient_list);
+                $('#recipient-list').html(recipient_list);
             },
 
             showCurrentRecordInput: function() {
@@ -218,6 +252,8 @@
                     $('#current_record_input').val(this.current_record + 1);
                     this.showCurrentRecordText();
                 }
+            },
+            printClicked: function() {
             },
 
         },

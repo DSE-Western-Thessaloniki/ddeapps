@@ -151,6 +151,9 @@ class MailMergeController extends Controller
         $mailmerge->text = $request->get('text');
         $mailmerge->exact_copy_id = $request->get('exactcopyselect');
         $mailmerge->signature_id = $request->get('signatureselect');
+        $mailmerge->xlsxdata = $request->get('xlsxdata');
+        $mailmerge->xlsxdata_header = $request->get('xlsxdata_header');
+        $mailmerge->mergefields = $request->get('mergefields');
         $mailmerge->save();
 
         return redirect(route('apps.mailmerge.index'))->with('status', 'Mail merge updated!');
@@ -168,5 +171,11 @@ class MailMergeController extends Controller
         $mailmerge->delete();
 
         return redirect(route('apps.mailmerge.index'))->with('status', 'Mail merge deleted!');
+    }
+
+    public function print(int $id)
+    {
+        $pdf = PDF::loadView('apps.mailmerge.print', $id);
+        return $pdf->download('mailmerge.pdf');
     }
 }

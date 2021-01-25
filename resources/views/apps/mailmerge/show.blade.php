@@ -36,6 +36,7 @@
                         doc_date="{{ $mailmerge->date }}"
                         doc_subject="{{ $mailmerge->subject }}"
                         doc_text="{{ $mailmerge->text }}"
+                        doc_recipient_fields="{{ $mailmerge->mergefields }}"
                         xls_data="{{ $mailmerge->xlsxdata }}"
                     >
 

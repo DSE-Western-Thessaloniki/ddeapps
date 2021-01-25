@@ -34,6 +34,7 @@ Route::prefix('apps')
         Route::resource('docaddress', 'DocAddressController');
         Route::resource('exactcopy', 'ExactCopyController');
         Route::resource('signature', 'SignatureController');
+        Route::post('/print', 'MailMergeController@print')->name('print');
     });
     Route::resource('mailmerge', 'MailMergeController');
 });
