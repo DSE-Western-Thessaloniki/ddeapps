@@ -84,18 +84,19 @@
             },
 
             onClick(e, item, code) {
+                console.log(item, code);
                 switch(code) {
                     case 'selcol':
                         var col = /[A-Z]+/.exec(item.id)
                         if (col) {
-                            this.selected_cols.push(Object.keys(this.xlsxdata[0])[this.calcColumn(col[0])])
+                            this.selected_cols.push(this.xlsxdata_header[this.calcColumn(col[0])])
                             this.toggleColorSelectedCol(col[0])
                         }
                         break
                     case 'unselcol':
                         var col = /[A-Z]+/.exec(item.id)
                         if (col) {
-                            var colidx = this.selected_cols.indexOf(Object.keys(this.xlsxdata[0])[this.calcColumn(col[0])])
+                            var colidx = this.selected_cols.indexOf(this.xlsxdata_header[this.calcColumn(col[0])])
                             this.selected_cols.splice(colidx, 1)
                             this.toggleColorSelectedCol(col[0])
                         }
