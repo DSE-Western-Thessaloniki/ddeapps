@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\MailMerge;
 use Illuminate\Support\Facades\Auth;
+use PDF;
 
 class MailMergeController extends Controller
 {
@@ -175,7 +176,35 @@ class MailMergeController extends Controller
 
     public function print(int $id)
     {
-        $pdf = PDF::loadView('apps.mailmerge.print', $id);
+        $mailmerge = MailMerge::find($id);
+        $doc_logo = DB::table('doc_logos')->find($mailmerge->logo_id);
+        $exact_copy = DB::table('exact_copies')->find($mailmerge->exact_copy_id);
+        $signature = DB::table('signatures')->find($mailmerge->signature_id);
+        $doc_address = DB::table('doc_addresses')->find($mailmerge->address_id);
+
+        $data = array('id', 'doc_address', 'exact_copy', 'signature', 'doc_logo');
+        $pdf = PDF::loadView('apps.mailmerge.print', compact('mailmerge', $data))
+            ->setOptions(['print-media-type' => true,
+                          'enable-javascript' => true,
+                          'margin-left' => 0,
+                          'margin-right' => 0,
+                          'margin-top' => 0,
+                          'margin-bottom' => 0]);
         return $pdf->download('mailmerge.pdf');
+    }
+
+    public function show2(int $id)
+    {
+        $mailmerge = MailMerge::find($id);
+        $doc_logo = DB::table('doc_logos')->find($mailmerge->logo_id);
+        $exact_copy = DB::table('exact_copies')->find($mailmerge->exact_copy_id);
+        $signature = DB::table('signatures')->find($mailmerge->signature_id);
+        $doc_address = DB::table('doc_addresses')->find($mailmerge->address_id);
+
+        return view('apps.mailmerge.print', compact('mailmerge'))
+                ->with('doc_logo', $doc_logo)
+                ->with('exact_copy', $exact_copy)
+                ->with('signature', $signature)
+                ->with('doc_address', $doc_address);
     }
 }

@@ -22,58 +22,59 @@
                     <a href="#" role="button" class="btn btn-dark btn-label" aria-disabled="true">/</a>
                     <a href="#" role="button" class="btn btn-dark btn-label" aria-disabled="true" id="last-record">0</a>
                     <button class="btn btn-dark" aria-disabled="true" @click="rightArrowClicked"><i class="fa fa-arrow-right"></i></button>
-                    <button class="btn btn-dark" aria-disabled="true" @click="printClicked"><i class="fas fa-print"></i></button>
+                    <a :href="print_url" class="btn btn-dark" aria-disabled="true"><i class="fas fa-print"></i></a>
                 </div>
             </div>
         </div>
         <div class="page" size="A4">
-            <div class="row">
-                <div class="col-6">
-                    <p class="text-center"><img :src="logo_img"></p>
-                    <p class="text-center" v-html="doc_logo_text_html"></p>
-                    <table class="table table-borderless doc-address-col">
-                        <tr>
-                            <td class="no-wrap pr-1">Ταχ. Διεύθυνση:</td>
-                            <td>{{ doc_address_address }}</td>
-                        </tr>
-                        <tr>
-                            <td>Πληροφορίες:</td>
-                            <td>{{ doc_address_name }}</td>
-                        </tr>
-                        <tr>
-                            <td>Τηλέφωνο:</td>
-                            <td>{{ doc_address_telephone }}</td>
-                        </tr>
-                        <tr>
-                            <td>Email:</td>
-                            <td>{{ doc_address_email }}</td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="col-6">
-                    <table class="table table-borderless doc-recipient-col">
-                        <tr>
-                            <td>
-                                <p class="text-right">Θεσσαλονίκη, {{ locale_date }}<br/>
-                                                    Αρ. Πρωτ.: {{ protocol_num }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="align-bottom" id="recipients">
-                                <p class="font-weight-bold mb-0">ΠΡΟΣ</p>
-                                <p>[[ΟΝΟΜΑ]] [[ΕΠΩΝΥΜΟ]]<br/>
-                                ΚΛΑΔΟΥ: [[ΚΛΑΔΟΣ]]<br/>
-                                Α.Μ.: [[ΑΜ]]<br/>
-                                </p>
-                                <p class="font-weight-bold mb-0">ΚΟΙΝ</p>
-                                1. ΑΦ [[ΑΦ]]<br/>
-                                <span id="recipient-list"></span>
-                            </td>
-                        </tr>
-                    </table>
-
-                </div>
-            </div>
+            <table class="table table-borderless">
+                <tr>
+                    <td>
+                        <p class="text-center"><img :src="logo_img"></p>
+                        <p class="text-center" v-html="doc_logo_text_html"></p>
+                        <table class="table table-borderless doc-address-col">
+                            <tr>
+                                <td class="no-wrap pr-1">Ταχ. Διεύθυνση:</td>
+                                <td>{{ doc_address_address }}</td>
+                            </tr>
+                            <tr>
+                                <td>Πληροφορίες:</td>
+                                <td>{{ doc_address_name }}</td>
+                            </tr>
+                            <tr>
+                                <td>Τηλέφωνο:</td>
+                                <td>{{ doc_address_telephone }}</td>
+                            </tr>
+                            <tr>
+                                <td>Email:</td>
+                                <td>{{ doc_address_email }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <table class="table table-borderless doc-recipient-col">
+                            <tr>
+                                <td>
+                                    <p class="text-right">Θεσσαλονίκη, {{ doc_date }}<br/>
+                                                        Αρ. Πρωτ.: {{ protocol_num }}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="align-bottom" id="recipients">
+                                    <p class="font-weight-bold mb-0">ΠΡΟΣ</p>
+                                    <p>[[ΟΝΟΜΑ]] [[ΕΠΩΝΥΜΟ]]<br/>
+                                    ΚΛΑΔΟΥ: [[ΚΛΑΔΟΣ]]<br/>
+                                    Α.Μ.: [[ΑΜ]]<br/>
+                                    </p>
+                                    <p class="font-weight-bold mb-0">ΚΟΙΝ</p>
+                                    1. ΑΦ [[ΑΦ]]<br/>
+                                    <span id="recipient-list"></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
 
             <p class="font-weight-bold">Θέμα: «{{ doc_subject }}»</p>
             <p id="doc_text"></p>
@@ -107,6 +108,7 @@
             doc_text: String,
             doc_recipient_fields: String,
             xls_data: String,
+            print_url: String,
         },
         mounted() {
             console.log('Pagepreview mounted.');
@@ -254,6 +256,13 @@
                 }
             },
             printClicked: function() {
+                $.get(this.print_url)
+                .done(function() {
+                    console.log('print get done');
+                })
+                .fail(function(jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                });
             },
 
         },
@@ -271,10 +280,10 @@
             doc_logo_text_html: function() {
                 return this.doc_logo_text.replace(/\n/g,'<br/>');
             },
-            locale_date: function() {
+            /*locale_date: function() {
                 var date = new Date(this.doc_date);
                 return date.toLocaleDateString();
-            },
+            },*/
             exact_copy_html: function() {
                 return this.exact_copy_text.replace(/\n/g,'<br/>');
             },

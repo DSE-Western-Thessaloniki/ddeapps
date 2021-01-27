@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+<?php
+$date = new DateTime($mailmerge->date);
+?>
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -33,11 +37,12 @@
                         exact_copy_text="{{ $exact_copy->text }}"
                         signature_text="{{ $signature->text }}"
                         protocol_num="{{ $mailmerge->protocol_num }}"
-                        doc_date="{{ $mailmerge->date }}"
+                        doc_date="{{ $date->format('d/m/Y') }}"
                         doc_subject="{{ $mailmerge->subject }}"
                         doc_text="{{ $mailmerge->text }}"
                         doc_recipient_fields="{{ $mailmerge->mergefields }}"
                         xls_data="{{ $mailmerge->xlsxdata }}"
+                        print_url="{{ route('apps.mailmerge.print', ['id' => $mailmerge->id]) }}"
                     >
 
                     </pagepreview>
