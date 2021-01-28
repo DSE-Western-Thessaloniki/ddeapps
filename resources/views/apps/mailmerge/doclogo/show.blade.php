@@ -23,48 +23,49 @@
                     </div><br />
                     @endif
 
-                    <div class="row">
-                        <div class="col-3">{{ __('Title') }}</div>
-                        <div class="col-9 align-self-center">
-                            {{ $doclogo->title }}
-                        </div>
-                    </div>
+                    <table class="table table-striped">
+                        <tr>
+                            <td>{{ __('Title') }}</td>
+                            <td class="text-center">
+                                {{ $doclogo->title }}
+                            </td>
+                        </tr>
 
-                    <div class="row">
-                        <div class="col-3">{{ __('Image') }}</div>
-                        <div class="col-9 align-self-center">
-                            {{ $doclogo->image }}
-                            <img src="/images/{{$doclogo->image}}">
-                        </div>
-                    </div>
+                        <tr>
+                            <td>{{ __('Image') }}</td>
+                            <td class="text-center">
+                                {{ $doclogo->image }}
+                                <img src="/images/{{$doclogo->image}}">
+                            </td>
+                        </tr>
 
-                    <div class="row">
-                        <div class="col-3">{{ __('Text') }}</div>
-                        <div class="col-9 align-self-center text-center">
-                            <pre>{{ $doclogo->text }}</pre>
-                        </div>
-                    </div>
+                        <tr>
+                            <td>{{ __('Text') }}</td>
+                            <td class="text-center">
+                                <pre>{{ $doclogo->text }}</pre>
+                            </td>
+                        </tr>
 
-                    <div class="row">
-                        <div class="col-3">{{ __('Active') }}</div>
-                        <div class="col-9">
-                            @if ($doclogo->active)
-                                {{ __('True') }}
-                            @else
-                                {{ __('False') }}
-                            @endif
-                        </div>
-                    </div>
+                        <tr>
+                            <td>{{ __('Active') }}</td>
+                            <td class="text-center">
+                                @if ($doclogo->active)
+                                    {{ __('True') }}
+                                @else
+                                    {{ __('False') }}
+                                @endif
+                            </td>
+                        </tr>
 
-                    <div class="row">
-                        <div class="col-2">
-                            <a class="btn btn-danger" href="{{ route('apps.mailmerge.doclogo.index') }}">{{ __('Back') }}</a>
-                        </div>
-                        <div class="col-10 d-flex justify-content-end">
-                            <a class="btn btn-primary" href="{{ route('apps.mailmerge.doclogo.edit', $doclogo->id)}}">{{ __('Edit') }}</a>
-                        </div>
-                    </div>
-
+                        <tr>
+                            <td class="col-2">
+                                <a class="btn btn-danger" href="{{ route('apps.mailmerge.doclogo.index') }}">{{ __('Back') }}</a>
+                            </td>
+                            <td class="col-10 d-flex justify-content-end">
+                                <a class="btn btn-primary" href="{{ route('apps.mailmerge.doclogo.edit', $doclogo->id)}}">{{ __('Edit') }}</a>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
