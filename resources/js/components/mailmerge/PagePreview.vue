@@ -30,7 +30,7 @@
             <table class="table table-borderless">
                 <tr>
                     <td>
-                        <p class="text-center"><img :src="logo_img"></p>
+                        <p class="text-center"><img :src="logo_img" width="50"></p>
                         <p class="text-center" v-html="doc_logo_text_html"></p>
                         <table class="table table-borderless doc-address-col">
                             <tr>
@@ -275,7 +275,7 @@
                 return lvl;
             },
             logo_img: function() {
-                return "/public/images/"+this.doc_logo_image;
+                return "/images/"+this.doc_logo_image;
             },
             doc_logo_text_html: function() {
                 return this.doc_logo_text.replace(/\n/g,'<br/>');
