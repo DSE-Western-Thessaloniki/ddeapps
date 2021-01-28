@@ -79,7 +79,7 @@ $base64_logo = base64_encode(file_get_contents(url("/images/".$doc_logo->image))
                                 Α.Μ.: {{ $record['ΑΜ'] }}<br/>
                                 </p>
                                 <p class="font-weight-bold mb-0">ΚΟΙΝ</p>
-                                1. ΑΦ @if (isset($record['ΑΦ'])) $record['ΑΦ'] @endif<br/>
+                                1. ΑΦ @if (isset($record['ΑΦ'])) {{ $record['ΑΦ'] }} @endif<br/>
                                 <span id="recipient-list">{!! $recipients_text !!}</span>
                             </td>
                         </tr>
@@ -101,10 +101,10 @@ $base64_logo = base64_encode(file_get_contents(url("/images/".$doc_logo->image))
                 </td>
             </tr>
         </table>
-        @if (!$loop->last)
-            <div class="page-break"></div>
-        @endif
     </div>
+    @if (!$loop->last)
+        <div class="page-break"></div>
+    @endif
     @endforeach
 </div>
 
