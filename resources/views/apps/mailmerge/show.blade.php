@@ -43,6 +43,7 @@ $date = new DateTime($mailmerge->date);
                         doc_recipient_fields="{{ $mailmerge->mergefields }}"
                         xls_data="{{ $mailmerge->xlsxdata }}"
                         print_url="{{ route('apps.mailmerge.print', ['id' => $mailmerge->id]) }}"
+                        save_mail_merge_url="{{ route('apps.mailmerge.save', ['id' => $mailmerge->id]) }}"
                     >
 
                     </pagepreview>

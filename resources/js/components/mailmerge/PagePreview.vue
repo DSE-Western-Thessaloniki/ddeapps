@@ -1,8 +1,8 @@
 <template>
     <div class="container"> <!-- Page preview -->
         <div class="btn-toolbar"> <!-- toolbar -->
-            <div class="btn-toolbar" role="toolbar" aria-label="Preview toolbar">
-                <div class="btn-group mr-2" role="group" aria-label="First group">
+            <div class="btn-toolbar mb-3" role="toolbar" aria-label="Preview toolbar">
+                <div class="btn-group btn-group-lg mr-2" role="group" aria-label="First group">
                     <a href="#" role="button" class="btn btn-dark btn-label" aria-disabled="true">Zoom:</a>
                     <select class="btn btn-dark    "
                             name="pagezoom"
@@ -22,14 +22,15 @@
                     <a href="#" role="button" class="btn btn-dark btn-label" aria-disabled="true">/</a>
                     <a href="#" role="button" class="btn btn-dark btn-label" aria-disabled="true" id="last-record">0</a>
                     <button class="btn btn-dark" aria-disabled="true" @click="rightArrowClicked"><i class="fa fa-arrow-right"></i></button>
-                    <a :href="print_url" class="btn btn-dark" aria-disabled="true"><i class="fas fa-print"></i></a>
+                    <a :href="print_url" target="_blank" class="btn btn-dark" aria-disabled="true" data-toggle="tooltip" data-placement="bottom" title="Εκτύπωση συγχωνευμένων εγγράφων"><i class="fas fa-print"></i></a>
+                    <a :href="save_mail_merge_url" class="btn btn-dark" aria-disabled="true" data-toggle="tooltip" data-placement="bottom" title="Αποθήκευση συγχωνευμένων εγγράφων"><i class="fas fa-mail-bulk"></i></a>
                 </div>
             </div>
         </div>
         <div class="page" size="A4">
             <table class="table table-borderless">
                 <tr>
-                    <td>
+                    <td class="w-50">
                         <p class="text-center"><img :src="logo_img" width="50"></p>
                         <p class="text-center" v-html="doc_logo_text_html"></p>
                         <table class="table table-borderless doc-address-col">
@@ -51,7 +52,7 @@
                             </tr>
                         </table>
                     </td>
-                    <td>
+                    <td class="w-50">
                         <table class="table table-borderless doc-recipient-col">
                             <tr>
                                 <td>
@@ -109,6 +110,7 @@
             doc_recipient_fields: String,
             xls_data: String,
             print_url: String,
+            save_mail_merge_url: String,
         },
         mounted() {
             console.log('Pagepreview mounted.');

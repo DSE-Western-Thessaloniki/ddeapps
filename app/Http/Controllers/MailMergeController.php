@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\MailMerge;
 use Illuminate\Support\Facades\Auth;
 use PDF;
+use ZipArchive;
 
 class MailMergeController extends Controller
 {
@@ -190,7 +191,8 @@ class MailMergeController extends Controller
                           'margin-right' => 0,
                           'margin-top' => 0,
                           'margin-bottom' => 0]);
-        return $pdf->download('mailmerge.pdf');
+        $filename = "mailmerge-".$mailmerge->protocol_num."-".date('Ymd-His').".pdf";
+        return $pdf->inline($filename);
     }
 
     public function show2(int $id)
@@ -207,4 +209,35 @@ class MailMergeController extends Controller
                 ->with('signature', $signature)
                 ->with('doc_address', $doc_address);
     }
+
+    public function save(int $id)
+    {
+        $mailmerge = MailMerge::find($id);
+        $doc_logo = DB::table('doc_logos')->find($mailmerge->logo_id);
+        $exact_copy = DB::table('exact_copies')->find($mailmerge->exact_copy_id);
+        $signature = DB::table('signatures')->find($mailmerge->signature_id);
+        $doc_address = DB::table('doc_addresses')->find($mailmerge->address_id);
+
+        $xlsxdata = json_decode($mailmerge->xlsxdata, true);
+        $zip_name = '/tmp/'.$mailmerge->protocol_num.'-'.date('YmdHis').'.zip';
+        $zip = new ZipArchive;
+        $zip->open($zip_name, ZipArchive::CREATE);
+        foreach($xlsxdata as $record) {
+            $data = array('id', 'doc_address', 'exact_copy', 'signature', 'doc_logo', 'record');
+            $pdf = PDF::loadView('apps.mailmerge.save', compact('mailmerge', $data))
+                ->setOptions(['print-media-type' => true,
+                              'enable-javascript' => true,
+                              'margin-left' => 0,
+                              'margin-right' => 0,
+                              'margin-top' => 0,
+                              'margin-bottom' => 0]);
+            $filename = $mailmerge->protocol_num." ".$record['ΑΜ'].".pdf";
+            $file = $pdf->output();
+            $zip->addFromString($filename, $file);
+        }
+        $zip->close();
+
+        return response()->download($zip_name);
+    }
+
 }

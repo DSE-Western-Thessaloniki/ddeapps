@@ -36,6 +36,7 @@ Route::prefix('apps')
         Route::resource('signature', 'SignatureController');
         Route::get('/print/{id}', 'MailMergeController@print')->name('print');
         Route::get('/show2/{id}', 'MailMergeController@show2')->name('show2');
+        Route::get('/save/{id}', 'MailMergeController@save')->name('save');
     });
     Route::resource('mailmerge', 'MailMergeController');
 });
