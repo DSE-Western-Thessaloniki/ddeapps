@@ -55,7 +55,6 @@
             },
         },
         mounted() {
-            console.log('DocLogoForm mounted.')
         },
         data: function() {
             return {

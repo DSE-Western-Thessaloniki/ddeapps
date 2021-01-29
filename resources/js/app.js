@@ -36,7 +36,6 @@ Vue.mixin(require('./trans'));
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('mailmerge-component', require('./components/mailmerge/MailMergeComponent.vue').default);
-Vue.component('mailmerge-recipients', require('./components/mailmerge/MailMergeRecipients.vue').default);
 Vue.component('doclogoform', require('./components/mailmerge/DocLogoForm.vue').default);
 Vue.component('xlsxcomponent', require('./components/mailmerge/XlsxComponent.vue').default);
 Vue.component('pagepreview', require('./components/mailmerge/PagePreview.vue').default);

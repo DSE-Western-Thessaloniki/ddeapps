@@ -113,9 +113,6 @@
             save_mail_merge_url: String,
         },
         mounted() {
-            console.log('Pagepreview mounted.');
-            console.log(this.xls_data)
-            console.log(this.records)
             this.setZoom();
             this.getLastRecord();
             this.showCurrentRecordText();
@@ -211,7 +208,6 @@
                     recipient_list += i+". "+vueobj.records[vueobj.current_record][field]+"<br/>";
                     i += 1;
                 });
-                console.log(recipient_list);
                 $('#recipient-list').html(recipient_list);
             },
 
@@ -259,9 +255,6 @@
             },
             printClicked: function() {
                 $.get(this.print_url)
-                .done(function() {
-                    console.log('print get done');
-                })
                 .fail(function(jqXHR, textStatus, errorThrown) {
                     alert(errorThrown);
                 });

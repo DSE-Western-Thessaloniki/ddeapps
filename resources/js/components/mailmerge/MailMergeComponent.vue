@@ -205,7 +205,6 @@
         created() {
         },
         mounted() {
-            console.log('MailMerge mounted.');
         },
         data: function() {
             return {
@@ -234,7 +233,6 @@
         },
         methods: {
             setmergefields: function(fields) {
-                console.log(fields);
                 var new_placeholders = new Array();
                 var i = 1;
                 fields.forEach(function(field) {
@@ -243,7 +241,6 @@
                 });
                 window.itemsArray = new_placeholders;
                 this.editorConfig.placeholder_select.placeholders = fields;
-                console.log(this.autocomplete);
                 CKEDITOR.instances.editor1.config.placeholder_select.placeholders = JSON.parse(JSON.stringify(fields));
                 CKEDITOR.instances.editor1.ui.instances.placeholder_select.buildList();
             },
