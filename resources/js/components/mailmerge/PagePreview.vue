@@ -23,7 +23,7 @@
                     <a href="#" role="button" class="btn btn-dark btn-label" aria-disabled="true" id="last-record">0</a>
                     <button class="btn btn-dark" aria-disabled="true" @click="rightArrowClicked"><i class="fa fa-arrow-right"></i></button>
                     <a :href="print_url" target="_blank" class="btn btn-dark" aria-disabled="true" data-toggle="tooltip" data-placement="bottom" title="Εκτύπωση συγχωνευμένων εγγράφων"><i class="fas fa-print"></i></a>
-                    <a :href="save_mail_merge_url" class="btn btn-dark" aria-disabled="true" data-toggle="tooltip" data-placement="bottom" title="Αποθήκευση συγχωνευμένων εγγράφων"><i class="fas fa-mail-bulk"></i></a>
+                    <button class="btn btn-dark" aria-disabled="true" @click="saveMailMergeClicked" data-toggle="tooltip" data-placement="bottom" title="Αποθήκευση συγχωνευμένων εγγράφων"><i class="fa fa-mail-bulk"></i></button>
                 </div>
             </div>
         </div>
@@ -89,6 +89,33 @@
                 </tr>
             </table>
         </div>
+        <div class="modal" id="myModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Έλεγχος αποδεκτών αλληλογραφίας</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Γίνεται έλεγχος των αποδεκτών της αλληλογραφίας σας. Μόλις ολοκληρωθεί ο έλεγχος θα ενεργοποιηθεί το κουμπί της λήψης.</p>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" :style="progress_style" :aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">{{ progress }}%</div>
+                </div>
+                <div id="error_msg"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Άκυρο</button>
+                    <a :href="save_mail_merge_url" type="button" class="btn btn-primary disabled" id="save_mail_merge">
+                        <div class="spinner-border" role="status">
+                        <span class="sr-only">Working...</span>
+                        </div>
+                    </a>
+                </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -111,6 +138,7 @@
             xls_data: String,
             print_url: String,
             save_mail_merge_url: String,
+            recipient_list_url: String,
         },
         mounted() {
             this.setZoom();
@@ -122,6 +150,7 @@
                 records: this.setIds(JSON.parse(this.xls_data)),
                 current_record: 0,
                 recipient_fields: JSON.parse(this.doc_recipient_fields),
+                progress: 0,
             }
         },
         watch: {
@@ -253,13 +282,61 @@
                     this.showCurrentRecordText();
                 }
             },
-            printClicked: function() {
-                $.get(this.print_url)
-                .fail(function(jqXHR, textStatus, errorThrown) {
-                    alert(errorThrown);
+            saveMailMergeClicked: function() {
+                // Εμφάνισε το modal
+                $('#myModal').modal({
+                    backdrop: 'static',
+                    keyboard: false,
+                    focus: true,
+                    show: true
                 });
-            },
 
+                var recipients = [];
+                var vueobj = this;
+
+                $.get(this.recipient_list_url, function() {
+                })
+                    .done(function(data) {
+                        recipients = data;
+                        var max = vueobj.records[vueobj.records.length - 1].id;
+                        console.log(max);
+                        console.log(recipients);
+                        vueobj.delayedLoop(vueobj.records, 500, function(item, index) {
+                            vueobj.update_progress(index + 1, max);
+                            if ((index + 1) == max) {
+                                $("#save_mail_merge").html("Save");
+                            }
+                        });
+                    })
+                    .fail(function(data) {
+                        $('#error_msg').html('Error retrieving recipient list!');
+                        $('#error_msg').addClass('alert');
+                        $('#error_msg').addClass('alert-danger');
+                    });
+
+            },
+            update_progress: function(value, max) {
+                this.progress = Math.round(((parseInt(value) / parseInt(max) * 100) + Number.EPSILON) * 100) / 100;
+            },
+            check_record_recipients: function(record, recipients) {
+                for (var i = 0; i < 100; i++);
+            },
+            delayedLoop: function(collection, delay, callback, context) {
+                context = context || null;
+
+                var i = 0,
+                    nextInteration = function() {
+                        if (i === collection.length) {
+                            return;
+                        }
+
+                        callback.call(context, collection[i], i);
+                        i++;
+                        setTimeout(nextInteration, delay);
+                    };
+
+                nextInteration();
+            },
         },
         computed: {
             zoomLevel: function() {
@@ -284,6 +361,9 @@
             },
             signature_html: function() {
                 return this.signature_text.replace(/\n/g,'<br/>');
+            },
+            progress_style: function() {
+                return "width: "+this.progress+"%;";
             },
         },
     }
