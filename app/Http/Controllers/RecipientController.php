@@ -114,4 +114,14 @@ class RecipientController extends Controller
 
         return redirect(route('apps.mailmerge.recipient.index'))->with('status', 'Recipient deleted!');
     }
+
+    /**
+     * Return a listing of the resource in json.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function list() {
+        $recipients = Recipient::all();
+        return response()->json($recipients);
+    }
 }
