@@ -43,6 +43,7 @@
                               <a class="dropdown-item" href="{{ route('apps.mailmerge.docaddress.index') }}">@icon('map-marked-alt') {{ __('Addresses') }}</a>
                               <a class="dropdown-item" href="{{ route('apps.mailmerge.exactcopy.index') }}">@icon('copy') {{ __('Exact Copies') }}</a>
                               <a class="dropdown-item" href="{{ route('apps.mailmerge.signature.index') }}">@icon('file-signature') {{ __('Signatures') }}</a>
+                              <a class="dropdown-item" href="{{ route('apps.mailmerge.recipient.index') }}">@icon('address-book') {{ __('Recipients') }}</a>
                               <a class="dropdown-item" href="{{ route('apps.mailmerge.index') }}">@icon('file-medical-alt') {{ __('Mail Merge') }}</a>
                             </div>
                           </div>

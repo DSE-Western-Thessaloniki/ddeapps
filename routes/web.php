@@ -19,24 +19,34 @@ Route::get('/', 'PagesController@index');
 Route::get('/setup', 'SetupController@setupPage');
 Route::post('/setup', 'SetupController@saveSetup')->name('setup');
 
-Auth::routes([
-    'reset' => false,
-    'verify' => false,
-]);
+Auth::routes(
+    [
+        'reset' => false,
+        'verify' => false,
+    ]
+);
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::prefix('apps')
     ->name('apps.')
     ->middleware('auth')
-    ->group(function () {
-    Route::prefix('mailmerge')->name('mailmerge.')->group(function () {
-        Route::resource('doclogo', 'DocLogoController');
-        Route::resource('docaddress', 'DocAddressController');
-        Route::resource('exactcopy', 'ExactCopyController');
-        Route::resource('signature', 'SignatureController');
-        Route::get('/print/{id}', 'MailMergeController@print')->name('print');
-        Route::get('/show2/{id}', 'MailMergeController@show2')->name('show2');
-        Route::get('/save/{id}', 'MailMergeController@save')->name('save');
-    });
-    Route::resource('mailmerge', 'MailMergeController');
-});
+    ->group(
+        function () {
+            Route::prefix('mailmerge')->name('mailmerge.')->group(
+                function () {
+                    Route::resource('doclogo', 'DocLogoController');
+                    Route::resource('docaddress', 'DocAddressController');
+                    Route::resource('exactcopy', 'ExactCopyController');
+                    Route::resource('signature', 'SignatureController');
+                    Route::get('/print/{id}', 'MailMergeController@print')
+                        ->name('print');
+                    Route::get('/show2/{id}', 'MailMergeController@show2')
+                        ->name('show2');
+                    Route::get('/save/{id}', 'MailMergeController@save')
+                        ->name('save');
+                    Route::resource('recipient', 'RecipientController');
+                }
+            );
+            Route::resource('mailmerge', 'MailMergeController');
+        }
+    );
