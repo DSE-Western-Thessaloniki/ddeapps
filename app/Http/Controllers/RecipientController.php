@@ -121,7 +121,7 @@ class RecipientController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function list() {
-        $recipients = Recipient::all();
+        $recipients = Recipient::all(['name','code']);
         return response()->json($recipients);
     }
 }
