@@ -90,29 +90,44 @@
             </table>
         </div>
         <div class="modal" id="myModal" tabindex="-1">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg modal-dialog-scrollable">
                 <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Έλεγχος αποδεκτών αλληλογραφίας</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Γίνεται έλεγχος των αποδεκτών της αλληλογραφίας σας. Μόλις ολοκληρωθεί ο έλεγχος θα ενεργοποιηθεί το κουμπί της λήψης.</p>
-                </div>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" :style="progress_style" :aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">{{ progress }}%</div>
-                </div>
-                <div id="error_msg"></div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Άκυρο</button>
-                    <a :href="save_mail_merge_url" type="button" class="btn btn-primary disabled" id="save_mail_merge">
-                        <div class="spinner-border" role="status">
-                        <span class="sr-only">Working...</span>
+                    <div class="modal-header">
+                        <h5 class="modal-title">Έλεγχος αποδεκτών αλληλογραφίας</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Γίνεται έλεγχος των αποδεκτών της αλληλογραφίας σας. Μόλις ολοκληρωθεί ο έλεγχος θα ενεργοποιηθεί το κουμπί της λήψης.</p>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" :style="progress_style" :aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">{{ progress }}%</div>
                         </div>
-                    </a>
-                </div>
+                        <div id="error_msg"></div>
+                        <br/>
+                        <div id="unknown_recipients" class="d-none">
+                            <p>Οι παρακάτω παραλήπτες δεν βρέθηκαν στο σύστημα για αντιστοίχιση με κωδικό σχολικής μονάδας.
+                                Παρακαλούμε επιλέξτε από δίπλα αν η σχολική μονάδα έμφανίζεται με άλλο όνομα.
+                            </p>
+                            <table class="table-striped table-bordered">
+                                <thead>
+                                    <th>Όνομα</th>
+                                    <th>Ποσοστό ταιριάσματος</th>
+                                    <th>Αντιστοίχιση</th>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Άκυρο</button>
+                            <a :href="save_mail_merge_url" type="button" class="btn btn-primary disabled" id="save_mail_merge">
+                                <div class="spinner-border" role="status">
+                                <span class="sr-only">Working...</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -283,6 +298,11 @@
                 }
             },
             saveMailMergeClicked: function() {
+                // Αρχικοποίησε τιμές
+                this.progress = 0;
+                $('#unknown_recipients').addClass('d-none');
+                $('#unknown_recipients table tbody tr').remove();
+
                 // Εμφάνισε το modal
                 $('#myModal').modal({
                     backdrop: 'static',
@@ -301,7 +321,102 @@
                         var max = vueobj.records[vueobj.records.length - 1].id;
                         console.log(max);
                         console.log(recipients);
-                        vueobj.delayedLoop(vueobj.records, 500, function(item, index) {
+                        console.log(vueobj.doc_recipient_fields);
+
+                        // Φτιάξε το combobox με τους διαθέσιμους παραλήπτες
+                        var recipient_options = "";
+                        recipients.forEach(function (recipient) {
+                            recipient_options += "<option value=\"" + recipient.code + "\">" + recipient.name + "</option>";
+                        });
+                        var recipient_selector = "<select name='recipient'>" + recipient_options + "</select>";
+
+                        // Προετοιμασία fuzzy search
+                        const options = {
+                            // isCaseSensitive: false,
+                            includeScore: true,
+                            // shouldSort: true,
+                            // includeMatches: false,
+                            // findAllMatches: false,
+                            // minMatchCharLength: 1,
+                            // location: 0,
+                            threshold: 0.4,
+                            distance: 10,
+                            // useExtendedSearch: false,
+                            // ignoreLocation: false,
+                            // ignoreFieldNorm: false,
+                            keys: [
+                                "name",
+                            ]
+                        };
+                        const fuse = new Fuse.default(recipients, options);
+
+
+                        //return fuse.search(pattern)
+
+                        vueobj.delayedLoop(vueobj.records, 200, function(item, index) {
+                            //console.log(item);
+                            //console.log(vueobj.doc_recipient_fields);
+                            var doc_fields = JSON.parse(vueobj.doc_recipient_fields);
+                            doc_fields.forEach(function (field) {
+                                // Κοιτάει για την τιμή του πεδίου στο όνομα του παραλήπτη
+                                // Προσοχή! Πρέπει το πρώτο πεδίο του αντικειμένου να είναι το name
+                                if (!(item[field] in recipients)) {
+
+                                    // Fuzzy search
+                                    const pattern = item[field];
+                                    var results = fuse.search(pattern);
+                                    console.log('Fuzzy search');
+                                    console.log(results);
+                                    var my_recipient_selector;
+                                    var color = "";
+                                    var icon = "";
+                                    if (results.length) {
+                                        my_recipient_selector = recipient_selector
+                                            .replace('>'+results[0].item.name,
+                                                     'selected="selected">'+results[0].item.name);
+
+                                        // Σημείωσε με χρώμα τα σκορ στον πίνακα
+                                        if (results[0].score < 0.2) {
+                                            color = 'class="bg-success"';
+                                        }
+                                        else if (results[0].score < 0.4) {
+                                            color = 'class="bg-warning"';
+                                        }
+                                        else {
+                                            color = 'class="bg-danger"';
+                                        }
+
+                                        // Έλεγχος αριθμών
+                                        var num1 = item[field].slice(0,5).match(/\d+/g);
+                                        var num2 = results[0].item.name.slice(0,5).match(/\d+/g);
+                                        console.log(num1 + ' <> ' + num2);
+                                        num1 = num1 == null ? 0 : num1;
+                                        num2 = num2 == null ? 0 : num2;
+                                        if (parseInt(num1) == parseInt(num2)) {
+                                            icon = '<i>'+
+                                                Math.round((1-parseFloat(results[0].score))*10000)/100+
+                                                '%</i>';
+                                        }
+                                        else {
+                                            icon = '<i class="fas fa-exclamation-triangle">'+
+                                                Math.round((1-parseFloat(results[0].score))*10000)/100+
+                                                '%</i>';
+                                        }
+                                    }
+                                    else {
+                                        icon = '<i>0%</i>'
+                                        my_recipient_selector = recipient_selector;
+                                    }
+
+                                    $('#unknown_recipients').removeClass('d-none');
+                                    if ($('#unknown_recipients table tbody').html() == "") {
+                                        $('#unknown_recipients table tbody').html('<tr '+color+'><td>'+item[field]+'</td><td>'+icon+'</td><td>'+my_recipient_selector+'</td></tr>');
+                                    }
+                                    else {
+                                        $('#unknown_recipients table tr:last').after('<tr '+color+'><td>'+item[field]+'</td><td>'+icon+'</td><td>'+my_recipient_selector+'</td></tr>');
+                                    }
+                                }
+                            });
                             vueobj.update_progress(index + 1, max);
                             if ((index + 1) == max) {
                                 $("#save_mail_merge").html("Save");
