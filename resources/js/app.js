@@ -10,6 +10,7 @@ window.Vue = require('vue');
 
 require('vue-context');
 
+window.Fuse = require('fuse.js');
 
 CKEDITOR_BASEPATH = 'http://ddeapps.test/resources/js/ckeditor/';
 require('../../public/resources/js/ckeditor/ckeditor.js');

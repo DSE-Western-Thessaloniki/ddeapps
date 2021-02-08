@@ -26,6 +26,7 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.1",
         "ckeditor4-vue": "^1.2.0",
+        "fuse.js": "^6.4.6",
         "style-loader": "^2.0.0",
         "vue-context": "^6.0.0",
         "xlsx": "^0.16.9"
