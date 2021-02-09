@@ -47,7 +47,10 @@ Route::prefix('apps')
 
                     Route::prefix('recipient')->name('recipient.')->group(
                         function () {
-                            Route::get('list', 'RecipientController@list')->name('list');
+                            Route::get('list', 'RecipientController@list')
+                                ->name('list');
+                            Route::post('storeMany', 'RecipientController@storeMany')
+                                ->name('storeMany');
                         }
                     );
                     Route::resource('recipient', 'RecipientController');

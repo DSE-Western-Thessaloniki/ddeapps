@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Recipient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RecipientController extends Controller
 {
@@ -124,4 +125,49 @@ class RecipientController extends Controller
         $recipients = Recipient::all(['name','code']);
         return response()->json($recipients);
     }
+
+    /**
+     * Store a newly created list of resources in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeMany(Request $request)
+    {
+        $request->validate(
+            [
+                'many.*.name'=>'unique:recipients,name|required|string',
+                'many.*.code' => 'required|string',
+                'many.*.link' => 'required|string',
+            ]
+        );
+
+        if (!$request->has("many")) {
+            return response('Wrong post', 500);
+        }
+
+        $request->whenHas(
+            'many', function ($input) {
+                $recipients = collect();
+
+                foreach ($input as $item) {
+                    $recipients->push(
+                        Recipient::make(
+                            [
+                                'name' => $item['name'],
+                                'code' => $item['code'],
+                                'link' => $item['link'],
+                            ]
+                        )
+                    );
+                }
+
+                DB::table('recipients')->insert($recipients->toArray());
+            }
+        );
+
+        return response('', 200);
+    }
+
+
 }
