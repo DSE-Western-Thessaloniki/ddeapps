@@ -217,6 +217,7 @@ class MailMergeController extends Controller
         $exact_copy = DB::table('exact_copies')->find($mailmerge->exact_copy_id);
         $signature = DB::table('signatures')->find($mailmerge->signature_id);
         $doc_address = DB::table('doc_addresses')->find($mailmerge->address_id);
+        $recipients = DB::table('recipients')->select("name", "code")->get();
 
         $xlsxdata = json_decode($mailmerge->xlsxdata, true);
         $zip_name = '/tmp/'.$mailmerge->protocol_num.'-'.date('YmdHis').'.zip';
@@ -231,9 +232,15 @@ class MailMergeController extends Controller
                               'margin-right' => 0,
                               'margin-top' => 0,
                               'margin-bottom' => 0]);
-            $filename = $mailmerge->protocol_num." ".$record['ΑΜ'].".pdf";
-            $file = $pdf->output();
-            $zip->addFromString($filename, $file);
+            $field_array = json_decode($mailmerge->mergefields);
+            foreach ($field_array as $mergefield) {
+                $recipient_name = $record[$mergefield];
+                $key = array_search($recipient_name, array_column($recipients->toArray(), "name"));
+                $recipient_code = $recipients->toArray()[$key]->code;
+                $filename = $mailmerge->protocol_num." ".$record['ΑΜ']." ".$recipient_code.".pdf";
+                $file = $pdf->output();
+                $zip->addFromString($filename, $file);
+            }
         }
         $zip->close();
 
