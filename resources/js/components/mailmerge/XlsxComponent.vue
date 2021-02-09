@@ -75,7 +75,13 @@
                     var wsname = wb.SheetNames[0]
                     var ws = wb.Sheets[wsname]
 
-                    vueobj.xlsxdata = XLSX.utils.sheet_to_json(ws)
+                    var xlsxjson = XLSX.utils.sheet_to_json(ws);
+                    // Trim, trim and more trim
+                    xlsxjson = JSON.parse(JSON.stringify(xlsxjson).replace(/"\s+|\s+"/g,'"'));
+                    xlsxjson.forEach(function (row) {
+                        row = Object.keys(row).map(k => row[k] = typeof row[k] == 'string' ? row[k].trim().replace(/\s{2,}/g, ' ') : row[k]);
+                    });
+                    vueobj.xlsxdata = xlsxjson;
                     vueobj.xlsxdata_header = vueobj.getHeader;
                     vueobj.xlsxToTable(vueobj, ws);
                 }
