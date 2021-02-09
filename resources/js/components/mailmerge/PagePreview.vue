@@ -121,6 +121,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Άκυρο</button>
+                            <button type="button" class="btn btn-primary d-none" id="save_recipients" @click="saveRecipientsClicked">Αποθήκευση αντιστοίχισης</button>
                             <a :href="save_mail_merge_url" type="button" class="btn btn-primary disabled" id="save_mail_merge">
                                 <div class="spinner-border" role="status">
                                 <span class="sr-only">Working...</span>
@@ -359,14 +360,12 @@
                             var doc_fields = JSON.parse(vueobj.doc_recipient_fields);
                             doc_fields.forEach(function (field) {
                                 // Κοιτάει για την τιμή του πεδίου στο όνομα του παραλήπτη
-                                // Προσοχή! Πρέπει το πρώτο πεδίο του αντικειμένου να είναι το name
-                                if (!(item[field] in recipients)) {
+                                if (!(recipients.map((x) => x.name).includes(item[field]))) {
+                                    $("#save_recipients").removeClass("d-none");
 
                                     // Fuzzy search
                                     const pattern = item[field];
                                     var results = fuse.search(pattern);
-                                    console.log('Fuzzy search');
-                                    console.log(results);
                                     var my_recipient_selector;
                                     var color = "";
                                     var icon = "";
@@ -379,7 +378,7 @@
                                         if (results[0].score < 0.2) {
                                             color = 'class="bg-success"';
                                         }
-                                        else if (results[0].score < 0.4) {
+                                        else if (results[0].score < 0.5) {
                                             color = 'class="bg-warning"';
                                         }
                                         else {
@@ -389,18 +388,16 @@
                                         // Έλεγχος αριθμών
                                         var num1 = item[field].slice(0,5).match(/\d+/g);
                                         var num2 = results[0].item.name.slice(0,5).match(/\d+/g);
-                                        console.log(num1 + ' <> ' + num2);
+                                        //console.log(num1 + ' <> ' + num2);
                                         num1 = num1 == null ? 0 : num1;
                                         num2 = num2 == null ? 0 : num2;
+                                        var percentage = Math.round((1 - parseFloat(results[0].score)) * 10000) / 100;
                                         if (parseInt(num1) == parseInt(num2)) {
-                                            icon = '<i>'+
-                                                Math.round((1-parseFloat(results[0].score))*10000)/100+
-                                                '%</i>';
+                                            icon = '<i>' + percentage + '%</i>';
                                         }
                                         else {
-                                            icon = '<i class="fas fa-exclamation-triangle">'+
-                                                Math.round((1-parseFloat(results[0].score))*10000)/100+
-                                                '%</i>';
+                                            icon = '<i class="fas fa-exclamation-triangle">' +
+                                                percentage + '%</i>';
                                         }
                                     }
                                     else {
@@ -419,7 +416,8 @@
                             });
                             vueobj.update_progress(index + 1, max);
                             if ((index + 1) == max) {
-                                $("#save_mail_merge").html("Save");
+                                $("#save_mail_merge").html("Λήψη");
+                                vueobj.sort_table();
                             }
                         });
                     })
@@ -429,6 +427,14 @@
                         $('#error_msg').addClass('alert-danger');
                     });
 
+            },
+            sort_table: function() {
+                const children = $("#unknown_recipients table tbody").children().get();
+                children.sort(function(a, b) {
+                    return (parseFloat(b.children[1].innerText.slice(0, -1)) -
+                            parseFloat(a.children[1].innerText.slice(0, -1)));
+                });
+                $("#unknown_recipients table tbody").append(children);
             },
             update_progress: function(value, max) {
                 this.progress = Math.round(((parseInt(value) / parseInt(max) * 100) + Number.EPSILON) * 100) / 100;
@@ -451,6 +457,26 @@
                     };
 
                 nextInteration();
+            },
+            saveRecipientsClicked: function() {
+                $("#save_recipients").addClass("disabled");
+                var data = new Array();
+                $("#unknown_recipients table tr").each(function (index, row) {
+                    data.push({name: row.children[0].innerText,
+                               code: row.children[2].children[0].selectedOptions[0].value,
+                               link: row.children[2].children[0].selectedOptions[0].innerText});
+                });
+                console.log(data);
+                $.post({url: "/apps/mailmerge/recipient/storeMany",
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        data: {many: data}})
+                    .done(function (data) {
+                        $("#save_mail_merge").removeClass("disabled");
+                    })
+                    .fail(function (data) {
+                        alert("Failed saving data");
+                        $("#save_recipients").removeClass("disabled");
+                    });
             },
         },
         computed: {
