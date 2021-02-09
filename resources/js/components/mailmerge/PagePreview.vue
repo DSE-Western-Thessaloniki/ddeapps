@@ -314,6 +314,7 @@
 
                 var recipients = [];
                 var vueobj = this;
+                var unknown = 0;
 
                 $.get(this.recipient_list_url, function() {
                 })
@@ -362,6 +363,7 @@
                                 // Κοιτάει για την τιμή του πεδίου στο όνομα του παραλήπτη
                                 if (!(recipients.map((x) => x.name).includes(item[field]))) {
                                     $("#save_recipients").removeClass("d-none");
+                                    unknown++;
 
                                     // Fuzzy search
                                     const pattern = item[field];
@@ -417,6 +419,9 @@
                             vueobj.update_progress(index + 1, max);
                             if ((index + 1) == max) {
                                 $("#save_mail_merge").html("Λήψη");
+                                if (unknown == 0) {
+                                    $("#save_mail_merge").removeClass("disabled");
+                                }
                                 vueobj.sort_table();
                             }
                         });
