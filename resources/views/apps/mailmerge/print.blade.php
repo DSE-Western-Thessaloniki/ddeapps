@@ -93,10 +93,23 @@ $base64_logo = base64_encode(file_get_contents(url("/images/".$doc_logo->image))
 
         <table class="table table-borderless signature-table">
             <tr>
-                <td class="text-center">
-                    {!! $exact_copy_text_html !!}
+                <td class="text-center wd-50">
+                    @if (isset($draft) && $draft)
+                        <table class="table table-bordered">
+                            <tr>
+                                <td><div class="pb-5">Ο/Η ΣΥΝΤΑΞΑΣ/ΣΑ</div><div><hr class="dotted"></div></td>
+                                <td><div class="pb-5">Ο/Η ΠΡΟΪΣΤΑΜΕΝΟΣ/Η</div><div><hr class="dotted"></div></td>
+                            </tr>
+                            <tr>
+                                <td><hr class="dotted">ΗΜΕΡΟΜΗΝΙΑ</td>
+                                <td><hr class="dotted">ΗΜΕΡΟΜΗΝΙΑ</td>
+                            </tr>
+                        </table>
+                    @else
+                        {!! $exact_copy_text_html !!}
+                    @endif
                 </td>
-                <td class="text-center">
+                <td class="text-center wd-50">
                     {!! $signature_text_html !!}
                 </td>
             </tr>

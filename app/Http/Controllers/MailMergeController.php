@@ -175,15 +175,16 @@ class MailMergeController extends Controller
         return redirect(route('apps.mailmerge.index'))->with('status', 'Mail merge deleted!');
     }
 
-    public function print(int $id)
+    public function print(Request $request, int $id)
     {
         $mailmerge = MailMerge::find($id);
+        $draft = $request->get('draft');
         $doc_logo = DB::table('doc_logos')->find($mailmerge->logo_id);
         $exact_copy = DB::table('exact_copies')->find($mailmerge->exact_copy_id);
         $signature = DB::table('signatures')->find($mailmerge->signature_id);
         $doc_address = DB::table('doc_addresses')->find($mailmerge->address_id);
 
-        $data = array('id', 'doc_address', 'exact_copy', 'signature', 'doc_logo');
+        $data = array('id', 'doc_address', 'exact_copy', 'signature', 'doc_logo', 'draft');
         $pdf = PDF::loadView('apps.mailmerge.print', compact('mailmerge', $data))
             ->setOptions(['print-media-type' => true,
                           'enable-javascript' => true,
@@ -195,9 +196,10 @@ class MailMergeController extends Controller
         return $pdf->inline($filename);
     }
 
-    public function show2(int $id)
+    public function show2(Request $request, int $id)
     {
         $mailmerge = MailMerge::find($id);
+        $draft = $request->get('draft');
         $doc_logo = DB::table('doc_logos')->find($mailmerge->logo_id);
         $exact_copy = DB::table('exact_copies')->find($mailmerge->exact_copy_id);
         $signature = DB::table('signatures')->find($mailmerge->signature_id);
@@ -207,7 +209,8 @@ class MailMergeController extends Controller
                 ->with('doc_logo', $doc_logo)
                 ->with('exact_copy', $exact_copy)
                 ->with('signature', $signature)
-                ->with('doc_address', $doc_address);
+                ->with('doc_address', $doc_address)
+                ->with('draft', $draft);
     }
 
     public function save(int $id)
