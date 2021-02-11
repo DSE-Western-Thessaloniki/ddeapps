@@ -251,8 +251,10 @@
                 var recipient_list = "";
                 var vueobj = this;
                 this.recipient_fields.forEach(function(field) {
-                    recipient_list += i+". "+vueobj.records[vueobj.current_record][field]+"<br/>";
-                    i += 1;
+                    if (vueobj.records[vueobj.current_record][field] != undefined) {
+                        recipient_list += i+". "+vueobj.records[vueobj.current_record][field]+"<br/>";
+                        i += 1;
+                    }
                 });
                 $('#recipient-list').html(recipient_list);
             },

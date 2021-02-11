@@ -27,7 +27,9 @@ $base64_logo = base64_encode(file_get_contents(url("/images/".$doc_logo->image))
         // Προετοιμασία της λίστας των παραληπτών
         $recipients = array();
         foreach ($recipient_fields as $field) {
-            array_push($recipients, $record[$field]);
+            if (isset($record[$field])) {
+                array_push($recipients, $record[$field]);
+            }
         }
         $recipients = array_unique($recipients);
         $recipients_text = "";
