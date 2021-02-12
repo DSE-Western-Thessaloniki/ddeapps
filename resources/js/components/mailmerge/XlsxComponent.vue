@@ -75,7 +75,7 @@
                     var wsname = wb.SheetNames[0]
                     var ws = wb.Sheets[wsname]
 
-                    var xlsxjson = XLSX.utils.sheet_to_json(ws);
+                    var xlsxjson = XLSX.utils.sheet_to_json(ws, {defval:""});
                     // Trim, trim and more trim
                     xlsxjson = JSON.parse(JSON.stringify(xlsxjson).replace(/"\s+|\s+"/g,'"'));
                     xlsxjson.forEach(function (row) {
@@ -83,6 +83,7 @@
                     });
                     vueobj.xlsxdata = xlsxjson;
                     vueobj.xlsxdata_header = vueobj.getHeader;
+                    vueobj.selected_cols = [];
                     vueobj.xlsxToTable(vueobj, ws);
                 }
 
