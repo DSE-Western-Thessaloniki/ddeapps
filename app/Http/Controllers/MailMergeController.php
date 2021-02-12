@@ -229,20 +229,24 @@ class MailMergeController extends Controller
         foreach($xlsxdata as $record) {
             $data = array('id', 'doc_address', 'exact_copy', 'signature', 'doc_logo', 'record');
             $pdf = PDF::loadView('apps.mailmerge.save', compact('mailmerge', $data))
-                ->setOptions(['print-media-type' => true,
+                ->setOptions(
+                    ['print-media-type' => true,
                               'enable-javascript' => true,
                               'margin-left' => 0,
                               'margin-right' => 0,
                               'margin-top' => 0,
-                              'margin-bottom' => 0]);
+                              'margin-bottom' => 0]
+                );
             $field_array = json_decode($mailmerge->mergefields);
             foreach ($field_array as $mergefield) {
                 $recipient_name = $record[$mergefield];
-                $key = array_search($recipient_name, array_column($recipients->toArray(), "name"));
-                $recipient_code = $recipients->toArray()[$key]->code;
-                $filename = $mailmerge->protocol_num." ".$record['ΑΜ']." ".$recipient_code.".pdf";
-                $file = $pdf->output();
-                $zip->addFromString($filename, $file);
+                if ($recipient_name != "") {
+                    $key = array_search($recipient_name, array_column($recipients->toArray(), "name"));
+                    $recipient_code = $recipients->toArray()[$key]->code;
+                    $filename = $mailmerge->protocol_num." ".$record['ΑΜ']." ".$recipient_code.".pdf";
+                    $file = $pdf->output();
+                    $zip->addFromString($filename, $file);
+                }
             }
         }
         $zip->close();
