@@ -22,6 +22,7 @@
                     <a href="#" role="button" class="btn btn-dark btn-label" aria-disabled="true">/</a>
                     <a href="#" role="button" class="btn btn-dark btn-label" aria-disabled="true" id="last-record">0</a>
                     <button class="btn btn-dark" aria-disabled="true" @click="rightArrowClicked"><i class="fa fa-arrow-right"></i></button>
+                    <a :href="edit_mailmerge_url" class="btn btn-dark" aria-disabled="true" data-toggle="tooltip" data-placement="bottom" title="Επεξεργασία εγγράφου"><i class="fas fa-pencil-alt"></i></a>
                     <a :href="print_url_draft" target="_blank" class="btn btn-dark" aria-disabled="true" data-toggle="tooltip" data-placement="bottom" title="Εκτύπωση συγχωνευμένων εγγράφων (τρίπτυχο)"><i class="fab fa-firstdraft"></i></a>
                     <a :href="print_url" target="_blank" class="btn btn-dark" aria-disabled="true" data-toggle="tooltip" data-placement="bottom" title="Εκτύπωση συγχωνευμένων εγγράφων"><i class="fas fa-print"></i></a>
                     <button class="btn btn-dark" aria-disabled="true" @click="saveMailMergeClicked" data-toggle="tooltip" data-placement="bottom" title="Αποθήκευση συγχωνευμένων εγγράφων"><i class="fa fa-mail-bulk"></i></button>
@@ -156,6 +157,7 @@
             print_url: String,
             save_mail_merge_url: String,
             recipient_list_url: String,
+            edit_mailmerge_url: String,
         },
         mounted() {
             this.setZoom();
@@ -249,11 +251,15 @@
 
                 var i = 2;
                 var recipient_list = "";
+                var recipient_list_array = [];
                 var vueobj = this;
                 this.recipient_fields.forEach(function(field) {
-                    if (vueobj.records[vueobj.current_record][field] != undefined) {
-                        recipient_list += i+". "+vueobj.records[vueobj.current_record][field]+"<br/>";
-                        i += 1;
+                    if (vueobj.records[vueobj.current_record][field] != undefined &&
+                        vueobj.records[vueobj.current_record][field] != "" &&
+                        (!recipient_list_array.includes(vueobj.records[vueobj.current_record][field]))) {
+                            recipient_list += i+". "+vueobj.records[vueobj.current_record][field]+"<br/>";
+                            recipient_list_array.push(vueobj.records[vueobj.current_record][field]);
+                            i += 1;
                     }
                 });
                 $('#recipient-list').html(recipient_list);
