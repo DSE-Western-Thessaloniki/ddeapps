@@ -11,7 +11,7 @@
                         <option v-for="zoom in zoomLevel"
                             :value="zoom"
                             :key="zoom"
-                            :selected="zoom == 50">
+                            :selected="zoom == 70">
                             {{zoom}}
                         </option>
                     </select>
@@ -370,7 +370,8 @@
                             var doc_fields = JSON.parse(vueobj.doc_recipient_fields);
                             doc_fields.forEach(function (field) {
                                 // Κοιτάει για την τιμή του πεδίου στο όνομα του παραλήπτη
-                                if (!(recipients.map((x) => x.name).includes(item[field]))) {
+                                if ((item[field] != "") &&
+                                    !(recipients.map((x) => x.name).includes(item[field]))) {
                                     $("#save_recipients").removeClass("d-none");
                                     unknown++;
 
