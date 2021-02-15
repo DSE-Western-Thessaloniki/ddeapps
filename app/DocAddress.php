@@ -14,5 +14,4 @@ class DocAddress extends Model
     protected $fillable = [
         'title', 'address', 'name', 'telephone', 'email',
     ];
-
 }
