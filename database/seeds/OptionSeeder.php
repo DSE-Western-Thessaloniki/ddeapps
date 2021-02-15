@@ -18,7 +18,7 @@ class OptionSeeder extends Seeder
         ];
 
         foreach($options as $option) {
-            Option::updateOrCreate($option);
+            Option::create($option);
         }
     }
 }
