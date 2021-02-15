@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
@@ -15,9 +15,11 @@
                     @endif
                     @if (Route::has('register'))
                     <ul>
+                        @if(Auth::user()->isAdministrator())
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('register') }}">{{ __('Register user') }}</a>
                         </li>
+                        @endif
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('apps.mailmerge.index') }}">{{ __('Mail merge') }}</a>
                         </li>

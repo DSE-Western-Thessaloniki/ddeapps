@@ -54,27 +54,6 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="userlevel" class="col-md-4 col-form-label text-md-right">{{ __('User level') }}</label>
-
-                            <div class="col-md-6">
-                                <select id="userlevel" class="form-control @error('userlevel') is-invalid @enderror" name="userlevel" required>
-                                @foreach($levels as $level)
-                                    @if($level->name == 'user')
-                                        <option value="{{ $level->level }}" selected>{{ $level->name }}</option>
-                                    @else
-                                        <option value="{{ $level->level }}">{{ $level->name }}</option>
-                                    @endif
-                                @endforeach
-                                </select>
-                                @error('userlevel')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">

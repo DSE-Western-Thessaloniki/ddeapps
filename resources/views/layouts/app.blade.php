@@ -46,7 +46,7 @@
                               <a class="dropdown-item" href="{{ route('apps.mailmerge.recipient.index') }}">@icon('address-book') {{ __('Recipients') }}</a>
                               <a class="dropdown-item" href="{{ route('apps.mailmerge.index') }}">@icon('file-medical-alt') {{ __('Mail Merge') }}</a>
                             </div>
-                          </div>
+                        </div>
                         @endauth
                     </ul>
 
@@ -64,6 +64,9 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    @if(Auth::user()->isAdministrator())
+                                    <a class="dropdown-item" href="#">{{ __('User Management') }}</a>
+                                    @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

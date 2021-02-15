@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
-use App\Level;
+use App\Role;
 use App\Option;
-use Auth;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Auth;
 
 class SetupController extends Controller
 {
@@ -53,7 +54,6 @@ class SetupController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'username' => ['required', 'string', 'min:6', 'max:255', 'unique:users'],
-            'userlevel' => ['required'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -74,9 +74,11 @@ class SetupController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'username' => $data['username'],
-            'userlevel' => 100,
             'password' => Hash::make($data['password']),
         ])));
+
+        $adminRole = Role::all()->where('name', 'Administrator');
+        $user->roles()->attach($adminRole);
 
         $first_run = Option::where('name', 'first_run')->first();
         $first_run->value = 0;
@@ -84,8 +86,7 @@ class SetupController extends Controller
 
         if ($request->wantsJson()) {
             return new Response('', 201);
-        }
-        else {
+        } else {
             Auth::login($user);
             return redirect(RouteServiceProvider::HOME);
         }
