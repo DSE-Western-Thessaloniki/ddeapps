@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models\MailMerge;
 
 use Illuminate\Database\Eloquent\Model;
 
-class DocAddress extends Model
+class DocLogo extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,6 +12,6 @@ class DocAddress extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'address', 'name', 'telephone', 'email',
+        'title', 'image', 'text', 'active',
     ];
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models\MailMerge;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,5 +25,4 @@ class MailMerge extends Model
         'xlsxdata_header',
         'mergefields',
     ];
-
 }

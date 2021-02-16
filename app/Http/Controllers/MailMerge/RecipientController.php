@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\MailMerge;
 
-use App\Recipient;
+use App\Models\MailMerge\Recipient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class RecipientController extends Controller
 {
@@ -121,7 +122,8 @@ class RecipientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function list() {
+    public function list()
+    {
         $recipients = Recipient::all(['name','code']);
         return response()->json($recipients);
     }
@@ -147,7 +149,8 @@ class RecipientController extends Controller
         }
 
         $request->whenHas(
-            'many', function ($input) {
+            'many',
+            function ($input) {
                 $recipients = collect();
 
                 foreach ($input as $item) {
@@ -168,6 +171,4 @@ class RecipientController extends Controller
 
         return response('', 200);
     }
-
-
 }

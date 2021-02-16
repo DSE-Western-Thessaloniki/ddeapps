@@ -34,28 +34,28 @@ Route::prefix('apps')
         function () {
             Route::prefix('mailmerge')->name('mailmerge.')->group(
                 function () {
-                    Route::resource('doclogo', 'DocLogoController');
-                    Route::resource('docaddress', 'DocAddressController');
-                    Route::resource('exactcopy', 'ExactCopyController');
-                    Route::resource('signature', 'SignatureController');
-                    Route::get('/print/{id}', 'MailMergeController@print')
+                    Route::resource('doclogo', 'MailMerge\DocLogoController');
+                    Route::resource('docaddress', 'MailMerge\DocAddressController');
+                    Route::resource('exactcopy', 'MailMerge\ExactCopyController');
+                    Route::resource('signature', 'MailMerge\SignatureController');
+                    Route::get('/print/{id}', 'MailMerge\MailMergeController@print')
                         ->name('print');
-                    Route::get('/show2/{id}', 'MailMergeController@show2')
+                    Route::get('/show2/{id}', 'MailMerge\MailMergeController@show2')
                         ->name('show2');
-                    Route::get('/save/{id}', 'MailMergeController@save')
+                    Route::get('/save/{id}', 'MailMerge\MailMergeController@save')
                         ->name('save');
 
                     Route::prefix('recipient')->name('recipient.')->group(
                         function () {
-                            Route::get('list', 'RecipientController@list')
+                            Route::get('list', 'MailMerge\RecipientController@list')
                                 ->name('list');
-                            Route::post('storeMany', 'RecipientController@storeMany')
+                            Route::post('storeMany', 'MailMerge\RecipientController@storeMany')
                                 ->name('storeMany');
                         }
                     );
-                    Route::resource('recipient', 'RecipientController');
+                    Route::resource('recipient', 'MailMerge\RecipientController');
                 }
             );
-            Route::resource('mailmerge', 'MailMergeController');
+            Route::resource('mailmerge', 'MailMerge\MailMergeController');
         }
     );

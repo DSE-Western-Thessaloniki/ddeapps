@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models\MailMerge;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,5 +14,4 @@ class Signature extends Model
     protected $fillable = [
         'title', 'text', 'active',
     ];
-
 }

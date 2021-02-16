@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\MailMerge;
 
 use Illuminate\Http\Request;
-use App\DocAddress;
+use App\Models\MailMerge\DocLogo;
+use App\Http\Controllers\Controller;
 
-class DocAddressController extends Controller
+class DocLogoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +15,9 @@ class DocAddressController extends Controller
      */
     public function index()
     {
-        $docaddresses = DocAddress::all();
-        return view('apps.mailmerge.docaddress.index')->with('docaddresses', $docaddresses);
+        $doclogos = DocLogo::all();
+
+        return view('apps.mailmerge.doclogo.index')->with('doclogos', $doclogos);
     }
 
     /**
@@ -25,7 +27,7 @@ class DocAddressController extends Controller
      */
     public function create()
     {
-        return view('apps.mailmerge.docaddress.create');
+        return view('apps.mailmerge.doclogo.create');
     }
 
     /**
@@ -40,15 +42,14 @@ class DocAddressController extends Controller
             'title'=>'required',
         ]);
 
-        $docaddress = new DocAddress([
+        $doclogo = new DocLogo([
             'title' => $request->get('title'),
-            'address' => $request->get('address'),
-            'name' => $request->get('name'),
-            'telephone' => $request->get('telephone'),
-            'email' => $request->get('email'),
+            'image' => $request->get('image'),
+            'text' => $request->get('doclogotext'),
+            'active' => $request->get('active') == 1 ? 1 : 0,
         ]);
-        $docaddress->save();
-        return redirect(route('apps.mailmerge.docaddress.index'))->with('status', 'Address saved!');
+        $doclogo->save();
+        return redirect(route('apps.mailmerge.doclogo.index'))->with('status', 'Logo saved!');
     }
 
     /**
@@ -59,8 +60,8 @@ class DocAddressController extends Controller
      */
     public function show($id)
     {
-        $docaddress = DocAddress::find($id);
-        return view('apps.mailmerge.docaddress.show', compact('docaddress'));
+        $doclogo = DocLogo::find($id);
+        return view('apps.mailmerge.doclogo.show', compact('doclogo'));
     }
 
     /**
@@ -71,8 +72,8 @@ class DocAddressController extends Controller
      */
     public function edit($id)
     {
-        $docaddress = DocAddress::find($id);
-        return view('apps.mailmerge.docaddress.edit', compact('docaddress'));
+        $doclogo = DocLogo::find($id);
+        return view('apps.mailmerge.doclogo.edit', compact('doclogo'));
     }
 
     /**
@@ -88,15 +89,14 @@ class DocAddressController extends Controller
             'title'=>'required',
         ]);
 
-        $docaddress = DocAddress::find($id);
-        $docaddress->title = $request->get('title');
-        $docaddress->address = $request->get('address');
-        $docaddress->name = $request->get('name');
-        $docaddress->telephone = $request->get('telephone');
-        $docaddress->email = $request->get('email');
-        $docaddress->save();
+        $doclogo = DocLogo::find($id);
+        $doclogo->title = $request->get('title');
+        $doclogo->image = $request->get('image');
+        $doclogo->text = $request->get('doclogotext');
+        $doclogo->active = $request->get('active') == 1 ? 1 : 0;
+        $doclogo->save();
 
-        return redirect(route('apps.mailmerge.docaddress.index'))->with('status', 'Address updated!');
+        return redirect(route('apps.mailmerge.doclogo.index'))->with('status', 'Logo updated!');
     }
 
     /**
@@ -107,9 +107,9 @@ class DocAddressController extends Controller
      */
     public function destroy($id)
     {
-        $docaddress = DocAddress::find($id);
-        $docaddress->delete();
+        $doclogo = DocLogo::find($id);
+        $doclogo->delete();
 
-        return redirect(route('apps.mailmerge.docaddress.index'))->with('status', 'Address deleted!');
+        return redirect(route('apps.mailmerge.doclogo.index'))->with('status', 'Logo deleted!');
     }
 }

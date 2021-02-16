@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\MailMerge;
 
-use App\ExactCopy;
+use App\Models\MailMerge\Signature;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class ExactCopyController extends Controller
+class SignatureController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +15,8 @@ class ExactCopyController extends Controller
      */
     public function index()
     {
-        $exactcopies = ExactCopy::all();
-        return view('apps.mailmerge.exactcopy.index')->with('exactcopies', $exactcopies);
+        $signatures = Signature::all();
+        return view('apps.mailmerge.signature.index')->with('signatures', $signatures);
     }
 
     /**
@@ -25,7 +26,7 @@ class ExactCopyController extends Controller
      */
     public function create()
     {
-        return view('apps.mailmerge.exactcopy.create');
+        return view('apps.mailmerge.signature.create');
     }
 
     /**
@@ -40,13 +41,13 @@ class ExactCopyController extends Controller
             'title'=>'required',
         ]);
 
-        $exactcopy = new ExactCopy([
+        $signature = new Signature([
             'title' => $request->get('title'),
             'text' => $request->get('text'),
             'active' => $request->get('active') == 1 ? 1 : 0,
         ]);
-        $exactcopy->save();
-        return redirect(route('apps.mailmerge.exactcopy.index'))->with('status', 'Exact copy saved!');
+        $signature->save();
+        return redirect(route('apps.mailmerge.signature.index'))->with('status', 'Signature saved!');
     }
 
     /**
@@ -57,8 +58,8 @@ class ExactCopyController extends Controller
      */
     public function show(int $id)
     {
-        $exactcopy = ExactCopy::find($id);
-        return view('apps.mailmerge.exactcopy.show', compact('exactcopy'));
+        $signature = Signature::find($id);
+        return view('apps.mailmerge.signature.show', compact('signature'));
     }
 
     /**
@@ -69,8 +70,8 @@ class ExactCopyController extends Controller
      */
     public function edit(int $id)
     {
-        $exactcopy = ExactCopy::find($id);
-        return view('apps.mailmerge.exactcopy.edit', compact('exactcopy'));
+        $signature = Signature::find($id);
+        return view('apps.mailmerge.signature.edit', compact('signature'));
     }
 
     /**
@@ -86,13 +87,13 @@ class ExactCopyController extends Controller
             'title'=>'required',
         ]);
 
-        $exactcopy = ExactCopy::find($id);
-        $exactcopy->title = $request->get('title');
-        $exactcopy->text = $request->get('text');
-        $exactcopy->active = $request->get('active') == 1 ? 1 : 0;
-        $exactcopy->save();
+        $signature = Signature::find($id);
+        $signature->title = $request->get('title');
+        $signature->text = $request->get('text');
+        $signature->active = $request->get('active') == 1 ? 1 : 0;
+        $signature->save();
 
-        return redirect(route('apps.mailmerge.exactcopy.index'))->with('status', 'Exact copy updated!');
+        return redirect(route('apps.mailmerge.signature.index'))->with('status', 'Signature updated!');
     }
 
     /**
@@ -103,9 +104,9 @@ class ExactCopyController extends Controller
      */
     public function destroy(int $id)
     {
-        $exactcopy = ExactCopy::find($id);
-        $exactcopy->delete();
+        $signature = Signature::find($id);
+        $signature->delete();
 
-        return redirect(route('apps.mailmerge.exactcopy.index'))->with('status', 'Exact copy deleted!');
+        return redirect(route('apps.mailmerge.signature.index'))->with('status', 'Signature deleted!');
     }
 }

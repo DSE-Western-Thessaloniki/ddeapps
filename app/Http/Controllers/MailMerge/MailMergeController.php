@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\MailMerge;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\MailMerge;
+use App\Models\MailMerge\MailMerge;
 use Illuminate\Support\Facades\Auth;
 use PDF;
 use ZipArchive;
+use App\Http\Controllers\Controller;
 
 class MailMergeController extends Controller
 {
@@ -226,7 +227,7 @@ class MailMergeController extends Controller
         $zip_name = '/tmp/'.$mailmerge->protocol_num.'-'.date('YmdHis').'.zip';
         $zip = new ZipArchive;
         $zip->open($zip_name, ZipArchive::CREATE);
-        foreach($xlsxdata as $record) {
+        foreach ($xlsxdata as $record) {
             $data = array('id', 'doc_address', 'exact_copy', 'signature', 'doc_logo', 'record');
             $pdf = PDF::loadView('apps.mailmerge.save', compact('mailmerge', $data))
                 ->setOptions(
@@ -253,5 +254,4 @@ class MailMergeController extends Controller
 
         return response()->download($zip_name);
     }
-
 }
