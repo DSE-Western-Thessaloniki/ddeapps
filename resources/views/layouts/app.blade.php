@@ -65,7 +65,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     @if(Auth::user()->isAdministrator())
-                                    <a class="dropdown-item" href="#">{{ __('User Management') }}</a>
+                                    <a class="dropdown-item" href="{{ route('admin.index') }}">{{ __('Administration') }}</a>
                                     @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();

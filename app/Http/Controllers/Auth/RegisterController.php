@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
-use App\Level;
+use App\Option;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -57,7 +57,6 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'username' => ['required', 'string', 'min:6', 'max:255', 'unique:users'],
-            'userlevel' => ['required'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -74,7 +73,6 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'username' => $data['username'],
-            'userlevel' => $data['userlevel'],
             'password' => Hash::make($data['password']),
         ]);
     }
@@ -86,8 +84,12 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm()
     {
-        $levels = Level::all();
-        return view('auth.register')->with('levels', $levels);
+        $first_run = Option::where('name', 'first_run')->first();
+        if ($first_run && $first_run->value == 1) {
+            return view('auth.register');
+        } else {
+            return view('home');
+        }
     }
 
     /**
@@ -112,5 +114,4 @@ class RegisterController extends Controller
                     ? new Response('', 201)
                     : redirect($this->redirectPath());
     }
-
 }

@@ -59,3 +59,12 @@ Route::prefix('apps')
             Route::resource('mailmerge', 'MailMerge\MailMergeController');
         }
     );
+    Route::prefix('admin')
+        ->name('admin.')
+        ->middleware('auth')
+        ->group(
+            function () {
+                Route::resource('user', 'UserController');
+                Route::view('/', 'admin.index')->name('index');
+            }
+        );
