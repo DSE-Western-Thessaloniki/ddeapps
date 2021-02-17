@@ -45,7 +45,7 @@
         props: {
             title: String,
             logofile: {
-                default: "logo.jpg",
+                default: "logo.png",
                 type: String,
             },
             text: String,
