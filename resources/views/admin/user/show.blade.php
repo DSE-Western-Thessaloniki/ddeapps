@@ -58,6 +58,16 @@
                         </tr>
 
                         <tr>
+                            <td>{{ __('Roles') }}</td>
+                            <td>
+                                <ul class="role-list">
+                                    @foreach ($user->roles as $role)
+                                    <li>{{ $role->name }}</li>
+                                    @endforeach
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
                             <td class="col-2">
                                 <a class="btn btn-danger" href="{{ route('admin.user.index') }}">{{ __('Back') }}</a>
                             </td>

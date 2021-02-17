@@ -13,19 +13,37 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    @if (Route::has('register'))
-                    <ul>
-                        @if(Auth::user()->isAdministrator())
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register user') }}</a>
-                        </li>
-                        @endif
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('apps.mailmerge.index') }}">{{ __('Mail merge') }}</a>
-                        </li>
-                    </ul>
+                    @if(Auth::user()->isAdministrator())
+                    <a class="btn btn-light home-button" href="{{ route('admin.user.index') }}">
+                        <div class="card">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h1 class="display-3">@icon('fas fa-users')</h1>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Users</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
                     @endif
-                    {{ __('You are logged in!') }}
+
+                    <a class="btn btn-light home-button" href="{{ route('apps.mailmerge.index') }}">
+                        <div class="card">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h1 class="display-3">@icon('fas fa-file-medical-alt')</h1>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ __('Mail Merge') }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
