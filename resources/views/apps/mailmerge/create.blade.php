@@ -23,7 +23,7 @@
                     </div><br />
                     @endif
 
-                    {!! Form::open(['action' => 'MailMergeController@store',
+                    {!! Form::open(['action' => 'MailMerge\MailMergeController@store',
                                     'method' => 'POST']) !!}
 
                         <mailmerge-component

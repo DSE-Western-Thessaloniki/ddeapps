@@ -23,7 +23,7 @@
                     </div><br />
                     @endif
 
-                    {!! Form::open(['action' => 'DocLogoController@store',
+                    {!! Form::open(['action' => 'MailMerge\DocLogoController@store',
                     'method' => 'POST']) !!}
 
                     <doclogoform></doclogoform>

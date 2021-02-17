@@ -23,7 +23,7 @@
                     </div><br />
                     @endif
 
-                    {!! Form::open(['action' => ['SignatureController@update', $signature->id],
+                    {!! Form::open(['action' => ['MailMerge\SignatureController@update', $signature->id],
                     'method' => 'POST']) !!}
 
                     <div class="form-group">

@@ -23,7 +23,7 @@
                     </div><br />
                     @endif
 
-                    {!! Form::open(['action' => 'RecipientController@store',
+                    {!! Form::open(['action' => 'MailMerge\RecipientController@store',
                     'method' => 'POST']) !!}
 
                     <div class="form-group">
