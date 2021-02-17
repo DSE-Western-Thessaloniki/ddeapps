@@ -12,6 +12,6 @@ class ExactCopy extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'text', 'active',
+        'title', 'text', 'active', 'updated_by',
     ];
 }

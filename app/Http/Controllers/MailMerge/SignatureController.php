@@ -5,6 +5,7 @@ namespace App\Http\Controllers\MailMerge;
 use App\Models\MailMerge\Signature;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class SignatureController extends Controller
 {
@@ -45,6 +46,7 @@ class SignatureController extends Controller
             'title' => $request->get('title'),
             'text' => $request->get('text'),
             'active' => $request->get('active') == 1 ? 1 : 0,
+            'updated_by' => Auth::user()->id,
         ]);
         $signature->save();
         return redirect(route('apps.mailmerge.signature.index'))->with('status', 'Signature saved!');
@@ -91,6 +93,7 @@ class SignatureController extends Controller
         $signature->title = $request->get('title');
         $signature->text = $request->get('text');
         $signature->active = $request->get('active') == 1 ? 1 : 0;
+        $signature->updated_by = Auth::user()->id;
         $signature->save();
 
         return redirect(route('apps.mailmerge.signature.index'))->with('status', 'Signature updated!');

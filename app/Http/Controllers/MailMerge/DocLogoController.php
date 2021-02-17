@@ -5,6 +5,7 @@ namespace App\Http\Controllers\MailMerge;
 use Illuminate\Http\Request;
 use App\Models\MailMerge\DocLogo;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class DocLogoController extends Controller
 {
@@ -47,6 +48,7 @@ class DocLogoController extends Controller
             'image' => $request->get('image'),
             'text' => $request->get('doclogotext'),
             'active' => $request->get('active') == 1 ? 1 : 0,
+            'updated_by' => Auth::user()->id,
         ]);
         $doclogo->save();
         return redirect(route('apps.mailmerge.doclogo.index'))->with('status', 'Logo saved!');
@@ -94,6 +96,7 @@ class DocLogoController extends Controller
         $doclogo->image = $request->get('image');
         $doclogo->text = $request->get('doclogotext');
         $doclogo->active = $request->get('active') == 1 ? 1 : 0;
+        $doclogo->updated_by = Auth::user()->id;
         $doclogo->save();
 
         return redirect(route('apps.mailmerge.doclogo.index'))->with('status', 'Logo updated!');

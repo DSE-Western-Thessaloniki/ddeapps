@@ -12,6 +12,6 @@ class DocLogo extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'image', 'text', 'active',
+        'title', 'image', 'text', 'active', 'updated_by',
     ];
 }

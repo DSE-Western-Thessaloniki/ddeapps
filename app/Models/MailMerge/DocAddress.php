@@ -12,6 +12,6 @@ class DocAddress extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'address', 'name', 'telephone', 'email',
+        'title', 'address', 'name', 'telephone', 'email', 'updated_by',
     ];
 }

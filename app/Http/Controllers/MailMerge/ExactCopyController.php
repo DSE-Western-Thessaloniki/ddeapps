@@ -5,6 +5,7 @@ namespace App\Http\Controllers\MailMerge;
 use App\Models\MailMerge\ExactCopy;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ExactCopyController extends Controller
 {
@@ -45,6 +46,7 @@ class ExactCopyController extends Controller
             'title' => $request->get('title'),
             'text' => $request->get('text'),
             'active' => $request->get('active') == 1 ? 1 : 0,
+            'updated_by' => Auth::user()->id,
         ]);
         $exactcopy->save();
         return redirect(route('apps.mailmerge.exactcopy.index'))->with('status', 'Exact copy saved!');
@@ -91,6 +93,7 @@ class ExactCopyController extends Controller
         $exactcopy->title = $request->get('title');
         $exactcopy->text = $request->get('text');
         $exactcopy->active = $request->get('active') == 1 ? 1 : 0;
+        $exactcopy->updated_by = Auth::user()->id;
         $exactcopy->save();
 
         return redirect(route('apps.mailmerge.exactcopy.index'))->with('status', 'Exact copy updated!');

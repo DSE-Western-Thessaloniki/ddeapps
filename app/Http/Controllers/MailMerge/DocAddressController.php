@@ -5,6 +5,7 @@ namespace App\Http\Controllers\MailMerge;
 use Illuminate\Http\Request;
 use App\Models\MailMerge\DocAddress;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class DocAddressController extends Controller
 {
@@ -47,7 +48,9 @@ class DocAddressController extends Controller
             'name' => $request->get('name'),
             'telephone' => $request->get('telephone'),
             'email' => $request->get('email'),
+            'updated_by' => Auth::user()->id,
         ]);
+
         $docaddress->save();
         return redirect(route('apps.mailmerge.docaddress.index'))->with('status', 'Address saved!');
     }
@@ -95,6 +98,7 @@ class DocAddressController extends Controller
         $docaddress->name = $request->get('name');
         $docaddress->telephone = $request->get('telephone');
         $docaddress->email = $request->get('email');
+        $docaddress->updated_by = Auth::user()->id;
         $docaddress->save();
 
         return redirect(route('apps.mailmerge.docaddress.index'))->with('status', 'Address updated!');

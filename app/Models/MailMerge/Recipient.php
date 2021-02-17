@@ -13,6 +13,6 @@ class Recipient extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'code', 'link',
+        'name', 'code', 'link', 'updated_by',
     ];
 }

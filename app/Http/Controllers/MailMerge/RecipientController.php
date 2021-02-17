@@ -6,6 +6,7 @@ use App\Models\MailMerge\Recipient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class RecipientController extends Controller
 {
@@ -38,19 +39,16 @@ class RecipientController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate(
-            [
-                'name'=>'required',
-                'code' => 'required',
-            ]
-        );
+        $request->validate([
+            'name'=>'required',
+            'code' => 'required',
+        ]);
 
-        $recipient = new Recipient(
-            [
-                'name' => $request->get('name'),
-                'code' => $request->get('code'),
-            ]
-        );
+        $recipient = new Recipient([
+            'name' => $request->get('name'),
+            'code' => $request->get('code'),
+            'updated_by' => Auth::user()->id,
+        ]);
         $recipient->save();
         return redirect(route('apps.mailmerge.recipient.index'))->with('status', 'Recipient saved!');
     }
@@ -98,6 +96,7 @@ class RecipientController extends Controller
         $recipient = Recipient::find($id);
         $recipient->name = $request->get('name');
         $recipient->code = $request->get('code');
+        $recipient->updated_by = Auth::user()->id;
         $recipient->save();
 
         return redirect(route('apps.mailmerge.recipient.index'))->with('status', 'Recipient updated!');

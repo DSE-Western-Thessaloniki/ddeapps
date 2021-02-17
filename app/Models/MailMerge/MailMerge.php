@@ -24,5 +24,6 @@ class MailMerge extends Model
         'xlsxdata',
         'xlsxdata_header',
         'mergefields',
+        'updated_by',
     ];
 }
