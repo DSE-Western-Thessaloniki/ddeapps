@@ -1,20 +1,18 @@
 <?php
 
-namespace App\Policies;
+namespace App\Models\MailMerge\Policies;
 
-use App\MailMerge;
+use App\Models\MailMerge\Recipient;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class MailMergePolicy
+class RecipientPolicy
 {
     use HandlesAuthorization;
 
     public function before(User $user, $ability)
     {
-        if ($user->isAdministrator()) {
-            return true;
-        }
+        return $user->isAdministrator();
     }
 
     /**
@@ -25,19 +23,19 @@ class MailMergePolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return $user->roles()->where('name', 'RecipientViewAny')->exists();
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
-     * @param  \App\MailMerge  $mailMerge
+     * @param  \App\Recipient  $recipient
      * @return mixed
      */
-    public function view(User $user, MailMerge $mailMerge)
+    public function view(User $user, Recipient $recipient)
     {
-        //
+        return $user->roles()->where('name', 'RecipientView')->exists();
     }
 
     /**
@@ -48,54 +46,54 @@ class MailMergePolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->roles()->where('name', 'RecipientCreate')->exists();
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\User  $user
-     * @param  \App\MailMerge  $mailMerge
+     * @param  \App\Recipient  $recipient
      * @return mixed
      */
-    public function update(User $user, MailMerge $mailMerge)
+    public function update(User $user, Recipient $recipient)
     {
-        //
+        return $user->roles()->where('name', 'RecipientUpdate')->exists();
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\MailMerge  $mailMerge
+     * @param  \App\Recipient  $recipient
      * @return mixed
      */
-    public function delete(User $user, MailMerge $mailMerge)
+    public function delete(User $user, Recipient $recipient)
     {
-        //
+        return $user->roles()->where('name', 'RecipientDelete')->exists();
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\User  $user
-     * @param  \App\MailMerge  $mailMerge
+     * @param  \App\Recipient  $recipient
      * @return mixed
      */
-    public function restore(User $user, MailMerge $mailMerge)
+    public function restore(User $user, Recipient $recipient)
     {
-        //
+        return $user->roles()->where('name', 'RecipientRestore')->exists();
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\MailMerge  $mailMerge
+     * @param  \App\Recipient  $recipient
      * @return mixed
      */
-    public function forceDelete(User $user, MailMerge $mailMerge)
+    public function forceDelete(User $user, Recipient $recipient)
     {
-        //
+        return $user->roles()->where('name', 'RecipientForceDelete')->exists();
     }
 }

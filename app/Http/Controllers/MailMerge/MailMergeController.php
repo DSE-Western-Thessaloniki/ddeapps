@@ -13,13 +13,13 @@ use App\Http\Controllers\Controller;
 class MailMergeController extends Controller
 {
     /**
-     * Create a new controller instance.
+     * Create the controller instance.
      *
      * @return void
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->authorizeResource(MailMerge::class, 'mailmerge');
     }
 
     /**
@@ -90,12 +90,11 @@ class MailMergeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  \App\Models\MailMerge\MailMerge $mailmerge
      * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show(MailMerge $mailmerge)
     {
-        $mailmerge = MailMerge::find($id);
         $doc_logo = DB::table('doc_logos')->find($mailmerge->logo_id);
         $exact_copy = DB::table('exact_copies')->find($mailmerge->exact_copy_id);
         $signature = DB::table('signatures')->find($mailmerge->signature_id);
@@ -111,12 +110,11 @@ class MailMergeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  \App\Models\MailMerge\MailMerge $mailmerge
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $id)
+    public function edit(MailMerge $mailmerge)
     {
-        $mailmerge = MailMerge::find($id);
         $doc_logos = DB::table('doc_logos')->get();
         $exact_copies = DB::table('exact_copies')->get();
         $signatures = DB::table('signatures')->get();
@@ -133,10 +131,10 @@ class MailMergeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int $id
+     * @param  \App\Models\MailMerge\MailMerge $mailmerge
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, MailMerge $mailmerge)
     {
         $request->validate([
             'protocol'=>'required',
@@ -146,7 +144,6 @@ class MailMergeController extends Controller
             'signatureselect' => 'required',
         ]);
 
-        $mailmerge = MailMerge::find($id);
         $mailmerge->logo_id = $request->get('logoselect');
         $mailmerge->address_id = $request->get('addressselect');
         $mailmerge->protocol_num = $request->get('protocol');
@@ -167,12 +164,11 @@ class MailMergeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  \App\Models\MailMerge\MailMerge $mailmerge
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $id)
+    public function destroy(MailMerge $mailmerge)
     {
-        $mailmerge = MailMerge::find($id);
         $mailmerge->delete();
 
         return redirect(route('apps.mailmerge.index'))->with('status', 'Mail merge deleted!');

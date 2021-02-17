@@ -1,0 +1,99 @@
+<?php
+
+namespace App\Models\MailMerge\Policies;
+
+use App\Models\MailMerge\ExactCopy;
+use App\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+
+class ExactCopyPolicy
+{
+    use HandlesAuthorization;
+
+    public function before(User $user, $ability)
+    {
+        return $user->isAdministrator();
+    }
+
+    /**
+     * Determine whether the user can view any models.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function viewAny(User $user)
+    {
+        return $user->roles()->where('name', 'ExactCopyViewAny')->exists();
+    }
+
+    /**
+     * Determine whether the user can view the model.
+     *
+     * @param  \App\User  $user
+     * @param  \App\ExactCopy  $exactCopy
+     * @return mixed
+     */
+    public function view(User $user, ExactCopy $exactCopy)
+    {
+        return $user->roles()->where('name', 'ExactCopyView')->exists();
+    }
+
+    /**
+     * Determine whether the user can create models.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function create(User $user)
+    {
+        return $user->roles()->where('name', 'ExactCopyCreate')->exists();
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param  \App\User  $user
+     * @param  \App\ExactCopy  $exactCopy
+     * @return mixed
+     */
+    public function update(User $user, ExactCopy $exactCopy)
+    {
+        return $user->roles()->where('name', 'ExactCopyUpdate')->exists();
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param  \App\User  $user
+     * @param  \App\ExactCopy  $exactCopy
+     * @return mixed
+     */
+    public function delete(User $user, ExactCopy $exactCopy)
+    {
+        return $user->roles()->where('name', 'ExactCopyDelete')->exists();
+    }
+
+    /**
+     * Determine whether the user can restore the model.
+     *
+     * @param  \App\User  $user
+     * @param  \App\ExactCopy  $exactCopy
+     * @return mixed
+     */
+    public function restore(User $user, ExactCopy $exactCopy)
+    {
+        return $user->roles()->where('name', 'ExactCopyRestore')->exists();
+    }
+
+    /**
+     * Determine whether the user can permanently delete the model.
+     *
+     * @param  \App\User  $user
+     * @param  \App\ExactCopy  $exactCopy
+     * @return mixed
+     */
+    public function forceDelete(User $user, ExactCopy $exactCopy)
+    {
+        return $user->roles()->where('name', 'ExactCopyForceDelete')->exists();
+    }
+}

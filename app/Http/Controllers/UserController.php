@@ -11,6 +11,16 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(User::class, 'user');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -67,24 +77,22 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  \App\User $user
      * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show(User $user)
     {
-        $user = User::find($id);
         return view('admin.user.show', compact('user'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  \App\User $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $id)
+    public function edit(User $user)
     {
-        $user = User::find($id);
         return view('admin.user.edit', compact('user'));
     }
 
@@ -92,10 +100,10 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int $id
+     * @param  \App\User $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, User $user)
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -103,7 +111,6 @@ class UserController extends Controller
             'username' => ['required', 'string', 'min:6', 'max:255', 'unique:users'],
         ]);
 
-        $user = User::find($id);
         $user->username = $request->get('username');
         $user->name = $request->get('name');
         $user->email = $request->get('email');
@@ -116,12 +123,11 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  \App\User $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $id)
+    public function destroy(User $user)
     {
-        $user = User::find($id);
         $user->delete();
 
         return redirect(route('admin.user.index'))->with('status', 'User deleted!');

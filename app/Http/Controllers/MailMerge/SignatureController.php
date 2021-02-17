@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Auth;
 class SignatureController extends Controller
 {
     /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Signature::class, 'signature');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -55,24 +65,22 @@ class SignatureController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  \App\Models\MailMerge\Signature $signature
      * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show(Signature $signature)
     {
-        $signature = Signature::find($id);
         return view('apps.mailmerge.signature.show', compact('signature'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  \App\Models\MailMerge\Signature $signature
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $id)
+    public function edit(Signature $signature)
     {
-        $signature = Signature::find($id);
         return view('apps.mailmerge.signature.edit', compact('signature'));
     }
 
@@ -80,16 +88,15 @@ class SignatureController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int $id
+     * @param  \App\Models\MailMerge\Signature $signature
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, Signature $signature)
     {
         $request->validate([
             'title'=>'required',
         ]);
 
-        $signature = Signature::find($id);
         $signature->title = $request->get('title');
         $signature->text = $request->get('text');
         $signature->active = $request->get('active') == 1 ? 1 : 0;
@@ -102,12 +109,11 @@ class SignatureController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  \App\Models\MailMerge\Signature $signature
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $id)
+    public function destroy(Signature $signature)
     {
-        $signature = Signature::find($id);
         $signature->delete();
 
         return redirect(route('apps.mailmerge.signature.index'))->with('status', 'Signature deleted!');

@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Auth;
 class DocAddressController extends Controller
 {
     /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(DocAddress::class, 'docaddress');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -58,24 +68,22 @@ class DocAddressController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\MailMerge\DocAddress $docaddress
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(DocAddress $docaddress)
     {
-        $docaddress = DocAddress::find($id);
         return view('apps.mailmerge.docaddress.show', compact('docaddress'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\MailMerge\DocAddress $docaddress
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(DocAddress $docaddress)
     {
-        $docaddress = DocAddress::find($id);
         return view('apps.mailmerge.docaddress.edit', compact('docaddress'));
     }
 
@@ -83,16 +91,15 @@ class DocAddressController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\MailMerge\DocAddress $docaddress
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, DocAddress $docaddress)
     {
         $request->validate([
             'title'=>'required',
         ]);
 
-        $docaddress = DocAddress::find($id);
         $docaddress->title = $request->get('title');
         $docaddress->address = $request->get('address');
         $docaddress->name = $request->get('name');
@@ -107,12 +114,11 @@ class DocAddressController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\MailMerge\DocAddress $docaddress
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(DocAddress $docaddress)
     {
-        $docaddress = DocAddress::find($id);
         $docaddress->delete();
 
         return redirect(route('apps.mailmerge.docaddress.index'))->with('status', 'Address deleted!');

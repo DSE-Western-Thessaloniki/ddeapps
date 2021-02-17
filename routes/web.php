@@ -65,6 +65,6 @@ Route::prefix('apps')
         ->group(
             function () {
                 Route::resource('user', 'UserController');
-                Route::view('/', 'admin.index')->name('index');
+                Route::get('/', 'AdminController@index')->name('index');
             }
         );

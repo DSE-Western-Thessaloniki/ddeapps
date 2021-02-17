@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Auth;
 class DocLogoController extends Controller
 {
     /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(DocLogo::class, 'doclogo');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -57,24 +67,22 @@ class DocLogoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\MailMerge\DocLogo $doclogo
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(DocLogo $doclogo)
     {
-        $doclogo = DocLogo::find($id);
         return view('apps.mailmerge.doclogo.show', compact('doclogo'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\MailMerge\DocLogo $doclogo
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(DocLogo $doclogo)
     {
-        $doclogo = DocLogo::find($id);
         return view('apps.mailmerge.doclogo.edit', compact('doclogo'));
     }
 
@@ -82,16 +90,15 @@ class DocLogoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\MailMerge\DocLogo $doclogo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, DocLogo $doclogo)
     {
         $request->validate([
             'title'=>'required',
         ]);
 
-        $doclogo = DocLogo::find($id);
         $doclogo->title = $request->get('title');
         $doclogo->image = $request->get('image');
         $doclogo->text = $request->get('doclogotext');
@@ -105,12 +112,11 @@ class DocLogoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\MailMerge\DocLogo $doclogo
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(DocLogo $doclogo)
     {
-        $doclogo = DocLogo::find($id);
         $doclogo->delete();
 
         return redirect(route('apps.mailmerge.doclogo.index'))->with('status', 'Logo deleted!');

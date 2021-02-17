@@ -11,6 +11,16 @@ use Illuminate\Support\Facades\Auth;
 class RecipientController extends Controller
 {
     /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Recipient::class, 'recipient');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -56,24 +66,22 @@ class RecipientController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  \App\Models\MailMerge\Recipient $recipient
      * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show(Recipient $recipient)
     {
-        $recipient = Recipient::find($id);
         return view('apps.mailmerge.recipient.show', compact('recipient'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  \App\Models\MailMerge\Recipient $recipient
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $id)
+    public function edit(Recipient $recipient)
     {
-        $recipient = Recipient::find($id);
         return view('apps.mailmerge.recipient.edit', compact('recipient'));
     }
 
@@ -81,10 +89,10 @@ class RecipientController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int $id
+     * @param  \App\Models\MailMerge\Recipient $recipient
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, Recipient $recipient)
     {
         $request->validate(
             [
@@ -93,7 +101,6 @@ class RecipientController extends Controller
             ]
         );
 
-        $recipient = Recipient::find($id);
         $recipient->name = $request->get('name');
         $recipient->code = $request->get('code');
         $recipient->updated_by = Auth::user()->id;
@@ -105,12 +112,11 @@ class RecipientController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  \App\Models\MailMerge\Recipient $recipient
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $id)
+    public function destroy(Recipient $recipient)
     {
-        $recipient = Recipient::find($id);
         $recipient->delete();
 
         return redirect(route('apps.mailmerge.recipient.index'))->with('status', 'Recipient deleted!');

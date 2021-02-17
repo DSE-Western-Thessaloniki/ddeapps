@@ -83,6 +83,19 @@
                         </div>
                     </div>
 
+                    <div class="form-group row justify-content-center">
+                        <div class="col-10">
+                            @php
+                            $roles = array();
+                            foreach($user->roles as $role) {
+                                array_push($roles, $role->name);
+                            }
+                            @endphp
+                            <rolecomponent current_roles="{{ json_encode($roles) }}">
+                            </rolecomponent>
+                        </div>
+                    </div>
+
                     <div class="form-group row">
                         <div class="col-2">
                             <a class="btn btn-danger" href="{{ route('admin.user.index') }}">{{ __('Cancel') }}</a>
