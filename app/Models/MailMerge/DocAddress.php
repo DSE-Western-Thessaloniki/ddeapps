@@ -3,6 +3,7 @@
 namespace App\Models\MailMerge;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class DocAddress extends Model
 {
@@ -12,6 +13,17 @@ class DocAddress extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'address', 'name', 'telephone', 'email', 'updated_by',
+        'title', 'address', 'name', 'telephone',
+        'email', 'updated_by', 'created_by',
     ];
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updater()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
 }

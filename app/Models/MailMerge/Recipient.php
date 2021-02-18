@@ -3,6 +3,7 @@
 namespace App\Models\MailMerge;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class Recipient extends Model
 {
@@ -13,6 +14,17 @@ class Recipient extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'code', 'link', 'updated_by',
+        'name', 'code', 'link',
+        'updated_by', 'created_by',
     ];
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updater()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
 }
