@@ -69,7 +69,6 @@ class MailMergeController extends Controller
         ]);
 
         $signature = new MailMerge([
-            'user_id' => Auth::user()->id,
             'logo_id' => $request->get('logoselect'),
             'address_id' => $request->get('addressselect'),
             'protocol_num' => $request->get('protocol'),
