@@ -10,7 +10,7 @@ $signature_text_html = preg_replace('/\n/','<br/>', $signature->text);
 $date = new DateTime($mailmerge->date);
 $xlsxdata = json_decode($mailmerge->xlsxdata, true);
 $recipient_fields = json_decode($mailmerge->mergefields, true);
-$base64_logo = base64_encode(file_get_contents(url("/images/".$doc_logo->image)));
+$base64_logo = base64_encode(file_get_contents(url(env('APP_URL')."/images/".$doc_logo->image)));
 @endphp
 
 <div class="container">
