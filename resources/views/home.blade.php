@@ -22,7 +22,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
-                                        <h5 class="card-title">Users</h5>
+                                        <h5 class="card-title">{{ __('Users') }}</h5>
                                     </div>
                                 </div>
                             </div>

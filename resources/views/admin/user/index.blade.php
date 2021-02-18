@@ -18,7 +18,7 @@
                     <div class="btn-toolbar pb-2" role="toolbar">
                         <div class="btn-group mr-2">
                             <a class="btn btn-primary" href="{{ route('admin.user.create')}}">
-                            @icon('plus-circle') {{ __('New user') }}
+                            @icon('plus-circle') {{ __('New User') }}
                             </a>
                         </div>
                     </div>
@@ -39,10 +39,11 @@
                                 @forelse($users as $user)
                                 <tr>
                                     <td>{{ $loop->iteration }}.</td>
-                                    <td>@if($user->isAdministrator())
-                                            <span class="text-danger">@icon('fas fa-user-ninja')</span>
+                                    <td>
+                                        @if($user->isAdministrator())
+                                            <span class="text-dark h2">@icon('fas fa-user-ninja')</span>
                                         @else
-                                            @icon('fas fa-user')
+                                            <span class="text-success h2">@icon('fas fa-user')</span>
                                         @endif
                                         <a href="{{ route('admin.user.show', $user->id) }}">{{$user->username}}</td>
                                     <td>{{$user->name}}</a></td>
@@ -57,19 +58,19 @@
                                         </td>
                                     @endif
                                     <td>
-                                        <a href="{{ route('admin.user.edit',$user->id)}}" class="btn btn-primary">Edit</a>
+                                        <a href="{{ route('admin.user.edit',$user->id)}}" class="btn btn-primary">{{ __('Edit') }}</a>
                                     </td>
                                     <td>
                                         <form action="{{ route('admin.user.destroy', $user->id)}}" method="post">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                        <button class="btn btn-danger" type="submit">{{ __('Delete') }}</button>
                                         </form>
                                     </td>
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="6">No users available</td>
+                                    <td colspan="6">{{ __('No users available') }}</td>
                                 </tr>
                                 @endforelse
                             </tbody>
