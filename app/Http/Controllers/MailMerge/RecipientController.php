@@ -72,7 +72,8 @@ class RecipientController extends Controller
      */
     public function show(Recipient $recipient)
     {
-        return view('apps.mailmerge.recipient.show', compact('recipient'));
+        return redirect(route('apps.mailmerge.recipient.index'));
+        //return view('apps.mailmerge.recipient.show', compact('recipient'));
     }
 
     /**
