@@ -11,5 +11,8 @@ const mix = require('laravel-mix');
  |
  */
 
+// Set the following to the name of the subdirectory on the server or
+// comment it if it is going to reside on root
+//mix.setResourceRoot('/mm/');
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');
