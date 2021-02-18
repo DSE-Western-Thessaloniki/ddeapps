@@ -57,6 +57,7 @@ class ExactCopyController extends Controller
             'text' => $request->get('text'),
             'active' => $request->get('active') == 1 ? 1 : 0,
             'updated_by' => Auth::user()->id,
+            'created_by' => Auth::user()->id,
         ]);
         $exactcopy->save();
         return redirect(route('apps.mailmerge.exactcopy.index'))->with('status', 'Exact copy saved!');

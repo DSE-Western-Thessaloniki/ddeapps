@@ -59,6 +59,7 @@ class DocAddressController extends Controller
             'telephone' => $request->get('telephone'),
             'email' => $request->get('email'),
             'updated_by' => Auth::user()->id,
+            'created_by' => Auth::user()->id,
         ]);
 
         $docaddress->save();

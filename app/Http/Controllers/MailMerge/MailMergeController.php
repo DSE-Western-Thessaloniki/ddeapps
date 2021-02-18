@@ -82,6 +82,7 @@ class MailMergeController extends Controller
             'xlsxdata_header' => $request->get('xlsxdata_header'),
             'mergefields' => $request->get('mergefields'),
             'updated_by' => Auth::user()->id,
+            'created_by' => Auth::user()->id,
         ]);
         $signature->save();
         return redirect(route('apps.mailmerge.index'))->with('status', 'Mail merge saved!');

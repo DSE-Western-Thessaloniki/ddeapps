@@ -59,6 +59,7 @@ class DocLogoController extends Controller
             'text' => $request->get('doclogotext'),
             'active' => $request->get('active') == 1 ? 1 : 0,
             'updated_by' => Auth::user()->id,
+            'created_by' => Auth::user()->id,
         ]);
         $doclogo->save();
         return redirect(route('apps.mailmerge.doclogo.index'))->with('status', 'Logo saved!');

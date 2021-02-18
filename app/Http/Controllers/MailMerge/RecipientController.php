@@ -58,6 +58,7 @@ class RecipientController extends Controller
             'name' => $request->get('name'),
             'code' => $request->get('code'),
             'updated_by' => Auth::user()->id,
+            'created_by' => Auth::user()->id,
         ]);
         $recipient->save();
         return redirect(route('apps.mailmerge.recipient.index'))->with('status', 'Recipient saved!');
