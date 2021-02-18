@@ -49,6 +49,24 @@
         <div v-else>
 
             <!-- All OK, present the form -->
+            <div class="form-group row">
+                <div class="col-auto mr-auto">
+                    <a class="btn btn-danger" :href="route_index">{{ __('Cancel') }}</a>
+                </div>
+                <div v-show="step == steps" class="col-auto">
+                    <button class="btn btn-primary" type="submit">{{ __('Save') }}</button>
+                </div>
+            </div>
+
+            <div class="form-group row justify-content-center h1">
+                <a class="fas fa-fw fa-arrow-left" v-show="step > 1" v-on:click="step -= 1" href="#"></a>
+                <span v-for="i in steps" :key="i">
+                    <i v-show="step != i" class="fas fa-fw fa-square"></i>
+                    <i v-show="step == i" class="far fa-fw fa-square"></i>
+                </span>
+                <a class="fas fa-fw fa-arrow-right" v-show="step < steps" v-on:click="step += 1" href="#"></a>
+            </div>
+
             <div v-show="step == 1">
                 <div class="card bg-success">
                     <div class="card-body">
@@ -152,24 +170,6 @@
                 </div>
             </div>
 
-            <div class="form-group row justify-content-center h1">
-                <a class="fas fa-fw fa-arrow-left" v-show="step > 1" v-on:click="step -= 1" href="#"></a>
-                <span v-for="i in steps" :key="i">
-                    <i v-show="step != i" class="fas fa-fw fa-square"></i>
-                    <i v-show="step == i" class="far fa-fw fa-square"></i>
-                </span>
-                <a class="fas fa-fw fa-arrow-right" v-show="step < steps" v-on:click="step += 1" href="#"></a>
-            </div>
-
-            <br/>
-            <div class="form-group row">
-                <div class="col-auto mr-auto">
-                    <a class="btn btn-danger" :href="route_index">{{ __('Cancel') }}</a>
-                </div>
-                <div v-show="step == steps" class="col-auto">
-                    <button class="btn btn-primary" type="submit">{{ __('Save') }}</button>
-                </div>
-            </div>
         </div>
     </div>
 </template>
