@@ -16,9 +16,11 @@
 
                     <div class="btn-toolbar pb-2" role="toolbar">
                         <div class="btn-group" role="group">
-                        <a class="btn btn-primary mr-2" href="{{ route('apps.mailmerge.signature.create')}}">
-                        @icon('plus-circle') {{ __('New Signature') }}
-                        </a>
+                            @can('create', Signature::class)
+                            <a class="btn btn-primary mr-2" href="{{ route('apps.mailmerge.signature.create')}}">
+                            @icon('plus-circle') {{ __('New Signature') }}
+                            </a>
+                            @endcan
                         </div>
                     </div>
                     <div class="table-responsive">

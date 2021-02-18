@@ -16,9 +16,11 @@
 
                     <div class="btn-toolbar pb-2" role="toolbar">
                         <div class="btn-group" role="group">
-                        <a class="btn btn-primary mr-2" href="{{ route('apps.mailmerge.exactcopy.create')}}">
-                        @icon('plus-circle') {{ __('New Exact Copy') }}
-                        </a>
+                            @can('create', ExactCopy::class)
+                            <a class="btn btn-primary mr-2" href="{{ route('apps.mailmerge.exactcopy.create')}}">
+                            @icon('plus-circle') {{ __('New Exact Copy') }}
+                            </a>
+                            @endcan
                         </div>
                     </div>
                     <div class="table-responsive">

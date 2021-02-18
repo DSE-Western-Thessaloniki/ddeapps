@@ -16,9 +16,11 @@
 
                     <div class="btn-toolbar pb-2" role="toolbar">
                         <div class="btn-group" role="group">
+                            @can('create', DocAddress::class)
                             <a class="btn btn-primary mr-2" href="{{ route('apps.mailmerge.docaddress.create')}}">
                                 @icon('plus-circle') {{ __('New Address') }}
                             </a>
+                            @endcan
                         </div>
                     </div>
                     <div class="table-responsive">

@@ -16,9 +16,11 @@
 
                     <div class="btn-toolbar pb-2" role="toolbar">
                         <div class="btn-group mr-2">
+                            @can('create', DocLogo::class)
                             <a class="btn btn-primary" href="{{ route('apps.mailmerge.doclogo.create')}}">
                             @icon('plus-circle') {{ __('New Logo') }}
                             </a>
+                            @endcan
                         </div>
                     </div>
                     <div class="table-responsive">

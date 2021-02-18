@@ -16,9 +16,11 @@
 
                     <div class="btn-toolbar pb-2" role="toolbar">
                         <div class="btn-group" role="group">
+                            @can('create', MailMerge::class)
                             <a class="btn btn-primary" href="{{ route('apps.mailmerge.create') }}">
                                 @icon('plus-circle') {{ __('New Mail Merge') }}
                             </a>
+                            @endcan
                         </div>
                     </div>
 
@@ -43,14 +45,18 @@
                                     <td>{{$mailmerge->creator->name}}</td>
 
                                     <td>
+                                        @can('update', $mailmerge)
                                         <a href="{{ route('apps.mailmerge.edit',$mailmerge->id)}}" class="btn btn-primary">{{ __('Edit') }}</a>
+                                        @endcan
                                     </td>
                                     <td>
+                                        @can('delete', $mailmerge)
                                         <form action="{{ route('apps.mailmerge.destroy', $mailmerge->id)}}" method="post">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-danger" type="submit">{{ __('Delete') }}</button>
                                         </form>
+                                        @endcan
                                     </td>
                                 </tr>
                                 @empty

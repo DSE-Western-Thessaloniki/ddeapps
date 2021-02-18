@@ -16,9 +16,11 @@
 
                     <div class="btn-toolbar pb-2" role="toolbar">
                         <div class="btn-group" role="group">
+                            @can('create', Recipient::class)
                             <a class="btn btn-primary mr-2" href="{{ route('apps.mailmerge.recipient.create')}}">
                                 @icon('plus-circle') {{ __('New Recipient') }}
                             </a>
+                            @endcan
                         </div>
                     </div>
                     <div class="table-responsive">
