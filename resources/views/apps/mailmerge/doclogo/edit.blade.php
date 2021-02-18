@@ -31,6 +31,7 @@
                         logofile="{{ $doclogo->image}}"
                         text="{{ $doclogo->text}}"
                         active="{{ $doclogo->active}}"
+                        imagespath="{{ env('APP_URL').'/images/' }}"
                     >
                     </doclogoform>
 

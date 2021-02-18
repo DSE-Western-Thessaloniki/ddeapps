@@ -26,7 +26,7 @@
                     {!! Form::open(['action' => 'MailMerge\DocLogoController@store',
                     'method' => 'POST']) !!}
 
-                    <doclogoform></doclogoform>
+                    <doclogoform imagespath="{{ env('APP_URL').'/images/' }}"></doclogoform>
                     <div class="form-group row">
                         <div class="col-2">
                             <a class="btn btn-danger" href="{{ route('apps.mailmerge.doclogo.index') }}">{{ __('Cancel')}}</a>

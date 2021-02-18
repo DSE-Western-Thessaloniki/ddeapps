@@ -48,6 +48,7 @@
                 default: "logo.png",
                 type: String,
             },
+            imagespath: String,
             text: String,
             active: {
                 default: true,
@@ -68,7 +69,7 @@
         },
         computed: {
             logofullpath: function() {
-                return '/images/'+this.logofile
+                return this.imagespath+this.logofile;
             }
         }
     }
