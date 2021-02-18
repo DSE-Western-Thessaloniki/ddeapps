@@ -31,6 +31,7 @@
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Telephone') }}</th>
                                     <th>{{ __('Email') }}</th>
+                                    <th>{{ __('Created by') }}</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -44,15 +45,20 @@
                                     <td>{{$docaddress->name}}</td>
                                     <td>{{$docaddress->telephone}}</td>
                                     <td>{{$docaddress->email}}</td>
+                                    <td>{{$docaddress->creator->name}}</td>
                                     <td>
+                                        @can('update', $docaddress)
                                         <a href="{{ route('apps.mailmerge.docaddress.edit',$docaddress->id)}}" class="btn btn-primary">{{ __('Edit') }}</a>
+                                        @endcan
                                     </td>
                                     <td>
+                                        @can('delete', $docaddress)
                                         <form action="{{ route('apps.mailmerge.docaddress.destroy', $docaddress->id)}}" method="post">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-danger" type="submit">{{ __('Delete') }}</button>
                                         </form>
+                                        @endcan
                                     </td>
                                 </tr>
                                 @empty

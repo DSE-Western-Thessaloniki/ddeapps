@@ -53,7 +53,9 @@
                             <a class="btn btn-danger" href="{{ route('apps.mailmerge.exactcopy.index') }}">{{ __('Back') }}</a>
                         </div>
                         <div class="col-10 d-flex justify-content-end">
+                            @can('update', $exactcopy)
                             <a class="btn btn-primary" href="{{ route('apps.mailmerge.exactcopy.edit', $exactcopy->id)}}">{{ __('Edit') }}</a>
+                            @endcan
                         </div>
                     </div>
 

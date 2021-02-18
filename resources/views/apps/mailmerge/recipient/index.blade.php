@@ -28,6 +28,7 @@
                                     <th>{{ __('Id') }}</th>
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Code') }}</th>
+                                    <th>{{ __('Created by') }}</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -38,15 +39,20 @@
                                     <td>{{$recipient->id}}</td>
                                     <td><a href="{{ route('apps.mailmerge.recipient.show', $recipient->id) }}">{{$recipient->name}}</a></td>
                                     <td>{{$recipient->code}}</td>
+                                    <td>{{$recipient->creator->name}}</td>
                                     <td>
+                                        @can('update', $recipient)
                                         <a href="{{ route('apps.mailmerge.recipient.edit',$recipient->id)}}" class="btn btn-primary">{{ __('Edit') }}</a>
+                                        @endcan
                                     </td>
                                     <td>
+                                        @can('delete', $recipient)
                                         <form action="{{ route('apps.mailmerge.recipient.destroy', $recipient->id)}}" method="post">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-danger" type="submit">{{ __('Delete') }}</button>
                                         </form>
+                                        @endcan
                                     </td>
                                 </tr>
                                 @empty

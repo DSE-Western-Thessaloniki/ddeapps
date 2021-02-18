@@ -63,7 +63,9 @@
                             <a class="btn btn-danger" href="{{ route('apps.mailmerge.docaddress.index') }}">{{ __('Back') }}</a>
                         </div>
                         <div class="col-10 d-flex justify-content-end">
+                            @can('update', $docaddress)
                             <a class="btn btn-primary" href="{{ route('apps.mailmerge.docaddress.edit', $doclogo->id)}}">{{ __('Edit') }}</a>
+                            @endcan
                         </div>
                     </div>
 

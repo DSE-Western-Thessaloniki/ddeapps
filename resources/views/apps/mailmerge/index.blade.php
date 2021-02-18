@@ -29,7 +29,7 @@
                                     <th>{{ __('Id') }}</th>
                                     <th>{{ __('Protocol number') }}</th>
                                     <th>{{ __('Subject') }}</th>
-                                    <th>{{ __('User') }}</th>
+                                    <th>{{ __('Created by') }}</th>
                                     <th></th>
                                     <th></th>
                                 </tr>

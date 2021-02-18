@@ -62,7 +62,9 @@
                                 <a class="btn btn-danger" href="{{ route('apps.mailmerge.doclogo.index') }}">{{ __('Back') }}</a>
                             </td>
                             <td class="col-10 d-flex justify-content-end">
+                                @can('update', $doclogo)
                                 <a class="btn btn-primary" href="{{ route('apps.mailmerge.doclogo.edit', $doclogo->id)}}">{{ __('Edit') }}</a>
+                                @endcan
                             </td>
                         </tr>
                     </table>

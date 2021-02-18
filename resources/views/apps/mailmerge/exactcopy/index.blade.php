@@ -28,6 +28,7 @@
                                     <th>{{ __('Id') }}</th>
                                     <th>{{ __('Title') }}</th>
                                     <th>{{ __('Text') }}</th>
+                                    <th>{{ __('Created by') }}</th>
                                     <th>{{ __('Active') }}</th>
                                     <th></th>
                                     <th></th>
@@ -39,6 +40,7 @@
                                     <td>{{$exactcopy->id}}</td>
                                     <td><a href="{{ route('apps.mailmerge.exactcopy.show', $exactcopy->id) }}">{{$exactcopy->title}}</a></td>
                                     <td><pre class="text-center">{{$exactcopy->text}}</pre></td>
+                                    <td>{{$exactcopy->creator->name}}</td>
                                     @if($exactcopy->active)
                                         <td class="text-center text-success">
                                             @icon('check')
@@ -50,14 +52,18 @@
                                     @endif
 
                                     <td>
+                                        @can('update', $exactcopy)
                                         <a href="{{ route('apps.mailmerge.exactcopy.edit',$exactcopy->id)}}" class="btn btn-primary">{{ __('Edit') }}</a>
+                                        @endcan
                                     </td>
                                     <td>
+                                        @can('delete', $exactcopy)
                                         <form action="{{ route('apps.mailmerge.exactcopy.destroy', $exactcopy->id)}}" method="post">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-danger" type="submit">{{ __('Delete') }}</button>
                                         </form>
+                                        @endcan
                                     </td>
                                 </tr>
                                 @empty
