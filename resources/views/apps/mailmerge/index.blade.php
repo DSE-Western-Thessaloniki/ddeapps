@@ -40,7 +40,7 @@
                                     <td>{{$mailmerge->id}}</td>
                                     <td><a href="{{ route('apps.mailmerge.show', $mailmerge->id) }}">{{$mailmerge->protocol_num}}/{{$mailmerge->date}}</a></td>
                                     <td>{{$mailmerge->subject}}</td>
-                                    <td></td>
+                                    <td>{{$mailmerge->creator->name}}</td>
 
                                     <td>
                                         <a href="{{ route('apps.mailmerge.edit',$mailmerge->id)}}" class="btn btn-primary">{{ __('Edit') }}</a>
