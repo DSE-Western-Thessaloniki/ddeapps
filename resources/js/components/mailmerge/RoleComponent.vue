@@ -7,11 +7,11 @@
                     <legend class="col-form-label col-2 pt-0">{{ __('Main Roles') }}:</legend>
                     <div class="col-10">
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="administrator" id="administrator" value="1" v-model="administrator">
-                            <label for="administrator" class="form-check-label">{{ __('Administrator') }}</label>
+                            <input type="checkbox" class="form-check-input" name="Administrator" id="Administrator" value="1" v-model="administrator">
+                            <label for="Administrator" class="form-check-label">{{ __('Administrator') }}</label>
                         </div>
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="user" id="user" value="1" v-model="user">
+                            <input type="checkbox" class="form-check-input" name="User" id="User" value="1" v-model="user">
                             <label for="user" class="form-check-label">{{ __('User') }}</label>
                         </div>
                     </div>
@@ -22,74 +22,74 @@
                     <legend class="col-form-label col-4 pt-0">{{ __('Mail Merge') }}:</legend>
                     <div class="col-6">
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="mmadmin" id="mmadmin" value="1" v-model="mmadmin">
-                            <label for="mmadmin" class="form-check-label">{{ __('Administrator') }}</label>
+                            <input type="checkbox" class="form-check-input" name="MailMergeAdmin" id="MailMergeAdmin" value="1" v-model="mmadmin">
+                            <label for="MailMergeAdmin" class="form-check-label">{{ __('Administrator') }}</label>
                         </div>
                         <div id="mmdetailroles" class="bg-info" v-if="!mmadmin">
                             <div class="row no-gutters">
                                 <span class="pr-2">{{ __('Logos') }}</span>
                                 <div class="form-check-inline">
-                                    <input type="checkbox" class="form-check-input" name="mmdoclogoread" id="mmdoclogoread" value="1" v-model="mmdoclogoread">
-                                    <label for="mmdoclogoread" class="form-check-label pr-1">{{ __('Read') }}</label>
+                                    <input type="checkbox" class="form-check-input" name="DocLogoRead" id="DocLogoRead" value="1" v-model="mmdoclogoread">
+                                    <label for="DocLogoRead" class="form-check-label pr-1">{{ __('Read') }}</label>
                                 </div>
                                 <div class="form-check-inline">
-                                    <input type="checkbox" class="form-check-input" name="mmdoclogowrite" id="mmdoclogowrite" value="1" v-model="mmdoclogowrite">
-                                    <label for="mmdoclogowrite" class="form-check-label">{{ __('Write') }}</label>
+                                    <input type="checkbox" class="form-check-input" name="DocLogoWrite" id="DocLogoWrite" value="1" v-model="mmdoclogowrite">
+                                    <label for="DocLogoWrite" class="form-check-label">{{ __('Write') }}</label>
                                 </div>
                             </div>
                             <div class="row no-gutters">
                                 <span class="pr-2">{{ __('Addresses') }}</span>
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="mmdocaddressread" id="mmdocaddressread" value="1" v-model="mmdocaddressread">
-                                    <label for="mmdocaddressread" class="form-check-label pr-1">{{ __('Read') }}</label>
+                                    <input type="checkbox" class="form-check-input" name="DocAddressRead" id="DocAddressRead" value="1" v-model="mmdocaddressread">
+                                    <label for="DocAddressRead" class="form-check-label pr-1">{{ __('Read') }}</label>
                                 </div>
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="mmdocaddresswrite" id="mmdocaddresswrite" value="1" v-model="mmdocaddresswrite">
-                                    <label for="mmdocaddresswrite" class="form-check-label">{{ __('Write') }}</label>
+                                    <input type="checkbox" class="form-check-input" name="DocAddressWrite" id="DocAddressWrite" value="1" v-model="mmdocaddresswrite">
+                                    <label for="DocAddressWrite" class="form-check-label">{{ __('Write') }}</label>
                                 </div>
                             </div>
                             <div class="row no-gutters">
                                 <span class="pr-2">{{ __('Exact Copies') }}</span>
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="mmexactcopyread" id="mmexactcopyread" value="1" v-model="mmexactcopyread">
-                                    <label for="mmexactcopyread" class="form-check-label pr-1">{{ __('Read') }}</label>
+                                    <input type="checkbox" class="form-check-input" name="ExactCopyRead" id="ExactCopyRead" value="1" v-model="mmexactcopyread">
+                                    <label for="ExactCopyRead" class="form-check-label pr-1">{{ __('Read') }}</label>
                                 </div>
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="mmexactcopywrite" id="mmexactcopywrite" value="1" v-model="mmexactcopywrite">
-                                    <label for="mmexactcopywrite" class="form-check-label">{{ __('Write') }}</label>
+                                    <input type="checkbox" class="form-check-input" name="ExactCopyWrite" id="ExactCopyWrite" value="1" v-model="mmexactcopywrite">
+                                    <label for="ExactCopyWrite" class="form-check-label">{{ __('Write') }}</label>
                                 </div>
                             </div>
                             <div class="row no-gutters">
                                 <span class="pr-2">{{ __('Signatures') }}</span>
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="mmsignatureread" id="mmsignatureread" value="1" v-model="mmsignatureread">
-                                    <label for="mmsignatureread" class="form-check-label pr-1">{{ __('Read') }}</label>
+                                    <input type="checkbox" class="form-check-input" name="SignatureRead" id="SignatureRead" value="1" v-model="mmsignatureread">
+                                    <label for="SignatureRead" class="form-check-label pr-1">{{ __('Read') }}</label>
                                 </div>
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="mmsignaturewrite" id="mmsignaturewrite" value="1" v-model="mmsignaturewrite">
-                                    <label for="mmsignaturewrite" class="form-check-label">{{ __('Write') }}</label>
+                                    <input type="checkbox" class="form-check-input" name="SignatureWrite" id="SignatureWrite" value="1" v-model="mmsignaturewrite">
+                                    <label for="SignatureWrite" class="form-check-label">{{ __('Write') }}</label>
                                 </div>
                             </div>
                             <div class="row no-gutters">
                                 <span class="pr-2">{{ __('Recipients') }}</span>
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="mmrecipientread" id="mmrecipientread" value="1" v-model="mmrecipientread">
-                                    <label for="mmrecipientread" class="form-check-label pr-1">{{ __('Read') }}</label>
+                                    <input type="checkbox" class="form-check-input" name="RecipientRead" id="RecipientRead" value="1" v-model="mmrecipientread">
+                                    <label for="RecipientRead" class="form-check-label pr-1">{{ __('Read') }}</label>
                                 </div>
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="mmrecipientwrite" id="mmrecipientwrite" value="1" v-model="mmrecipientwrite">
-                                    <label for="mmrecipientwrite" class="form-check-label">{{ __('Write') }}</label>
+                                    <input type="checkbox" class="form-check-input" name="RecipientWrite" id="RecipientWrite" value="1" v-model="mmrecipientwrite">
+                                    <label for="RecipientWrite" class="form-check-label">{{ __('Write') }}</label>
                                 </div>
                             </div>
                             <div class="row no-gutters">
                                 <span class="pr-2">{{ __('Mail Merge') }}</span>
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="mmread" id="mmread" value="1" v-model="mmread">
-                                    <label for="mmread" class="form-check-label pr-1">{{ __('Read') }}</label>
+                                    <input type="checkbox" class="form-check-input" name="MailMergeRead" id="MailMergeRead" value="1" v-model="mmread">
+                                    <label for="MailMergeRead" class="form-check-label pr-1">{{ __('Read') }}</label>
                                 </div>
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="mmwrite" id="mmwrite" value="1" v-model="mmwrite">
-                                    <label for="mmwrite" class="form-check-label">{{ __('Write') }}</label>
+                                    <input type="checkbox" class="form-check-input" name="MailMergeWrite" id="MailMergeWrite" value="1" v-model="mmwrite">
+                                    <label for="MailMergeWrite" class="form-check-label">{{ __('Write') }}</label>
                                 </div>
                             </div>
                         </div>
