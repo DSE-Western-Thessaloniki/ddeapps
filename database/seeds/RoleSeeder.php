@@ -15,6 +15,19 @@ class RoleSeeder extends Seeder
         $roles = [
             ['name' => 'Administrator'],
             ['name' => 'User'],
+            ['name' => 'MailMergeAdmin'],
+            ['name' => 'DocAddressRead'],
+            ['name' => 'DocAddressWrite'],
+            ['name' => 'DocLogoRead'],
+            ['name' => 'DocLogoWrite'],
+            ['name' => 'ExactCopyRead'],
+            ['name' => 'ExactCopyWrite'],
+            ['name' => 'SignatureRead'],
+            ['name' => 'SignatureWrite'],
+            ['name' => 'RecipientRead'],
+            ['name' => 'RecipientWrite'],
+            ['name' => 'MailMergeRead'],
+            ['name' => 'MailMergeWrite'],
         ];
 
         foreach($roles as $role) {
