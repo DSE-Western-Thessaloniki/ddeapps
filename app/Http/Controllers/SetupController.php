@@ -76,6 +76,7 @@ class SetupController extends Controller
             'username' => $data['username'],
             'password' => Hash::make($data['password']),
             'active' => 1,
+            'updated_by' => 1,
         ])));
 
         $adminRole = Role::all()->where('name', 'Administrator');
