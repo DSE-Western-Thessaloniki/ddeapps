@@ -12,7 +12,7 @@ class RecipientPolicy
 
     public function before(User $user, $ability)
     {
-        return $user->isAdministrator();
+        return ($user->isAdministrator() || in_array('MailMergeAdmin', $user->roles));
     }
 
     /**
@@ -23,7 +23,7 @@ class RecipientPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->roles()->where('name', 'RecipientViewAny')->exists();
+        return $user->roles()->where('name', 'RecipientRead')->exists();
     }
 
     /**
@@ -35,7 +35,7 @@ class RecipientPolicy
      */
     public function view(User $user, Recipient $recipient)
     {
-        return $user->roles()->where('name', 'RecipientView')->exists();
+        return $user->roles()->where('name', 'RecipientRead')->exists();
     }
 
     /**
@@ -46,7 +46,7 @@ class RecipientPolicy
      */
     public function create(User $user)
     {
-        return $user->roles()->where('name', 'RecipientCreate')->exists();
+        return $user->roles()->where('name', 'RecipientWrite')->exists();
     }
 
     /**
@@ -58,7 +58,7 @@ class RecipientPolicy
      */
     public function update(User $user, Recipient $recipient)
     {
-        return $user->roles()->where('name', 'RecipientUpdate')->exists();
+        return $user->roles()->where('name', 'RecipientWrite')->exists();
     }
 
     /**
@@ -70,7 +70,7 @@ class RecipientPolicy
      */
     public function delete(User $user, Recipient $recipient)
     {
-        return $user->roles()->where('name', 'RecipientDelete')->exists();
+        return $user->roles()->where('name', 'RecipientWrite')->exists();
     }
 
     /**
@@ -82,7 +82,7 @@ class RecipientPolicy
      */
     public function restore(User $user, Recipient $recipient)
     {
-        return $user->roles()->where('name', 'RecipientRestore')->exists();
+        return $user->roles()->where('name', 'RecipientWrite')->exists();
     }
 
     /**
@@ -94,6 +94,6 @@ class RecipientPolicy
      */
     public function forceDelete(User $user, Recipient $recipient)
     {
-        return $user->roles()->where('name', 'RecipientForceDelete')->exists();
+        return $user->roles()->where('name', 'RecipientWrite')->exists();
     }
 }

@@ -12,7 +12,7 @@ class ExactCopyPolicy
 
     public function before(User $user, $ability)
     {
-        return $user->isAdministrator();
+        return ($user->isAdministrator() || in_array('MailMergeAdmin', $user->roles));
     }
 
     /**
@@ -23,7 +23,7 @@ class ExactCopyPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->roles()->where('name', 'ExactCopyViewAny')->exists();
+        return $user->roles()->where('name', 'ExactCopyRead')->exists();
     }
 
     /**
@@ -35,7 +35,7 @@ class ExactCopyPolicy
      */
     public function view(User $user, ExactCopy $exactCopy)
     {
-        return $user->roles()->where('name', 'ExactCopyView')->exists();
+        return $user->roles()->where('name', 'ExactCopyRead')->exists();
     }
 
     /**
@@ -46,7 +46,7 @@ class ExactCopyPolicy
      */
     public function create(User $user)
     {
-        return $user->roles()->where('name', 'ExactCopyCreate')->exists();
+        return $user->roles()->where('name', 'ExactCopyWrite')->exists();
     }
 
     /**
@@ -58,7 +58,7 @@ class ExactCopyPolicy
      */
     public function update(User $user, ExactCopy $exactCopy)
     {
-        return $user->roles()->where('name', 'ExactCopyUpdate')->exists();
+        return $user->roles()->where('name', 'ExactCopyWrite')->exists();
     }
 
     /**
@@ -70,7 +70,7 @@ class ExactCopyPolicy
      */
     public function delete(User $user, ExactCopy $exactCopy)
     {
-        return $user->roles()->where('name', 'ExactCopyDelete')->exists();
+        return $user->roles()->where('name', 'ExactCopyWrite')->exists();
     }
 
     /**
@@ -82,7 +82,7 @@ class ExactCopyPolicy
      */
     public function restore(User $user, ExactCopy $exactCopy)
     {
-        return $user->roles()->where('name', 'ExactCopyRestore')->exists();
+        return $user->roles()->where('name', 'ExactCopyWrite')->exists();
     }
 
     /**
@@ -94,6 +94,6 @@ class ExactCopyPolicy
      */
     public function forceDelete(User $user, ExactCopy $exactCopy)
     {
-        return $user->roles()->where('name', 'ExactCopyForceDelete')->exists();
+        return $user->roles()->where('name', 'ExactCopyWrite')->exists();
     }
 }

@@ -12,7 +12,7 @@ class MailMergePolicy
 
     public function before(User $user, $ability)
     {
-        return $user->isAdministrator();
+        return ($user->isAdministrator() || in_array('MailMergeAdmin', $user->roles));
     }
 
     /**
@@ -23,7 +23,7 @@ class MailMergePolicy
      */
     public function viewAny(User $user)
     {
-        return $user->roles()->where('name', 'MailMergeViewAny')->exists();
+        return $user->roles()->where('name', 'MailMergeRead')->exists();
     }
 
     /**
@@ -35,7 +35,7 @@ class MailMergePolicy
      */
     public function view(User $user, MailMerge $mailMerge)
     {
-        return $user->roles()->where('name', 'MailMergeView')->exists();
+        return $user->roles()->where('name', 'MailMergeRead')->exists();
     }
 
     /**
@@ -46,7 +46,7 @@ class MailMergePolicy
      */
     public function create(User $user)
     {
-        return $user->roles()->where('name', 'MailMergeCreate')->exists();
+        return $user->roles()->where('name', 'MailMergeWrite')->exists();
     }
 
     /**
@@ -58,7 +58,7 @@ class MailMergePolicy
      */
     public function update(User $user, MailMerge $mailMerge)
     {
-        return $user->roles()->where('name', 'MailMergeUpdate')->exists();
+        return $user->roles()->where('name', 'MailMergeWrite')->exists();
     }
 
     /**
@@ -70,7 +70,7 @@ class MailMergePolicy
      */
     public function delete(User $user, MailMerge $mailMerge)
     {
-        return $user->roles()->where('name', 'MailMergeDelete')->exists();
+        return $user->roles()->where('name', 'MailMergeWrite')->exists();
     }
 
     /**
@@ -82,7 +82,7 @@ class MailMergePolicy
      */
     public function restore(User $user, MailMerge $mailMerge)
     {
-        return $user->roles()->where('name', 'MailMergeRestore')->exists();
+        return $user->roles()->where('name', 'MailMergeWrite')->exists();
     }
 
     /**
@@ -94,6 +94,6 @@ class MailMergePolicy
      */
     public function forceDelete(User $user, MailMerge $mailMerge)
     {
-        return $user->roles()->where('name', 'MailMergeForceDelete')->exists();
+        return $user->roles()->where('name', 'MailMergeWrite')->exists();
     }
 }

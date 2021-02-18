@@ -12,7 +12,7 @@ class DocAddressPolicy
 
     public function before(User $user, $ability)
     {
-        return $user->isAdministrator();
+        return ($user->isAdministrator() || in_array('MailMergeAdmin', $user->roles));
     }
 
     /**
@@ -23,7 +23,7 @@ class DocAddressPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->roles()->where('name', 'DocAddressViewAny')->exists();
+        return $user->roles()->where('name', 'DocAddressRead')->exists();
     }
 
     /**
@@ -35,7 +35,7 @@ class DocAddressPolicy
      */
     public function view(User $user, DocAddress $docAddress)
     {
-        return $user->roles()->where('name', 'DocAddressView')->exists();
+        return $user->roles()->where('name', 'DocAddressRead')->exists();
     }
 
     /**
@@ -46,7 +46,7 @@ class DocAddressPolicy
      */
     public function create(User $user)
     {
-        return $user->roles()->where('name', 'DocAddressCreate')->exists();
+        return $user->roles()->where('name', 'DocAddressWrite')->exists();
     }
 
     /**
@@ -70,7 +70,7 @@ class DocAddressPolicy
      */
     public function delete(User $user, DocAddress $docAddress)
     {
-        return $user->roles()->where('name', 'DocAddressDelete')->exists();
+        return $user->roles()->where('name', 'DocAddressWrite')->exists();
     }
 
     /**
@@ -82,7 +82,7 @@ class DocAddressPolicy
      */
     public function restore(User $user, DocAddress $docAddress)
     {
-        return $user->roles()->where('name', 'DocAddressRestore')->exists();
+        return $user->roles()->where('name', 'DocAddressWrite')->exists();
     }
 
     /**
@@ -94,6 +94,6 @@ class DocAddressPolicy
      */
     public function forceDelete(User $user, DocAddress $docAddress)
     {
-        return $user->roles()->where('name', 'DocAddressForceDelete')->exists();
+        return $user->roles()->where('name', 'DocAddressWrite')->exists();
     }
 }

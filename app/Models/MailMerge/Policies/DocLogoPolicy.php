@@ -12,7 +12,7 @@ class DocLogoPolicy
 
     public function before(User $user, $ability)
     {
-        return $user->isAdministrator();
+        return ($user->isAdministrator() || in_array('MailMergeAdmin', $user->roles));
     }
 
     /**
@@ -23,7 +23,7 @@ class DocLogoPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->roles()->where('name', 'DocLogoViewAny')->exists();
+        return $user->roles()->where('name', 'DocLogoRead')->exists();
     }
 
     /**
@@ -35,7 +35,7 @@ class DocLogoPolicy
      */
     public function view(User $user, DocLogo $docLogo)
     {
-        return $user->roles()->where('name', 'DocLogoView')->exists();
+        return $user->roles()->where('name', 'DocLogoRead')->exists();
     }
 
     /**
@@ -46,7 +46,7 @@ class DocLogoPolicy
      */
     public function create(User $user)
     {
-        return $user->roles()->where('name', 'DocLogoCreate')->exists();
+        return $user->roles()->where('name', 'DocLogoWrite')->exists();
     }
 
     /**
@@ -58,7 +58,7 @@ class DocLogoPolicy
      */
     public function update(User $user, DocLogo $docLogo)
     {
-        return $user->roles()->where('name', 'DocLogoUpdate')->exists();
+        return $user->roles()->where('name', 'DocLogoWrite')->exists();
     }
 
     /**
@@ -70,7 +70,7 @@ class DocLogoPolicy
      */
     public function delete(User $user, DocLogo $docLogo)
     {
-        return $user->roles()->where('name', 'DocLogoDelete')->exists();
+        return $user->roles()->where('name', 'DocLogoWrite')->exists();
     }
 
     /**
@@ -82,7 +82,7 @@ class DocLogoPolicy
      */
     public function restore(User $user, DocLogo $docLogo)
     {
-        return $user->roles()->where('name', 'DocLogoRestore')->exists();
+        return $user->roles()->where('name', 'DocLogoWrite')->exists();
     }
 
     /**
@@ -94,6 +94,6 @@ class DocLogoPolicy
      */
     public function forceDelete(User $user, DocLogo $docLogo)
     {
-        return $user->roles()->where('name', 'DocLogoForceDelete')->exists();
+        return $user->roles()->where('name', 'DocLogoWrite')->exists();
     }
 }

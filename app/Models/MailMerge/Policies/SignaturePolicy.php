@@ -12,7 +12,7 @@ class SignaturePolicy
 
     public function before(User $user, $ability)
     {
-        return $user->isAdministrator();
+        return ($user->isAdministrator() || in_array('MailMergeAdmin', $user->roles));
     }
 
     /**
@@ -23,7 +23,7 @@ class SignaturePolicy
      */
     public function viewAny(User $user)
     {
-        return $user->roles()->where('name', 'SignatureViewAny')->exists();
+        return $user->roles()->where('name', 'SignatureRead')->exists();
     }
 
     /**
@@ -35,7 +35,7 @@ class SignaturePolicy
      */
     public function view(User $user, Signature $signature)
     {
-        return $user->roles()->where('name', 'SignatureView')->exists();
+        return $user->roles()->where('name', 'SignatureRead')->exists();
     }
 
     /**
@@ -46,7 +46,7 @@ class SignaturePolicy
      */
     public function create(User $user)
     {
-        return $user->roles()->where('name', 'SignatureCreate')->exists();
+        return $user->roles()->where('name', 'SignatureWrite')->exists();
     }
 
     /**
@@ -58,7 +58,7 @@ class SignaturePolicy
      */
     public function update(User $user, Signature $signature)
     {
-        return $user->roles()->where('name', 'SignatureUpdate')->exists();
+        return $user->roles()->where('name', 'SignatureWrite')->exists();
     }
 
     /**
@@ -70,7 +70,7 @@ class SignaturePolicy
      */
     public function delete(User $user, Signature $signature)
     {
-        return $user->roles()->where('name', 'SignatureDelete')->exists();
+        return $user->roles()->where('name', 'SignatureWrite')->exists();
     }
 
     /**
@@ -82,7 +82,7 @@ class SignaturePolicy
      */
     public function restore(User $user, Signature $signature)
     {
-        return $user->roles()->where('name', 'SignatureRestore')->exists();
+        return $user->roles()->where('name', 'SignatureWrite')->exists();
     }
 
     /**
@@ -94,6 +94,6 @@ class SignaturePolicy
      */
     public function forceDelete(User $user, Signature $signature)
     {
-        return $user->roles()->where('name', 'SignatureForceDelete')->exists();
+        return $user->roles()->where('name', 'SignatureWrite')->exists();
     }
 }
