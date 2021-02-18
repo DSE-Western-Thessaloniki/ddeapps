@@ -12,7 +12,8 @@ require('vue-context');
 
 window.Fuse = require('fuse.js');
 
-CKEDITOR_BASEPATH = 'http://ddeapps.test/resources/js/ckeditor/';
+CKEDITOR_BASEPATH = process.env.MIX_APP_URL + '/' +
+                    process.env.MIX_APP_DIR + '/resources/js/ckeditor/';
 require('../../public/resources/js/ckeditor/ckeditor.js');
 window.CKEditor_Vue = require('ckeditor4-vue');
 
