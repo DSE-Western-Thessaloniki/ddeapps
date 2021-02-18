@@ -158,6 +158,7 @@
             save_mail_merge_url: String,
             recipient_list_url: String,
             edit_mailmerge_url: String,
+            app_url: String,
         },
         mounted() {
             this.setZoom();
@@ -503,7 +504,7 @@
                 return lvl;
             },
             logo_img: function() {
-                return "/images/"+this.doc_logo_image;
+                return this.app_url+"/images/"+this.doc_logo_image;
             },
             doc_logo_text_html: function() {
                 return this.doc_logo_text.replace(/\n/g,'<br/>');
