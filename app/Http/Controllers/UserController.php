@@ -7,6 +7,8 @@ use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -107,14 +109,26 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'username' => ['required', 'string', 'min:6', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user)],
+            'username' => ['required', 'string', 'min:6', 'max:255', Rule::unique('users')->ignore($user)],
         ]);
 
         $user->username = $request->get('username');
         $user->name = $request->get('name');
         $user->email = $request->get('email');
         $user->active = $request->get('active') == 1 ? 1 : 0;
+
+        // Update roles
+        $roles = DB::table('roles')->get();
+        $new_roles = array();
+        foreach ($roles as $role) {
+            $check = $request->get($role->name);
+            if ($check == 1) {
+                array_push($new_roles, $role->id);
+            }
+        }
+        $user->roles()->sync($new_roles);
+
         $user->save();
 
         return redirect(route('admin.user.index'))->with('status', 'User updated!');
