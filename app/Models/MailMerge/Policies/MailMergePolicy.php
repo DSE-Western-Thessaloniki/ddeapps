@@ -58,7 +58,8 @@ class MailMergePolicy
      */
     public function update(User $user, MailMerge $mailMerge)
     {
-        return $user->roles()->where('name', 'MailMergeWrite')->exists();
+        return ($user->roles()->where('name', 'MailMergeWrite')->exists() &&
+                ($mailMerge->creator->id === $user->id));
     }
 
     /**
@@ -70,7 +71,8 @@ class MailMergePolicy
      */
     public function delete(User $user, MailMerge $mailMerge)
     {
-        return $user->roles()->where('name', 'MailMergeWrite')->exists();
+        return ($user->roles()->where('name', 'MailMergeWrite')->exists() &&
+                ($mailMerge->creator->id === $user->id));
     }
 
     /**
@@ -82,7 +84,8 @@ class MailMergePolicy
      */
     public function restore(User $user, MailMerge $mailMerge)
     {
-        return $user->roles()->where('name', 'MailMergeWrite')->exists();
+        return ($user->roles()->where('name', 'MailMergeWrite')->exists() &&
+                ($mailMerge->creator->id === $user->id));
     }
 
     /**
@@ -94,6 +97,7 @@ class MailMergePolicy
      */
     public function forceDelete(User $user, MailMerge $mailMerge)
     {
-        return $user->roles()->where('name', 'MailMergeWrite')->exists();
+        return ($user->roles()->where('name', 'MailMergeWrite')->exists() &&
+                ($mailMerge->creator->id === $user->id));
     }
 }

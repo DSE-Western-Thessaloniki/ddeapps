@@ -58,7 +58,8 @@ class RecipientPolicy
      */
     public function update(User $user, Recipient $recipient)
     {
-        return $user->roles()->where('name', 'RecipientWrite')->exists();
+        return ($user->roles()->where('name', 'RecipientWrite')->exists() &&
+                ($recipient->creator->id === $user->id));
     }
 
     /**
@@ -70,7 +71,8 @@ class RecipientPolicy
      */
     public function delete(User $user, Recipient $recipient)
     {
-        return $user->roles()->where('name', 'RecipientWrite')->exists();
+        return ($user->roles()->where('name', 'RecipientWrite')->exists() &&
+                ($recipient->creator->id === $user->id));
     }
 
     /**
@@ -82,7 +84,8 @@ class RecipientPolicy
      */
     public function restore(User $user, Recipient $recipient)
     {
-        return $user->roles()->where('name', 'RecipientWrite')->exists();
+        return ($user->roles()->where('name', 'RecipientWrite')->exists() &&
+                ($recipient->creator->id === $user->id));
     }
 
     /**
@@ -94,6 +97,7 @@ class RecipientPolicy
      */
     public function forceDelete(User $user, Recipient $recipient)
     {
-        return $user->roles()->where('name', 'RecipientWrite')->exists();
+        return ($user->roles()->where('name', 'RecipientWrite')->exists() &&
+                ($recipient->creator->id === $user->id));
     }
 }

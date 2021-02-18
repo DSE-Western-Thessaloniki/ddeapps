@@ -58,7 +58,8 @@ class DocAddressPolicy
      */
     public function update(User $user, DocAddress $docAddress)
     {
-        return $user->roles()->where('name', 'DocAddressUpdate')->exists();
+        return ($user->roles()->where('name', 'DocAddressUpdate')->exists() &&
+                ($docAddress->creator->id === $user->id));
     }
 
     /**
@@ -70,7 +71,8 @@ class DocAddressPolicy
      */
     public function delete(User $user, DocAddress $docAddress)
     {
-        return $user->roles()->where('name', 'DocAddressWrite')->exists();
+        return ($user->roles()->where('name', 'DocAddressWrite')->exists() &&
+                ($docAddress->creator->id === $user->id));
     }
 
     /**
@@ -82,7 +84,8 @@ class DocAddressPolicy
      */
     public function restore(User $user, DocAddress $docAddress)
     {
-        return $user->roles()->where('name', 'DocAddressWrite')->exists();
+        return ($user->roles()->where('name', 'DocAddressWrite')->exists() &&
+                ($docAddress->creator->id === $user->id));
     }
 
     /**
@@ -94,6 +97,7 @@ class DocAddressPolicy
      */
     public function forceDelete(User $user, DocAddress $docAddress)
     {
-        return $user->roles()->where('name', 'DocAddressWrite')->exists();
+        return ($user->roles()->where('name', 'DocAddressWrite')->exists() &&
+                ($docAddress->creator->id === $user->id));
     }
 }

@@ -58,7 +58,8 @@ class SignaturePolicy
      */
     public function update(User $user, Signature $signature)
     {
-        return $user->roles()->where('name', 'SignatureWrite')->exists();
+        return ($user->roles()->where('name', 'SignatureWrite')->exists() &&
+                ($signature->creator->id === $user->id));
     }
 
     /**
@@ -70,7 +71,8 @@ class SignaturePolicy
      */
     public function delete(User $user, Signature $signature)
     {
-        return $user->roles()->where('name', 'SignatureWrite')->exists();
+        return ($user->roles()->where('name', 'SignatureWrite')->exists() &&
+                ($signature->creator->id === $user->id));
     }
 
     /**
@@ -82,7 +84,8 @@ class SignaturePolicy
      */
     public function restore(User $user, Signature $signature)
     {
-        return $user->roles()->where('name', 'SignatureWrite')->exists();
+        return ($user->roles()->where('name', 'SignatureWrite')->exists() &&
+                ($signature->creator->id === $user->id));
     }
 
     /**
@@ -94,6 +97,7 @@ class SignaturePolicy
      */
     public function forceDelete(User $user, Signature $signature)
     {
-        return $user->roles()->where('name', 'SignatureWrite')->exists();
+        return ($user->roles()->where('name', 'SignatureWrite')->exists() &&
+                ($signature->creator->id === $user->id));
     }
 }

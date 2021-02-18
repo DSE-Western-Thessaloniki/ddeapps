@@ -58,7 +58,8 @@ class DocLogoPolicy
      */
     public function update(User $user, DocLogo $docLogo)
     {
-        return $user->roles()->where('name', 'DocLogoWrite')->exists();
+        return ($user->roles()->where('name', 'DocLogoWrite')->exists() &&
+                ($docLogo->creator->id === $user->id));
     }
 
     /**
@@ -70,7 +71,8 @@ class DocLogoPolicy
      */
     public function delete(User $user, DocLogo $docLogo)
     {
-        return $user->roles()->where('name', 'DocLogoWrite')->exists();
+        return ($user->roles()->where('name', 'DocLogoWrite')->exists() &&
+                ($docLogo->creator->id === $user->id));
     }
 
     /**
@@ -82,7 +84,8 @@ class DocLogoPolicy
      */
     public function restore(User $user, DocLogo $docLogo)
     {
-        return $user->roles()->where('name', 'DocLogoWrite')->exists();
+        return ($user->roles()->where('name', 'DocLogoWrite')->exists() &&
+                ($docLogo->creator->id === $user->id));
     }
 
     /**
@@ -94,6 +97,7 @@ class DocLogoPolicy
      */
     public function forceDelete(User $user, DocLogo $docLogo)
     {
-        return $user->roles()->where('name', 'DocLogoWrite')->exists();
+        return ($user->roles()->where('name', 'DocLogoWrite')->exists() &&
+                ($docLogo->creator->id === $user->id));
     }
 }

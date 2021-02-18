@@ -58,7 +58,8 @@ class ExactCopyPolicy
      */
     public function update(User $user, ExactCopy $exactCopy)
     {
-        return $user->roles()->where('name', 'ExactCopyWrite')->exists();
+        return ($user->roles()->where('name', 'ExactCopyWrite')->exists() &&
+                ($exactCopy->creator->id === $user->id));
     }
 
     /**
@@ -70,7 +71,8 @@ class ExactCopyPolicy
      */
     public function delete(User $user, ExactCopy $exactCopy)
     {
-        return $user->roles()->where('name', 'ExactCopyWrite')->exists();
+        return ($user->roles()->where('name', 'ExactCopyWrite')->exists() &&
+                ($exactCopy->creator->id === $user->id));
     }
 
     /**
@@ -82,7 +84,8 @@ class ExactCopyPolicy
      */
     public function restore(User $user, ExactCopy $exactCopy)
     {
-        return $user->roles()->where('name', 'ExactCopyWrite')->exists();
+        return ($user->roles()->where('name', 'ExactCopyWrite')->exists() &&
+                ($exactCopy->creator->id === $user->id));
     }
 
     /**
@@ -94,6 +97,7 @@ class ExactCopyPolicy
      */
     public function forceDelete(User $user, ExactCopy $exactCopy)
     {
-        return $user->roles()->where('name', 'ExactCopyWrite')->exists();
+        return ($user->roles()->where('name', 'ExactCopyWrite')->exists() &&
+                ($exactCopy->creator->id === $user->id));
     }
 }
