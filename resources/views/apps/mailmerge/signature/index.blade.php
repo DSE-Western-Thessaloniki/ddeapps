@@ -16,7 +16,7 @@
 
                     <div class="btn-toolbar pb-2" role="toolbar">
                         <div class="btn-group" role="group">
-                            @can('create', Signature::class)
+                            @can('create', \App\Models\MailMerge\Signature::class)
                             <a class="btn btn-primary mr-2" href="{{ route('apps.mailmerge.signature.create')}}">
                             @icon('plus-circle') {{ __('New Signature') }}
                             </a>

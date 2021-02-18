@@ -16,7 +16,7 @@
 
                     <div class="btn-toolbar pb-2" role="toolbar">
                         <div class="btn-group" role="group">
-                            @can('create', MailMerge::class)
+                            @can('create', \App\Models\MailMerge\MailMerge::class)
                             <a class="btn btn-primary" href="{{ route('apps.mailmerge.create') }}">
                                 @icon('plus-circle') {{ __('New Mail Merge') }}
                             </a>

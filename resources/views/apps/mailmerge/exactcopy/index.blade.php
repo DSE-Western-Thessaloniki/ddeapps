@@ -16,7 +16,7 @@
 
                     <div class="btn-toolbar pb-2" role="toolbar">
                         <div class="btn-group" role="group">
-                            @can('create', ExactCopy::class)
+                            @can('create', \App\Models\MailMerge\ExactCopy::class)
                             <a class="btn btn-primary mr-2" href="{{ route('apps.mailmerge.exactcopy.create')}}">
                             @icon('plus-circle') {{ __('New Exact Copy') }}
                             </a>
