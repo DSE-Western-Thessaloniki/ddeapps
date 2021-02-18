@@ -12,7 +12,9 @@ class MailMergePolicy
 
     public function before(User $user, $ability)
     {
-        return ($user->isAdministrator() || in_array('MailMergeAdmin', $user->roles));
+        if ($user->isAdministrator() || in_array('MailMergeAdmin', $user->roles->toArray())) {
+            return true;
+        }
     }
 
     /**
