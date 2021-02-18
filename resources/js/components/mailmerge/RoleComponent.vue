@@ -20,7 +20,7 @@
             <fieldset class="form-group">
                 <div class="row no-gutters p-4">
                     <legend class="col-form-label col-4 pt-0">{{ __('Mail Merge') }}:</legend>
-                    <div class="col-6">
+                    <div class="col-8">
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" name="MailMergeAdmin" id="MailMergeAdmin" value="1" v-model="mmadmin">
                             <label for="MailMergeAdmin" class="form-check-label">{{ __('Administrator') }}</label>
