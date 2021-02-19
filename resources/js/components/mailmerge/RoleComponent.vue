@@ -40,12 +40,12 @@
                             <div class="row no-gutters">
                                 <span class="pr-2">{{ __('Addresses') }}</span>
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="DocAddressRead" id="DocAddressRead" value="1" v-model="mmdocaddressread">
-                                    <label for="DocAddressRead" class="form-check-label pr-1">{{ __('Read') }}</label>
+                                    <input type="checkbox" class="form-check-input" name="EditorRead" id="EditorRead" value="1" v-model="mmeditorread">
+                                    <label for="EditorRead" class="form-check-label pr-1">{{ __('Read') }}</label>
                                 </div>
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="DocAddressWrite" id="DocAddressWrite" value="1" v-model="mmdocaddresswrite">
-                                    <label for="DocAddressWrite" class="form-check-label">{{ __('Write') }}</label>
+                                    <input type="checkbox" class="form-check-input" name="EditorWrite" id="EditorWrite" value="1" v-model="mmeditorwrite">
+                                    <label for="EditorWrite" class="form-check-label">{{ __('Write') }}</label>
                                 </div>
                             </div>
                             <div class="row no-gutters">
@@ -114,8 +114,8 @@
             this.mmadmin=this.cur_roles.includes('MailMergeAdmin');
             this.mmdoclogoread=this.cur_roles.includes('DocLogoRead');
             this.mmdoclogowrite=this.cur_roles.includes('DocLogoWrite');
-            this.mmdocaddressread=this.cur_roles.includes('DocAddressRead');
-            this.mmdocaddresswrite=this.cur_roles.includes('DocAddressWrite');
+            this.mmeditorread=this.cur_roles.includes('EditorRead');
+            this.mmeditorwrite=this.cur_roles.includes('EditorWrite');
             this.mmexactcopyread=this.cur_roles.includes('ExactCopyRead');
             this.mmexactcopywrite=this.cur_roles.includes('ExactCopyWrite');
             this.mmsignatureread=this.cur_roles.includes('SignatureRead');
@@ -133,8 +133,8 @@
                 mmadmin: false,
                 mmdoclogoread: false,
                 mmdoclogowrite: false,
-                mmdocaddressread: false,
-                mmdocaddresswrite: false,
+                mmeditorread: false,
+                mmeditorwrite: false,
                 mmexactcopyread: false,
                 mmexactcopywrite: false,
                 mmsignatureread: false,
