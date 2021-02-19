@@ -190,7 +190,9 @@ class MailMergeController extends Controller
                           'margin-left' => 0,
                           'margin-right' => 0,
                           'margin-top' => 0,
-                          'margin-bottom' => 0]);
+                          'margin-bottom' => 0,
+                          'page-size' => 'A4',
+                          'disable-smart-shrinking' => true]);
         $filename = "mailmerge-".$mailmerge->protocol_num."-".date('Ymd-His').".pdf";
         return $pdf->inline($filename);
     }

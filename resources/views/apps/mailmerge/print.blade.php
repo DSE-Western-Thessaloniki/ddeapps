@@ -39,7 +39,7 @@ $base64_logo = base64_encode(file_get_contents(url(env('APP_URL')."/images/".$do
             $i++;
         }
     @endphp
-    <div class="page">
+    <div class="page" size="A4">
         <table class="table table-borderless">
             <tr>
                 <td class="w-50">
