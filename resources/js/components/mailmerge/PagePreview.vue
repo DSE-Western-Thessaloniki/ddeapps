@@ -22,10 +22,10 @@
                     <a href="#" role="button" class="btn btn-dark btn-label" aria-disabled="true">/</a>
                     <a href="#" role="button" class="btn btn-dark btn-label" aria-disabled="true" id="last-record">0</a>
                     <button class="btn btn-dark" aria-disabled="true" @click="rightArrowClicked"><i class="fa fa-arrow-right"></i></button>
-                    <a :href="edit_mailmerge_url" class="btn btn-dark" aria-disabled="true" data-toggle="tooltip" data-placement="bottom" title="Επεξεργασία εγγράφου"><i class="fas fa-pencil-alt"></i></a>
-                    <a :href="print_url_draft" target="_blank" class="btn btn-dark" aria-disabled="true" data-toggle="tooltip" data-placement="bottom" title="Εκτύπωση συγχωνευμένων εγγράφων (τρίπτυχο)"><i class="fab fa-firstdraft"></i></a>
-                    <a :href="print_url" target="_blank" class="btn btn-dark" aria-disabled="true" data-toggle="tooltip" data-placement="bottom" title="Εκτύπωση συγχωνευμένων εγγράφων"><i class="fas fa-print"></i></a>
-                    <button class="btn btn-dark" aria-disabled="true" @click="saveMailMergeClicked" data-toggle="tooltip" data-placement="bottom" title="Αποθήκευση συγχωνευμένων εγγράφων"><i class="fa fa-mail-bulk"></i></button>
+                    <a :href="edit_mailmerge_url" class="btn btn-dark preview-toolbar-button" aria-disabled="true" data-toggle="tooltip" data-placement="bottom" title="Επεξεργασία εγγράφου"><i class="fas fa-pencil-alt"></i><br/><span>Επεξεργασία</span></a>
+                    <a :href="print_url_draft" target="_blank" class="btn btn-dark preview-toolbar-button" aria-disabled="true" data-toggle="tooltip" data-placement="bottom" title="Εκτύπωση συγχωνευμένων εγγράφων (τρίπτυχο)"><i class="fab fa-firstdraft"></i><br/><span>Τρίπτυχο</span></a>
+                    <a :href="print_url" target="_blank" class="btn btn-dark preview-toolbar-button" aria-disabled="true" data-toggle="tooltip" data-placement="bottom" title="Εκτύπωση συγχωνευμένων εγγράφων"><i class="fas fa-print"></i><br/><span>Εκτύπωση</span></a>
+                    <button class="btn btn-dark preview-toolbar-button" aria-disabled="true" @click="saveMailMergeClicked" data-toggle="tooltip" data-placement="bottom" title="Αποθήκευση συγχωνευμένων εγγράφων"><i class="fas fa-mail-bulk"></i><br/><span>Αποθήκευση</span></button>
                 </div>
             </div>
         </div>
