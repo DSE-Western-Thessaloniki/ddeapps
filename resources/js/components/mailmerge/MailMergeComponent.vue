@@ -51,10 +51,10 @@
             <!-- All OK, present the form -->
             <div class="form-group row">
                 <div class="col-auto mr-auto">
-                    <a class="btn btn-danger" :href="route_index">{{ __('Cancel') }}</a>
+                    <a class="btn btn-danger" id="Cancel" :href="route_index">{{ __('Cancel') }}</a>
                 </div>
                 <div v-show="step == steps" class="col-auto">
-                    <button class="btn btn-primary" type="submit">{{ __('Save') }}</button>
+                    <button class="btn btn-primary" id="Save" type="submit">{{ __('Save') }}</button>
                 </div>
             </div>
 

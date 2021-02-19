@@ -9,7 +9,9 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.uiColor = '#AADC6E';
     config.indentation = '30px';
     config.autosave = {
-        // messageType : "no",
+        saveDetectionSelectors: "a[id*='Cancel'],button[id*='Save']",
+        messageType : "statusbar",
         delay: 30,
+        autoLoad: false,
     }
 };
