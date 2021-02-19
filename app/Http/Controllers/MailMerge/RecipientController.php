@@ -61,7 +61,7 @@ class RecipientController extends Controller
             'created_by' => Auth::user()->id,
         ]);
         $recipient->save();
-        return redirect(route('apps.mailmerge.recipient.index'))->with('status', 'Recipient saved!');
+        return redirect(route('apps.mailmerge.recipient.index'))->with('status', __('Recipient !'));
     }
 
     /**
@@ -108,7 +108,7 @@ class RecipientController extends Controller
         $recipient->updated_by = Auth::user()->id;
         $recipient->save();
 
-        return redirect(route('apps.mailmerge.recipient.index'))->with('status', 'Recipient updated!');
+        return redirect(route('apps.mailmerge.recipient.index'))->with('status', __('Recipient updated!'));
     }
 
     /**
@@ -121,7 +121,7 @@ class RecipientController extends Controller
     {
         $recipient->delete();
 
-        return redirect(route('apps.mailmerge.recipient.index'))->with('status', 'Recipient deleted!');
+        return redirect(route('apps.mailmerge.recipient.index'))->with('status', __('Recipient deleted!'));
     }
 
     /**

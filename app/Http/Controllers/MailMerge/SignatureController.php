@@ -60,7 +60,7 @@ class SignatureController extends Controller
             'created_by' => Auth::user()->id,
         ]);
         $signature->save();
-        return redirect(route('apps.mailmerge.signature.index'))->with('status', 'Signature saved!');
+        return redirect(route('apps.mailmerge.signature.index'))->with('status', __('Signature saved!'));
     }
 
     /**
@@ -104,7 +104,7 @@ class SignatureController extends Controller
         $signature->updated_by = Auth::user()->id;
         $signature->save();
 
-        return redirect(route('apps.mailmerge.signature.index'))->with('status', 'Signature updated!');
+        return redirect(route('apps.mailmerge.signature.index'))->with('status', __('Signature updated!'));
     }
 
     /**
@@ -117,6 +117,6 @@ class SignatureController extends Controller
     {
         $signature->delete();
 
-        return redirect(route('apps.mailmerge.signature.index'))->with('status', 'Signature deleted!');
+        return redirect(route('apps.mailmerge.signature.index'))->with('status', __('Signature deleted!'));
     }
 }

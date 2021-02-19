@@ -60,7 +60,7 @@ class ExactCopyController extends Controller
             'created_by' => Auth::user()->id,
         ]);
         $exactcopy->save();
-        return redirect(route('apps.mailmerge.exactcopy.index'))->with('status', 'Exact copy saved!');
+        return redirect(route('apps.mailmerge.exactcopy.index'))->with('status', __('Exact copy saved!'));
     }
 
     /**
@@ -104,7 +104,7 @@ class ExactCopyController extends Controller
         $exactcopy->updated_by = Auth::user()->id;
         $exactcopy->save();
 
-        return redirect(route('apps.mailmerge.exactcopy.index'))->with('status', 'Exact copy updated!');
+        return redirect(route('apps.mailmerge.exactcopy.index'))->with('status', __('Exact copy updated!'));
     }
 
     /**
@@ -117,6 +117,6 @@ class ExactCopyController extends Controller
     {
         $exactcopy->delete();
 
-        return redirect(route('apps.mailmerge.exactcopy.index'))->with('status', 'Exact copy deleted!');
+        return redirect(route('apps.mailmerge.exactcopy.index'))->with('status', __('Exact copy deleted!'));
     }
 }
