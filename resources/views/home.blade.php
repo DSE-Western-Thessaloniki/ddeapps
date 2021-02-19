@@ -38,7 +38,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ __('Mail Merge') }}</h5>
+                                        <h5 class="card-title">{{ __('Mail Merges') }}</h5>
                                     </div>
                                 </div>
                             </div>
