@@ -27,6 +27,9 @@ $date = new DateTime($mailmerge->date);
                     </div><br />
                     @endif
 
+                    <div class="container pb-2">
+                        <a class="btn btn-primary" href="{{ route('apps.mailmerge.index') }}">Επιστροφή στις κοινοποιήσεις</a>
+                    </div>
                     <pagepreview
                         editor_address="{{ $editor->address }}"
                         editor_name="{{ $editor->name }}"
