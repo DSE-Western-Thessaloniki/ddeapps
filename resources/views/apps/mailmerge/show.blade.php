@@ -28,10 +28,10 @@ $date = new DateTime($mailmerge->date);
                     @endif
 
                     <pagepreview
-                        doc_address_address="{{ $doc_address->address }}"
-                        doc_address_name="{{ $doc_address->name }}"
-                        doc_address_telephone="{{ $doc_address->telephone }}"
-                        doc_address_email="{{ $doc_address->email }}"
+                        editor_address="{{ $editor->address }}"
+                        editor_name="{{ $editor->name }}"
+                        editor_telephone="{{ $editor->telephone }}"
+                        editor_email="{{ $editor->email }}"
                         doc_logo_image="{{ $doc_logo->image }}"
                         doc_logo_text="{{ $doc_logo->text }}"
                         exact_copy_text="{{ $exact_copy->text }}"

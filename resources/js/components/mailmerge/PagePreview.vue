@@ -38,19 +38,19 @@
                         <table class="table table-borderless doc-address-col">
                             <tr>
                                 <td class="no-wrap pr-1">Ταχ. Διεύθυνση:</td>
-                                <td>{{ doc_address_address }}</td>
+                                <td>{{ editor_address }}</td>
                             </tr>
                             <tr>
                                 <td>Πληροφορίες:</td>
-                                <td>{{ doc_address_name }}</td>
+                                <td>{{ editor_name }}</td>
                             </tr>
                             <tr>
                                 <td>Τηλέφωνο:</td>
-                                <td>{{ doc_address_telephone }}</td>
+                                <td>{{ editor_telephone }}</td>
                             </tr>
                             <tr>
                                 <td>Email:</td>
-                                <td>{{ doc_address_email }}</td>
+                                <td>{{ editor_email }}</td>
                             </tr>
                         </table>
                     </td>
@@ -140,10 +140,10 @@
 <script>
     export default {
         props: {
-            doc_address_address: String,
-            doc_address_name: String,
-            doc_address_telephone: String,
-            doc_address_email: String,
+            editor_address: String,
+            editor_name: String,
+            editor_telephone: String,
+            editor_email: String,
             doc_logo_image: String,
             doc_logo_text: String,
             exact_copy_text: String,

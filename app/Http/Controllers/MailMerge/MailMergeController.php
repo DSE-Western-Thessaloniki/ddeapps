@@ -43,13 +43,13 @@ class MailMergeController extends Controller
         $doc_logos = DB::table('doc_logos')->get();
         $exact_copies = DB::table('exact_copies')->get();
         $signatures = DB::table('signatures')->get();
-        $doc_addresses = DB::table('doc_addresses')->get();
+        $editors = DB::table('editors')->get();
 
         return view('apps.mailmerge.create')
                 ->with('doc_logos', $doc_logos)
                 ->with('exact_copies', $exact_copies)
                 ->with('signatures', $signatures)
-                ->with('doc_addresses', $doc_addresses);
+                ->with('editors', $editors);
     }
 
     /**
@@ -63,14 +63,14 @@ class MailMergeController extends Controller
         $request->validate([
             'protocol' => 'required',
             'logoselect' => 'required',
-            'addressselect' => 'required',
+            'editorselect' => 'required',
             'exactcopyselect' => 'required',
             'signatureselect' => 'required',
         ]);
 
         $signature = new MailMerge([
             'logo_id' => $request->get('logoselect'),
-            'address_id' => $request->get('addressselect'),
+            'editor_id' => $request->get('editorselect'),
             'protocol_num' => $request->get('protocol'),
             'date' => $request->get('date'),
             'subject' => $request->get('subject'),
@@ -84,7 +84,7 @@ class MailMergeController extends Controller
             'created_by' => Auth::user()->id,
         ]);
         $signature->save();
-        return redirect(route('apps.mailmerge.index'))->with('status', 'Mail merge saved!');
+        return redirect(route('apps.mailmerge.index'))->with('status', __('Mail merge saved!'));
     }
 
     /**
@@ -98,13 +98,13 @@ class MailMergeController extends Controller
         $doc_logo = DB::table('doc_logos')->find($mailmerge->logo_id);
         $exact_copy = DB::table('exact_copies')->find($mailmerge->exact_copy_id);
         $signature = DB::table('signatures')->find($mailmerge->signature_id);
-        $doc_address = DB::table('doc_addresses')->find($mailmerge->address_id);
+        $editor = DB::table('editors')->find($mailmerge->editor_id);
 
         return view('apps.mailmerge.show', compact('mailmerge'))
                 ->with('doc_logo', $doc_logo)
                 ->with('exact_copy', $exact_copy)
                 ->with('signature', $signature)
-                ->with('doc_address', $doc_address);
+                ->with('editor', $editor);
     }
 
     /**
@@ -118,13 +118,13 @@ class MailMergeController extends Controller
         $doc_logos = DB::table('doc_logos')->get();
         $exact_copies = DB::table('exact_copies')->get();
         $signatures = DB::table('signatures')->get();
-        $doc_addresses = DB::table('doc_addresses')->get();
+        $editors = DB::table('editors')->get();
 
         return view('apps.mailmerge.edit', compact('mailmerge'))
                 ->with('doc_logos', $doc_logos)
                 ->with('exact_copies', $exact_copies)
                 ->with('signatures', $signatures)
-                ->with('doc_addresses', $doc_addresses);
+                ->with('editors', $editors);
     }
 
     /**
@@ -139,13 +139,13 @@ class MailMergeController extends Controller
         $request->validate([
             'protocol'=>'required',
             'logoselect' => 'required',
-            'addressselect' => 'required',
+            'editorselect' => 'required',
             'exactcopyselect' => 'required',
             'signatureselect' => 'required',
         ]);
 
         $mailmerge->logo_id = $request->get('logoselect');
-        $mailmerge->address_id = $request->get('addressselect');
+        $mailmerge->editor_id = $request->get('editorselect');
         $mailmerge->protocol_num = $request->get('protocol');
         $mailmerge->date = $request->get('date');
         $mailmerge->subject = $request->get('subject');
@@ -158,7 +158,7 @@ class MailMergeController extends Controller
         $mailmerge->updated_by = Auth::user()->id;
         $mailmerge->save();
 
-        return redirect(route('apps.mailmerge.index'))->with('status', 'Mail merge updated!');
+        return redirect(route('apps.mailmerge.index'))->with('status', __('Mail merge updated!'));
     }
 
     /**
@@ -171,7 +171,7 @@ class MailMergeController extends Controller
     {
         $mailmerge->delete();
 
-        return redirect(route('apps.mailmerge.index'))->with('status', 'Mail merge deleted!');
+        return redirect(route('apps.mailmerge.index'))->with('status', __('Mail merge deleted!'));
     }
 
     public function print(Request $request, int $id)
@@ -181,9 +181,9 @@ class MailMergeController extends Controller
         $doc_logo = DB::table('doc_logos')->find($mailmerge->logo_id);
         $exact_copy = DB::table('exact_copies')->find($mailmerge->exact_copy_id);
         $signature = DB::table('signatures')->find($mailmerge->signature_id);
-        $doc_address = DB::table('doc_addresses')->find($mailmerge->address_id);
+        $editor = DB::table('editors')->find($mailmerge->editor_id);
 
-        $data = array('id', 'doc_address', 'exact_copy', 'signature', 'doc_logo', 'draft');
+        $data = array('id', 'editor', 'exact_copy', 'signature', 'doc_logo', 'draft');
         $pdf = PDF::loadView('apps.mailmerge.print', compact('mailmerge', $data))
             ->setOptions(['print-media-type' => true,
                           'enable-javascript' => true,
@@ -204,13 +204,13 @@ class MailMergeController extends Controller
         $doc_logo = DB::table('doc_logos')->find($mailmerge->logo_id);
         $exact_copy = DB::table('exact_copies')->find($mailmerge->exact_copy_id);
         $signature = DB::table('signatures')->find($mailmerge->signature_id);
-        $doc_address = DB::table('doc_addresses')->find($mailmerge->address_id);
+        $editor = DB::table('editors')->find($mailmerge->editor_id);
 
         return view('apps.mailmerge.print', compact('mailmerge'))
                 ->with('doc_logo', $doc_logo)
                 ->with('exact_copy', $exact_copy)
                 ->with('signature', $signature)
-                ->with('doc_address', $doc_address)
+                ->with('editor', $editor)
                 ->with('draft', $draft);
     }
 
@@ -220,7 +220,7 @@ class MailMergeController extends Controller
         $doc_logo = DB::table('doc_logos')->find($mailmerge->logo_id);
         $exact_copy = DB::table('exact_copies')->find($mailmerge->exact_copy_id);
         $signature = DB::table('signatures')->find($mailmerge->signature_id);
-        $doc_address = DB::table('doc_addresses')->find($mailmerge->address_id);
+        $editor = DB::table('editors')->find($mailmerge->editor_id);
         $recipients = DB::table('recipients')->select("name", "code")->get();
 
         $xlsxdata = json_decode($mailmerge->xlsxdata, true);
@@ -228,7 +228,7 @@ class MailMergeController extends Controller
         $zip = new ZipArchive;
         $zip->open($zip_name, ZipArchive::CREATE);
         foreach ($xlsxdata as $record) {
-            $data = array('id', 'doc_address', 'exact_copy', 'signature', 'doc_logo', 'record');
+            $data = array('id', 'editor', 'exact_copy', 'signature', 'doc_logo', 'record');
             $pdf = PDF::loadView('apps.mailmerge.save', compact('mailmerge', $data))
                 ->setOptions(
                     ['print-media-type' => true,

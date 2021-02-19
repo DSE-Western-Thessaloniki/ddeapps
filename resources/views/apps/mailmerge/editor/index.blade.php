@@ -16,9 +16,9 @@
 
                     <div class="btn-toolbar pb-2" role="toolbar">
                         <div class="btn-group" role="group">
-                            @can('create', \App\Models\MailMerge\DocAddress::class)
-                            <a class="btn btn-primary mr-2" href="{{ route('apps.mailmerge.docaddress.create')}}">
-                                @icon('plus-circle') {{ __('New Address') }}
+                            @can('create', \App\Models\MailMerge\Editor::class)
+                            <a class="btn btn-primary mr-2" href="{{ route('apps.mailmerge.editor.create')}}">
+                                @icon('plus-circle') {{ __('New Editor') }}
                             </a>
                             @endcan
                         </div>
@@ -39,23 +39,23 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($docaddresses as $docaddress)
+                                @forelse($editors as $editor)
                                 <tr>
-                                    <td>{{$docaddress->id}}</td>
-                                    <td><a href="{{ route('apps.mailmerge.docaddress.show', $docaddress->id) }}">{{$docaddress->title}}</a></td>
-                                    <td>{{$docaddress->address}}</td>
-                                    <td>{{$docaddress->name}}</td>
-                                    <td>{{$docaddress->telephone}}</td>
-                                    <td>{{$docaddress->email}}</td>
-                                    <td>{{$docaddress->creator->name}}</td>
+                                    <td>{{$editor->id}}</td>
+                                    <td><a href="{{ route('apps.mailmerge.editor.show', $editor->id) }}">{{$editor->title}}</a></td>
+                                    <td>{{$editor->address}}</td>
+                                    <td>{{$editor->name}}</td>
+                                    <td>{{$editor->telephone}}</td>
+                                    <td>{{$editor->email}}</td>
+                                    <td>{{$editor->creator->name}}</td>
                                     <td>
-                                        @can('update', $docaddress)
-                                        <a href="{{ route('apps.mailmerge.docaddress.edit',$docaddress->id)}}" class="btn btn-primary">{{ __('Edit') }}</a>
+                                        @can('update', $editor)
+                                        <a href="{{ route('apps.mailmerge.editor.edit',$editor->id)}}" class="btn btn-primary">{{ __('Edit') }}</a>
                                         @endcan
                                     </td>
                                     <td>
-                                        @can('delete', $docaddress)
-                                        <form action="{{ route('apps.mailmerge.docaddress.destroy', $docaddress->id)}}" method="post">
+                                        @can('delete', $editor)
+                                        <form action="{{ route('apps.mailmerge.editor.destroy', $editor->id)}}" method="post">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-danger" type="submit">{{ __('Delete') }}</button>

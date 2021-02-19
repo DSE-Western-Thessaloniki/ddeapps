@@ -35,7 +35,7 @@ Route::prefix('apps')
             Route::prefix('mailmerge')->name('mailmerge.')->group(
                 function () {
                     Route::resource('doclogo', 'MailMerge\DocLogoController');
-                    Route::resource('docaddress', 'MailMerge\DocAddressController');
+                    Route::resource('editor', 'MailMerge\EditorController');
                     Route::resource('exactcopy', 'MailMerge\ExactCopyController');
                     Route::resource('signature', 'MailMerge\SignatureController');
                     Route::get('/print/{id}', 'MailMerge\MailMergeController@print')

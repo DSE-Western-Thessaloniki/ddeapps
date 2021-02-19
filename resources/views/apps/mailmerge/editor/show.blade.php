@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card">
-                <div class="card-header">{{ __('Addresses') }}</div>
+                <div class="card-header">{{ __('Editor') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -26,45 +26,45 @@
                     <div class="row">
                         <div class="col-3">{{ __('Title') }}</div>
                         <div class="col-9 align-self-center">
-                            {{ $docaddress->title }}
+                            {{ $editor->title }}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-3">{{ __('Address') }}</div>
                         <div class="col-9 align-self-center">
-                            {{ $docaddress->address }}
+                            {{ $editor->address }}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-3">{{ __('Name') }}</div>
                         <div class="col-9 align-self-center">
-                            {{ $docaddress->name }}
+                            {{ $editor->name }}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-3">{{ __('Telephone') }}</div>
                         <div class="col-9 align-self-center">
-                            {{ $docaddress->telephone }}
+                            {{ $editor->telephone }}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-3">{{ __('Email') }}</div>
                         <div class="col-9 align-self-center">
-                            {{ $docaddress->email }}
+                            {{ $editor->email }}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-2">
-                            <a class="btn btn-danger" href="{{ route('apps.mailmerge.docaddress.index') }}">{{ __('Back') }}</a>
+                            <a class="btn btn-danger" href="{{ route('apps.mailmerge.editor.index') }}">{{ __('Back') }}</a>
                         </div>
                         <div class="col-10 d-flex justify-content-end">
-                            @can('update', $docaddress)
-                            <a class="btn btn-primary" href="{{ route('apps.mailmerge.docaddress.edit', $doclogo->id)}}">{{ __('Edit') }}</a>
+                            @can('update', $editor)
+                            <a class="btn btn-primary" href="{{ route('apps.mailmerge.editor.edit', $doclogo->id)}}">{{ __('Edit') }}</a>
                             @endcan
                         </div>
                     </div>

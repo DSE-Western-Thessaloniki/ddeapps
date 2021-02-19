@@ -5,7 +5,7 @@ namespace App\Models\MailMerge;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
 
-class DocAddress extends Model
+class Editor extends Model
 {
     /**
      * The attributes that are mass assignable.

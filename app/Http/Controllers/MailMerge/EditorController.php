@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\MailMerge;
 
 use Illuminate\Http\Request;
-use App\Models\MailMerge\DocAddress;
+use App\Models\MailMerge\Editor;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class DocAddressController extends Controller
+class EditorController extends Controller
 {
     /**
      * Create the controller instance.
@@ -16,7 +16,7 @@ class DocAddressController extends Controller
      */
     public function __construct()
     {
-        $this->authorizeResource(DocAddress::class, 'docaddress');
+        $this->authorizeResource(Editor::class, 'editor');
     }
 
     /**
@@ -26,8 +26,8 @@ class DocAddressController extends Controller
      */
     public function index()
     {
-        $docaddresses = DocAddress::all();
-        return view('apps.mailmerge.docaddress.index')->with('docaddresses', $docaddresses);
+        $editors = Editor::all();
+        return view('apps.mailmerge.editor.index')->with('editors', $editors);
     }
 
     /**
@@ -37,7 +37,7 @@ class DocAddressController extends Controller
      */
     public function create()
     {
-        return view('apps.mailmerge.docaddress.create');
+        return view('apps.mailmerge.editor.create');
     }
 
     /**
@@ -52,7 +52,7 @@ class DocAddressController extends Controller
             'title'=>'required',
         ]);
 
-        $docaddress = new DocAddress([
+        $editor = new Editor([
             'title' => $request->get('title'),
             'address' => $request->get('address'),
             'name' => $request->get('name'),
@@ -62,66 +62,66 @@ class DocAddressController extends Controller
             'created_by' => Auth::user()->id,
         ]);
 
-        $docaddress->save();
-        return redirect(route('apps.mailmerge.docaddress.index'))->with('status', 'Address saved!');
+        $editor->save();
+        return redirect(route('apps.mailmerge.editor.index'))->with('status', __('Editor saved!'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\MailMerge\DocAddress $docaddress
+     * @param  \App\Models\MailMerge\Editor $editor
      * @return \Illuminate\Http\Response
      */
-    public function show(DocAddress $docaddress)
+    public function show(Editor $editor)
     {
-        return view('apps.mailmerge.docaddress.show', compact('docaddress'));
+        return view('apps.mailmerge.editor.show', compact('editor'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\MailMerge\DocAddress $docaddress
+     * @param  \App\Models\MailMerge\Editor $editor
      * @return \Illuminate\Http\Response
      */
-    public function edit(DocAddress $docaddress)
+    public function edit(Editor $editor)
     {
-        return view('apps.mailmerge.docaddress.edit', compact('docaddress'));
+        return view('apps.mailmerge.editor.edit', compact('editor'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\MailMerge\DocAddress $docaddress
+     * @param  \App\Models\MailMerge\Editor $editor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DocAddress $docaddress)
+    public function update(Request $request, Editor $editor)
     {
         $request->validate([
             'title'=>'required',
         ]);
 
-        $docaddress->title = $request->get('title');
-        $docaddress->address = $request->get('address');
-        $docaddress->name = $request->get('name');
-        $docaddress->telephone = $request->get('telephone');
-        $docaddress->email = $request->get('email');
-        $docaddress->updated_by = Auth::user()->id;
-        $docaddress->save();
+        $editor->title = $request->get('title');
+        $editor->address = $request->get('address');
+        $editor->name = $request->get('name');
+        $editor->telephone = $request->get('telephone');
+        $editor->email = $request->get('email');
+        $editor->updated_by = Auth::user()->id;
+        $editor->save();
 
-        return redirect(route('apps.mailmerge.docaddress.index'))->with('status', 'Address updated!');
+        return redirect(route('apps.mailmerge.editor.index'))->with('status', __('Editor updated!'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\MailMerge\DocAddress $docaddress
+     * @param  \App\Models\MailMerge\Editor $editor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DocAddress $docaddress)
+    public function destroy(Editor $editor)
     {
-        $docaddress->delete();
+        $editor->delete();
 
-        return redirect(route('apps.mailmerge.docaddress.index'))->with('status', 'Address deleted!');
+        return redirect(route('apps.mailmerge.editor.index'))->with('status', __('Editor deleted!'));
     }
 }

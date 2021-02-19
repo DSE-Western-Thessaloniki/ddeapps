@@ -36,15 +36,15 @@
                         @auth
                         <div class="dropdown">
                             <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              {{__('Mail Merge')}} <span class="caret"></span>
+                              {{__('Mail Merges')}} <span class="caret"></span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                               <a class="dropdown-item" href="{{ route('apps.mailmerge.doclogo.index') }}">@icon('university') {{ __('Logos') }}</a>
-                              <a class="dropdown-item" href="{{ route('apps.mailmerge.docaddress.index') }}">@icon('map-marked-alt') {{ __('Addresses') }}</a>
+                              <a class="dropdown-item" href="{{ route('apps.mailmerge.editor.index') }}">@icon('map-marked-alt') {{ __('Editors') }}</a>
                               <a class="dropdown-item" href="{{ route('apps.mailmerge.exactcopy.index') }}">@icon('copy') {{ __('Exact Copies') }}</a>
                               <a class="dropdown-item" href="{{ route('apps.mailmerge.signature.index') }}">@icon('file-signature') {{ __('Signatures') }}</a>
                               <a class="dropdown-item" href="{{ route('apps.mailmerge.recipient.index') }}">@icon('address-book') {{ __('Recipients') }}</a>
-                              <a class="dropdown-item" href="{{ route('apps.mailmerge.index') }}">@icon('file-medical-alt') {{ __('Mail Merge') }}</a>
+                              <a class="dropdown-item" href="{{ route('apps.mailmerge.index') }}">@icon('file-medical-alt') {{ __('Mail Merges') }}</a>
                             </div>
                         </div>
                         @endauth

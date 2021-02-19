@@ -2,11 +2,11 @@
 
 namespace App\Models\MailMerge\Policies;
 
-use App\Models\MailMerge\DocAddress;
+use App\Models\MailMerge\Editor;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class DocAddressPolicy
+class EditorPolicy
 {
     use HandlesAuthorization;
 
@@ -25,19 +25,19 @@ class DocAddressPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->roles()->where('name', 'DocAddressRead')->exists();
+        return $user->roles()->where('name', 'EditorRead')->exists();
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
-     * @param  \App\DocAddress  $docAddress
+     * @param  \App\Editor  $editor
      * @return mixed
      */
-    public function view(User $user, DocAddress $docAddress)
+    public function view(User $user, Editor $editor)
     {
-        return $user->roles()->where('name', 'DocAddressRead')->exists();
+        return $user->roles()->where('name', 'EditorRead')->exists();
     }
 
     /**
@@ -48,58 +48,58 @@ class DocAddressPolicy
      */
     public function create(User $user)
     {
-        return $user->roles()->where('name', 'DocAddressWrite')->exists();
+        return $user->roles()->where('name', 'EditorWrite')->exists();
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\User  $user
-     * @param  \App\DocAddress  $docAddress
+     * @param  \App\Editor  $editor
      * @return mixed
      */
-    public function update(User $user, DocAddress $docAddress)
+    public function update(User $user, Editor $editor)
     {
-        return ($user->roles()->where('name', 'DocAddressUpdate')->exists() &&
-                ($docAddress->creator->id === $user->id));
+        return ($user->roles()->where('name', 'EditorUpdate')->exists() &&
+                ($editor->creator->id === $user->id));
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\DocAddress  $docAddress
+     * @param  \App\Editor  $editor
      * @return mixed
      */
-    public function delete(User $user, DocAddress $docAddress)
+    public function delete(User $user, Editor $editor)
     {
-        return ($user->roles()->where('name', 'DocAddressWrite')->exists() &&
-                ($docAddress->creator->id === $user->id));
+        return ($user->roles()->where('name', 'EditorWrite')->exists() &&
+                ($editor->creator->id === $user->id));
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\User  $user
-     * @param  \App\DocAddress  $docAddress
+     * @param  \App\Editor  $editor
      * @return mixed
      */
-    public function restore(User $user, DocAddress $docAddress)
+    public function restore(User $user, Editor $editor)
     {
-        return ($user->roles()->where('name', 'DocAddressWrite')->exists() &&
-                ($docAddress->creator->id === $user->id));
+        return ($user->roles()->where('name', 'EditorWrite')->exists() &&
+                ($editor->creator->id === $user->id));
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\DocAddress  $docAddress
+     * @param  \App\Editor  $editor
      * @return mixed
      */
-    public function forceDelete(User $user, DocAddress $docAddress)
+    public function forceDelete(User $user, Editor $editor)
     {
-        return ($user->roles()->where('name', 'DocAddressWrite')->exists() &&
-                ($docAddress->creator->id === $user->id));
+        return ($user->roles()->where('name', 'EditorWrite')->exists() &&
+                ($editor->creator->id === $user->id));
     }
 }

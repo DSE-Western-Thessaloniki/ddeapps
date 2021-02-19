@@ -13,15 +13,15 @@
                 </i> {{ __('Create Logo') }}
             </a>
         </div>
-        <div v-else-if="doc_addresses.length == 0">
+        <div v-else-if="editors.length == 0">
             <div class="alert alert-danger">
                 <ul>
-                <li>{{ __('Cannot continue without creating an address.') }}</li>
+                <li>{{ __('Cannot continue without creating an editor.') }}</li>
                 </ul>
             </div><br />
-            <a class="btn btn-primary" :href="route_doc_address_create">
+            <a class="btn btn-primary" :href="route_doc_editor_create">
                 <i class="fa-fw fas fa-plus-circle">
-                </i> {{ __('Create Address') }}
+                </i> {{ __('Create Editor') }}
             </a>
         </div>
         <div v-else-if="signatures.length == 0">
@@ -102,13 +102,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="addressselect">{{ __('Address')+':' }}</label>
-                    <select class="form-control" id="addressselect" name="addressselect" v-model="address_selected">
-                        <option v-for="doc_address in doc_addresses"
-                                :key="doc_address.id"
-                                :value="doc_address.id"
+                    <label for="editorselect">{{ __('Editor')+':' }}</label>
+                    <select class="form-control" id="editorselect" name="editorselect" v-model="editor_selected">
+                        <option v-for="editor in editors"
+                                :key="editor.id"
+                                :value="editor.id"
                         >
-                            {{ doc_address.title }}
+                            {{ editor.title }}
                         </option>
                     </select>
                 </div>
@@ -183,8 +183,8 @@
         props: {
             doc_logos_str: String,
             doc_logos_selected: String,
-            doc_addresses_str: String,
-            doc_addresses_selected: String,
+            editors_str: String,
+            editors_selected: String,
             signatures_str: String,
             signatures_selected: String,
             exact_copies_str: String,
@@ -199,7 +199,7 @@
             route_exact_copy_create: String,
             route_doc_logo_create: String,
             route_signature_create: String,
-            route_doc_address_create: String,
+            route_editor_create: String,
             route_index: String,
         },
         created() {
@@ -226,7 +226,7 @@
                 subject: this.doc_subject,
                 config: {},
                 logo_selected: this.doc_logos_selected,
-                address_selected: this.doc_addresses_selected,
+                editor_selected: this.editors_selected,
                 signature_selected: this.signatures_selected,
                 exact_copy_selected: this.exact_copies_selected,
             };
@@ -309,8 +309,8 @@
             doc_logos: function() {
                 return JSON.parse(this.doc_logos_str)
             },
-            doc_addresses: function() {
-                return JSON.parse(this.doc_addresses_str)
+            editors: function() {
+                return JSON.parse(this.editors_str)
             },
             signatures: function() {
                 return JSON.parse(this.signatures_str)

@@ -3,9 +3,9 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-12">
+        <div class="col-md-10">
             <div class="card">
-                <div class="card-header">{{ __('Addresses') }}</div>
+                <div class="card-header">{{ __('Editor') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -23,34 +23,36 @@
                     </div><br />
                     @endif
 
-                    {!! Form::open(['action' => 'MailMerge\DocAddressController@store',
+                    {!! Form::open(['action' => ['MailMerge\EditorController@update', $editor->id],
                     'method' => 'POST']) !!}
 
                     <div class="form-group">
                         <label for="title">{{ __('Title') }}</label>
-                        <input type="text" id="title" name="title" class="form-control" value="{{ old('title') }}" required>
+                        <input type="text" id="title" name="title" class="form-control" value="{{$editor->title}}" required>
                     </div>
                     <div class="form-group">
                         <label for="address">{{ __('Address') }}</label>
-                        <input type="text" id="address" name="address" class="form-control" value="{{ old('address') }}">
+                        <input type="text" id="address" name="address" class="form-control" value="{{$editor->address}}">
                     </div>
                     <div class="form-group">
                         <label for="name">{{ __('Name') }}</label>
-                        <input type="text" id="name" name="name" class="form-control" value="{{ old('name') }}">
+                        <input type="text" id="name" name="name" class="form-control" value="{{$editor->name}}">
                     </div>
                     <div class="form-group">
                         <label for="telephone">{{ __('Telephone') }}</label>
-                        <input type="text" id="telephone" name="telephone" class="form-control" value="{{ old('telephone') }}">
+                        <input type="text" id="telephone" name="telephone" class="form-control" value="{{$editor->telephone}}">
                     </div>
                     <div class="form-group">
                         <label for="email">{{ __('Email') }}</label>
-                        <input type="email" id="email" name="email" class="form-control" value="{{ old('email') }}">
+                        <input type="email" id="email" name="email" class="form-control" value="{{$editor->email}}">
                     </div>
+
                     <div class="form-group row">
                         <div class="col-2">
-                            <a class="btn btn-danger" href="{{ route('apps.mailmerge.docaddress.index') }}">{{ __('Cancel')}}</a>
+                            <a class="btn btn-danger" href="{{ route('apps.mailmerge.editor.index') }}">{{ __('Cancel') }}</a>
                         </div>
                         <div class="col-10 d-flex justify-content-end">
+                            {{Form::hidden('_method', 'PUT')}}
                             {{Form::submit(__('Save'), ['class' => 'btn btn-primary'])}}
                         </div>
                     </div>

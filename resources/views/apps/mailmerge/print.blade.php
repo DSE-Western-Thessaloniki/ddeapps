@@ -48,19 +48,19 @@ $base64_logo = base64_encode(file_get_contents(url(env('APP_URL')."/images/".$do
                     <table class="table table-borderless doc-address-col">
                         <tr>
                             <td class="no-wrap pr-1">Ταχ. Διεύθυνση:</td>
-                            <td>{{ $doc_address->address }}</td>
+                            <td>{{ $editor->address }}</td>
                         </tr>
                         <tr>
                             <td>Πληροφορίες:</td>
-                            <td>{{ $doc_address->name }}</td>
+                            <td>{{ $editor->name }}</td>
                         </tr>
                         <tr>
                             <td>Τηλέφωνο:</td>
-                            <td>{{ $doc_address->telephone }}</td>
+                            <td>{{ $editor->telephone }}</td>
                         </tr>
                         <tr>
                             <td>Email:</td>
-                            <td><a href="mailto:{{ $doc_address->email }}">{{ $doc_address->email }}</a></td>
+                            <td><a href="mailto:{{ $editor->email }}">{{ $editor->email }}</a></td>
                         </tr>
                     </table>
                 </td>

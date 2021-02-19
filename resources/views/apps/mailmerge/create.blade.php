@@ -28,11 +28,11 @@
 
                         <mailmerge-component
                             doc_logos_str="{{ $doc_logos->toJson() }}"
-                            doc_addresses_str="{{ $doc_addresses->toJson() }}"
+                            editors_str="{{ $editors->toJson() }}"
                             signatures_str="{{ $signatures->toJson() }}"
                             exact_copies_str="{{ $exact_copies->toJson() }}"
                             route_doc_logo_create="{{ route('apps.mailmerge.doclogo.create') }}"
-                            route_doc_address_create="{{ route('apps.mailmerge.docaddress.create') }}"
+                            route_editor_create="{{ route('apps.mailmerge.editor.create') }}"
                             route_signature_create="{{ route('apps.mailmerge.signature.create') }}"
                             route_exact_copy_create="{{ route('apps.mailmerge.exactcopy.create') }}"
                             route_index="{{ route('apps.mailmerge.index') }}"
