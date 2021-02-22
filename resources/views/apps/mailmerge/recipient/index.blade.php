@@ -30,6 +30,7 @@
                                     <th>{{ __('Id') }}</th>
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Code') }}</th>
+                                    <th>{{ __('Aliases') }}</th>
                                     <th>{{ __('Created by') }}</th>
                                     <th></th>
                                     <th></th>
@@ -41,6 +42,7 @@
                                     <td>{{$recipient->id}}</td>
                                     <td><a href="{{ route('apps.mailmerge.recipient.show', $recipient->id) }}">{{$recipient->name}}</a></td>
                                     <td>{{$recipient->code}}</td>
+                                    <td>{{$recipient->links()}}</td>
                                     <td>{{$recipient->creator->name}}</td>
                                     <td>
                                         @can('update', $recipient)

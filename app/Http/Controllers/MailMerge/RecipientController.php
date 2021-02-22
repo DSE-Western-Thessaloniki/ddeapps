@@ -27,7 +27,7 @@ class RecipientController extends Controller
      */
     public function index()
     {
-        $recipients = Recipient::all();
+        $recipients = Recipient::all()->where('link', '=', '');
         return view('apps.mailmerge.recipient.index')->with('recipients', $recipients);
     }
 
@@ -107,6 +107,18 @@ class RecipientController extends Controller
         $recipient->code = $request->get('code');
         $recipient->updated_by = Auth::user()->id;
         $recipient->save();
+
+        // Check if we need to delete aliases
+        //dd($request->del_aliases);
+        $delObj = json_decode($request->del_aliases);
+        foreach ($delObj as $id) {
+            $link = Recipient::find($id);
+
+            // Just a sanity check
+            if ($link->link == $recipient->name) {
+                $link->delete();
+            }
+        }
 
         return redirect(route('apps.mailmerge.recipient.index'))->with('status', __('Recipient updated!'));
     }

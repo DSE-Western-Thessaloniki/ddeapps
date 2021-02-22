@@ -35,6 +35,11 @@
                         <input type="text" id="code" name="code" class="form-control" value="{{$recipient->code}}" required>
                     </div>
 
+                    <recipientlinks
+                        links="{{ $recipient->linksJson() }}"
+                    >
+                    </recipientlinks>
+
                     <div class="form-group row">
                         <div class="col-2">
                             <a class="btn btn-danger" href="{{ route('apps.mailmerge.recipient.index') }}">{{ __('Cancel') }}</a>

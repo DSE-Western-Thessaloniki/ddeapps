@@ -42,6 +42,7 @@ Vue.component('doclogoform', require('./components/mailmerge/DocLogoForm.vue').d
 Vue.component('xlsxcomponent', require('./components/mailmerge/XlsxComponent.vue').default);
 Vue.component('pagepreview', require('./components/mailmerge/PagePreview.vue').default);
 Vue.component('rolecomponent', require('./components/mailmerge/RoleComponent.vue').default);
+Vue.component('recipientlinks', require('./components/mailmerge/RecipientLinks.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
