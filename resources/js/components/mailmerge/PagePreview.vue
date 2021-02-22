@@ -3,7 +3,7 @@
         <div class="btn-toolbar"> <!-- toolbar -->
             <div class="btn-toolbar mb-3" role="toolbar" aria-label="Preview toolbar">
                 <div class="btn-group btn-group-lg mr-2" role="group" aria-label="First group">
-                    <a href="#" role="button" class="btn btn-dark btn-label" aria-disabled="true">Zoom:</a>
+                    <button role="button" class="btn btn-dark btn-label" aria-disabled="true"><span class="align-middle">{{ __('Zoom') }}:</span></button>
                     <select class="btn btn-dark    "
                             name="pagezoom"
                             v-on:change="setZoom"
@@ -11,16 +11,16 @@
                         <option v-for="zoom in zoomLevel"
                             :value="zoom"
                             :key="zoom"
-                            :selected="zoom == 70">
+                            :selected="zoom == '70%'">
                             {{zoom}}
                         </option>
                     </select>
-                    <a href="#" role="button" class="btn btn-dark btn-label" aria-disabled="true">Record:</a>
+                    <button role="button" class="btn btn-dark btn-label" aria-disabled="true"><span class="align-middle">{{ __('Record') }}:</span></button>
                     <button class="btn btn-dark" aria-disabled="true" @click="leftArrowClicked"><i class="fa fa-arrow-left"></i></button>
-                    <a href="#" role="button" class="btn btn-dark" aria-disabled="true" id="current_record" @click="showCurrentRecordInput">1</a>
+                    <button role="button" class="btn btn-dark" aria-disabled="true" id="current_record" @click="showCurrentRecordInput"><span class="align-middle">1</span></button>
                     <input type="text" class="btn-light d-none" id="current_record_input" size="3" @change="currentRecordInputChanged($event)">
-                    <a href="#" role="button" class="btn btn-dark btn-label" aria-disabled="true">/</a>
-                    <a href="#" role="button" class="btn btn-dark btn-label" aria-disabled="true" id="last-record">0</a>
+                    <button role="button" class="btn btn-dark btn-label" aria-disabled="true"><span class="align-middle">/</span></button>
+                    <button role="button" class="btn btn-dark btn-label" aria-disabled="true" id="last-record"><span class="align-middle">0</span></button>
                     <button class="btn btn-dark" aria-disabled="true" @click="rightArrowClicked"><i class="fa fa-arrow-right"></i></button>
                     <a :href="edit_mailmerge_url" class="btn btn-dark preview-toolbar-button" aria-disabled="true" data-toggle="tooltip" data-placement="bottom" title="Επεξεργασία εγγράφου"><i class="fas fa-pencil-alt"></i><br/><span>Επεξεργασία</span></a>
                     <a :href="print_url_draft" target="_blank" class="btn btn-dark preview-toolbar-button" aria-disabled="true" data-toggle="tooltip" data-placement="bottom" title="Εκτύπωση συγχωνευμένων εγγράφων (τρίπτυχο)"><i class="fab fa-firstdraft"></i><br/><span>Τρίπτυχο</span></a>
@@ -179,7 +179,7 @@
         methods: {
             setZoom: function() {
                 var transformOrigin = [0,0];
-                var zoom = $('select[name="pagezoom"').val();
+                var zoom = parseInt($('select[name="pagezoom"').val());
                 var el = $('div.page');
                 var p = ["webkit", "moz", "ms", "o"],
                     s = "scale(" + zoom/100 + ")",
@@ -210,7 +210,7 @@
             },
 
             getLastRecord: function() {
-                $('#last-record').html(this.records[this.records.length - 1].id);
+                $('#last-record span').html(this.records[this.records.length - 1].id);
             },
 
             currentRecordChanged: function(e) {
@@ -500,7 +500,7 @@
             zoomLevel: function() {
                 var lvl = [];
                 for (var i=10; i<=100; i+=10) {
-                    lvl.push(i);
+                    lvl.push(i+'%');
                 }
                 return lvl;
             },

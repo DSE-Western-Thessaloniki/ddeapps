@@ -84,6 +84,7 @@
     "Recipient saved!": "Ο παραλήπτης αποθηκεύτηκε!",
     "Recipient updated!": "Τα στοιχεία του παραλήπτη ενημερώθηκαν!",
     "Recipient deleted!": "Ο παραλήπτης διαγράφηκε!",
+    "Record": "Εγγραφή",
     "Register": "Εγγραφή",
     "Register user": "Εγγραφή χρήστη",
     "Remember Me": "Να με θυμάσαι",
@@ -112,5 +113,6 @@
     "Verify Your Email Address": "Επαλήθευση της email διεύθυνσής σας",
     "Write": "Εγγραφή",
     "You are logged in!": "Είστε συνδεδεμένος/η!",
-    "You can select one or more columns to be used as a recipient list by right clicking on each column.": "Μπορείτε να επιλέξετε μια ή περισσότερες στήλες να χρησιμοποιηθούν ως λίστα παραληπτών κάνοντας δεξί κλικ επάνω σε κάθε στήλη."
+    "You can select one or more columns to be used as a recipient list by right clicking on each column.": "Μπορείτε να επιλέξετε μια ή περισσότερες στήλες να χρησιμοποιηθούν ως λίστα παραληπτών κάνοντας δεξί κλικ επάνω σε κάθε στήλη.",
+    "Zoom": "Μέγεθος"
 }
