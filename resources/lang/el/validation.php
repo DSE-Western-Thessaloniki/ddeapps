@@ -30,7 +30,7 @@ return [
         'array' => 'Το πεδίο :attribute πρέπει να είναι μεταξύ :min και :max αντικείμενα.',
     ],
     'boolean' => 'Το πεδίο :attribute πρέπει να είναι αληθές ή ψευδές.',
-    'confirmed' => 'Το πεδίο :attribute confirmation does not match.',
+    'confirmed' => 'Το πεδίο :attribute δεν επαληθεύτηκε.',
     'date' => 'Το πεδίο :attribute δεν είναι έγκυρη ημερομηνία.',
     'date_equals' => 'Το πεδίο :attribute πρέπει να είναι μια ημερομηνία ίση με :date.',
     'date_format' => 'Το πεδίο :attribute δεν ταιριάζει με την μορφή :format.',
@@ -146,6 +146,8 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'password' => 'κωδικός'
+    ],
 
 ];

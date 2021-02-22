@@ -23,10 +23,13 @@ Auth::routes(
     [
         'reset' => false,
         'verify' => false,
+        'confirm' => false,
     ]
 );
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/password', 'HomeController@password')->name('password');
+Route::post('/password', 'HomeController@changePassword')->name('change_password');
 Route::prefix('apps')
     ->name('apps.')
     ->middleware('auth')

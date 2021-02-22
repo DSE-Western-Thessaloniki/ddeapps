@@ -64,6 +64,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('password') }}">{{ __('Change Password')}}</a>
                                     @if(Auth::user()->isAdministrator())
                                     <a class="dropdown-item" href="{{ route('admin.index') }}">{{ __('Administration') }}</a>
                                     @endif
