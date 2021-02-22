@@ -366,7 +366,7 @@
 
                         //return fuse.search(pattern)
 
-                        vueobj.delayedLoop(vueobj.records, 200, function(item, index) {
+                        vueobj.delayedLoop(vueobj.records, 20, function(item, index) {
                             //console.log(item);
                             //console.log(vueobj.doc_recipient_fields);
                             var doc_fields = JSON.parse(vueobj.doc_recipient_fields);
