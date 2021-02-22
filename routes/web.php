@@ -67,6 +67,12 @@ Route::prefix('apps')
         ->middleware('auth')
         ->group(
             function () {
+                Route::prefix('user')->name('user.')->group(
+                    function () {
+                        Route::get('/{user}/password', 'UserController@password')->name('password');
+                        Route::post('/{user}/password', 'UserController@changePassword')->name('change_password');
+                    }
+                );
                 Route::resource('user', 'UserController');
                 Route::get('/', 'AdminController@index')->name('index');
             }

@@ -146,4 +146,28 @@ class UserController extends Controller
 
         return redirect(route('admin.user.index'))->with('status', 'User deleted!');
     }
+
+    public function password(User $user)
+    {
+        if (Auth::user()->isAdministrator()) {
+            return view('admin.user.password')->with('user', $user);
+        }
+        abort(403);
+    }
+
+    public function changePassword(Request $request, User $user)
+    {
+        if (Auth::user()->isAdministrator()) {
+            $request->validate([
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ]);
+
+            $user->password = Hash::make($request->get('password'));
+            $user->save();
+
+            return redirect()->route('admin.user.index')->with('status', __('Password changed!'));
+        }
+        abort(403);
+    }
+
 }

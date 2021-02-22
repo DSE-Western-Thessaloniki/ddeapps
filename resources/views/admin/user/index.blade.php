@@ -58,7 +58,8 @@
                                         </td>
                                     @endif
                                     <td>
-                                        <a href="{{ route('admin.user.edit',$user->id)}}" class="btn btn-primary">{{ __('Edit') }}</a>
+                                        <a href="{{ route('admin.user.edit', $user)}}" class="btn btn-primary m-1">{{ __('Edit') }}</a><br/>
+                                        <a href="{{ route('admin.user.password', $user)}}" class="btn btn-success m-1">{{ __('Change Password') }}</a>
                                     </td>
                                     <td>
                                         <form action="{{ route('admin.user.destroy', $user->id)}}" method="post">
