@@ -158,6 +158,7 @@
             save_mail_merge_url: String,
             recipient_list_url: String,
             edit_mailmerge_url: String,
+            store_many_url: String,
             app_url: String,
         },
         mounted() {
@@ -483,7 +484,7 @@
                                link: row.children[2].children[0].selectedOptions[0].innerText});
                 });
                 console.log(data);
-                $.post({url: "/apps/mailmerge/recipient/storeMany",
+                $.post({url: this.store_many_url,
                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                         data: {many: data}})
                     .done(function (data) {

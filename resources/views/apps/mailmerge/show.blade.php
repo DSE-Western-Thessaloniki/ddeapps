@@ -49,6 +49,7 @@ $date = new DateTime($mailmerge->date);
                         save_mail_merge_url="{{ route('apps.mailmerge.save', ['id' => $mailmerge->id]) }}"
                         recipient_list_url="{{ route('apps.mailmerge.recipient.list') }}"
                         edit_mailmerge_url="{{ route('apps.mailmerge.edit', ['mailmerge' => $mailmerge->id]) }}"
+                        store_many_url="{{ route('apps.mailmerge.recipient.storeMany') }}"
                         app_url={{ env('APP_URL') }}
                     >
 
