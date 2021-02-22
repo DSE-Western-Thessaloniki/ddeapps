@@ -1,11 +1,11 @@
 /**
- * A plugin to enable placeholder tokens to be inserted into the CKEditor message. Use on its own or with teh placeholder plugin. 
+ * A plugin to enable placeholder tokens to be inserted into the CKEditor message. Use on its own or with teh placeholder plugin.
  * The default format is compatible with the placeholders syntex
  *
- * @version 0.1 
+ * @version 0.1
  * @Author Troy Lutton
- * @license MIT 
- * 
+ * @license MIT
+ *
  * This is a pure modification for the placeholders plugin. All credit goes to Stuart Sillitoe for creating the original (stuartsillitoe.co.uk)
  *
  */
@@ -17,18 +17,19 @@ CKEDITOR.plugins.add('placeholder_select',
 	init : function( editor )
 	{
 		//  array of placeholders to choose from that'll be inserted into the editor
-		var placeholders = [];
+		var placeholders;
 		var buildListHasRunOnce = 0;
-		
+
 		var buildList = function()
 		{
+            placeholders = [];
 			// init the default config - empty placeholders
 			var defaultConfig = {
 				format: '[[%placeholder%]]',
 				placeholders : []
 			};
 
-			// merge defaults with the passed in items		
+			// merge defaults with the passed in items
 			var config = CKEDITOR.tools.extend(defaultConfig, editor.config.placeholder_select || {}, true);
 
 			if (buildListHasRunOnce) {
@@ -40,7 +41,7 @@ CKEDITOR.plugins.add('placeholder_select',
 			// run through an create the set of items to use
 			for (var i = 0; i < config.placeholders.length; i++) {
 				// get our potentially custom placeholder format
-				var placeholder = config.format.replace('%placeholder%', config.placeholders[i]);			
+				var placeholder = config.format.replace('%placeholder%', config.placeholders[i]);
 				placeholders.push([placeholder, config.placeholders[i], config.placeholders[i]]);
 			}
 
