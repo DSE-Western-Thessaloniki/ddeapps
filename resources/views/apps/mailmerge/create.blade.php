@@ -36,6 +36,7 @@
                             route_signature_create="{{ route('apps.mailmerge.signature.create') }}"
                             route_exact_copy_create="{{ route('apps.mailmerge.exactcopy.create') }}"
                             route_index="{{ route('apps.mailmerge.index') }}"
+                            func="create"
                         >
                         </mailmerge-component>
 

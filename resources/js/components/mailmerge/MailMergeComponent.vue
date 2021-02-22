@@ -53,7 +53,7 @@
                 <div class="col-auto mr-auto">
                     <a class="btn btn-danger" id="Cancel" :href="route_index">{{ __('Cancel') }}</a>
                 </div>
-                <div v-show="step == steps" class="col-auto">
+                <div v-show="step == steps || func == 'edit'" class="col-auto">
                     <button class="btn btn-primary" id="Save" type="submit">{{ __('Save') }}</button>
                 </div>
             </div>
@@ -201,6 +201,7 @@
             route_signature_create: String,
             route_editor_create: String,
             route_index: String,
+            func: String,
         },
         created() {
         },
