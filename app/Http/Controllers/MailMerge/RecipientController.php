@@ -131,6 +131,7 @@ class RecipientController extends Controller
      */
     public function list()
     {
+        $this->authorize('viewAny', Recipient::class);
         $recipients = Recipient::all(['name','code']);
         return response()->json($recipients);
     }
@@ -143,6 +144,10 @@ class RecipientController extends Controller
      */
     public function storeMany(Request $request)
     {
+        if ($request->user()->cannot('create', Recipient::class)) {
+            abort(403);
+        }
+
         $request->validate(
             [
                 'many.*.name'=>'unique:recipients,name|required|string',

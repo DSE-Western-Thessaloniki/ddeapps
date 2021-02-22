@@ -177,6 +177,9 @@ class MailMergeController extends Controller
     public function print(Request $request, int $id)
     {
         $mailmerge = MailMerge::find($id);
+        if ($request->user()->cannot('view', $mailmerge)) {
+            abort(403);
+        }
         $draft = $request->get('draft');
         $doc_logo = DB::table('doc_logos')->find($mailmerge->logo_id);
         $exact_copy = DB::table('exact_copies')->find($mailmerge->exact_copy_id);
@@ -200,6 +203,9 @@ class MailMergeController extends Controller
     public function show2(Request $request, int $id)
     {
         $mailmerge = MailMerge::find($id);
+        if ($request->user()->cannot('view', $mailmerge)) {
+            abort(403);
+        }
         $draft = $request->get('draft');
         $doc_logo = DB::table('doc_logos')->find($mailmerge->logo_id);
         $exact_copy = DB::table('exact_copies')->find($mailmerge->exact_copy_id);
@@ -217,6 +223,7 @@ class MailMergeController extends Controller
     public function save(int $id)
     {
         $mailmerge = MailMerge::find($id);
+        $this->authorize('view', $mailmerge);
         $doc_logo = DB::table('doc_logos')->find($mailmerge->logo_id);
         $exact_copy = DB::table('exact_copies')->find($mailmerge->exact_copy_id);
         $signature = DB::table('signatures')->find($mailmerge->signature_id);
