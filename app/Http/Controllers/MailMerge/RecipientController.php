@@ -167,6 +167,8 @@ class RecipientController extends Controller
                                 'name' => $item['name'],
                                 'code' => $item['code'],
                                 'link' => $item['link'],
+                                'updated_by' => Auth::user()->id,
+                                'created_by' => Auth::user()->id,
                             ]
                         )
                     );
