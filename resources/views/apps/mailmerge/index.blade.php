@@ -46,8 +46,9 @@
 
                                     <td>
                                         @can('update', $mailmerge)
-                                        <a href="{{ route('apps.mailmerge.edit',$mailmerge->id)}}" class="btn btn-primary">{{ __('Edit') }}</a>
+                                        <a href="{{ route('apps.mailmerge.edit',$mailmerge->id)}}" class="btn btn-primary m-1">{{ __('Edit') }}</a><br/>
                                         @endcan
+                                        <a href="{{ route('apps.mailmerge.print',$mailmerge->id)}}" target="_blank" class="btn btn-success m-1">{{ __('Print') }}</a>
                                     </td>
                                     <td>
                                         @can('delete', $mailmerge)
