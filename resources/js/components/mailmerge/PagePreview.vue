@@ -172,6 +172,7 @@
                 current_record: 0,
                 recipient_fields: JSON.parse(this.doc_recipient_fields),
                 progress: 0,
+                to_select: 0,
             }
         },
         watch: {
@@ -337,11 +338,11 @@
                         console.log(vueobj.doc_recipient_fields);
 
                         // Φτιάξε το combobox με τους διαθέσιμους παραλήπτες
-                        var recipient_options = "";
+                        var recipient_options = "<option value=-1>Παρακαλώ επιλέξτε</option>";
                         recipients.forEach(function (recipient) {
                             recipient_options += "<option value=\"" + recipient.code + "\">" + recipient.name + "</option>";
                         });
-                        var recipient_selector = "<select name='recipient'>" + recipient_options + "</select>";
+                        var recipient_selector = "<select name='recipient' @change='recipientSelectorChanged'>" + recipient_options + "</select>";
 
                         // Προετοιμασία fuzzy search
                         const options = {
@@ -417,6 +418,7 @@
                                     else {
                                         icon = '<i>0%</i>'
                                         my_recipient_selector = recipient_selector;
+                                        vueobj.to_select++;
                                     }
 
                                     $('#unknown_recipients').removeClass('d-none');
@@ -476,24 +478,38 @@
                 nextInteration();
             },
             saveRecipientsClicked: function() {
-                $("#save_recipients").addClass("disabled");
-                var data = new Array();
-                $("#unknown_recipients table tr").each(function (index, row) {
-                    data.push({name: row.children[0].innerText,
-                               code: row.children[2].children[0].selectedOptions[0].value,
-                               link: row.children[2].children[0].selectedOptions[0].innerText});
-                });
-                console.log(data);
-                $.post({url: this.store_many_url,
-                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                        data: {many: data}})
-                    .done(function (data) {
-                        $("#save_mail_merge").removeClass("disabled");
-                    })
-                    .fail(function (data) {
-                        alert("Failed saving data");
-                        $("#save_recipients").removeClass("disabled");
+                if (this.to_select) {
+                    alert('Παρακαλώ επιλέξτε αντιστοίχιση για όλους τους παραλήπτες!');
+                }
+                else {
+                    $("#save_recipients").addClass("disabled");
+                    var data = new Array();
+                    $("#unknown_recipients table tr").each(function (index, row) {
+                        data.push({name: row.children[0].innerText,
+                                code: row.children[2].children[0].selectedOptions[0].value,
+                                link: row.children[2].children[0].selectedOptions[0].innerText});
                     });
+                    console.log(data);
+                    $.post({url: this.store_many_url,
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                            data: {many: data}})
+                        .done(function (data) {
+                            $("#save_mail_merge").removeClass("disabled");
+                        })
+                        .fail(function (data) {
+                            alert("Failed saving data");
+                            $("#save_recipients").removeClass("disabled");
+                        });
+                }
+            },
+            recipientSelectorChanged: function() {
+                var remaining = 0;
+                $("select[name='recipient']").each(function (item) {
+                    if (item.value == -1) {
+                        remaining++;
+                    }
+                });
+                this.to_select = remaining;
             },
         },
         computed: {
