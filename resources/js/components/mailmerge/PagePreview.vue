@@ -118,6 +118,18 @@
                                     <th>Αντιστοίχιση</th>
                                 </thead>
                                 <tbody>
+                                    <tr v-for="unknown_recipient in unknown_recipients"
+                                        :key="unknown_recipient.name"
+                                        :class="unknown_recipient.color"
+                                    >
+                                        <td>{{unknown_recipient.name}}</td>
+                                        <td><i v-if="unknown_recipient.icon" :class="unknown_recipient.icon"></i>{{unknown_recipient.percentage}}%</td>
+                                        <td>
+                                            <select name='recipient' @change='recipientSelectorChanged' v-model="ur_selected[unknown_recipient.name]">
+                                                <option v-for="ur_option in ur_options" :key="ur_option.value" :value="ur_option.value">{{ ur_option.name }}</option>
+                                            </select>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -173,6 +185,9 @@
                 recipient_fields: JSON.parse(this.doc_recipient_fields),
                 progress: 0,
                 to_select: 0,
+                unknown_recipients: [],
+                ur_options: [],
+                ur_selected: {},
             }
         },
         watch: {
@@ -314,7 +329,8 @@
                 // Αρχικοποίησε τιμές
                 this.progress = 0;
                 $('#unknown_recipients').addClass('d-none');
-                $('#unknown_recipients table tbody tr').remove();
+                this.unknown_recipients = [];
+                this.ur_selected = {};
 
                 // Εμφάνισε το modal
                 $('#myModal').modal({
@@ -333,16 +349,12 @@
                     .done(function(data) {
                         recipients = data;
                         var max = vueobj.records[vueobj.records.length - 1].id;
-                        console.log(max);
-                        console.log(recipients);
-                        console.log(vueobj.doc_recipient_fields);
 
                         // Φτιάξε το combobox με τους διαθέσιμους παραλήπτες
-                        var recipient_options = "<option value=-1>Παρακαλώ επιλέξτε</option>";
+                        vueobj.ur_options = [{value: -1, name: "Παρακαλώ επιλέξτε"}];
                         recipients.forEach(function (recipient) {
-                            recipient_options += "<option value=\"" + recipient.code + "\">" + recipient.name + "</option>";
+                            vueobj.ur_options.push({value: recipient.code, name: recipient.name});
                         });
-                        var recipient_selector = "<select name='recipient' @change='recipientSelectorChanged'>" + recipient_options + "</select>";
 
                         // Προετοιμασία fuzzy search
                         const options = {
@@ -364,70 +376,55 @@
                         };
                         const fuse = new Fuse.default(recipients, options);
 
-
-                        //return fuse.search(pattern)
-
                         vueobj.delayedLoop(vueobj.records, 20, function(item, index) {
-                            //console.log(item);
-                            //console.log(vueobj.doc_recipient_fields);
                             var doc_fields = JSON.parse(vueobj.doc_recipient_fields);
                             doc_fields.forEach(function (field) {
                                 // Κοιτάει για την τιμή του πεδίου στο όνομα του παραλήπτη
                                 if ((item[field] != "") &&
-                                    !(recipients.map((x) => x.name).includes(item[field]))) {
+                                    !(recipients.map((x) => x.name).includes(item[field])) &&
+                                    !vueobj.unknown_recipients.map((x) => x.name).includes(item[field])) {
                                     $("#save_recipients").removeClass("d-none");
                                     unknown++;
+                                    vueobj.ur_selected[item[field]] = -1;
 
                                     // Fuzzy search
                                     const pattern = item[field];
                                     var results = fuse.search(pattern);
-                                    var my_recipient_selector;
                                     var color = "";
                                     var icon = "";
+                                    var percentage;
                                     if (results.length) {
-                                        my_recipient_selector = recipient_selector
-                                            .replace('>'+results[0].item.name,
-                                                     'selected="selected">'+results[0].item.name);
+                                        vueobj.ur_selected[item[field]] = results[0].item.code;
 
                                         // Σημείωσε με χρώμα τα σκορ στον πίνακα
                                         if (results[0].score < 0.2) {
-                                            color = 'class="bg-success"';
+                                            color = 'bg-success';
                                         }
                                         else if (results[0].score < 0.5) {
-                                            color = 'class="bg-warning"';
+                                            color = 'bg-warning';
                                         }
                                         else {
-                                            color = 'class="bg-danger"';
+                                            color = 'bg-danger';
                                         }
 
                                         // Έλεγχος αριθμών
                                         var num1 = item[field].slice(0,5).match(/\d+/g);
                                         var num2 = results[0].item.name.slice(0,5).match(/\d+/g);
-                                        //console.log(num1 + ' <> ' + num2);
                                         num1 = num1 == null ? 0 : num1;
                                         num2 = num2 == null ? 0 : num2;
                                         var percentage = Math.round((1 - parseFloat(results[0].score)) * 10000) / 100;
-                                        if (parseInt(num1) == parseInt(num2)) {
-                                            icon = '<i>' + percentage + '%</i>';
-                                        }
-                                        else {
-                                            icon = '<i class="fas fa-exclamation-triangle">' +
-                                                percentage + '%</i>';
+                                        if (!(parseInt(num1) == parseInt(num2))) {
+                                            icon = 'fas fa-exclamation-triangle';
                                         }
                                     }
                                     else {
-                                        icon = '<i>0%</i>'
-                                        my_recipient_selector = recipient_selector;
+                                        percentage = 0;
+                                        color = 'bg-danger';
                                         vueobj.to_select++;
                                     }
 
                                     $('#unknown_recipients').removeClass('d-none');
-                                    if ($('#unknown_recipients table tbody').html() == "") {
-                                        $('#unknown_recipients table tbody').html('<tr '+color+'><td>'+item[field]+'</td><td>'+icon+'</td><td>'+my_recipient_selector+'</td></tr>');
-                                    }
-                                    else {
-                                        $('#unknown_recipients table tr:last').after('<tr '+color+'><td>'+item[field]+'</td><td>'+icon+'</td><td>'+my_recipient_selector+'</td></tr>');
-                                    }
+                                    vueobj.unknown_recipients.push({name: item[field], icon: icon, color: color, percentage: percentage});
                                 }
                             });
                             vueobj.update_progress(index + 1, max);
@@ -448,12 +445,9 @@
 
             },
             sort_table: function() {
-                const children = $("#unknown_recipients table tbody").children().get();
-                children.sort(function(a, b) {
-                    return (parseFloat(b.children[1].innerText.slice(0, -1)) -
-                            parseFloat(a.children[1].innerText.slice(0, -1)));
+                this.unknown_recipients.sort(function (a,b) {
+                    return b.percentage - a.percentage;
                 });
-                $("#unknown_recipients table tbody").append(children);
             },
             update_progress: function(value, max) {
                 this.progress = Math.round(((parseInt(value) / parseInt(max) * 100) + Number.EPSILON) * 100) / 100;
@@ -489,7 +483,6 @@
                                 code: row.children[2].children[0].selectedOptions[0].value,
                                 link: row.children[2].children[0].selectedOptions[0].innerText});
                     });
-                    console.log(data);
                     $.post({url: this.store_many_url,
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                             data: {many: data}})
@@ -504,11 +497,10 @@
             },
             recipientSelectorChanged: function() {
                 var remaining = 0;
-                $("select[name='recipient']").each(function (item) {
-                    if (item.value == -1) {
+                for (const [key, value] of Object.entries(this.ur_selected)) {
+                    if (value == -1)
                         remaining++;
-                    }
-                });
+                }
                 this.to_select = remaining;
             },
         },
