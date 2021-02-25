@@ -136,11 +136,11 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Άκυρο</button>
                             <button type="button" class="btn btn-primary d-none" id="save_recipients" @click="saveRecipientsClicked">Αποθήκευση αντιστοίχισης</button>
-                            <a :href="save_mail_merge_url" type="button" class="btn btn-primary disabled" id="save_mail_merge">
+                            <button type="button" class="btn btn-primary" id="save_mail_merge" @click="readySaveMailMergeClicked" disabled>
                                 <div class="spinner-border" role="status">
                                 <span class="sr-only">Working...</span>
                                 </div>
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -332,6 +332,7 @@
                 this.unknown_recipients = [];
                 this.ur_selected = {};
                 $('#save_mail_merge').html('<div class="spinner-border" role="status"><span class="sr-only">Working...</span></div>');
+                $('#save_mail_merge').prop('disabled', true);
 
 
                 // Εμφάνισε το modal
@@ -433,7 +434,7 @@
                             if ((index + 1) == max) {
                                 $("#save_mail_merge").html("Λήψη");
                                 if (unknown == 0) {
-                                    $("#save_mail_merge").removeClass("disabled");
+                                    $("#save_mail_merge").prop("disabled", false);
                                 }
                                 vueobj.sort_table();
                             }
@@ -489,7 +490,7 @@
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                             data: {many: data}})
                         .done(function (data) {
-                            $("#save_mail_merge").removeClass("disabled");
+                            $('#save_mail_merge').prop('disabled', false);
                         })
                         .fail(function (data) {
                             alert("Failed saving data");
@@ -504,6 +505,12 @@
                         remaining++;
                 }
                 this.to_select = remaining;
+            },
+            readySaveMailMergeClicked: function() {
+                $('#save_mail_merge').html('<div class="spinner-border" role="status"><span class="sr-only">Working...</span></div>');
+                $('#save_mail_merge').prop('disabled', true);
+                window.location.assign(this.save_mail_merge_url);
+                //$("#save_mail_merge").html("Λήψη");
             },
         },
         computed: {
