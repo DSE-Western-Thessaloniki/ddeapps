@@ -243,7 +243,9 @@ class MailMergeController extends Controller
                               'margin-left' => 0,
                               'margin-right' => 0,
                               'margin-top' => 0,
-                              'margin-bottom' => 0]
+                              'margin-bottom' => 0,
+                              'page-size' => 'A4',
+                              'disable-smart-shrinking' => true]
                 );
             $field_array = json_decode($mailmerge->mergefields);
             foreach ($field_array as $mergefield) {
