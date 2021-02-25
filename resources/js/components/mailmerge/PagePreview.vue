@@ -331,6 +331,8 @@
                 $('#unknown_recipients').addClass('d-none');
                 this.unknown_recipients = [];
                 this.ur_selected = {};
+                $('#save_mail_merge').html('<div class="spinner-border" role="status"><span class="sr-only">Working...</span></div>');
+
 
                 // Εμφάνισε το modal
                 $('#myModal').modal({
