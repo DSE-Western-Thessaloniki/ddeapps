@@ -64,7 +64,7 @@
                         </div>
                         <div class="col-10 d-flex justify-content-end">
                             @can('update', $editor)
-                            <a class="btn btn-primary" href="{{ route('apps.mailmerge.editor.edit', $doclogo->id)}}">{{ __('Edit') }}</a>
+                            <a class="btn btn-primary" href="{{ route('apps.mailmerge.editor.edit', $editor->id)}}">{{ __('Edit') }}</a>
                             @endcan
                         </div>
                     </div>
