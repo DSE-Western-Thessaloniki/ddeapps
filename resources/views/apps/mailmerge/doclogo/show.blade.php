@@ -35,7 +35,7 @@
                             <td>{{ __('Image') }}</td>
                             <td class="text-center">
                                 {{ $doclogo->image }}
-                                <img src="/images/{{$doclogo->image}}">
+                                <img src="{{env('APP_URL').'/images/'.$doclogo->image}}">
                             </td>
                         </tr>
 
