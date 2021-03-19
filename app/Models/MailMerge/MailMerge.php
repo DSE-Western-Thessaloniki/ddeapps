@@ -14,6 +14,7 @@ class MailMerge extends Model
      */
     protected $fillable = [
         'user_id',
+        'editor_id',
         'logo_id',
         'address_id',
         'protocol_num',
