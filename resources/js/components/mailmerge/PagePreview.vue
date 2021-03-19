@@ -176,6 +176,7 @@
         mounted() {
             this.setZoom();
             this.getLastRecord();
+            this.rec_text = $('#recipients').html();
             this.showCurrentRecordText();
         },
         data: function() {
@@ -188,6 +189,7 @@
                 unknown_recipients: [],
                 ur_options: [],
                 ur_selected: {},
+                rec_text: "",
             }
         },
         watch: {
@@ -263,7 +265,7 @@
                 text = this.replaceFields(text);
                 $('#doc_text').html(text);
 
-                text = $('#recipients').html();
+                text = this.rec_text;
                 text = this.replaceFields(text);
                 $('#recipients').html(text);
 
