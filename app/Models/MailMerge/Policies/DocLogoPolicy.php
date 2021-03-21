@@ -12,8 +12,13 @@ class DocLogoPolicy
 
     public function before(User $user, $ability)
     {
-        if ($user->isAdministrator() || in_array('MailMergeAdmin', $user->roles->toArray())) {
+        if ($user->isAdministrator()) {
             return true;
+        }
+        foreach ($user->roles as $role) {
+            if ($role->name == "MailMergeAdmin") {
+                return true;
+            }
         }
     }
 
