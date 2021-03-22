@@ -67,7 +67,7 @@
                                     <p class="font-weight-bold mb-0">ΠΡΟΣ</p>
                                     <p>[[ΟΝΟΜΑ]] [[ΕΠΩΝΥΜΟ]]<br/>
                                     ΚΛΑΔΟΥ: [[ΚΛΑΔΟΣ]]<br/>
-                                    Α.Μ.: [[ΑΜ]]<br/>
+                                    <span id="am">Α.Μ.</span>: [[ΑΜ]]<br/>
                                     </p>
                                     <p class="font-weight-bold mb-0">ΚΟΙΝ</p>
                                     1. ΑΦ [[ΑΦ]]<br/>
@@ -268,6 +268,17 @@
                 text = this.rec_text;
                 text = this.replaceFields(text);
                 $('#recipients').html(text);
+
+                if (typeof this.records[this.current_record]['ΑΜ'] !== 'undefined') {
+                    var num = this.records[this.current_record]['ΑΜ'];
+                    if (parseInt(num) < 1000000) {
+                        $('#am').html('Α.Μ.');
+                    }
+                    else {
+                        $('#am').html('Α.Φ.Μ.');
+                    }
+                }
+
 
                 var i = 2;
                 var recipient_list = "";
