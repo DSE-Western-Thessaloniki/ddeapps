@@ -30,7 +30,7 @@
                             doc_logos_str="{{ $doc_logos->toJson() }}"
                             doc_logos_selected="{{ $mailmerge->logo_id }}"
                             editors_str="{{ $editors->toJson() }}"
-                            editors_selected="{{ $mailmerge->address_id }}"
+                            editors_selected="{{ $mailmerge->editor_id }}"
                             signatures_str="{{ $signatures->toJson() }}"
                             signatures_selected="{{ $mailmerge->signature_id }}"
                             exact_copies_str="{{ $exact_copies->toJson() }}"
