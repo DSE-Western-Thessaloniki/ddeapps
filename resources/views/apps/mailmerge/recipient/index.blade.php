@@ -40,7 +40,7 @@
                                 @forelse($recipients as $recipient)
                                 <tr>
                                     <td>{{$recipient->id}}</td>
-                                    <td><a href="{{ route('apps.mailmerge.recipient.show', $recipient->id) }}">{{$recipient->name}}</a></td>
+                                    <td>{{$recipient->name}}</td>
                                     <td>{{$recipient->code}}</td>
                                     <td>{{$recipient->links()}}</td>
                                     <td>{{$recipient->creator->name}}</td>
