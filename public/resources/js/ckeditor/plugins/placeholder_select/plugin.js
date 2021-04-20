@@ -34,9 +34,11 @@ CKEDITOR.plugins.add('placeholder_select',
 
 			if (buildListHasRunOnce) {
 				placeholders = [];
-				$(this._.panel._.iframe.$).contents().find("ul").remove();
-				this._.items = {};
-				this._.list._.items = {};
+                if (typeof this !== 'undefined' && typeof this._.panel !== 'undefined') {
+                    $(this._.panel._.iframe.$).contents().find("ul").remove();
+                    this._.items = {};
+                    this._.list._.items = {};
+                }
 			}
 			// run through an create the set of items to use
 			for (var i = 0; i < config.placeholders.length; i++) {
@@ -45,14 +47,14 @@ CKEDITOR.plugins.add('placeholder_select',
 				placeholders.push([placeholder, config.placeholders[i], config.placeholders[i]]);
 			}
 
-			for (var i in placeholders)
-			{
-				this.add(placeholders[i][0], placeholders[i][1], placeholders[i][2]);
-			}
+			if (buildListHasRunOnce && typeof this._.list !== 'undefined') {
+                for (var i in placeholders)
+                {
+                    this.add(placeholders[i][0], placeholders[i][1], placeholders[i][2]);
+                }
 
-			if (buildListHasRunOnce) {
-				this._.committed = 0; // We have to set to false in order to trigger a complete commit()
-				this.commit();
+                this._.committed = 0; // We have to set to false in order to trigger a complete commit()
+                this.commit();
 			}
 
 			buildListHasRunOnce = 1;

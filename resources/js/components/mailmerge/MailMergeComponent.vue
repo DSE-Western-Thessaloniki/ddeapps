@@ -68,7 +68,7 @@
             </div>
 
             <div v-show="step == 1">
-                <div class="card bg-success">
+                <div class="card bg-success mb-3">
                     <div class="card-body">
                     <h5 class="class-title">
                         {{ __("Select data source") }}
@@ -78,10 +78,21 @@
                     </div>
                     </div>
                 </div>
-                <br />
+                <div id="missing-fields" class="card bg-danger mb-3 d-none">
+                    <div class="card-body">
+                    <h5 class="class-title">
+                        Σφάλμα!
+                    </h5>
+                    <div class="class-text">
+                        Το αρχείο πρέπει υποχρεωτικά να περιέχει τις στήλες <b>ΑΜ, ΟΝΟΜΑ, ΕΠΩΝΥΜΟ, ΑΦ</b>!
+                    </div>
+                    </div>
+                </div>
+
                 <xlsxcomponent
                     ref="xlsxcomponent"
                     v-on:setmergefields="setmergefields"
+                    v-on:missingfields="missingfields"
                     :docdata="doc_data"
                     :docdataheader="doc_data_header"
                     :mfields="doc_mfields"
@@ -244,6 +255,15 @@
                 this.editorConfig.placeholder_select.placeholders = fields;
                 CKEDITOR.instances.editor1.config.placeholder_select.placeholders = JSON.parse(JSON.stringify(fields));
                 CKEDITOR.instances.editor1.ui.instances.placeholder_select.buildList();
+            },
+
+            missingfields: function(check) {
+                if (check) {
+                    $("#missing-fields").removeClass('d-none');
+                }
+                else {
+                    $("#missing-fields").addClass('d-none');
+                }
             },
 
             ckEditorReadyCallback: function(readyEvent) {

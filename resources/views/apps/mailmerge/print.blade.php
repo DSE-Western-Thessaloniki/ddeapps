@@ -78,7 +78,11 @@ $base64_logo = base64_encode(file_get_contents(url(env('APP_URL')."/images/".$do
                                 <p class="font-weight-bold mb-0">ΠΡΟΣ</p>
                                 <p>{{ $record['ΟΝΟΜΑ'] }} {{ $record['ΕΠΩΝΥΜΟ'] }}<br/>
                                 ΚΛΑΔΟΥ: {{ $record['ΚΛΑΔΟΣ'] }}<br/>
+                                @if(intval($record['ΑΜ']) < 1000000)
                                 Α.Μ.: {{ $record['ΑΜ'] }}<br/>
+                                @else
+                                Α.Φ.Μ.: {{ $record['ΑΜ'] }}<br/>
+                                @endif
                                 </p>
                                 <p class="font-weight-bold mb-0">ΚΟΙΝ</p>
                                 1. ΑΦ @if (isset($record['ΑΦ'])) {{ $record['ΑΦ'] }} @endif<br/>

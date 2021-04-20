@@ -44,6 +44,7 @@
                 xlsxdata: [],
                 xlsxdata_header: [],
                 selected_cols: [],
+                necessary_cols: ['ΑΜ', 'ΟΝΟΜΑ', 'ΕΠΩΝΥΜΟ', 'ΑΦ'],
             }
         },
         watch: {
@@ -84,6 +85,13 @@
                     vueobj.xlsxdata = xlsxjson;
                     vueobj.xlsxdata_header = vueobj.getHeader;
                     vueobj.selected_cols = [];
+                    if (!vueobj.necessary_fields_exist(vueobj.xlsxdata_header)) {
+                        vueobj.$emit('missingfields', true);
+                    }
+                    else {
+                        vueobj.$emit('missingfields', false);
+                    }
+
                     vueobj.xlsxToTable(vueobj, ws);
                 }
 
@@ -142,6 +150,21 @@
                         });
                     }
                 }
+            },
+
+            necessary_fields_exist(fields) {
+                var found_cols = this.necessary_cols.slice();
+
+                fields.forEach((field) => {
+                    if (found_cols.includes(field)) {
+                        found_cols.splice(found_cols.indexOf(field), 1);
+                    }
+                });
+
+                if (found_cols.length) {
+                    return false;
+                }
+                return true;
             },
 
             xlsxToTable(obj, ws) {
