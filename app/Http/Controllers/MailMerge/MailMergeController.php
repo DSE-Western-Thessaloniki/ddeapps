@@ -256,6 +256,7 @@ class MailMergeController extends Controller
                     $filename = $mailmerge->protocol_num." ".$record['ΑΜ']." ".$recipient_code.".pdf";
                     $file = $pdf->output();
                     $zip->addFromString($filename, $file);
+                    $zip->setCompressionName($filename, ZipArchive::CM_STORE);
                 }
             }
         }
