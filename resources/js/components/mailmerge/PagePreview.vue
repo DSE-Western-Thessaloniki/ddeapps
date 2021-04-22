@@ -65,7 +65,7 @@
                             <tr>
                                 <td class="align-bottom" id="recipients">
                                     <p class="font-weight-bold mb-0">ΠΡΟΣ</p>
-                                    <p>[[ΟΝΟΜΑ]] [[ΕΠΩΝΥΜΟ]]<br/>
+                                    <p>[[ΕΠΩΝΥΜΟ]] [[ΟΝΟΜΑ]]<br/>
                                     ΚΛΑΔΟΥ: [[ΚΛΑΔΟΣ]]<br/>
                                     <span id="am">Α.Μ.</span>: [[ΑΜ]]<br/>
                                     </p>
