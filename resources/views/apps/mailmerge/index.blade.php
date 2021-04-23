@@ -68,6 +68,7 @@
                             </tbody>
                         </table>
                     </div>
+                    {{ $mailmerges->links() }}
                 </div>
             </div>
         </div>

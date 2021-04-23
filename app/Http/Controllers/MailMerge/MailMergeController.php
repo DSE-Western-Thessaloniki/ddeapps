@@ -29,7 +29,7 @@ class MailMergeController extends Controller
      */
     public function index()
     {
-        $mailmerges = MailMerge::all();
+        $mailmerges = MailMerge::orderBy('id', 'desc')->paginate(5);
         return view('apps.mailmerge.index')->with('mailmerges', $mailmerges);
     }
 
