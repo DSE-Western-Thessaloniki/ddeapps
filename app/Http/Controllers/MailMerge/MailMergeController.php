@@ -264,4 +264,17 @@ class MailMergeController extends Controller
 
         return response()->download($zip_name);
     }
+
+    /**
+     * Make a copy of the resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function copy(MailMerge $mailmerge)
+    {
+        $copy = $mailmerge->replicate();
+        $copy->save();
+        return redirect(route('apps.mailmerge.index'))->with('status', __('Mail merge copied!'));
+    }
 }

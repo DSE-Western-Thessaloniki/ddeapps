@@ -47,6 +47,8 @@ Route::prefix('apps')
                         ->name('show2');
                     Route::get('/save/{id}', 'MailMerge\MailMergeController@save')
                         ->name('save');
+                    Route::get('/copy/{mailmerge}', 'MailMerge\MailMergeController@copy')
+                    ->name('copy');
 
                     Route::prefix('recipient')->name('recipient.')->group(
                         function () {
