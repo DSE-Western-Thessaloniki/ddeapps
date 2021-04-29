@@ -495,9 +495,9 @@
                     $("#save_recipients").addClass("disabled");
                     var data = new Array();
                     $("#unknown_recipients table tr").each(function (index, row) {
-                        data.push({name: row.children[0].innerText,
+                        data.push({name: "'"+row.children[0].innerText+"'",
                                 code: row.children[2].children[0].selectedOptions[0].value,
-                                link: row.children[2].children[0].selectedOptions[0].innerText});
+                                link: "'"+row.children[2].children[0].selectedOptions[0].innerText+"'"});
                     });
                     $.post({url: this.store_many_url,
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
