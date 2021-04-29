@@ -46,16 +46,19 @@
 
                                     <td>
                                         @can('update', $mailmerge)
-                                        <a href="{{ route('apps.mailmerge.edit',$mailmerge->id)}}" class="btn btn-primary m-1">{{ __('Edit') }}</a><br/>
+                                        <a href="{{ route('apps.mailmerge.edit',$mailmerge->id)}}" class="btn btn-primary m-1">@icon('pencil-alt') {{ __('Edit') }}</a><br/>
                                         @endcan
-                                        <a href="{{ route('apps.mailmerge.print',$mailmerge->id)}}" target="_blank" class="btn btn-success m-1">{{ __('Print') }}</a>
+                                        @can('create', \App\Models\MailMerge\MailMerge::class)
+                                        <a href="{{ route('apps.mailmerge.copy',$mailmerge->id)}}" class="btn btn-primary m-1">@icon('copy') {{ __('Copy') }}</a><br/>
+                                        @endcan
+                                        <a href="{{ route('apps.mailmerge.print',$mailmerge->id)}}" target="_blank" class="btn btn-success m-1">@icon('print') {{ __('Print') }}</a>
                                     </td>
                                     <td>
                                         @can('delete', $mailmerge)
                                         <form action="{{ route('apps.mailmerge.destroy', $mailmerge->id)}}" method="post">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-danger" type="submit">{{ __('Delete') }}</button>
+                                        <button class="btn btn-danger" type="submit">@icon('trash-alt') {{ __('Delete') }}</button>
                                         </form>
                                         @endcan
                                     </td>
@@ -68,6 +71,7 @@
                             </tbody>
                         </table>
                     </div>
+                    {{ $mailmerges->links() }}
                 </div>
             </div>
         </div>

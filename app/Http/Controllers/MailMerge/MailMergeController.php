@@ -29,7 +29,7 @@ class MailMergeController extends Controller
      */
     public function index()
     {
-        $mailmerges = MailMerge::all();
+        $mailmerges = MailMerge::orderBy('id', 'desc')->paginate(5);
         return view('apps.mailmerge.index')->with('mailmerges', $mailmerges);
     }
 
@@ -263,5 +263,18 @@ class MailMergeController extends Controller
         $zip->close();
 
         return response()->download($zip_name);
+    }
+
+    /**
+     * Make a copy of the resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function copy(MailMerge $mailmerge)
+    {
+        $copy = $mailmerge->replicate();
+        $copy->save();
+        return redirect(route('apps.mailmerge.index'))->with('status', __('Mail merge copied!'));
     }
 }
