@@ -58,6 +58,7 @@
                         <table class="table table-borderless doc-recipient-col">
                             <tr>
                                 <td>
+                                    <p class="text-right" v-if="this.doc_ada"><b>ΑΔΑ: {{ doc_ada }}</b></p>
                                     <p class="text-right">Θεσσαλονίκη, {{ doc_date }}<br/>
                                                         Αρ. Πρωτ.: {{ protocol_num }}</p>
                                 </td>
@@ -161,6 +162,7 @@
             exact_copy_text: String,
             signature_text: String,
             protocol_num: String,
+            doc_ada: String,
             doc_date: String,
             doc_subject: String,
             doc_text: String,

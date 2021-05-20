@@ -68,6 +68,7 @@ $base64_logo = base64_encode(file_get_contents(url(env('APP_URL')."/images/".$do
                     <table class="table table-borderless doc-recipient-col">
                         <tr>
                             <td>
+                                <p class="text-right"><b>ΑΔΑ: {{ $mailmerge->ada }}</b></p>
                                 <p class="text-right">Θεσσαλονίκη, {{ $date->format('d/m/Y') }}<br/>
                                                     Αρ. Πρωτ.: {{ $mailmerge->protocol_num }}</p>
                             </td>

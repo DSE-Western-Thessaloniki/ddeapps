@@ -35,6 +35,7 @@ $date = new DateTime($mailmerge->date);
                         editor_name="{{ $editor->name }}"
                         editor_telephone="{{ $editor->telephone }}"
                         editor_email="{{ $editor->email }}"
+                        doc_ada="{{ $mailmerge->ada }}"
                         doc_logo_image="{{ $doc_logo->image }}"
                         doc_logo_text="{{ $doc_logo->text }}"
                         exact_copy_text="{{ $exact_copy->text }}"

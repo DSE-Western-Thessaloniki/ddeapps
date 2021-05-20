@@ -28,6 +28,7 @@ class MailMerge extends Model
         'mergefields',
         'updated_by',
         'created_by',
+        'ada',
     ];
 
     public function creator()

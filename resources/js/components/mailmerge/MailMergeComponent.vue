@@ -127,6 +127,15 @@
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
+                            <label for="ada">ΑΔΑ:</label>
+                            <input type="text" id="ada" name="ada" class="form-control" v-model="ada">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
                             <label for="protocol">{{ __('Protocol number')+':' }}</label>
                             <input type="text" id="protocol" name="protocol" class="form-control" required v-model="prot_num">
                         </div>
@@ -207,6 +216,7 @@
             doc_data: String,
             doc_data_header: String,
             doc_mfields: String,
+            doc_ada: String,
             route_exact_copy_create: String,
             route_doc_logo_create: String,
             route_signature_create: String,
@@ -241,6 +251,7 @@
                 editor_selected: this.editors_selected,
                 signature_selected: this.signatures_selected,
                 exact_copy_selected: this.exact_copies_selected,
+                ada: this.doc_ada,
             };
         },
         methods: {

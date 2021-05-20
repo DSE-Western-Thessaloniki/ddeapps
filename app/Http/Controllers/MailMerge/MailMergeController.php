@@ -71,6 +71,7 @@ class MailMergeController extends Controller
         $signature = new MailMerge([
             'logo_id' => $request->get('logoselect'),
             'editor_id' => $request->get('editorselect'),
+            'ada' => $request->get('ada'),
             'protocol_num' => $request->get('protocol'),
             'date' => $request->get('date'),
             'subject' => $request->get('subject'),
@@ -146,6 +147,7 @@ class MailMergeController extends Controller
 
         $mailmerge->logo_id = $request->get('logoselect');
         $mailmerge->editor_id = $request->get('editorselect');
+        $mailmerge->ada = is_null($request->get('ada')) ? '' : $request->get('ada');
         $mailmerge->protocol_num = $request->get('protocol');
         $mailmerge->date = $request->get('date');
         $mailmerge->subject = $request->get('subject');
