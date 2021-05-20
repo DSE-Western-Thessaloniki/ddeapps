@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+require('laravel-mix-purgecss');
 
 /*
  |--------------------------------------------------------------------------
@@ -16,9 +17,13 @@ const mix = require('laravel-mix');
 if ((typeof process.env.MIX_APP_DIR !== 'undefined') && (process.env.MIX_APP_DIR != ""))
     mix.setResourceRoot('/'+process.env.MIX_APP_DIR+'/');
 mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
-    .vue({ version: 2 });
+   .sass('resources/sass/app.scss', 'public/css')
+   .vue({ version: 2 })
+   .purgeCss()
+   .extract()
+   .version();
 
 if (!mix.inProduction()) {
-    mix.sourceMaps();
+    mix.sourceMaps()
+       .browserSync('ddeapps.test');
 }
