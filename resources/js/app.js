@@ -38,12 +38,12 @@ Vue.mixin(require('./trans'));
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('mailmerge-component', require('./components/mailmerge/MailMergeComponent.vue').default);
-Vue.component('doclogoform', require('./components/mailmerge/DocLogoForm.vue').default);
-Vue.component('xlsxcomponent', require('./components/mailmerge/XlsxComponent.vue').default);
-Vue.component('pagepreview', require('./components/mailmerge/PagePreview.vue').default);
-Vue.component('rolecomponent', require('./components/mailmerge/RoleComponent.vue').default);
-Vue.component('recipientlinks', require('./components/mailmerge/RecipientLinks.vue').default);
+Vue.component('mailmerge-component', () => import('./components/mailmerge/MailMergeComponent.vue'));
+Vue.component('doclogoform', () => import('./components/mailmerge/DocLogoForm.vue'));
+Vue.component('xlsxcomponent', () => import('./components/mailmerge/XlsxComponent.vue'));
+Vue.component('pagepreview', () => import('./components/mailmerge/PagePreview.vue'));
+Vue.component('rolecomponent', () => import('./components/mailmerge/RoleComponent.vue'));
+Vue.component('recipientlinks', () => import('./components/mailmerge/RecipientLinks.vue'));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
