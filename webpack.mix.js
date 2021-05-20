@@ -12,6 +12,12 @@ require('laravel-mix-purgecss');
  |
  */
 
+mix.webpackConfig({
+    output:{
+        chunkFilename:'js/vuejs_code_split/[name].js',
+    }
+});
+
 // Set the MIX_APP_DIR in .env to the name of the subdirectory on the server or
 // comment it if it is going to reside on root
 if ((typeof process.env.MIX_APP_DIR !== 'undefined') && (process.env.MIX_APP_DIR != ""))
@@ -19,9 +25,9 @@ if ((typeof process.env.MIX_APP_DIR !== 'undefined') && (process.env.MIX_APP_DIR
 mix.js('resources/js/app.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css')
    .vue({ version: 2 })
-   .purgeCss()
    .extract()
-   .version();
+   .version('js/vuejs_code_split/*.js')
+   .purgeCss();
 
 if (!mix.inProduction()) {
     mix.sourceMaps()
