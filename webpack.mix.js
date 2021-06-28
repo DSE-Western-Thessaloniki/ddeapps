@@ -36,8 +36,7 @@ mix.js('resources/js/app.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css')
    .vue({ version: 2 })
    .extract()
-   .version('js/vuejs_code_split/*.js')
-   .purgeCss();
+   .version('js/vuejs_code_split/*.js');
 
 if (!mix.inProduction()) {
     mix.sourceMaps()
