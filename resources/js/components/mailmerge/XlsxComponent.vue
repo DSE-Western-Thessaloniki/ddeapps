@@ -44,7 +44,7 @@
                 xlsxdata: [],
                 xlsxdata_header: [],
                 selected_cols: [],
-                necessary_cols: ['ΑΜ', 'ΟΝΟΜΑ', 'ΕΠΩΝΥΜΟ', 'ΑΦ'],
+                necessary_cols: ['ΑΜ', 'ΟΝΟΜΑ', 'ΕΠΩΝΥΜΟ', 'ΚΛΑΔΟΣ', 'ΑΦ'],
             }
         },
         watch: {
