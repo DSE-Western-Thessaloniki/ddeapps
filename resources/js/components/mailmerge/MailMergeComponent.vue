@@ -188,6 +188,11 @@
                             </option>
                     </select>
                 </div>
+
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="filesForTeachers" name="filesForTeachers" v-model="fft">
+                    <label class="form-check-label" for="filesForTeachers">Ετοίμασε αρχείο και για τον εκπαιδευτικό</label>
+                </div>
             </div>
 
         </div>
@@ -223,6 +228,7 @@
             route_editor_create: String,
             route_index: String,
             func: String,
+            files_for_teachers: String,
         },
         created() {
         },
@@ -252,6 +258,7 @@
                 signature_selected: this.signatures_selected,
                 exact_copy_selected: this.exact_copies_selected,
                 ada: this.doc_ada,
+                fft: parseInt(this.files_for_teachers),
             };
         },
         methods: {

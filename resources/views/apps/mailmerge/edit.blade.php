@@ -43,6 +43,7 @@
                             doc_data_header="{{ $mailmerge->xlsxdata_header }}"
                             doc_mfields="{{ $mailmerge->mergefields }}"
                             doc_ada="{{ $mailmerge->ada }}"
+                            files_for_teachers="{{ $mailmerge->files_for_teachers }}"
                             route_doc_logo_create="{{ route('apps.mailmerge.doclogo.create') }}"
                             route_editor_create="{{ route('apps.mailmerge.editor.create') }}"
                             route_signature_create="{{ route('apps.mailmerge.signature.create') }}"

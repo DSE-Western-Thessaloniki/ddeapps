@@ -81,6 +81,7 @@ class MailMergeController extends Controller
             'xlsxdata' => $request->get('xlsxdata'),
             'xlsxdata_header' => $request->get('xlsxdata_header'),
             'mergefields' => $request->get('mergefields'),
+            'files_for_teachers' => ($request->get('filesForTeachers')  === 'on' ? true : false),
             'updated_by' => Auth::user()->id,
             'created_by' => Auth::user()->id,
         ]);
@@ -157,6 +158,7 @@ class MailMergeController extends Controller
         $mailmerge->xlsxdata = $request->get('xlsxdata');
         $mailmerge->xlsxdata_header = $request->get('xlsxdata_header');
         $mailmerge->mergefields = $request->get('mergefields');
+        $mailmerge->files_for_teachers = $request->get('filesForTeachers') === 'on' ? true : false;
         $mailmerge->updated_by = Auth::user()->id;
         $mailmerge->save();
 
@@ -250,16 +252,21 @@ class MailMergeController extends Controller
                               'disable-smart-shrinking' => true]
                 );
             $field_array = json_decode($mailmerge->mergefields);
+            $file = $pdf->output();
             foreach ($field_array as $mergefield) {
                 $recipient_name = $record[$mergefield];
                 if ($recipient_name != "") {
                     $key = array_search($recipient_name, array_column($recipients->toArray(), "name"));
                     $recipient_code = $recipients->toArray()[$key]->code;
                     $filename = $mailmerge->protocol_num." ".$record['ΑΜ']." ".$recipient_code.".pdf";
-                    $file = $pdf->output();
                     $zip->addFromString($filename, $file);
                     $zip->setCompressionName($filename, ZipArchive::CM_STORE);
                 }
+            }
+            if ($mailmerge->files_for_teachers) {
+                $filename = $mailmerge->protocol_num." AM".$record['ΑΜ'].".pdf";
+                $zip->addFromString($filename, $file);
+                $zip->setCompressionName($filename, ZipArchive::CM_STORE);
             }
         }
         $zip->close();

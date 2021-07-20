@@ -29,6 +29,7 @@ class MailMerge extends Model
         'updated_by',
         'created_by',
         'ada',
+        'files_for_teachers'
     ];
 
     public function creator()
