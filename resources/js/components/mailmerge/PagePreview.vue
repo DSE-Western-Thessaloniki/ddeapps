@@ -396,6 +396,7 @@
 
                         vueobj.delayedLoop(vueobj.records, 20, function(item, index) {
                             var doc_fields = JSON.parse(vueobj.doc_recipient_fields);
+                            doc_fields.push('ΑΦ');
                             doc_fields.forEach(function (field) {
                                 // Κοιτάει για την τιμή του πεδίου στο όνομα του παραλήπτη
                                 if ((item[field] != "") &&

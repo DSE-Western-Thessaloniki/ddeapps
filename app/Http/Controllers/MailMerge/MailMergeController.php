@@ -263,6 +263,17 @@ class MailMergeController extends Controller
                     $zip->setCompressionName($filename, ZipArchive::CM_STORE);
                 }
             }
+
+            // Πέρα από τους παραλήπτες έλεγξε και το πεδίο του ατομικού φακέλου μήπως πρέπει να σταλεί πουθενά
+            if ($record['ΑΦ']!="") {
+                $recipient_name = $record['ΑΦ'];
+                $key = array_search($recipient_name, array_column($recipients->toArray(), "name"));
+                $recipient_code = $recipients->toArray()[$key]->code;
+                $filename = $mailmerge->protocol_num." ".$record['ΑΜ']." ".$recipient_code.".pdf";
+                $zip->addFromString($filename, $file);
+                $zip->setCompressionName($filename, ZipArchive::CM_STORE);
+            }
+
             if ($mailmerge->files_for_teachers) {
                 $filename = $mailmerge->protocol_num." AM".$record['ΑΜ'].".pdf";
                 $zip->addFromString($filename, $file);
