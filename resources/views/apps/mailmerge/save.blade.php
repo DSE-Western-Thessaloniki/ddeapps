@@ -85,6 +85,7 @@ $base64_logo = base64_encode(file_get_contents(url(env('APP_URL')."/images/".$do
                                 @else
                                 Α.Φ.Μ.: {{ $record['ΑΜ'] }}<br/>
                                 @endif
+                                (δια της σχολικής μονάδας)
                                 </p>
                                 <p class="font-weight-bold mb-0">ΚΟΙΝ</p>
                                 1. ΑΦ @if (isset($record['ΑΦ'])) {{ $record['ΑΦ'] }} @endif<br/>
