@@ -50,7 +50,7 @@ class RecipientController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required|unique',
+            'name'=>'required|unique:recipients',
             'code' => 'required',
         ]);
 
