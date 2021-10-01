@@ -125,7 +125,7 @@
                 if (str.length == 1) {
                     return (str[0].charCodeAt() - "A".charCodeAt())
                 }
-                return ((str[0][0].charCodeAt() - "A".charCodeAt() + 1) * 26 + str[0][1].charCodeAt() - "A".charCodeAt())
+                return ((str[0].charCodeAt() - "A".charCodeAt() + 1) * 26 + str[1].charCodeAt() - "A".charCodeAt())
             },
 
             toggleColorSelectedCol(col) {
