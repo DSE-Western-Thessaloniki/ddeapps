@@ -21,7 +21,12 @@ $base64_logo = base64_encode(file_get_contents(url(env('APP_URL')."/images/".$do
         $text = $mailmerge->text;
         preg_match_all("/\[\[(.+?)\]\]/", $mailmerge->text, $matches);
         foreach ($matches[1] as $match) {
-            $text = str_replace("[[".$match."]]", $record[$match], $text);
+            if (isset($record[$match])) {
+                $text = str_replace("[[".$match."]]", $record[$match], $text);
+            }
+            else {
+                echo "Δεν βρέθηκε το πεδίο $match!";
+            }
         }
 
         // Προετοιμασία της λίστας των παραληπτών
