@@ -10,7 +10,8 @@ $signature_text_html = preg_replace('/\n/','<br/>', $signature->text);
 $date = new DateTime($mailmerge->date);
 $xlsxdata = json_decode($mailmerge->xlsxdata, true);
 $recipient_fields = json_decode($mailmerge->mergefields, true);
-$base64_logo = base64_encode(file_get_contents(url(env('APP_URL')."/images/".$doc_logo->image)));
+$base64_logo = base64_encode(file_get_contents(__DIR__."/../../../public/images/".$doc_logo->image));
+//$base64_logo = '';
 @endphp
 
 <div class="container">
@@ -25,7 +26,7 @@ $base64_logo = base64_encode(file_get_contents(url(env('APP_URL')."/images/".$do
                 $text = str_replace("[[".$match."]]", $record[$match], $text);
             }
             else {
-                echo "Δεν βρέθηκε το πεδίο $match!";
+                $text = str_replace("[[".$match."]]", "<b style='background-color:red; color:white;'>[Δεν βρέθηκε το πεδίο '$match'!]</b>", $text);
             }
         }
 
