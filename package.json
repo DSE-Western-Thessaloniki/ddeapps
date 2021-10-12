@@ -19,7 +19,7 @@
         "laravel-mix-purgecss": "^6.0.0",
         "lodash": "^4.17.19",
         "popper.js": "^1.12",
-        "resolve-url-loader": "^2.3.1",
+        "resolve-url-loader": "^4.0.0",
         "sass": "^1.29.0",
         "sass-loader": "^8.0.0",
         "vue": "^2.5.17",
@@ -33,6 +33,6 @@
         "postcss": "^8.2.8",
         "style-loader": "^2.0.0",
         "vue-context": "^6.0.0",
-        "xlsx": "^0.16.9"
+        "xlsx": "^0.17.2"
     }
 }
