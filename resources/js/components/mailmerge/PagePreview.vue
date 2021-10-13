@@ -400,7 +400,8 @@
                             doc_fields.push('ΑΦ');
                             doc_fields.forEach(function (field) {
                                 // Κοιτάει για την τιμή του πεδίου στο όνομα του παραλήπτη
-                                if ((item[field] != "") &&
+                                if (field !== null &&
+                                    (item[field] != "") &&
                                     !(recipients.map((x) => x.name).includes(item[field])) &&
                                     !vueobj.unknown_recipients.map((x) => x.name).includes(item[field])) {
                                     $("#save_recipients").removeClass("d-none");
