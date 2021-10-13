@@ -487,11 +487,11 @@ export default {
       if (this.to_select) {
         alert('Παρακαλώ επιλέξτε αντιστοίχιση για όλους τους παραλήπτες!')
       } else {
-        $('#save_recipients').addClass('disabled')
-        const data = new Array()
-        $('#unknown_recipients table tr').each(function (index, row) {
+        document.getElementById('save_recipients').classList.add('disabled')
+        const data = []
+        document.querySelectorAll('#unknown_recipients table tr').forEach((row) => {
           data.push({
-            name: row.children[0].innerText,
+            name: (row.children[0]).innerText,
             code: row.children[2].children[0].selectedOptions[0].value,
             link: row.children[2].children[0].selectedOptions[0].innerText
           })

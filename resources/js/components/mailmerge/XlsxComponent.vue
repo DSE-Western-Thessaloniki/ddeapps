@@ -50,12 +50,11 @@ export default {
   },
   methods: {
     onchange: function (evt) {
-      let file
       const files = evt.target.files
 
-      if (!files || files.length == 0) return
+      if (!files || files.length === 0) return
 
-      file = files[0]
+      const file = files[0]
       const vueobj = this
 
       const reader = new FileReader()
@@ -98,16 +97,15 @@ export default {
 
     onClick (e, item, code) {
       console.log(item, code)
+      const col = /[A-Z]+/.exec(item.id)
       switch (code) {
         case 'selcol':
-          var col = /[A-Z]+/.exec(item.id)
           if (col) {
             this.selected_cols.push(this.xlsxdata_header[this.calcColumn(col[0])])
             this.toggleColorSelectedCol(col[0])
           }
           break
         case 'unselcol':
-          var col = /[A-Z]+/.exec(item.id)
           if (col) {
             const colidx = this.selected_cols.indexOf(this.xlsxdata_header[this.calcColumn(col[0])])
             this.selected_cols.splice(colidx, 1)

@@ -1,3 +1,5 @@
+const { default: _ } = require('lodash')
+
 module.exports = {
   methods: {
     /**

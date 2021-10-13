@@ -29,7 +29,9 @@ export default {
   methods: {
     removeLink: function (id) {
       this.delLink.push(id)
-      $('span#' + id).addClass('d-none')
+      document.querySelectorAll('span#' + id).forEach(function (el) {
+        el.classList.add('d-none')
+      })
     }
   },
   computed: {

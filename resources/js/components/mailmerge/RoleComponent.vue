@@ -145,8 +145,6 @@ export default {
       mmwrite: false
     }
   },
-  ready: function () {
-  },
   methods: {
   },
   computed: {
