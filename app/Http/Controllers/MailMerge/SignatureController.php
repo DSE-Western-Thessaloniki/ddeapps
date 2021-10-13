@@ -26,7 +26,7 @@ class SignatureController extends Controller
      */
     public function index()
     {
-        $signatures = Signature::all();
+        $signatures = Signature::with('creator')->get();
         return view('apps.mailmerge.signature.index')->with('signatures', $signatures);
     }
 

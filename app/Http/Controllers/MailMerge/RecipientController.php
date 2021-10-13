@@ -27,7 +27,7 @@ class RecipientController extends Controller
      */
     public function index()
     {
-        $recipients = Recipient::all()->where('link', '=', '');
+        $recipients = Recipient::with('creator')->where('link', '=', '')->get();
         return view('apps.mailmerge.recipient.index')->with('recipients', $recipients);
     }
 

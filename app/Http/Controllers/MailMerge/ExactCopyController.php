@@ -26,7 +26,7 @@ class ExactCopyController extends Controller
      */
     public function index()
     {
-        $exactcopies = ExactCopy::all();
+        $exactcopies = ExactCopy::with('creator')->get();
         return view('apps.mailmerge.exactcopy.index')->with('exactcopies', $exactcopies);
     }
 

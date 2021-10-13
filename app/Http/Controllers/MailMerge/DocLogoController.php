@@ -26,7 +26,7 @@ class DocLogoController extends Controller
      */
     public function index()
     {
-        $doclogos = DocLogo::all();
+        $doclogos = DocLogo::with('creator')->get();
 
         return view('apps.mailmerge.doclogo.index')->with('doclogos', $doclogos);
     }

@@ -26,7 +26,7 @@ class EditorController extends Controller
      */
     public function index()
     {
-        $editors = Editor::all();
+        $editors = Editor::with('creator')->get();
         return view('apps.mailmerge.editor.index')->with('editors', $editors);
     }
 
