@@ -201,168 +201,163 @@
 
 <script>
 
-    export default {
-        components: {
-            ckeditor: CKEditor_Vue.component
-        },
-        props: {
-            doc_logos_str: String,
-            doc_logos_selected: String,
-            editors_str: String,
-            editors_selected: String,
-            signatures_str: String,
-            signatures_selected: String,
-            exact_copies_str: String,
-            exact_copies_selected: String,
-            protocol_num: String,
-            doc_date: String,
-            doc_subject: String,
-            doc_text: String,
-            doc_data: String,
-            doc_data_header: String,
-            doc_mfields: String,
-            doc_ada: String,
-            route_exact_copy_create: String,
-            route_doc_logo_create: String,
-            route_signature_create: String,
-            route_editor_create: String,
-            route_index: String,
-            func: String,
-            files_for_teachers: String,
-        },
-        created() {
-        },
-        mounted() {
-        },
-        data: function() {
-            return {
-                step: 1,
-                steps: 4,
-                mergefields: [],
-                editorData: this.doc_text,
-                editorConfig: {
-                    language: 'el',
-                    removePlugins: ['stylescombo'],
-                    extraPlugins: ['placeholder_select'],
-                    placeholder_select: {
-                        placeholders: ['Firstname', 'Lastname', 'Email'],
-                    }
-                },
-                placeholders: [],
-                autocomplete: Object,
-                prot_num: this.protocol_num,
-                subject: this.doc_subject,
-                config: {},
-                logo_selected: this.doc_logos_selected,
-                editor_selected: this.editors_selected,
-                signature_selected: this.signatures_selected,
-                exact_copy_selected: this.exact_copies_selected,
-                ada: this.doc_ada,
-                fft: parseInt(this.files_for_teachers),
-            };
-        },
-        methods: {
-            setmergefields: function(fields) {
-                var new_placeholders = new Array();
-                var i = 1;
-                fields.forEach(function(field) {
-                    new_placeholders.push({id: i, title: field});
-                    i++;
-                });
-                window.itemsArray = new_placeholders;
-                this.editorConfig.placeholder_select.placeholders = fields;
-                CKEDITOR.instances.editor1.config.placeholder_select.placeholders = JSON.parse(JSON.stringify(fields));
-                CKEDITOR.instances.editor1.ui.instances.placeholder_select.buildList();
-            },
-
-            missingfields: function(check) {
-                if (check) {
-                    $("#missing-fields").removeClass('d-none');
-                }
-                else {
-                    $("#missing-fields").addClass('d-none');
-                }
-            },
-
-            ckEditorReadyCallback: function(readyEvent) {
-                window.itemsArray = this.placeholders;
-
-                function matchCallback(text, offset) {
-
-                    var pattern = /\[{2}([A-zΑ-ω]|\])*$/,
-                    match = text.slice(0, offset)
-                    .match(pattern);
-
-                    if ( !match ) {
-                        return null;
-                    }
-
-                    return {
-                        start: match.index,
-                        end: offset
-                    };
-                }
-
-                function textTestCallback(range) {
-
-                    if (!range.collapsed) {
-                        return null;
-                    }
-
-                    return CKEDITOR.plugins.textMatch.match(range, matchCallback);
-                }
-
-                this.config.textTestCallback = textTestCallback;
-
-                function dataCallback(matchInfo, callback) {
-
-                    var data = window.itemsArray.filter(function(item) {
-                        var itemName = '[[' + item.title + ']]';
-                        return itemName.toUpperCase()
-                                        .indexOf(matchInfo.query.toUpperCase()) == 0;
-                    });
-
-                    callback(data);
-                }
-
-                this.config.dataCallback = dataCallback;
-
-                this.config.itemTemplate = '<li data-id="{id}">' +
-                '<div><strong class="item-title">{title}</strong></div>' +
-                '</li>';
-                this.config.outputTemplate = '[[{title}]]<span>&nbsp;</span>';
-
-                this.myAutocomplete(readyEvent, this.config);
-                this.$refs.xlsxcomponent.parseDocData();
-            },
-            myAutocomplete: function(editor, config) {
-
-                this.autocomplete = new CKEDITOR.plugins.autocomplete(editor, config);
-                // Override default getHtmlToInsert to enable rich content output.
-                /*this.autocomplete.getHtmlToInsert = function(item) {
-                    return config.outputTemplate.output(item);
-                }*/
-            }
-        },
-        computed: {
-            doc_logos: function() {
-                return JSON.parse(this.doc_logos_str)
-            },
-            editors: function() {
-                return JSON.parse(this.editors_str)
-            },
-            signatures: function() {
-                return JSON.parse(this.signatures_str)
-            },
-            exact_copies: function() {
-                return JSON.parse(this.exact_copies_str)
-            },
-            get_date: function() {
-                if (typeof this.doc_date === 'undefined' || this.doc_date == "") {
-                    return new Date().toISOString().slice(0, 10);
-                }
-                return this.doc_date;
-            }
+export default {
+  components: {
+    ckeditor: CKEditor_Vue.component
+  },
+  props: {
+    doc_logos_str: String,
+    doc_logos_selected: String,
+    editors_str: String,
+    editors_selected: String,
+    signatures_str: String,
+    signatures_selected: String,
+    exact_copies_str: String,
+    exact_copies_selected: String,
+    protocol_num: String,
+    doc_date: String,
+    doc_subject: String,
+    doc_text: String,
+    doc_data: String,
+    doc_data_header: String,
+    doc_mfields: String,
+    doc_ada: String,
+    route_exact_copy_create: String,
+    route_doc_logo_create: String,
+    route_signature_create: String,
+    route_editor_create: String,
+    route_index: String,
+    func: String,
+    files_for_teachers: String
+  },
+  created () {
+  },
+  mounted () {
+  },
+  data: function () {
+    return {
+      step: 1,
+      steps: 4,
+      mergefields: [],
+      editorData: this.doc_text,
+      editorConfig: {
+        language: 'el',
+        removePlugins: ['stylescombo'],
+        extraPlugins: ['placeholder_select'],
+        placeholder_select: {
+          placeholders: ['Firstname', 'Lastname', 'Email']
         }
+      },
+      placeholders: [],
+      autocomplete: Object,
+      prot_num: this.protocol_num,
+      subject: this.doc_subject,
+      config: {},
+      logo_selected: this.doc_logos_selected,
+      editor_selected: this.editors_selected,
+      signature_selected: this.signatures_selected,
+      exact_copy_selected: this.exact_copies_selected,
+      ada: this.doc_ada,
+      fft: parseInt(this.files_for_teachers)
     }
+  },
+  methods: {
+    setmergefields: function (fields) {
+      const new_placeholders = new Array()
+      let i = 1
+      fields.forEach(function (field) {
+        new_placeholders.push({ id: i, title: field })
+        i++
+      })
+      window.itemsArray = new_placeholders
+      this.editorConfig.placeholder_select.placeholders = fields
+      CKEDITOR.instances.editor1.config.placeholder_select.placeholders = JSON.parse(JSON.stringify(fields))
+      CKEDITOR.instances.editor1.ui.instances.placeholder_select.buildList()
+    },
+
+    missingfields: function (check) {
+      if (check) {
+        document.getElementById('missing-fields').classList.remove('d-none')
+      } else {
+        document.getElementById('missing-fields').classList.add('d-none')
+      }
+    },
+
+    ckEditorReadyCallback: function (readyEvent) {
+      window.itemsArray = this.placeholders
+
+      function matchCallback (text, offset) {
+        const pattern = /\[{2}([A-zΑ-ω]|\])*$/
+        const match = text.slice(0, offset)
+          .match(pattern)
+
+        if (!match) {
+          return null
+        }
+
+        return {
+          start: match.index,
+          end: offset
+        }
+      }
+
+      function textTestCallback (range) {
+        if (!range.collapsed) {
+          return null
+        }
+
+        return CKEDITOR.plugins.textMatch.match(range, matchCallback)
+      }
+
+      this.config.textTestCallback = textTestCallback
+
+      function dataCallback (matchInfo, callback) {
+        const data = window.itemsArray.filter(function (item) {
+          const itemName = '[[' + item.title + ']]'
+          return itemName.toUpperCase()
+            .indexOf(matchInfo.query.toUpperCase()) == 0
+        })
+
+        callback(data)
+      }
+
+      this.config.dataCallback = dataCallback
+
+      this.config.itemTemplate = '<li data-id="{id}">' +
+                '<div><strong class="item-title">{title}</strong></div>' +
+                '</li>'
+      this.config.outputTemplate = '[[{title}]]<span>&nbsp;</span>'
+
+      this.myAutocomplete(readyEvent, this.config)
+      this.$refs.xlsxcomponent.parseDocData()
+    },
+    myAutocomplete: function (editor, config) {
+      this.autocomplete = new CKEDITOR.plugins.autocomplete(editor, config)
+      // Override default getHtmlToInsert to enable rich content output.
+      /* this.autocomplete.getHtmlToInsert = function(item) {
+                    return config.outputTemplate.output(item);
+                } */
+    }
+  },
+  computed: {
+    doc_logos: function () {
+      return JSON.parse(this.doc_logos_str)
+    },
+    editors: function () {
+      return JSON.parse(this.editors_str)
+    },
+    signatures: function () {
+      return JSON.parse(this.signatures_str)
+    },
+    exact_copies: function () {
+      return JSON.parse(this.exact_copies_str)
+    },
+    get_date: function () {
+      if (typeof this.doc_date === 'undefined' || this.doc_date == '') {
+        return new Date().toISOString().slice(0, 10)
+      }
+      return this.doc_date
+    }
+  }
+}
 </script>

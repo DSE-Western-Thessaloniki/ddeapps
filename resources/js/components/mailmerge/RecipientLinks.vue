@@ -14,28 +14,28 @@
 
 <script>
 
-    export default {
-        props: {
-            links: String,
-        },
-        mounted() {
-        },
-        data: function() {
-            return {
-                linksObj: JSON.parse(this.links),
-                delLink: [],
-            }
-        },
-        methods: {
-            removeLink: function(id) {
-                this.delLink.push(id);
-                $("span#"+id).addClass("d-none");
-            }
-        },
-        computed: {
-            delLinkJson: function() {
-                return JSON.stringify(this.delLink);
-            }
-        }
+export default {
+  props: {
+    links: String
+  },
+  mounted () {
+  },
+  data: function () {
+    return {
+      linksObj: JSON.parse(this.links),
+      delLink: []
     }
+  },
+  methods: {
+    removeLink: function (id) {
+      this.delLink.push(id)
+      $('span#' + id).addClass('d-none')
+    }
+  },
+  computed: {
+    delLinkJson: function () {
+      return JSON.stringify(this.delLink)
+    }
+  }
+}
 </script>

@@ -41,36 +41,36 @@
 
 <script>
 
-    export default {
-        props: {
-            title: String,
-            logofile: {
-                default: "logo.png",
-                type: String,
-            },
-            imagespath: String,
-            text: String,
-            active: {
-                default: true,
-                type: Boolean
-            },
-        },
-        mounted() {
-        },
-        data: function() {
-            return {
-                dtitle: this.title,
-                dlogofile: this.logofile,
-                dtext: this.text,
-                dactive: this.active,
-            }
-        },
-        methods: {
-        },
-        computed: {
-            logofullpath: function() {
-                return this.imagespath+this.logofile;
-            }
-        }
+export default {
+  props: {
+    title: String,
+    logofile: {
+      default: 'logo.png',
+      type: String
+    },
+    imagespath: String,
+    text: String,
+    active: {
+      default: true,
+      type: Boolean
     }
+  },
+  mounted () {
+  },
+  data: function () {
+    return {
+      dtitle: this.title,
+      dlogofile: this.logofile,
+      dtext: this.text,
+      dactive: this.active
+    }
+  },
+  methods: {
+  },
+  computed: {
+    logofullpath: function () {
+      return this.imagespath + this.logofile
+    }
+  }
+}
 </script>
