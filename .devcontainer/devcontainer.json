@@ -48,7 +48,8 @@
 		"octref.vetur",
 		"visualstudioexptteam.vscodeintellicode",
 		"redhat.vscode-yaml",
-        "m1guelpf.better-pest"
+        "m1guelpf.better-pest",
+        "ikappas.phpcs"
 	],
 	"remoteUser": "sail",
 	// "forwardPorts": [],

@@ -103,53 +103,51 @@
 
 <script>
 
-    export default {
-        props: {
-            current_roles: String,
-        },
-        mounted() {
-            this.cur_roles=JSON.parse(this.current_roles);
-            this.administrator=this.cur_roles.includes('Administrator');
-            this.user=this.cur_roles.includes('User');
-            this.mmadmin=this.cur_roles.includes('MailMergeAdmin');
-            this.mmdoclogoread=this.cur_roles.includes('DocLogoRead');
-            this.mmdoclogowrite=this.cur_roles.includes('DocLogoWrite');
-            this.mmeditorread=this.cur_roles.includes('EditorRead');
-            this.mmeditorwrite=this.cur_roles.includes('EditorWrite');
-            this.mmexactcopyread=this.cur_roles.includes('ExactCopyRead');
-            this.mmexactcopywrite=this.cur_roles.includes('ExactCopyWrite');
-            this.mmsignatureread=this.cur_roles.includes('SignatureRead');
-            this.mmsignaturewrite=this.cur_roles.includes('SignatureWrite');
-            this.mmrecipientread=this.cur_roles.includes('RecipientRead');
-            this.mmrecipientwrite=this.cur_roles.includes('RecipientWrite');
-            this.mmread=this.cur_roles.includes('MailMergeRead');
-            this.mmwrite=this.cur_roles.includes('MailMergeWrite');
-        },
-        data: function() {
-            return {
-                cur_roles: '',
-                administrator: false,
-                user: false,
-                mmadmin: false,
-                mmdoclogoread: false,
-                mmdoclogowrite: false,
-                mmeditorread: false,
-                mmeditorwrite: false,
-                mmexactcopyread: false,
-                mmexactcopywrite: false,
-                mmsignatureread: false,
-                mmsignaturewrite: false,
-                mmrecipientread: false,
-                mmrecipientwrite: false,
-                mmread: false,
-                mmwrite: false,
-            }
-        },
-        ready: function() {
-        },
-        methods: {
-        },
-        computed: {
-        }
+export default {
+  props: {
+    current_roles: String
+  },
+  mounted () {
+    this.cur_roles = JSON.parse(this.current_roles)
+    this.administrator = this.cur_roles.includes('Administrator')
+    this.user = this.cur_roles.includes('User')
+    this.mmadmin = this.cur_roles.includes('MailMergeAdmin')
+    this.mmdoclogoread = this.cur_roles.includes('DocLogoRead')
+    this.mmdoclogowrite = this.cur_roles.includes('DocLogoWrite')
+    this.mmeditorread = this.cur_roles.includes('EditorRead')
+    this.mmeditorwrite = this.cur_roles.includes('EditorWrite')
+    this.mmexactcopyread = this.cur_roles.includes('ExactCopyRead')
+    this.mmexactcopywrite = this.cur_roles.includes('ExactCopyWrite')
+    this.mmsignatureread = this.cur_roles.includes('SignatureRead')
+    this.mmsignaturewrite = this.cur_roles.includes('SignatureWrite')
+    this.mmrecipientread = this.cur_roles.includes('RecipientRead')
+    this.mmrecipientwrite = this.cur_roles.includes('RecipientWrite')
+    this.mmread = this.cur_roles.includes('MailMergeRead')
+    this.mmwrite = this.cur_roles.includes('MailMergeWrite')
+  },
+  data: function () {
+    return {
+      cur_roles: '',
+      administrator: false,
+      user: false,
+      mmadmin: false,
+      mmdoclogoread: false,
+      mmdoclogowrite: false,
+      mmeditorread: false,
+      mmeditorwrite: false,
+      mmexactcopyread: false,
+      mmexactcopywrite: false,
+      mmsignatureread: false,
+      mmsignaturewrite: false,
+      mmrecipientread: false,
+      mmrecipientwrite: false,
+      mmread: false,
+      mmwrite: false
     }
+  },
+  methods: {
+  },
+  computed: {
+  }
+}
 </script>
