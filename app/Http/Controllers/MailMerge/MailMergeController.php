@@ -27,10 +27,22 @@ class MailMergeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $mailmerges = MailMerge::with('creator')->orderBy('id', 'desc')->paginate(5);
-        return view('apps.mailmerge.index')->with('mailmerges', $mailmerges);
+        $filter = $request->get('filter');
+        if ($filter) {
+            $mailmerges = MailMerge::with('creator')
+                ->where('id', $filter)
+                ->orWhere('protocol_num', $filter)
+                ->orWhere('subject', $filter)
+                ->orderBy('id', 'desc')
+                ->paginate(5);
+        }
+        else
+            $mailmerges = MailMerge::with('creator')->orderBy('id', 'desc')->paginate(5);
+        return view('apps.mailmerge.index')
+            ->with('mailmerges', $mailmerges)
+            ->with('filter', $filter);
     }
 
     /**
@@ -193,13 +205,18 @@ class MailMergeController extends Controller
         $data = array('id', 'editor', 'exact_copy', 'signature', 'doc_logo', 'draft');
         $pdf = PDF::loadView('apps.mailmerge.print', compact('mailmerge', $data))
             ->setOptions(['print-media-type' => true,
-                          'enable-javascript' => true,
+                          'enable-javascript' => false,
                           'margin-left' => 0,
                           'margin-right' => 0,
                           'margin-top' => 0,
                           'margin-bottom' => 0,
                           'page-size' => 'A4',
-                          'disable-smart-shrinking' => true]);
+                          'disable-smart-shrinking' => true,
+                          'quiet' => true,
+                          'log-level' => 'none',
+                          'read-args-from-stdin' => false,
+                          'use-xserver' => false,
+                          'disable-local-file-access' => true]);
         $filename = "mailmerge-".$mailmerge->protocol_num."-".date('Ymd-His').".pdf";
         return $pdf->inline($filename);
     }

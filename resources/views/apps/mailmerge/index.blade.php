@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    <div class="btn-toolbar pb-2" role="toolbar">
+                    <div class="btn-toolbar pb-2 justify-content-between" role="toolbar">
                         <div class="btn-group" role="group">
                             @can('create', \App\Models\MailMerge\MailMerge::class)
                             <a class="btn btn-primary" href="{{ route('apps.mailmerge.create') }}">
@@ -22,6 +22,12 @@
                             </a>
                             @endcan
                         </div>
+                        <form class="form-horizontal" id="search" method="GET" action="{{ route('apps.mailmerge.index') }}">
+                            <div class="input-group" role="group">
+                                <input type="text" class="form-control" placeholder="Κριτήρια αναζήτησης..."name="filter" value="{{ $filter }}">
+                                <button type="submit" class="btn btn-primary ml-2" form="search">Αναζήτηση</button>
+                            </div>
+                        </form>
                     </div>
 
                     <div class="table-responsive">
