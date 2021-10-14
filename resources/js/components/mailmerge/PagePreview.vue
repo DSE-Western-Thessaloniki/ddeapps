@@ -533,7 +533,9 @@ export default {
       return lvl
     },
     logo_img: function () {
-      return this.app_url + '/images/' + this.doc_logo_image
+      return this.app_url +
+        (this.app_url.endsWith('/') ? 'images/' : '/images/') +
+        this.doc_logo_image
     },
     doc_logo_text_html: function () {
       return this.doc_logo_text.replace(/\n/g, '<br/>')

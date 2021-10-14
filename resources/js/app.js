@@ -13,9 +13,10 @@ require('vue-context')
 
 window.Fuse = require('fuse.js')
 
-window.CKEDITOR_BASEPATH = process.env.MIX_APP_URL +
-    (process.env.MIX_APP_URL !== '' ? process.env.MIX_APP_DIR + '/' : '') +
-    'resources/js/ckeditor/'
+const appUrlEndsWithSlash = process.env.MIX_APP_URL.endsWith('/')
+const appDir = `${process.env.MIX_APP_DIR !== '' ? process.env.MIX_APP_DIR + '/' : ''}resources/js/ckeditor/`
+window.CKEDITOR_BASEPATH = process.env.MIX_APP_URL + (appUrlEndsWithSlash === false ? '/' : '') + appDir.replace('//', '/')
+
 require('../../public/resources/js/ckeditor/ckeditor.js')
 window.CKEditor_Vue = require('ckeditor4-vue')
 
