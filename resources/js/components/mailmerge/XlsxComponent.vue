@@ -79,11 +79,12 @@ export default {
         xlsxjson = JSON.parse(JSON.stringify(xlsxjson).replace(/"\s+|\s+"/g, '"'))
         xlsxjson.forEach(function (row) {
           row = Object.keys(row).forEach(function (k) {
-            const newname = (typeof k === 'string') ? k.trim().replace(/\s{2,}/g, ' ') : k
-            if (newname !== k) {
-              Object.defineProperty(row, newname,
-                Object.getOwnPropertyDescriptor(row, k));
-              delete row[k];
+            row[k] = typeof row[k] === 'string' ? row[k].trim().replace(/\s{2,}/g, ' ') : row[k]
+            const newKey = (typeof k === 'string') ? k.trim().replace(/\s{2,}/g, ' ') : k
+            if (newKey !== k) {
+              Object.defineProperty(row, newKey,
+                Object.getOwnPropertyDescriptor(row, k))
+              delete row[k]
             }
           })
         })
