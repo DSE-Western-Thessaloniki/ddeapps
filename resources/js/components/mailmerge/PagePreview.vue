@@ -365,10 +365,21 @@ export default {
           const max = vueobj.records[vueobj.records.length - 1].id
 
           // Φτιάξε το combobox με τους διαθέσιμους παραλήπτες
-          vueobj.ur_options = [{ value: -1, name: 'Παρακαλώ επιλέξτε' }]
           recipients.forEach(function (recipient) {
-            vueobj.ur_options.push({ value: recipient.code, name: recipient.name })
+            if (!recipient.link) {
+              vueobj.ur_options.push({ value: recipient.code, name: recipient.name })
+            }
           })
+          vueobj.ur_options.sort(function(el1, el2) {
+            if (el1.name < el2.name) {
+              return -1
+            }
+            else if (el1.name > el2.name) {
+              return 1
+            }
+            return 0
+          })
+          vueobj.ur_options.unshift({ value: -1, name: 'Παρακαλώ επιλέξτε' })
 
           // Προετοιμασία fuzzy search
           const options = {

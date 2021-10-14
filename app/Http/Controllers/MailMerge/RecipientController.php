@@ -144,7 +144,7 @@ class RecipientController extends Controller
     public function list()
     {
         $this->authorize('viewAny', Recipient::class);
-        $recipients = Recipient::all(['name','code']);
+        $recipients = Recipient::all(['name','code', 'link']);
         return response()->json($recipients);
     }
 
