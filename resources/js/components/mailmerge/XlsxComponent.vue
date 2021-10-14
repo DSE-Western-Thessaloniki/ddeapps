@@ -78,9 +78,17 @@ export default {
         // Trim, trim and more trim
         xlsxjson = JSON.parse(JSON.stringify(xlsxjson).replace(/"\s+|\s+"/g, '"'))
         xlsxjson.forEach(function (row) {
-          row = Object.keys(row).map(k => row[k] = typeof row[k] === 'string' ? row[k].trim().replace(/\s{2,}/g, ' ') : row[k])
+          row = Object.keys(row).forEach(function (k) {
+            const newname = (typeof k === 'string') ? k.trim().replace(/\s{2,}/g, ' ') : k
+            if (newname !== k) {
+              Object.defineProperty(row, newname,
+                Object.getOwnPropertyDescriptor(row, k));
+              delete row[k];
+            }
+          })
         })
         vueobj.xlsxdata = xlsxjson
+        console.log(Object.keys(xlsxjson[0]))
         vueobj.xlsxdata_header = vueobj.getHeader
         vueobj.selected_cols = []
         if (!vueobj.necessary_fields_exist(vueobj.xlsxdata_header)) {
