@@ -409,6 +409,7 @@ export default {
               if (field !== null &&
                                     (item[field] != '') &&
                                     !(recipients.map((x) => x.name).includes(item[field])) &&
+                                    !(recipients.map((x) => x.name).includes(String(item[field]).normalize("NFD").replace(/[\u0300-\u036f]/g, ''))) &&
                                     !vueobj.unknown_recipients.map((x) => x.name).includes(item[field])) {
                 $('#save_recipients').removeClass('d-none')
                 unknown++

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Services\StringConverter;
 
 class RecipientController extends Controller
 {
@@ -112,7 +113,7 @@ class RecipientController extends Controller
         //dd($request->del_aliases);
         $delObj = json_decode($request->del_aliases);
         foreach ($delObj as $id) {
-            $link = Recipient::find($id);
+            $link = Recipient::find(substr($id, 1));
 
             // Just a sanity check
             if ($link->link == $recipient->name) {
@@ -181,7 +182,7 @@ class RecipientController extends Controller
                     $recipients->push(
                         Recipient::make(
                             [
-                                'name' => $item['name'],
+                                'name' => StringConverter::removeAccents($item['name']),
                                 'code' => $item['code'],
                                 'link' => $item['link'],
                                 'updated_by' => Auth::user()->id,
