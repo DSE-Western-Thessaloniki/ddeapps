@@ -68,7 +68,7 @@ export default {
         }
 
         /* read workbook */
-        const wb = XLSX.read(binary, { type: 'binary' })
+        const wb = XLSX.read(binary, { type: 'binary', cellDates: true, dateNF: 'dd/mm/yyyy' })
 
         /* grab first sheet */
         const wsname = wb.SheetNames[0]
