@@ -74,7 +74,7 @@ export default {
         const wsname = wb.SheetNames[0]
         const ws = wb.Sheets[wsname]
 
-        let xlsxjson = XLSX.utils.sheet_to_json(ws, { defval: '' })
+        let xlsxjson = XLSX.utils.sheet_to_json(ws, { defval: '', raw: false })
         // Trim, trim and more trim
         xlsxjson = JSON.parse(JSON.stringify(xlsxjson).replace(/"\s+|\s+"/g, '"'))
         xlsxjson.forEach(function (row) {
