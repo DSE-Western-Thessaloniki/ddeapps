@@ -10,16 +10,16 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/manifest.js') }}" defer></script>
-    <script src="{{ asset('js/vendor.js') }}" defer></script>
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset(mix('js/manifest.js')) }}" defer></script>
+    <script src="{{ asset(mix('js/vendor.js')) }}" defer></script>
+    <script src="{{ asset(mix('js/app.js')) }}" defer></script>
     <script>
         window._locale = '{{ app()->getLocale() }}';
         window._translations = {!! cache('translations') !!};
     </script>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset(mix('css/app.css')) }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
