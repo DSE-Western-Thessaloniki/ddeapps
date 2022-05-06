@@ -88,7 +88,7 @@ class MailMergeController extends Controller
             'protocol_num' => $request->get('protocol'),
             'date' => $request->get('date'),
             'subject' => $request->get('subject'),
-            'text' => $request->get('text'),
+            'text' => $request->get('text') ?? '',
             'exact_copy_id' => $request->get('exactcopyselect'),
             'signature_id' => $request->get('signatureselect'),
             'xlsxdata' => $request->get('xlsxdata'),
