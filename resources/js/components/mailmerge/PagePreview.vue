@@ -69,9 +69,9 @@
                                     <p>[[ΕΠΩΝΥΜΟ]] [[ΟΝΟΜΑ]]<br/>
                                     ΚΛΑΔΟΥ: [[ΚΛΑΔΟΣ]]<br/>
                                     <span id="am">Α.Μ.</span>: [[ΑΜ]]<br/>
-                                    <div v-if="files_for_teachers==false">
+                                    <span v-if="files_for_teachers==false">
                                     (δια της σχολικής μονάδας)
-                                    </div>
+                                    </span>
                                     </p>
                                     <p class="font-weight-bold mb-0">ΚΟΙΝ</p>
                                     1. ΑΦ [[ΑΦ]]<br/>
