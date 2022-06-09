@@ -52,6 +52,7 @@ $date = new DateTime($mailmerge->date);
                         edit_mailmerge_url="{{ route('apps.mailmerge.edit', ['mailmerge' => $mailmerge->id]) }}"
                         store_many_url="{{ route('apps.mailmerge.recipient.storeMany') }}"
                         app_url={{ env('APP_URL') }}
+                        files_for_teachers={{ $mailmerge->files_for_teachers }}
                     >
 
                     </pagepreview>

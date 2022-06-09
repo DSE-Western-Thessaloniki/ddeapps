@@ -85,7 +85,9 @@ $base64_logo = base64_encode(file_get_contents(__DIR__."/../../../public/images/
                                 @else
                                 Α.Φ.Μ.: {{ $record['ΑΜ'] }}<br/>
                                 @endif
+                                @if ($mailmerge->files_for_teachers == false)
                                 (δια της σχολικής μονάδας)
+                                @endif
                                 </p>
                                 <p class="font-weight-bold mb-0">ΚΟΙΝ</p>
                                 1. ΑΦ @if (isset($record['ΑΦ'])) {{ $record['ΑΦ'] }} @endif<br/>

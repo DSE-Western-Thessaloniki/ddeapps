@@ -69,7 +69,9 @@
                                     <p>[[ΕΠΩΝΥΜΟ]] [[ΟΝΟΜΑ]]<br/>
                                     ΚΛΑΔΟΥ: [[ΚΛΑΔΟΣ]]<br/>
                                     <span id="am">Α.Μ.</span>: [[ΑΜ]]<br/>
+                                    <div v-if="files_for_teachers==false">
                                     (δια της σχολικής μονάδας)
+                                    </div>
                                     </p>
                                     <p class="font-weight-bold mb-0">ΚΟΙΝ</p>
                                     1. ΑΦ [[ΑΦ]]<br/>
@@ -174,7 +176,8 @@ export default {
     recipient_list_url: String,
     edit_mailmerge_url: String,
     store_many_url: String,
-    app_url: String
+    app_url: String,
+    files_for_teachers: Boolean
   },
   mounted () {
     this.setZoom()
