@@ -26,7 +26,7 @@ class MakeAdaNullableOnMailMergesTable extends Migration
     public function down()
     {
         Schema::table('mail_merges', function (Blueprint $table) {
-            $table->dropColumn('ada')->nullable(false)->change();
+            $table->string('ada')->nullable(false)->change();
         });
     }
 }

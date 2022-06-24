@@ -31,8 +31,8 @@ class AddForeignKeysToSignatures extends Migration
     public function down()
     {
         Schema::table('signatures', function (Blueprint $table) {
-            $table->dropForeign('recipients_created_by_foreign');
-            $table->dropForeign('recipients_updated_by_foreign');
+            $table->dropForeign('signatures_created_by_foreign');
+            $table->dropForeign('signatures_updated_by_foreign');
         });
     }
 }
