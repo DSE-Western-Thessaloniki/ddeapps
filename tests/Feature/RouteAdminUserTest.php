@@ -293,18 +293,3 @@ it('cannot login with deactivated account', function () {
     $response->assertStatus(302)->assertRedirect(route('login'));
     expect($response->getSession()->only(['error'])['error'])->toBe('Ο λογαριασμός σας είναι απενεργοποιημένος.');
 });
-
-test('logout redirects to login', function () {
-    $this->seed(RoleSeeder::class);
-    $user = User::factory()->user()->create();
-    $user->active = 1;
-    $user->save();
-
-    $response = $this->post('/login', [
-        'username' => $user->username,
-        'password' => 'password'
-    ]);
-    $response->assertRedirect(route('home'));
-    $response = $this->post('/logout');
-    $response->assertStatus(302)->assertRedirect('/');
-});
