@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -54,6 +55,12 @@ class LoginController extends Controller
      */
     public function authenticated(Request $request, $user)
     {
+        if (!$user->active) {
+            Auth::logout();
+
+            return redirect()->route('login')->withError('Ο λογαριασμός σας είναι απενεργοποιημένος.');
+        }
+
         $user->last_login = Carbon::now()->toDateTimeString();
         $user->save();
     }
