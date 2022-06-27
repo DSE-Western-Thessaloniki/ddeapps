@@ -13,20 +13,20 @@ it('shows first run setup', function () {
     });
 });
 
-// it('completes first run setup', function () {
-//     $this->seed(OptionSeeder::class);
+it('completes first run setup', function () {
+    $this->seed(OptionSeeder::class);
 
-//     $this->browse(function (Browser $browser) {
-//         $password = faker()->password();
-//         $browser->visit('/')
-//             ->assertSee('Ρύθμιση διαχειριστή συστήματος')
-//             ->type('name', faker()->name())
-//             ->type('email', faker()->email())
-//             ->type('username', faker()->username())
-//             ->type('password', $password)
-//             ->type('password_confirmation', $password)
-//             ->click('button[type="submit"]')
-//             ->waitForLocation('/home')
-//             ->assertPathIs('/home');
-//     });
-// });
+    $this->browse(function (Browser $browser) {
+        $password = faker()->password(8);
+        $browser->visit('/')
+            ->assertSee('Ρύθμιση διαχειριστή συστήματος')
+            ->type('name', faker()->name())
+            ->type('email', faker()->email())
+            ->type('username', faker()->username(6))
+            ->type('password', $password)
+            ->type('password_confirmation', $password)
+            ->click('button[type="submit"]')
+            ->waitForLocation('/home')
+            ->assertPathIs('/home');
+    });
+});
