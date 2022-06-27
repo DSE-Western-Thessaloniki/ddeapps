@@ -77,3 +77,11 @@ test('logout redirects to login', function () {
     $response = $this->post('/logout');
     $response->assertStatus(302)->assertRedirect('/');
 });
+
+it('redirects to login when not authenticated (admin)', function ($url) {
+    $this->get($url)->assertRedirect(route('login'));
+})->with('admin_routes');
+
+it('redirects to login when not authenticated (mailmerge)', function ($url) {
+    $this->get($url)->assertRedirect(route('login'));
+})->with('mailmerge_routes');

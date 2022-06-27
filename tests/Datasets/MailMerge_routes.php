@@ -1,0 +1,31 @@
+<?php
+
+dataset('mailmerge_routes', function () {
+    return [
+        '/apps/mailmerge',
+        '/apps/mailmerge/create',
+        '/apps/mailmerge/0',
+        '/apps/mailmerge/0/edit',
+        '/apps/mailmerge/copy/0',
+        '/apps/mailmerge/print/0',
+        '/apps/mailmerge/save/0',
+        '/apps/mailmerge/show2/0',
+        '/apps/mailmerge/doclogo',
+        '/apps/mailmerge/doclogo/create',
+        '/apps/mailmerge/doclogo/0',
+        '/apps/mailmerge/doclogo/0/edit',
+        '/apps/mailmerge/editor',
+        '/apps/mailmerge/editor/create',
+        '/apps/mailmerge/editor/0',
+        '/apps/mailmerge/editor/0/edit',
+        '/apps/mailmerge/exactcopy',
+        '/apps/mailmerge/exactcopy/create',
+        '/apps/mailmerge/exactcopy/0',
+        '/apps/mailmerge/exactcopy/0/edit',
+        '/apps/mailmerge/recipient',
+        '/apps/mailmerge/recipient/create',
+        '/apps/mailmerge/recipient/0',
+        '/apps/mailmerge/recipient/0/edit',
+        '/apps/mailmerge/recipient/list',
+    ];
+});
