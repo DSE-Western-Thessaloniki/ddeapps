@@ -30,7 +30,10 @@ class DocLogoPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->roles()->where('name', 'DocLogoRead')->exists();
+        return $user->roles()
+            ->where('name', 'DocLogoRead')
+            ->orWhere('name', 'DocLogoWrite')
+            ->exists();
     }
 
     /**
@@ -42,7 +45,10 @@ class DocLogoPolicy
      */
     public function view(User $user, DocLogo $docLogo)
     {
-        return $user->roles()->where('name', 'DocLogoRead')->exists();
+        return $user->roles()
+            ->where('name', 'DocLogoRead')
+            ->orWhere('name', 'DocLogoWrite')
+            ->exists();
     }
 
     /**
