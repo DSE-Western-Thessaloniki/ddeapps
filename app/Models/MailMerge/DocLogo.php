@@ -2,11 +2,14 @@
 
 namespace App\Models\MailMerge;
 
-use Illuminate\Database\Eloquent\Model;
 use App\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class DocLogo extends Model
 {
+    use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *
