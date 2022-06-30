@@ -23,7 +23,7 @@ class DocLogoFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(),
-            'text' => str_replace('.', "\n", $this->faker->text()),
+            'text' => str_replace('. ', "\n", $this->faker->text()),
             'image' => $this->faker->word().'.jpg',
             'active' => true,
             'updated_by' => 1,
