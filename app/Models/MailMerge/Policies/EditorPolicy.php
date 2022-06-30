@@ -30,7 +30,10 @@ class EditorPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->roles()->where('name', 'EditorRead')->exists();
+        return $user->roles()
+            ->where('name', 'EditorRead')
+            ->orWhere('name', 'EditorWrite')
+            ->exists();
     }
 
     /**
@@ -42,7 +45,10 @@ class EditorPolicy
      */
     public function view(User $user, Editor $editor)
     {
-        return $user->roles()->where('name', 'EditorRead')->exists();
+        return $user->roles()
+            ->where('name', 'EditorRead')
+            ->orWhere('name', 'EditorWrite')
+            ->exists();
     }
 
     /**
@@ -65,7 +71,7 @@ class EditorPolicy
      */
     public function update(User $user, Editor $editor)
     {
-        return ($user->roles()->where('name', 'EditorUpdate')->exists() &&
+        return ($user->roles()->where('name', 'EditorWrite')->exists() &&
                 ($editor->creator->id === $user->id));
     }
 
