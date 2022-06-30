@@ -24,7 +24,7 @@
         <div class="form-group row">
             <label for="text" class="col-3 col-form-label">Text</label>
             <div class="col-9 align-self-center">
-                <textarea class="form-control text-center" name="doclogotext" rows="10" id="text" v-model="dtext"></textarea>
+                <textarea class="form-control text-center" name="text" rows="10" id="text" v-model="dtext"></textarea>
             </div>
         </div>
 

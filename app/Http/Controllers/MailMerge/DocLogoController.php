@@ -56,7 +56,7 @@ class DocLogoController extends Controller
         $doclogo = new DocLogo([
             'title' => $request->get('title'),
             'image' => $request->get('image'),
-            'text' => $request->get('doclogotext'),
+            'text' => $request->get('text'),
             'active' => $request->get('active') == 1 ? 1 : 0,
             'updated_by' => Auth::user()->id,
             'created_by' => Auth::user()->id,
@@ -102,7 +102,7 @@ class DocLogoController extends Controller
 
         $doclogo->title = $request->get('title');
         $doclogo->image = $request->get('image');
-        $doclogo->text = $request->get('doclogotext');
+        $doclogo->text = $request->get('text');
         $doclogo->active = $request->get('active') == 1 ? 1 : 0;
         $doclogo->updated_by = Auth::user()->id;
         $doclogo->save();
