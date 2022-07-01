@@ -30,7 +30,10 @@ class ExactCopyPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->roles()->where('name', 'ExactCopyRead')->exists();
+        return $user->roles()
+            ->where('name', 'ExactCopyRead')
+            ->orWhere('name', 'ExactCopyWrite')
+            ->exists();
     }
 
     /**
@@ -42,7 +45,10 @@ class ExactCopyPolicy
      */
     public function view(User $user, ExactCopy $exactCopy)
     {
-        return $user->roles()->where('name', 'ExactCopyRead')->exists();
+        return $user->roles()
+            ->where('name', 'ExactCopyRead')
+            ->orWhere('name', 'ExactCopyWrite')
+            ->exists();
     }
 
     /**
