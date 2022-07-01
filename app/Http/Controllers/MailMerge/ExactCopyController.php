@@ -49,7 +49,9 @@ class ExactCopyController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title'=>'required',
+            'title'=>'required|string|max:255',
+            'text'=>'required|string|max:65535',
+            'active'=>'boolean',
         ]);
 
         $exactcopy = new ExactCopy([
