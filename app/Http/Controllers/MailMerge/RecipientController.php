@@ -100,7 +100,7 @@ class RecipientController extends Controller
         $request->validate(
             [
                 'name'=> ['string', 'max:255', 'required',
-                    Rule::unique('recipients')->ignore($recipient->name)],
+                    Rule::unique('recipients')->ignore($recipient->id)],
                 'code' => 'string|max:255|required'
             ]
         );
