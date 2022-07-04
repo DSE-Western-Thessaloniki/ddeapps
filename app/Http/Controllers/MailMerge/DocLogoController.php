@@ -50,7 +50,10 @@ class DocLogoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title'=>'required',
+            'title'=>'string|max:255|required',
+            'text' => 'string|max:65535',
+            'image'=>'string|max:255',
+            'active' => 'boolean',
         ]);
 
         $doclogo = new DocLogo([
