@@ -5,6 +5,7 @@ use App\Option;
 use App\Role;
 use App\User;
 use Database\Seeders\OptionSeeder;
+use Illuminate\Support\Facades\DB;
 
 use function Pest\Faker\faker;
 
@@ -651,4 +652,51 @@ it('can store many recipients as user with role RecipientWrite or MailMergeAdmin
         ->assertOk();
 
     $this->assertDatabaseCount('recipients', 7);
+});
+
+it('can delete linked recipients as admin', function () {
+    $user = User::factory()->admin()->create();
+    $recipient = Recipient::factory()->create([
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
+    ]);
+
+    $many_recipients_data = [
+        'many' => [
+            [
+                'name' => faker()->firstName().' '.faker()->lastName(),
+                'code' => faker()->numerify('#######'),
+                'link' => $recipient->name,
+                'updated_by' => $user->id,
+                'created_by' => $user->id,
+            ],
+            [
+                'name' => faker()->firstName().' '.faker()->lastName(),
+                'code' => faker()->numerify('#######'),
+                'link' => $recipient->name,
+                'updated_by' => $user->id,
+                'created_by' => $user->id,
+            ],
+            [
+                'name' => faker()->firstName().' '.faker()->lastName(),
+                'code' => faker()->numerify('#######'),
+                'link' => $recipient->name,
+                'updated_by' => $user->id,
+                'created_by' => $user->id,
+            ],
+        ],
+    ];
+
+    $this->actingAs($user)
+        ->post(route('apps.mailmerge.recipient.storeMany'), $many_recipients_data)
+        ->assertOk();
+
+    $updated_recipient = $recipient->toArray();
+    $updated_recipient['del_aliases'] = "[\"l".Recipient::all()->last()->id."\"]";
+
+    $this->actingAs($user)
+        ->put(route('apps.mailmerge.recipient.update', $recipient), $updated_recipient)
+        ->assertRedirect(route('apps.mailmerge.recipient.index'));
+
+    $this->assertDatabaseCount('recipients', 3);
 });
