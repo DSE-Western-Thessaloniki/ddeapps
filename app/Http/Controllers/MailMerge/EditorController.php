@@ -49,7 +49,11 @@ class EditorController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title'=>'required',
+            'title'=>'string|max:255|required',
+            'address'=>'string|max:255',
+            'name'=>'string|max:255',
+            'telephone'=>'string|max:255',
+            'email'=>'string|max:255',
         ]);
 
         $editor = new Editor([
@@ -98,7 +102,11 @@ class EditorController extends Controller
     public function update(Request $request, Editor $editor)
     {
         $request->validate([
-            'title'=>'required',
+            'title'=>'string|max:255|required',
+            'address'=>'string|max:255',
+            'name'=>'string|max:255',
+            'telephone'=>'string|max:255',
+            'email'=>'string|max:255',
         ]);
 
         $editor->title = $request->get('title');
