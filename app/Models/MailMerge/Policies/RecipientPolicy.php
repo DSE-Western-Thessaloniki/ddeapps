@@ -30,7 +30,10 @@ class RecipientPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->roles()->where('name', 'RecipientRead')->exists();
+        return $user->roles()
+            ->where('name', 'RecipientRead')
+            ->orWhere('name', 'RecipientWrite')
+            ->exists();
     }
 
     /**
@@ -42,7 +45,10 @@ class RecipientPolicy
      */
     public function view(User $user, Recipient $recipient)
     {
-        return $user->roles()->where('name', 'RecipientRead')->exists();
+        return $user->roles()
+            ->where('name', 'RecipientRead')
+            ->orWhere('name', 'RecipientWrite')
+            ->exists();
     }
 
     /**
