@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\MailMerge;
 
+use App\Http\Controllers\Controller;
 use App\Models\MailMerge\Recipient;
+use App\Services\StringConverter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Services\StringConverter;
+use Illuminate\Validation\Rule;
 
 class RecipientController extends Controller
 {
@@ -51,8 +52,8 @@ class RecipientController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required|unique:recipients',
-            'code' => 'required',
+            'name'=>'string|max:255|required|unique:recipients',
+            'code' => 'string|max:255|required',
         ]);
 
         $recipient = new Recipient([
@@ -62,7 +63,7 @@ class RecipientController extends Controller
             'created_by' => Auth::user()->id,
         ]);
         $recipient->save();
-        return redirect(route('apps.mailmerge.recipient.index'))->with('status', __('Recipient !'));
+        return redirect(route('apps.mailmerge.recipient.index'))->with('status', __('Recipient created!'));
     }
 
     /**
@@ -98,8 +99,9 @@ class RecipientController extends Controller
     {
         $request->validate(
             [
-                'name'=>'required',
-                'code' => 'required'
+                'name'=> ['string', 'max:255', 'required',
+                    Rule::unique('recipients')->ignore($recipient->name)],
+                'code' => 'string|max:255|required'
             ]
         );
 
@@ -109,14 +111,15 @@ class RecipientController extends Controller
         $recipient->save();
 
         // Check if we need to delete aliases
-        //dd($request->del_aliases);
         $delObj = json_decode($request->del_aliases);
-        foreach ($delObj as $id) {
-            $link = Recipient::find(substr($id, 1));
+        if ($delObj) {
+            foreach ($delObj as $id) {
+                $link = Recipient::find(substr($id, 1));
 
-            // Just a sanity check
-            if ($link->link == $recipient->name) {
-                $link->delete();
+                // Just a sanity check
+                if ($link->link == $recipient->name) {
+                    $link->delete();
+                }
             }
         }
 
