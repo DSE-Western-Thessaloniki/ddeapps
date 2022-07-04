@@ -194,6 +194,30 @@ it('can create an editor as user with role EditorWrite or MailMergeAdmin', funct
     $this->assertDatabaseHas('editors', $editor_data);
 });
 
+it('cannot create an exact copy as admin', function ($title, $address, $name, $telephone, $email, $errors) {
+    $user = User::factory()->admin()->create();
+
+    $this->actingAs($user)->get(route('apps.mailmerge.editor.create'))->assertOk();
+
+    $editor_data = [
+        'title' => $title,
+        'address' => $address,
+        'name' => $name,
+        'telephone' => $telephone,
+        'email' => $email,
+        'updated_by' => $user->id,
+        'created_by' => $user->id,
+    ];
+
+    $response = $this->actingAs($user)
+        ->post(route('apps.mailmerge.editor.store', $editor_data))
+        ->assertRedirect(route('apps.mailmerge.editor.create'));
+    expect($response->getSession()->only(['errors'])['errors'])->not->toBeEmpty();
+    expect(array_diff($response->getSession()->only(['errors'])['errors']->getBag('default')->keys(), $errors))->toBeEmpty();
+
+    $this->assertDatabaseMissing('editors', $editor_data);
+})->with('invalid_editor_data');
+
 it('can update an editor as admin', function () {
     $user = User::factory()->admin()->create();
     $editor = Editor::factory()->create([
@@ -351,6 +375,36 @@ it('can update an editor as user with role EditorWrite or MailMergeAdmin', funct
 
     $this->assertDatabaseHas('editors', $editor_data);
 });
+
+it('cannot update an editor as admin', function ($title, $address, $name, $telephone, $email, $errors) {
+    $user = User::factory()->admin()->create();
+    $editor = Editor::factory()->create([
+        "created_by" => $user->id,
+        "updated_by" => $user->id,
+    ]);
+    $this->assertModelExists($editor);
+    $this->actingAs($user)->get(route('apps.mailmerge.editor.edit', $editor))->assertOk();
+
+    // Create a new admin to check that updated_by is updated correctly
+    $user = User::factory()->admin()->create();
+    $editor_data = [
+        'title' => $title,
+        'address' => $address,
+        'name' => $name,
+        'telephone' => $telephone,
+        'email' => $email,
+        'updated_by' => $user->id,
+    ];
+
+    $response = $this->actingAs($user)
+        ->put(route('apps.mailmerge.editor.update', $editor), $editor_data)
+        ->assertRedirect(route('apps.mailmerge.editor.edit', $editor));
+    // dd($response);
+    expect($response->getSession()->only(['errors'])['errors'])->not->toBeEmpty();
+    expect(array_diff($response->getSession()->only(['errors'])['errors']->getBag('default')->keys(), $errors))->toBeEmpty();
+
+    $this->assertDatabaseMissing('editors', $editor_data);
+})->with('invalid_editor_data');
 
 it('can delete an editor as admin', function () {
     $user = User::factory()->admin()->create();
