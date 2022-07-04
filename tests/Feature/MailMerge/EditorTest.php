@@ -194,7 +194,7 @@ it('can create an editor as user with role EditorWrite or MailMergeAdmin', funct
     $this->assertDatabaseHas('editors', $editor_data);
 });
 
-it('cannot create an exact copy as admin', function ($title, $address, $name, $telephone, $email, $errors) {
+it('cannot create an editor as admin', function ($title, $address, $name, $telephone, $email, $errors) {
     $user = User::factory()->admin()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.editor.create'))->assertOk();
