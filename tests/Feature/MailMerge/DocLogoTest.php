@@ -189,6 +189,29 @@ it('can create a logo as user with role DocLogoWrite or MailMergeAdmin', functio
     $this->assertDatabaseHas('doc_logos', $logo_data);
 });
 
+it('cannot create a logo as admin', function ($title, $text, $image, $active, $errors) {
+    $user = User::factory()->admin()->create();
+
+    $this->actingAs($user)->get(route('apps.mailmerge.doclogo.create'))->assertOk();
+
+    $logo_data = [
+        'title' => $title,
+        'text' => $text,
+        'image' => $image,
+        'active' => $active,
+        'updated_by' => $user->id,
+        'created_by' => $user->id,
+    ];
+
+    $response = $this->actingAs($user)
+        ->post(route('apps.mailmerge.doclogo.store', $logo_data))
+        ->assertRedirect(route('apps.mailmerge.doclogo.create'));
+    expect($response->getSession()->only(['errors'])['errors'])->not->toBeEmpty();
+    expect(array_diff($response->getSession()->only(['errors'])['errors']->getBag('default')->keys(), $errors))->toBeEmpty();
+
+    $this->assertDatabaseMissing('doc_logos', $logo_data);
+})->with('invalid_logo_data');
+
 it('can update a logo as admin', function () {
     $user = User::factory()->admin()->create();
     $logo = DocLogo::factory()->create([
