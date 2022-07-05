@@ -1,10 +1,11 @@
 <?php
 
-use App\Models\Form;
-use App\Models\FormField;
-use App\Models\School;
-use App\Models\SchoolCategory;
-use App\Models\User;
+use App\Models\MailMerge\DocLogo;
+use App\Models\MailMerge\Editor;
+use App\Models\MailMerge\ExactCopy;
+use App\Models\MailMerge\MailMerge;
+use App\Models\MailMerge\Signature;
+use App\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -48,3 +49,67 @@ expect()->extend('toBeOne', function () {
 | global functions to help you to reduce the number of lines of code in your test files.
 |
 */
+
+function test_create_mailmerge_for_user(User $user): MailMerge
+{
+    $mailmerge = MailMerge::factory()
+        ->for(
+            DocLogo::factory()->state([
+                'created_by' => $user->id,
+                'updated_by' => $user->id,
+            ]),
+            'logo'
+        )
+        ->for(
+            ExactCopy::factory()->state([
+                'created_by' => $user->id,
+                'updated_by' => $user->id,
+            ]),
+            'exactCopy'
+        )
+        ->for(
+            Signature::factory()->state([
+                'created_by' => $user->id,
+                'updated_by' => $user->id,
+            ]),
+            'signature'
+        )
+        ->for(
+            Editor::factory()->state([
+                'created_by' => $user->id,
+                'updated_by' => $user->id,
+            ]),
+            'editor'
+        )
+        ->create([
+            'created_by' => $user->id,
+            'updated_by' => $user->id,
+        ]);
+
+    return $mailmerge;
+}
+
+function test_prepare_mailmerge_for_user(User $user): array
+{
+    $doclogo = DocLogo::factory()->create([
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
+    ]);
+
+    $editor = Editor::factory()->create([
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
+    ]);
+
+    $exactCopy = ExactCopy::factory()->create([
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
+    ]);
+
+    $signature = Signature::factory()->create([
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
+    ]);
+
+    return [$doclogo, $editor, $exactCopy, $signature];
+}
