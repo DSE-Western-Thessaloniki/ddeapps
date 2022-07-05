@@ -2,11 +2,14 @@
 
 namespace App\Models\MailMerge;
 
-use Illuminate\Database\Eloquent\Model;
 use App\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class MailMerge extends Model
 {
+    use HasFactory;
+
    /**
      * The attributes that are mass assignable.
      *
@@ -40,5 +43,25 @@ class MailMerge extends Model
     public function updater()
     {
         return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function editor()
+    {
+        return $this->belongsTo(Editor::class, 'editor_id');
+    }
+
+    public function logo()
+    {
+        return $this->belongsTo(DocLogo::class, 'logo_id');
+    }
+
+    public function exactCopy()
+    {
+        return $this->belongsTo(ExactCopy::class, 'exact_copy_id');
+    }
+
+    public function signature()
+    {
+        return $this->belongsTo(Signature::class, 'signature_id');
     }
 }
