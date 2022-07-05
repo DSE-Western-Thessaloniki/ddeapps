@@ -38,9 +38,9 @@ class MailMergeController extends Controller
                 ->orWhere('subject', $filter)
                 ->orderBy('id', 'desc')
                 ->paginate(5);
-        }
-        else
+        } else {
             $mailmerges = MailMerge::with('creator')->orderBy('id', 'desc')->paginate(5);
+        }
         return view('apps.mailmerge.index')
             ->with('mailmerges', $mailmerges)
             ->with('filter', $filter);
@@ -74,27 +74,28 @@ class MailMergeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'protocol' => 'required',
-            'logoselect' => 'required',
-            'editorselect' => 'required',
-            'exactcopyselect' => 'required',
-            'signatureselect' => 'required',
+            'protocol_num' => 'required',
+            'logo_id' => 'required',
+            'editor_id' => 'required',
+            'exact_copy_id' => 'required',
+            'signature_id' => 'required',
         ]);
 
         $signature = new MailMerge([
-            'logo_id' => $request->get('logoselect'),
-            'editor_id' => $request->get('editorselect'),
+            'logo_id' => $request->get('logo_id'),
+            'editor_id' => $request->get('editor_id'),
             'ada' => $request->get('ada'),
-            'protocol_num' => $request->get('protocol'),
+            'protocol_num' => $request->get('protocol_num'),
             'date' => $request->get('date'),
             'subject' => $request->get('subject'),
             'text' => $request->get('text') ?? '',
-            'exact_copy_id' => $request->get('exactcopyselect'),
-            'signature_id' => $request->get('signatureselect'),
+            'exact_copy_id' => $request->get('exact_copy_id'),
+            'signature_id' => $request->get('signature_id'),
             'xlsxdata' => $request->get('xlsxdata'),
             'xlsxdata_header' => $request->get('xlsxdata_header'),
             'mergefields' => $request->get('mergefields'),
-            'files_for_teachers' => ($request->get('filesForTeachers')  === 'on' ? true : false),
+            'files_for_teachers' => ($request->get('filesForTeachers')  === 'on' ||
+                                     $request->get('filesForTeachers')  === true ? true : false),
             'updated_by' => Auth::user()->id,
             'created_by' => Auth::user()->id,
         ]);
