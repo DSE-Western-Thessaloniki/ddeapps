@@ -5,7 +5,6 @@ use App\Option;
 use App\Role;
 use App\User;
 use Database\Seeders\OptionSeeder;
-use Illuminate\Support\Facades\DB;
 
 use function Pest\Faker\faker;
 
