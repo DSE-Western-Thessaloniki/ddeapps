@@ -30,7 +30,10 @@ class MailMergePolicy
      */
     public function viewAny(User $user)
     {
-        return $user->roles()->where('name', 'MailMergeRead')->exists();
+        return $user->roles()
+            ->where('name', 'MailMergeRead')
+            ->orWhere('name', 'MailMergeWrite')
+            ->exists();
     }
 
     /**
@@ -42,7 +45,10 @@ class MailMergePolicy
      */
     public function view(User $user, MailMerge $mailMerge)
     {
-        return $user->roles()->where('name', 'MailMergeRead')->exists();
+        return $user->roles()
+            ->where('name', 'MailMergeRead')
+            ->orWhere('name', 'MailMergeWrite')
+            ->exists();
     }
 
     /**
