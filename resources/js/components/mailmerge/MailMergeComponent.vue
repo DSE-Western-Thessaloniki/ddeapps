@@ -101,8 +101,8 @@
             </div>
             <div v-show="step == 2">
                 <div class="form-group">
-                    <label for="logoselect">{{ __('Logo')+':' }}</label>
-                    <select class="form-control" id="logoselect" name="logoselect" v-model="logo_selected">
+                    <label for="logo_id">{{ __('Logo')+':' }}</label>
+                    <select class="form-control" id="logo_id" name="logo_id" v-model="logo_selected">
                         <option v-for="doc_logo in doc_logos"
                                 :key="doc_logo.id"
                                 :value="doc_logo.id"
@@ -113,8 +113,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="editorselect">{{ __('Editor')+':' }}</label>
-                    <select class="form-control" id="editorselect" name="editorselect" v-model="editor_selected">
+                    <label for="editor_id">{{ __('Editor')+':' }}</label>
+                    <select class="form-control" id="editor_id" name="editor_id" v-model="editor_selected">
                         <option v-for="editor in editors"
                                 :key="editor.id"
                                 :value="editor.id"
@@ -136,8 +136,8 @@
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
-                            <label for="protocol">{{ __('Protocol number')+':' }}</label>
-                            <input type="text" id="protocol" name="protocol" class="form-control" required v-model="prot_num">
+                            <label for="protocol_num">{{ __('Protocol number')+':' }}</label>
+                            <input type="text" id="protocol_num" name="protocol_num" class="form-control" required v-model="prot_num">
                         </div>
                     </div>
 
@@ -166,8 +166,8 @@
 
             <div v-show="step == 4">
                 <div class="form-group">
-                    <label for="exactcopyselect">{{ __('Exact Copy')+':' }}</label>
-                    <select class="form-control" id="exactcopyselect" name="exactcopyselect" v-model="exact_copy_selected">
+                    <label for="exact_copy_id">{{ __('Exact Copy')+':' }}</label>
+                    <select class="form-control" id="exact_copy_id" name="exact_copy_id" v-model="exact_copy_selected">
                         <option v-for="exact_copy in exact_copies"
                                 :key="exact_copy.id"
                                 :value="exact_copy.id"
@@ -178,8 +178,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="signatureselect">{{ __('Signature')+':' }}</label>
-                    <select class="form-control" id="signatureselect" name="signatureselect" v-model="signature_selected">
+                    <label for="signature_id">{{ __('Signature')+':' }}</label>
+                    <select class="form-control" id="signature_id" name="signature_id" v-model="signature_selected">
                             <option v-for="signature in signatures"
                                     :key="signature.id"
                                     :value="signature.id"
