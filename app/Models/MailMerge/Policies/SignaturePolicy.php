@@ -30,7 +30,10 @@ class SignaturePolicy
      */
     public function viewAny(User $user)
     {
-        return $user->roles()->where('name', 'SignatureRead')->exists();
+        return $user->roles()
+            ->where('name', 'SignatureRead')
+            ->orWhere('name', 'SignatureWrite')
+            ->exists();
     }
 
     /**
@@ -42,7 +45,10 @@ class SignaturePolicy
      */
     public function view(User $user, Signature $signature)
     {
-        return $user->roles()->where('name', 'SignatureRead')->exists();
+        return $user->roles()
+            ->where('name', 'SignatureRead')
+            ->orWhere('name', 'SignatureWrite')
+            ->exists();
     }
 
     /**
