@@ -49,7 +49,9 @@ class SignatureController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title'=>'required',
+            'title'=>'string|max:255|required',
+            'text'=>'string|max:65535',
+            'active' => 'boolean'
         ]);
 
         $signature = new Signature([
@@ -95,7 +97,9 @@ class SignatureController extends Controller
     public function update(Request $request, Signature $signature)
     {
         $request->validate([
-            'title'=>'required',
+            'title'=>'string|max:255|required',
+            'text'=>'string|max:65535',
+            'active' => 'boolean'
         ]);
 
         $signature->title = $request->get('title');
