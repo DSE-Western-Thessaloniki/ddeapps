@@ -190,8 +190,8 @@
                 </div>
 
                 <div class="form-group form-check">
-                    <input type="checkbox" class="form-check-input" id="filesForTeachers" name="filesForTeachers" v-model="fft">
-                    <label class="form-check-label" for="filesForTeachers">Ετοίμασε αρχείο και για τον εκπαιδευτικό</label>
+                    <input type="checkbox" class="form-check-input" id="files_for_teachers" name="files_for_teachers" v-model="fft">
+                    <label class="form-check-label" for="files_for_teachers">Ετοίμασε αρχείο και για τον εκπαιδευτικό</label>
                 </div>
             </div>
 

@@ -94,8 +94,8 @@ class MailMergeController extends Controller
             'xlsxdata' => $request->get('xlsxdata'),
             'xlsxdata_header' => $request->get('xlsxdata_header'),
             'mergefields' => $request->get('mergefields'),
-            'files_for_teachers' => ($request->get('filesForTeachers')  === 'on' ||
-                                     $request->get('filesForTeachers')  === true ? true : false),
+            'files_for_teachers' => ($request->get('files_for_teachers')  === 'on' ||
+                                     $request->get('files_for_teachers')  === "1" ? true : false),
             'updated_by' => Auth::user()->id,
             'created_by' => Auth::user()->id,
         ]);
@@ -153,26 +153,27 @@ class MailMergeController extends Controller
     public function update(Request $request, MailMerge $mailmerge)
     {
         $request->validate([
-            'protocol'=>'required',
-            'logoselect' => 'required',
-            'editorselect' => 'required',
-            'exactcopyselect' => 'required',
-            'signatureselect' => 'required',
+            'protocol_num'=>'required',
+            'logo_id' => 'required',
+            'editor_id' => 'required',
+            'exact_copy_id' => 'required',
+            'signature_id' => 'required',
         ]);
 
-        $mailmerge->logo_id = $request->get('logoselect');
-        $mailmerge->editor_id = $request->get('editorselect');
+        $mailmerge->logo_id = $request->get('logo_id');
+        $mailmerge->editor_id = $request->get('editor_id');
         $mailmerge->ada = is_null($request->get('ada')) ? '' : $request->get('ada');
-        $mailmerge->protocol_num = $request->get('protocol');
+        $mailmerge->protocol_num = $request->get('protocol_num');
         $mailmerge->date = $request->get('date');
         $mailmerge->subject = $request->get('subject');
         $mailmerge->text = $request->get('text');
-        $mailmerge->exact_copy_id = $request->get('exactcopyselect');
-        $mailmerge->signature_id = $request->get('signatureselect');
+        $mailmerge->exact_copy_id = $request->get('exact_copy_id');
+        $mailmerge->signature_id = $request->get('signature_id');
         $mailmerge->xlsxdata = $request->get('xlsxdata');
         $mailmerge->xlsxdata_header = $request->get('xlsxdata_header');
         $mailmerge->mergefields = $request->get('mergefields');
-        $mailmerge->files_for_teachers = $request->get('filesForTeachers') === 'on' ? true : false;
+        $mailmerge->files_for_teachers = $request->get('files_for_teachers')  === 'on' ||
+                                         $request->get('files_for_teachers')  === "1" ? true : false;
         $mailmerge->updated_by = Auth::user()->id;
         $mailmerge->save();
 
