@@ -26,7 +26,7 @@ class MailMergeFactory extends Factory
             'exact_copy_id' => '',
             'signature_id' => '',
             'editor_id' => '',
-            'protocol_num' => $this->faker->randomNumber(),
+            'protocol_num' => strval($this->faker->randomNumber()),
             'date' => $this->faker->date(),
             'subject' => $this->faker->sentence(),
             'text' => $this->faker->paragraph(),
