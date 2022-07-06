@@ -74,11 +74,19 @@ class MailMergeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'protocol_num' => 'required',
-            'logo_id' => 'required',
-            'editor_id' => 'required',
-            'exact_copy_id' => 'required',
-            'signature_id' => 'required',
+            'protocol_num'=>'string|max:255|required',
+            'logo_id' => 'numeric|required',
+            'editor_id' => 'numeric|required',
+            'exact_copy_id' => 'numeric|required',
+            'signature_id' => 'numeric|required',
+            'ada' => 'string|max:255',
+            'date' => 'date',
+            'subject' => 'string|max:65535',
+            'text' => 'string|max:65535',
+            'xlsxdata' => 'string',
+            'xlsxdata_headers' => 'string',
+            'mergefields' => 'string',
+            'files_for_teachers' => 'boolean'
         ]);
 
         $signature = new MailMerge([
@@ -95,7 +103,8 @@ class MailMergeController extends Controller
             'xlsxdata_header' => $request->get('xlsxdata_header'),
             'mergefields' => $request->get('mergefields'),
             'files_for_teachers' => ($request->get('files_for_teachers')  === 'on' ||
-                                     $request->get('files_for_teachers')  === "1" ? true : false),
+                                     $request->get('files_for_teachers')  === "1" ||
+                                     $request->get('files_for_teachers')  === true) ? true : false,
             'updated_by' => Auth::user()->id,
             'created_by' => Auth::user()->id,
         ]);
@@ -153,13 +162,22 @@ class MailMergeController extends Controller
     public function update(Request $request, MailMerge $mailmerge)
     {
         $request->validate([
-            'protocol_num'=>'required',
-            'logo_id' => 'required',
-            'editor_id' => 'required',
-            'exact_copy_id' => 'required',
-            'signature_id' => 'required',
+            'protocol_num'=>'string|max:255|required',
+            'logo_id' => 'numeric|required',
+            'editor_id' => 'numeric|required',
+            'exact_copy_id' => 'numeric|required',
+            'signature_id' => 'numeric|required',
+            'ada' => 'string|max:255',
+            'date' => 'date',
+            'subject' => 'string|max:65535',
+            'text' => 'string|max:65535',
+            'xlsxdata' => 'string',
+            'xlsxdata_headers' => 'string',
+            'mergefields' => 'string',
+            'files_for_teachers' => 'boolean'
         ]);
 
+        // dd($request->get('files_for_teachers'));
         $mailmerge->logo_id = $request->get('logo_id');
         $mailmerge->editor_id = $request->get('editor_id');
         $mailmerge->ada = is_null($request->get('ada')) ? '' : $request->get('ada');
@@ -172,8 +190,9 @@ class MailMergeController extends Controller
         $mailmerge->xlsxdata = $request->get('xlsxdata');
         $mailmerge->xlsxdata_header = $request->get('xlsxdata_header');
         $mailmerge->mergefields = $request->get('mergefields');
-        $mailmerge->files_for_teachers = $request->get('files_for_teachers')  === 'on' ||
-                                         $request->get('files_for_teachers')  === "1" ? true : false;
+        $mailmerge->files_for_teachers = ($request->get('files_for_teachers')  === 'on' ||
+                                          $request->get('files_for_teachers')  === "1" ||
+                                          $request->get('files_for_teachers')  === true) ? true : false;
         $mailmerge->updated_by = Auth::user()->id;
         $mailmerge->save();
 
