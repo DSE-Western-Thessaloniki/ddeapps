@@ -745,3 +745,55 @@ it('can delete a mail merge as user with role MailMergeWrite or MailMergeAdmin',
 
     $this->assertDatabaseCount('mail_merges', 0);
 });
+
+it('can copy a mail merge as admin', function () {
+    $admin = User::factory()->admin()->create();
+    $mailMerge = test_create_mailmerge_for_user($admin);
+
+    $response = $this->actingAs($admin)
+        ->get(route('apps.mailmerge.copy', $mailMerge))
+        ->assertRedirect(route('apps.mailmerge.index'));
+    expect($response->getSession()->only(['status'])['status'])->toBe('Η κοινοποίηση αντιγράφηκε!');
+
+    $this->assertDatabaseCount('mail_merges', 2);
+});
+
+it('cannot copy a mail merge as user', function () {
+    $admin = User::factory()->admin()->create();
+    $mailMerge = test_create_mailmerge_for_user($admin);
+    $user = User::factory()->user()->create();
+
+    $this->actingAs($user)->get(route('apps.mailmerge.copy', $mailMerge))->assertForbidden();
+
+    $this->assertDatabaseCount('mail_merges', 1);
+});
+
+it('cannot copy a mail merge as user with role MailMergeRead', function () {
+    $admin = User::factory()->admin()->create();
+    $mailMerge = test_create_mailmerge_for_user($admin);
+    $user = User::factory()->user()->create();
+    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeRead']));
+
+    $this->actingAs($user)->get(route('apps.mailmerge.copy', $mailMerge))->assertForbidden();
+
+    $this->assertDatabaseCount('mail_merges', 1);
+});
+
+it('can copy a mail merge as user with role MailMergeWrite or MailMergeAdmin', function () {
+    $admin = User::factory()->admin()->create();
+    $mailMerge = test_create_mailmerge_for_user($admin);
+
+    $user = User::factory()->user()->create();
+    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeWrite']));
+
+    $this->actingAs($user)
+        ->get(route('apps.mailmerge.show', $mailMerge))
+        ->assertOk();
+
+    $user = User::factory()->user()->create();
+    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeAdmin']));
+
+    $this->actingAs($user)
+        ->get(route('apps.mailmerge.show', $mailMerge))
+        ->assertOk();
+});
