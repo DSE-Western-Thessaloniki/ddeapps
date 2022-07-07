@@ -332,6 +332,7 @@ class MailMergeController extends Controller
      */
     public function copy(MailMerge $mailmerge)
     {
+        $this->authorize('create', MailMerge::class);
         $copy = $mailmerge->replicate();
         $copy->save();
         return redirect(route('apps.mailmerge.index'))->with('status', __('Mail merge copied!'));
