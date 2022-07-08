@@ -4,11 +4,14 @@ use App\Models\MailMerge\DocLogo;
 use App\Models\MailMerge\Editor;
 use App\Models\MailMerge\ExactCopy;
 use App\Models\MailMerge\MailMerge;
+use App\Models\MailMerge\Recipient;
 use App\Models\MailMerge\Signature;
 use App\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+
+use function Pest\Faker\faker;
 
 /*
 |--------------------------------------------------------------------------
@@ -112,4 +115,87 @@ function test_prepare_mailmerge_for_user(User $user): array
     ]);
 
     return [$doclogo, $editor, $exactCopy, $signature];
+}
+
+function test_create_mailmerge_with_data_for_user(User $user): MailMerge
+{
+    $recipients = Recipient::factory()
+        ->count(10)
+        ->create([
+            'created_by' => $user->id,
+            'updated_by' => $user->id,
+        ]);
+
+    $fields = ['ΑΜ', 'ΟΝΟΜΑ', 'ΕΠΩΝΥΜΟ', 'ΚΛΑΔΟΣ', 'ΑΦ', 'ΠΑΡΑΛΗΠΤΗΣ'];
+    $field_count = faker()->randomDigitNotNull();
+    for ($i = 0; $i < $field_count; $i++) {
+        array_push($fields, faker()->word());
+    }
+    $field_count++;
+    $xlsxdata_header = json_encode($fields);
+
+    $data = [];
+    foreach ($recipients as $recipient) {
+        $row = [];
+        foreach ($fields as $column) {
+            if ($column === "ΠΑΡΑΛΗΠΤΗΣ") {
+                $row[$column] = $recipient->name;
+            } elseif ($column === "ΕΠΩΝΥΜΟ") {
+                $row[$column] = faker()->lastName();
+            } elseif ($column === "ΟΝΟΜΑ") {
+                $row[$column] = faker()->name();
+            } elseif ($column === "ΚΛΑΔΟΣ") {
+                $row[$column] = 'ΠΕ'.faker()->randomNumber(2);
+            } elseif ($column === "ΑΜ") {
+                $row[$column] = faker()->randomNumber();
+            } else {
+                $row[$column] = faker()->word();
+            }
+        }
+        array_push($data, $row);
+    }
+    $xlsxdata = json_encode($data);
+
+    // TODO: this should work with multiple recipients
+    $mergefields = '["ΠΑΡΑΛΗΠΤΗΣ"]';
+
+    $mailmerge = MailMerge::factory()
+        ->for(
+            DocLogo::factory()->state([
+                'created_by' => $user->id,
+                'updated_by' => $user->id,
+                'image' => 'logo.png'
+            ]),
+            'logo'
+        )
+        ->for(
+            ExactCopy::factory()->state([
+                'created_by' => $user->id,
+                'updated_by' => $user->id,
+            ]),
+            'exactCopy'
+        )
+        ->for(
+            Signature::factory()->state([
+                'created_by' => $user->id,
+                'updated_by' => $user->id,
+            ]),
+            'signature'
+        )
+        ->for(
+            Editor::factory()->state([
+                'created_by' => $user->id,
+                'updated_by' => $user->id,
+            ]),
+            'editor'
+        )
+        ->create([
+            'xlsxdata' => $xlsxdata,
+            'mergefields' => $mergefields,
+            'xlsxdata_header' => $xlsxdata_header,
+            'created_by' => $user->id,
+            'updated_by' => $user->id,
+        ]);
+
+    return $mailmerge;
 }
