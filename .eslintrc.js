@@ -3,14 +3,18 @@ module.exports = {
         browser: true,
         es2021: true,
     },
-    extends: ["plugin:vue/essential", "standard", "prettier"],
+    extends: [
+        "plugin:vue/essential",
+        "standard",
+        "plugin:prettier-vue/recommended",
+    ],
     parserOptions: {
         ecmaVersion: 12,
         sourceType: "module",
     },
     plugins: ["vue", "prettier"],
     rules: {
-        "prettier/prettier": [
+        "prettier-vue/prettier": [
             "error",
             {
                 trailingComma: "es5",
