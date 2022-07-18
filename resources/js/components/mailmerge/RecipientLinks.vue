@@ -12,35 +12,24 @@
     </div>
 </template>
 
-<script>
+<script setup>
+import { ref, computed } from "vue";
 
-export default {
-  props: {
-    links: String
-  },
-  mounted () {
-  },
-  data: function () {
-    return {
-      linksObj: JSON.parse(this.links),
-      delLink: []
-    }
-  },
-  methods: {
-    removeLink: function (id) {
-      this.delLink.push(id)
-      document.querySelectorAll('span#' + id).forEach(function (el) {
+const props = defineProps({
+    links: String,
+});
+
+const linksObj = JSON.parse(props.links);
+const delLink = ref([]);
+
+const removeLink = (id) => {
+    delLink.value.push(id);
+    document.querySelectorAll('span#' + id).forEach(function (el) {
         el.classList.add('d-none')
-      })
-    },
-    linkId: function (id) {
-      return 'l' + id
-    }
-  },
-  computed: {
-    delLinkJson: function () {
-      return JSON.stringify(this.delLink)
-    }
-  }
+    });
 }
+
+const linkId = (id) => 'l' + id;
+
+const delLinkJson = computed(() => JSON.stringify(delLink.value));
 </script>

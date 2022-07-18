@@ -90,7 +90,7 @@
                 </div>
 
                 <xlsxcomponent
-                    ref="xlsxcomponent"
+                    ref="xlsxref"
                     v-on:setmergefields="setmergefields"
                     v-on:missingfields="missingfields"
                     :docdata="doc_data"
@@ -199,13 +199,19 @@
     </div>
 </template>
 
-<script>
+<script setup>
+import Vue from "vue";
+import CKEditor from 'ckeditor4-vue';
+import XlsxComponent from './XlsxComponent.vue';
+import { ref, computed, onMounted, getCurrentInstance } from 'vue';
 
-export default {
-  components: {
-    ckeditor: CKEditor_Vue.component
-  },
-  props: {
+Vue.use(CKEditor);
+
+onMounted(() => {
+    console.log('MailMerge mounted');
+})
+
+const props = defineProps({
     doc_logos_str: String,
     doc_logos_selected: String,
     editors_str: String,
@@ -229,135 +235,133 @@ export default {
     route_index: String,
     func: String,
     files_for_teachers: String
-  },
-  created () {
-  },
-  mounted () {
-  },
-  data: function () {
-    return {
-      step: 1,
-      steps: 4,
-      mergefields: [],
-      editorData: this.doc_text,
-      editorConfig: {
-        language: 'el',
-        removePlugins: ['stylescombo'],
-        extraPlugins: ['placeholder_select'],
-        placeholder_select: {
-          placeholders: ['Firstname', 'Lastname', 'Email']
-        }
-      },
-      placeholders: [],
-      autocomplete: Object,
-      prot_num: this.protocol_num,
-      subject: this.doc_subject,
-      config: {},
-      logo_selected: this.doc_logos_selected,
-      editor_selected: this.editors_selected,
-      signature_selected: this.signatures_selected,
-      exact_copy_selected: this.exact_copies_selected,
-      ada: this.doc_ada,
-      fft: parseInt(this.files_for_teachers)
+});
+
+const xlsxref = ref();
+const step = ref(1);
+const steps = 4;
+const mergefields = []; // Unused?
+const editorData = ref(props.doc_text);
+const editorConfig = {
+    language : 'el',
+    removePlugins : ['stylescombo'],
+    extraPlugins : ['placeholder_select'],
+    placeholder_select : {
+        placeholders: ['Firstname', 'Lastname', 'Email']
     }
-  },
-  methods: {
-    setmergefields: function (fields) {
-      const new_placeholders = new Array()
-      let i = 1
-      fields.forEach(function (field) {
-        new_placeholders.push({ id: i, title: field })
-        i++
-      })
-      window.itemsArray = new_placeholders
-      this.editorConfig.placeholder_select.placeholders = fields
-      CKEDITOR.instances.editor1.config.placeholder_select.placeholders = JSON.parse(JSON.stringify(fields))
-      CKEDITOR.instances.editor1.ui.instances.placeholder_select.buildList()
-    },
+};
+const placeholders = [];
+const autocomplete = ref({});
+const prot_num = ref(props.protocol_num);
+const subject = ref(props.doc_subject);
+const config = {};
+const logo_selected = ref(props.doc_logos_selected);
+const editor_selected = ref(props.editors_selected);
+const signature_selected = ref(props.signatures_selected);
+const exact_copy_selected = ref(props.exact_copies_selected);
+const ada = ref(props.doc_ada);
+const fft = ref(parseInt(props.files_for_teachers));
 
-    missingfields: function (check) {
-      if (check) {
+const setmergefields = (fields) => {
+    const new_placeholders = new Array()
+    let i = 1
+    fields.forEach(function (field) {
+    new_placeholders.push({ id: i, title: field })
+    i++
+    })
+    window.itemsArray = new_placeholders
+    editorConfig.placeholder_select.placeholders = fields
+    CKEDITOR.instances.editor1.config.placeholder_select.placeholders = JSON.parse(JSON.stringify(fields))
+    CKEDITOR.instances.editor1.ui.instances.placeholder_select.buildList()
+};
+
+const missingfields = (check) => {
+    if (check) {
         document.getElementById('missing-fields').classList.remove('d-none')
-      } else {
+    } else {
         document.getElementById('missing-fields').classList.add('d-none')
-      }
-    },
+    }
+};
 
-    ckEditorReadyCallback: function (readyEvent) {
-      window.itemsArray = this.placeholders
+const ckEditorReadyCallback = (readyEvent) => {
+    window.itemsArray = placeholders
 
-      function matchCallback (text, offset) {
+    function matchCallback (text, offset) {
         const pattern = /\[{2}([A-zΑ-ω]|\])*$/
         const match = text.slice(0, offset)
-          .match(pattern)
+            .match(pattern)
 
         if (!match) {
-          return null
+            return null
         }
 
         return {
-          start: match.index,
-          end: offset
+            start: match.index,
+            end: offset
         }
-      }
+    }
 
-      function textTestCallback (range) {
+    function textTestCallback (range) {
         if (!range.collapsed) {
-          return null
+            return null
         }
 
         return CKEDITOR.plugins.textMatch.match(range, matchCallback)
-      }
+    }
 
-      this.config.textTestCallback = textTestCallback
+    config.textTestCallback = textTestCallback
 
-      function dataCallback (matchInfo, callback) {
+    function dataCallback(matchInfo, callback) {
         const data = window.itemsArray.filter(function (item) {
-          const itemName = '[[' + item.title + ']]'
-          return itemName.toUpperCase()
+            const itemName = '[[' + item.title + ']]'
+            return itemName.toUpperCase()
             .indexOf(matchInfo.query.toUpperCase()) == 0
-        })
+        });
 
         callback(data)
-      }
-
-      this.config.dataCallback = dataCallback
-
-      this.config.itemTemplate = '<li data-id="{id}">' +
-                '<div><strong class="item-title">{title}</strong></div>' +
-                '</li>'
-      this.config.outputTemplate = '[[{title}]]<span>&nbsp;</span>'
-
-      this.myAutocomplete(readyEvent, this.config)
-      this.$refs.xlsxcomponent.parseDocData()
-    },
-    myAutocomplete: function (editor, config) {
-      this.autocomplete = new CKEDITOR.plugins.autocomplete(editor, config)
-      // Override default getHtmlToInsert to enable rich content output.
-      /* this.autocomplete.getHtmlToInsert = function(item) {
-                    return config.outputTemplate.output(item);
-                } */
     }
-  },
-  computed: {
-    doc_logos: function () {
-      return JSON.parse(this.doc_logos_str)
-    },
-    editors: function () {
-      return JSON.parse(this.editors_str)
-    },
-    signatures: function () {
-      return JSON.parse(this.signatures_str)
-    },
-    exact_copies: function () {
-      return JSON.parse(this.exact_copies_str)
-    },
-    get_date: function () {
-      if (typeof this.doc_date === 'undefined' || this.doc_date == '') {
-        return new Date().toISOString().slice(0, 10)
-      }
-      return this.doc_date
+
+    config.dataCallback = dataCallback
+
+    config.itemTemplate = '<li data-id="{id}">' +
+            '<div><strong class="item-title">{title}</strong></div>' +
+            '</li>'
+    config.outputTemplate = '[[{title}]]<span>&nbsp;</span>'
+
+    myAutocomplete(readyEvent, config)
+    console.log(xlsxref)
+    xlsxref.value.parseDocData()
+};
+
+const myAutocomplete = (editor, config) => {
+    autocomplete.value = new CKEDITOR.plugins.autocomplete(editor, config)
+    // Override default getHtmlToInsert to enable rich content output.
+    /* this.autocomplete.getHtmlToInsert = function(item) {
+                return config.outputTemplate.output(item);
+            } */
+};
+
+const doc_logos = computed(() => {
+    return JSON.parse(props.doc_logos_str);
+});
+
+const editors = computed(() => {
+    return JSON.parse(props.editors_str);
+});
+
+const signatures = computed(() => {
+    return JSON.parse(props.signatures_str);
+});
+
+const exact_copies = computed(() => {
+    return JSON.parse(props.exact_copies_str);
+});
+
+const get_date = computed(() => {
+    if (typeof props.doc_date === 'undefined' || props.doc_date == '') {
+        return new Date().toISOString().slice(0, 10);
     }
-  }
-}
+    return props.doc_date
+});
+
 </script>
