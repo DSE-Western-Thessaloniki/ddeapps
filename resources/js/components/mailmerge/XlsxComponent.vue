@@ -1,201 +1,278 @@
 <template>
     <div class="container">
         <div class="form-group">
-            <input class="form-control-file" type="file" multiple="false" id="sheetjs-input" accept=".xlsx,.xls,.csv" @change="onchange"/>
-            <br/>
-            <div id="out-table"
-                @contextmenu.prevent="$refs.menu.open($event, {
-                    item: $event.target,
-                    selected: $event.target.classList.contains('recipient-col')
-                })"
+            <input
+                class="form-control-file"
+                type="file"
+                multiple="false"
+                id="sheetjs-input"
+                accept=".xlsx,.xls,.csv"
+                @change="onchange"
+            />
+            <br />
+            <div
+                id="out-table"
+                @contextmenu.prevent="
+                    $refs.menu.open($event, {
+                        item: $event.target,
+                        selected: $event.target.classList.contains(
+                            'recipient-col'
+                        )
+                    })
+                "
             ></div>
         </div>
 
         <vue-context ref="menu" v-slot="{ data }">
             <li v-if="data && data.selected">
-                <a @click.prevent="onClick($event, data.item, 'unselcol')">{{__('Remove column from recipient list')}}</a>
+                <a @click.prevent="onClick($event, data.item, 'unselcol')">{{
+                    __("Remove column from recipient list")
+                }}</a>
             </li>
             <li v-else>
-                <a @click.prevent="onClick($event, data.item, 'selcol')">{{__('Select column as recipient list')}}</a>
+                <a @click.prevent="onClick($event, data.item, 'selcol')">{{
+                    __("Select column as recipient list")
+                }}</a>
             </li>
         </vue-context>
-        <input type="text" class="form-control" hidden id="xlsxdata" name="xlsxdata" :value="getData">
-        <input type="text" class="form-control" hidden id="xlsxdata_header" name="xlsxdata_header" :value="getDataHeader">
-        <input type="text" class="form-control" hidden id="mergefields" name="mergefields" :value="getMergeFields">
+        <input
+            type="text"
+            class="form-control"
+            hidden
+            id="xlsxdata"
+            name="xlsxdata"
+            :value="getData"
+        />
+        <input
+            type="text"
+            class="form-control"
+            hidden
+            id="xlsxdata_header"
+            name="xlsxdata_header"
+            :value="getDataHeader"
+        />
+        <input
+            type="text"
+            class="form-control"
+            hidden
+            id="mergefields"
+            name="mergefields"
+            :value="getMergeFields"
+        />
     </div>
 </template>
 
 <script>
-import VueContext from 'vue-context'
+export default defineComponent({
+    name: "XlsxComponent",
+});
+</script>
 
-export default {
-  components: { VueContext },
-  props: {
+<script setup>
+import VueContext from "vue-context";
+import { ref, onMounted, computed, defineComponent } from "vue";
+import * as XLSX from "xlsx";
+
+const props = defineProps({
     docdata: String,
     docdataheader: String,
     mfields: String
-  },
-  mounted () {
-    console.log('XlsxComponent mounted.')
-  },
-  data: function () {
-    return {
-      xlsxdata: [],
-      xlsxdata_header: [],
-      selected_cols: [],
-      necessary_cols: ['ΑΜ', 'ΟΝΟΜΑ', 'ΕΠΩΝΥΜΟ', 'ΚΛΑΔΟΣ', 'ΑΦ']
-    }
-  },
-  watch: {
-  },
-  methods: {
-    onchange: function (evt) {
-      const files = evt.target.files
+});
 
-      if (!files || files.length === 0) return
+const emit = defineEmits(["missingfields", "setmergefields"]);
 
-      const file = files[0]
-      const vueobj = this
+onMounted(() => console.log("XlsxComponent mounted."));
 
-      const reader = new FileReader()
-      reader.onload = function (e) {
+const xlsxdata = ref([]);
+const xlsxdata_header = ref([]);
+const selected_cols = ref([]);
+const necessary_cols = ["ΑΜ", "ΟΝΟΜΑ", "ΕΠΩΝΥΜΟ", "ΚΛΑΔΟΣ", "ΑΦ"];
+
+const onchange = (evt) => {
+    const files = evt.target.files;
+
+    if (!files || files.length === 0) return;
+
+    const file = files[0];
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
         // pre-process data
-        let binary = ''
-        const bytes = new Uint8Array(e.target.result)
-        const length = bytes.byteLength
+        let binary = "";
+        const bytes = new Uint8Array(e.target.result);
+        const length = bytes.byteLength;
         for (let i = 0; i < length; i++) {
-          binary += String.fromCharCode(bytes[i])
+            binary += String.fromCharCode(bytes[i]);
         }
 
         /* read workbook */
-        const wb = XLSX.read(binary, { type: 'binary', cellDates: true, dateNF: 'dd/mm/yyyy' })
+        const wb = XLSX.read(binary, {
+            type: "binary",
+            cellDates: true,
+            dateNF: "dd/mm/yyyy"
+        });
 
         /* grab first sheet */
-        const wsname = wb.SheetNames[0]
-        const ws = wb.Sheets[wsname]
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
 
-        let xlsxjson = XLSX.utils.sheet_to_json(ws, { defval: '', raw: false })
+        let xlsxjson = XLSX.utils.sheet_to_json(ws, { defval: "", raw: false });
         // Trim, trim and more trim
-        xlsxjson = JSON.parse(JSON.stringify(xlsxjson).replace(/"\s+|\s+"/g, '"'))
-        xlsxjson.forEach(function (row) {
-          row = Object.keys(row).forEach(function (k) {
-            row[k] = typeof row[k] === 'string' ? row[k].trim().replace(/\s{2,}/g, ' ') : row[k]
-            const newKey = (typeof k === 'string') ? k.trim().replace(/\s{2,}/g, ' ') : k
-            if (newKey !== k) {
-              Object.defineProperty(row, newKey,
-                Object.getOwnPropertyDescriptor(row, k))
-              delete row[k]
-            }
-          })
-        })
-        vueobj.xlsxdata = xlsxjson
-        console.log(Object.keys(xlsxjson[0]))
-        vueobj.xlsxdata_header = vueobj.getHeader
-        vueobj.selected_cols = []
-        if (!vueobj.necessary_fields_exist(vueobj.xlsxdata_header)) {
-          vueobj.$emit('missingfields', true)
+        xlsxjson = JSON.parse(
+            JSON.stringify(xlsxjson).replace(/"\s+|\s+"/g, '"')
+        );
+        xlsxjson.forEach(function(row) {
+            row = Object.keys(row).forEach(function(k) {
+                row[k] =
+                    typeof row[k] === "string"
+                        ? row[k].trim().replace(/\s{2,}/g, " ")
+                        : row[k];
+                const newKey =
+                    typeof k === "string"
+                        ? k.trim().replace(/\s{2,}/g, " ")
+                        : k;
+                if (newKey !== k) {
+                    Object.defineProperty(
+                        row,
+                        newKey,
+                        Object.getOwnPropertyDescriptor(row, k)
+                    );
+                    delete row[k];
+                }
+            });
+        });
+        xlsxdata.value = xlsxjson;
+        console.log(Object.keys(xlsxjson[0]));
+        xlsxdata_header.value = getHeader.value;
+        selected_cols.value = [];
+        if (!necessary_fields_exist(xlsxdata_header)) {
+            emit("missingfields", true);
         } else {
-          vueobj.$emit('missingfields', false)
+            emit("missingfields", false);
         }
 
-        vueobj.xlsxToTable(vueobj, ws)
-      }
+        xlsxToTable(ws);
+    };
 
-      reader.readAsArrayBuffer(file)
-    },
+    reader.readAsArrayBuffer(file);
+};
 
-    onClick (e, item, code) {
-      console.log(item, code)
-      const col = /[A-Z]+/.exec(item.id)
-      switch (code) {
-        case 'selcol':
-          if (col) {
-            this.selected_cols.push(this.xlsxdata_header[this.calcColumn(col[0])])
-            this.toggleColorSelectedCol(col[0])
-          }
-          break
-        case 'unselcol':
-          if (col) {
-            const colidx = this.selected_cols.indexOf(this.xlsxdata_header[this.calcColumn(col[0])])
-            this.selected_cols.splice(colidx, 1)
-            this.toggleColorSelectedCol(col[0])
-          }
-          break
+const onClick = (e, item, code) => {
+    console.log(item, code);
+    const col = /[A-Z]+/.exec(item.id);
+    switch (code) {
+        case "selcol":
+            if (col) {
+                selected_cols.value.push(
+                    xlsxdata_header[calcColumn(col[0])]
+                );
+                toggleColorSelectedCol(col[0]);
+            }
+            break;
+        case "unselcol":
+            if (col) {
+                const colidx = selected_cols.value.indexOf(
+                    xlsxdata_header[calcColumn(col[0])]
+                );
+                selected_cols.value.splice(colidx, 1);
+                toggleColorSelectedCol(col[0]);
+            }
+            break;
         default:
-          alert(`You clicked "${e.target.innerHTML}"!`)
-      }
-    },
+            alert(`You clicked "${e.target.innerHTML}"!`);
+    }
+};
 
-    calcColumn (str) {
-      if (str.length == 1) {
-        return (str[0].charCodeAt() - 'A'.charCodeAt())
-      }
-      return ((str[0].charCodeAt() - 'A'.charCodeAt() + 1) * 26 + str[1].charCodeAt() - 'A'.charCodeAt())
-    },
+const calcColumn = (str) => {
+    if (str.length == 1) {
+        return str[0].charCodeAt() - "A".charCodeAt();
+    }
+    return (
+        (str[0].charCodeAt() - "A".charCodeAt() + 1) * 26 +
+        str[1].charCodeAt() - "A".charCodeAt()
+    );
+};
 
-    toggleColorSelectedCol (col) {
-      const HTML = document.getElementById('out-table')
-      const tds = HTML.querySelectorAll("td[id^='sjs-" + col + "']")
-      tds.forEach(function (td) {
-        td.classList.toggle('recipient-col')
-      })
-    },
+const toggleColorSelectedCol = (col) => {
+    const HTML = document.getElementById("out-table");
+    const tds = HTML.querySelectorAll("td[id^='sjs-" + col + "']");
+    tds.forEach(function(td) {
+        td.classList.toggle("recipient-col");
+    });
+};
 
-    parseDocData () {
-      if (typeof this.docdata !== 'undefined') {
-        if (this.docdata != '') {
-          this.xlsxdata = JSON.parse(this.docdata)
-          this.xlsxdata_header = JSON.parse(this.docdataheader)
-          this.selected_cols = JSON.parse(this.mfields)
-          const ws = XLSX.utils.json_to_sheet(this.xlsxdata, { header: this.xlsxdata_header })
-          this.xlsxToTable(this, ws)
-          const vueobj = this
-          this.selected_cols.forEach(function (field) {
-            vueobj.toggleColorSelectedCol(String.fromCharCode('A'.charCodeAt() + vueobj.xlsxdata_header.indexOf(field)))
-          })
+const parseDocData = () => {
+    if (typeof props.docdata !== "undefined") {
+        if (props.docdata != "") {
+            xlsxdata.value = JSON.parse(props.docdata);
+            xlsxdata_header.value = JSON.parse(props.docdataheader);
+            selected_cols.value = JSON.parse(props.mfields);
+            const ws = XLSX.utils.json_to_sheet(xlsxdata.value, {
+                header: xlsxdata_header.value,
+            });
+            xlsxToTable(ws);
+            selected_cols.value.forEach(function(field) {
+                toggleColorSelectedCol(
+                    String.fromCharCode(
+                        "A".charCodeAt() +
+                            xlsxdata_header.value.indexOf(field)
+                    )
+                );
+            });
         }
-      }
-    },
+    }
+};
 
-    necessary_fields_exist (fields) {
-      const found_cols = this.necessary_cols.slice()
+const necessary_fields_exist = (fields) => {
+    const found_cols = necessary_cols.slice();
 
-      fields.forEach((field) => {
+    fields.forEach(field => {
         if (found_cols.includes(field)) {
-          found_cols.splice(found_cols.indexOf(field), 1)
+            found_cols.splice(found_cols.indexOf(field), 1);
         }
-      })
+    });
 
-      if (found_cols.length) {
-        return false
-      }
-      return true
-    },
-
-    xlsxToTable (obj, ws) {
-      /* generate HTML */
-      const HTML = XLSX.utils.sheet_to_html(ws)
-      obj.$emit('setmergefields', obj.getHeader)
-
-      /* update table */
-      const table = document.getElementById('out-table')
-      table.innerHTML = HTML
-      table.getElementsByTagName('table')[0].setAttribute('class', 'table-striped table-bordered table-responsive')
+    if (found_cols.length) {
+        return false;
     }
-  },
-  computed: {
-    getHeader () {
-      return (this.xlsxdata.length ? Object.keys(this.xlsxdata[0]) : [])
-    },
-    getData () {
-      return JSON.stringify(this.xlsxdata)
-    },
-    getDataHeader () {
-      return JSON.stringify(this.xlsxdata_header)
-    },
-    getMergeFields () {
-      return JSON.stringify(this.selected_cols)
-    }
-  }
-}
+    return true;
+};
+
+const xlsxToTable = (ws) => {
+    /* generate HTML */
+    const HTML = XLSX.utils.sheet_to_html(ws);
+    emit("setmergefields", getHeader.value);
+
+    /* update table */
+    const table = document.getElementById("out-table");
+    table.innerHTML = HTML;
+    table
+        .getElementsByTagName("table")[0]
+        .setAttribute(
+            "class",
+            "table-striped table-bordered table-responsive"
+        );
+};
+
+const getHeader = computed(() => {
+    return xlsxdata.value.length ? Object.keys(xlsxdata.value[0]) : [];
+});
+
+const getData = computed(() => {
+    console.log(xlsxdata);
+    return JSON.stringify(xlsxdata.value);
+});
+
+const getDataHeader = computed(() => {
+    return JSON.stringify(xlsxdata_header.value);
+});
+
+const getMergeFields = computed(() => {
+    return JSON.stringify(selected_cols.value);
+});
+
+defineExpose({
+    parseDocData,
+});
+
 </script>
