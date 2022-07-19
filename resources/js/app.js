@@ -4,30 +4,23 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-import Vue from 'vue'
+import Vue from "vue";
 
-require('./bootstrap')
-// window.Vue = require('vue');
+require("./bootstrap");
 
-require('vue-context')
+window.Fuse = require("fuse.js");
 
-window.Fuse = require('fuse.js')
-
-const appUrlEndsWithSlash = process.env.MIX_APP_URL.endsWith('/')
-const appDir = `${process.env.MIX_APP_DIR !== '' ? process.env.MIX_APP_DIR + '/' : ''}resources/js/ckeditor/`
-window.CKEDITOR_BASEPATH = process.env.MIX_APP_URL + (appUrlEndsWithSlash === false ? '/' : '') + appDir.replace('//', '/')
-
-require('../../public/resources/js/ckeditor/ckeditor.js')
-window.CKEditor_Vue = require('ckeditor4-vue')
-
-// window.CKEditor = require('@ckeditor/ckeditor5-vue2');
-// window.ClassicEditor = require('@ckeditor/ckeditor5-build-classic/build/ckeditor');
-
-// require('@ckeditor/ckeditor5-build-classic/build/translations/el');
-// Vue.use(CKEditor);
+const appUrlEndsWithSlash = process.env.MIX_APP_URL.endsWith("/");
+const appDir = `${
+    process.env.MIX_APP_DIR !== "" ? process.env.MIX_APP_DIR + "/" : ""
+}resources/js/ckeditor/`;
+window.CKEDITOR_BASEPATH =
+    process.env.MIX_APP_URL +
+    (appUrlEndsWithSlash === false ? "/" : "") +
+    appDir.replace("//", "/");
 
 // Add translation capabilities to vue components
-Vue.mixin(require('./trans'))
+Vue.mixin(require("./trans"));
 
 /**
  * The following block of code may be used to automatically register your
@@ -40,12 +33,24 @@ Vue.mixin(require('./trans'))
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('mailmerge-component', () => import('./components/mailmerge/MailMergeComponent.vue'))
-Vue.component('doclogoform', () => import('./components/mailmerge/DocLogoForm.vue'))
-Vue.component('xlsxcomponent', () => import('./components/mailmerge/XlsxComponent.vue'))
-Vue.component('pagepreview', () => import('./components/mailmerge/PagePreview.vue'))
-Vue.component('rolecomponent', () => import('./components/mailmerge/RoleComponent.vue'))
-Vue.component('recipientlinks', () => import('./components/mailmerge/RecipientLinks.vue'))
+Vue.component("mailmerge-component", () =>
+    import("./components/mailmerge/MailMergeComponent.vue")
+);
+Vue.component("doclogoform", () =>
+    import("./components/mailmerge/DocLogoForm.vue")
+);
+Vue.component("xlsxcomponent", () =>
+    import("./components/mailmerge/XlsxComponent.vue")
+);
+Vue.component("pagepreview", () =>
+    import("./components/mailmerge/PagePreview.vue")
+);
+Vue.component("rolecomponent", () =>
+    import("./components/mailmerge/RoleComponent.vue")
+);
+Vue.component("recipientlinks", () =>
+    import("./components/mailmerge/RecipientLinks.vue")
+);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -54,7 +59,5 @@ Vue.component('recipientlinks', () => import('./components/mailmerge/RecipientLi
  */
 
 const app = new Vue({
-  el: '#app'
-})
-
-window.XLSX = require('xlsx')
+    el: "#app"
+});
