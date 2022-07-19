@@ -201,9 +201,11 @@
 
 <script setup>
 import Vue from "vue";
-import CKEditor from 'ckeditor4-vue';
 import XlsxComponent from './XlsxComponent.vue';
 import { ref, computed, onMounted, getCurrentInstance } from 'vue';
+import '../../../../public/resources/js/ckeditor/ckeditor.js';
+import CKEditor from 'ckeditor4-vue';
+
 
 Vue.use(CKEditor);
 
@@ -329,7 +331,6 @@ const ckEditorReadyCallback = (readyEvent) => {
     config.outputTemplate = '[[{title}]]<span>&nbsp;</span>'
 
     myAutocomplete(readyEvent, config)
-    console.log(xlsxref)
     xlsxref.value.parseDocData()
 };
 

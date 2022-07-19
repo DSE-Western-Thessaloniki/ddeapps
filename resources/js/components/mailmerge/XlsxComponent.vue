@@ -25,12 +25,12 @@
 
         <vue-context ref="menu" v-slot="{ data }">
             <li v-if="data && data.selected">
-                <a @click.prevent="onClick($event, data.item, 'unselcol')">{{
+                <a @click.prevent="onClick($event, data.item, 'deselect_column')">{{
                     __("Remove column from recipient list")
                 }}</a>
             </li>
             <li v-else>
-                <a @click.prevent="onClick($event, data.item, 'selcol')">{{
+                <a @click.prevent="onClick($event, data.item, 'select_column')">{{
                     __("Select column as recipient list")
                 }}</a>
             </li>
@@ -142,7 +142,6 @@ const onchange = (evt) => {
             });
         });
         xlsxdata.value = xlsxjson;
-        console.log(Object.keys(xlsxjson[0]));
         xlsxdata_header.value = getHeader.value;
         selected_cols.value = [];
         if (!necessary_fields_exist(xlsxdata_header)) {
@@ -158,10 +157,9 @@ const onchange = (evt) => {
 };
 
 const onClick = (e, item, code) => {
-    console.log(item, code);
     const col = /[A-Z]+/.exec(item.id);
     switch (code) {
-        case "selcol":
+        case "select_column":
             if (col) {
                 selected_cols.value.push(
                     xlsxdata_header[calcColumn(col[0])]
@@ -169,7 +167,7 @@ const onClick = (e, item, code) => {
                 toggleColorSelectedCol(col[0]);
             }
             break;
-        case "unselcol":
+        case "deselect_column":
             if (col) {
                 const colidx = selected_cols.value.indexOf(
                     xlsxdata_header[calcColumn(col[0])]
@@ -259,7 +257,6 @@ const getHeader = computed(() => {
 });
 
 const getData = computed(() => {
-    console.log(xlsxdata);
     return JSON.stringify(xlsxdata.value);
 });
 
