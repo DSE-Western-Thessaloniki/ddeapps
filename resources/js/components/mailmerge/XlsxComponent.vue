@@ -69,7 +69,7 @@ export default defineComponent({
 </script>
 
 <script setup>
-import VueContext from "vue-context";
+import VueContext from "@madogai/vue-context";
 import { ref, onMounted, computed, defineComponent } from "vue";
 import * as XLSX from "xlsx";
 
@@ -144,7 +144,7 @@ const onchange = (evt) => {
         xlsxdata.value = xlsxjson;
         xlsxdata_header.value = getHeader.value;
         selected_cols.value = [];
-        if (!necessary_fields_exist(xlsxdata_header)) {
+        if (!necessary_fields_exist(xlsxdata_header.value)) {
             emit("missingfields", true);
         } else {
             emit("missingfields", false);
@@ -162,7 +162,7 @@ const onClick = (e, item, code) => {
         case "select_column":
             if (col) {
                 selected_cols.value.push(
-                    xlsxdata_header[calcColumn(col[0])]
+                    xlsxdata_header.value[calcColumn(col[0])]
                 );
                 toggleColorSelectedCol(col[0]);
             }
@@ -170,7 +170,7 @@ const onClick = (e, item, code) => {
         case "deselect_column":
             if (col) {
                 const colidx = selected_cols.value.indexOf(
-                    xlsxdata_header[calcColumn(col[0])]
+                    xlsxdata_header.value[calcColumn(col[0])]
                 );
                 selected_cols.value.splice(colidx, 1);
                 toggleColorSelectedCol(col[0]);

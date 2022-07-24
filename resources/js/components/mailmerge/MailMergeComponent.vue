@@ -160,7 +160,13 @@
                     <label for="text">{{ __('Text')+':' }}</label>
                     <textarea id="text" name="text" class="form-control" rows="10" v-model="editorData" hidden>
                     </textarea>
-                    <ckeditor ref="ckeditor" v-model="editorData" :config="editorConfig" @ready="ckEditorReadyCallback"></ckeditor>
+                    <ckeditor
+                        ref="ckeditor"
+                        v-model="editorData"
+                        :config="editorConfig"
+                        @ready="ckEditorReadyCallback"
+                        @update:modelValue="ckEditorReadyCallback"
+                    />
                 </div>
             </div>
 
@@ -200,14 +206,12 @@
 </template>
 
 <script setup>
-import Vue from "vue";
 import XlsxComponent from './XlsxComponent.vue';
 import { ref, computed, onMounted, getCurrentInstance } from 'vue';
 import '../../../../public/resources/js/ckeditor/ckeditor.js';
-import CKEditor from 'ckeditor4-vue';
+import CKEditor from '@mayasabha/ckeditor4-vue3';
 
-
-Vue.use(CKEditor);
+getCurrentInstance().appContext.app.use(CKEditor);
 
 onMounted(() => {
     console.log('MailMerge mounted');
@@ -242,7 +246,6 @@ const props = defineProps({
 const xlsxref = ref();
 const step = ref(1);
 const steps = 4;
-const mergefields = []; // Unused?
 const editorData = ref(props.doc_text);
 const editorConfig = {
     language : 'el',
@@ -263,6 +266,7 @@ const signature_selected = ref(props.signatures_selected);
 const exact_copy_selected = ref(props.exact_copies_selected);
 const ada = ref(props.doc_ada);
 const fft = ref(parseInt(props.files_for_teachers));
+let runCount = 0; // Used to run the ckeditor callback once
 
 const setmergefields = (fields) => {
     const new_placeholders = new Array()
@@ -285,61 +289,65 @@ const missingfields = (check) => {
     }
 };
 
-const ckEditorReadyCallback = (readyEvent) => {
-    window.itemsArray = placeholders
-
-    function matchCallback (text, offset) {
-        const pattern = /\[{2}([A-zΑ-ω]|\])*$/
-        const match = text.slice(0, offset)
-            .match(pattern)
-
-        if (!match) {
-            return null
-        }
-
-        return {
-            start: match.index,
-            end: offset
-        }
-    }
-
-    function textTestCallback (range) {
-        if (!range.collapsed) {
-            return null
-        }
-
-        return CKEDITOR.plugins.textMatch.match(range, matchCallback)
-    }
-
-    config.textTestCallback = textTestCallback
-
-    function dataCallback(matchInfo, callback) {
-        const data = window.itemsArray.filter(function (item) {
-            const itemName = '[[' + item.title + ']]'
-            return itemName.toUpperCase()
-            .indexOf(matchInfo.query.toUpperCase()) == 0
-        });
-
-        callback(data)
-    }
-
-    config.dataCallback = dataCallback
-
-    config.itemTemplate = '<li data-id="{id}">' +
-            '<div><strong class="item-title">{title}</strong></div>' +
-            '</li>'
-    config.outputTemplate = '[[{title}]]<span>&nbsp;</span>'
-
-    myAutocomplete(readyEvent, config)
-    xlsxref.value.parseDocData()
-};
-
 const myAutocomplete = (editor, config) => {
-    autocomplete.value = new CKEDITOR.plugins.autocomplete(editor, config)
+    // autocomplete.value = new CKEDITOR.plugins.autocomplete(editor, config)
     // Override default getHtmlToInsert to enable rich content output.
     /* this.autocomplete.getHtmlToInsert = function(item) {
                 return config.outputTemplate.output(item);
             } */
+};
+
+const ckEditorReadyCallback = (readyEvent) => {
+    if (runCount == 0) {
+        runCount++;
+
+        window.itemsArray = placeholders
+
+        function matchCallback (text, offset) {
+            const pattern = /\[{2}([A-zΑ-ω]|\])*$/
+            const match = text.slice(0, offset)
+                .match(pattern)
+
+            if (!match) {
+                return null
+            }
+
+            return {
+                start: match.index,
+                end: offset
+            }
+        }
+
+        function textTestCallback (range) {
+            if (!range.collapsed) {
+                return null
+            }
+
+            return CKEDITOR.plugins.textMatch.match(range, matchCallback)
+        }
+
+        config.textTestCallback = textTestCallback
+
+        function dataCallback(matchInfo, callback) {
+            const data = window.itemsArray.filter(function (item) {
+                const itemName = '[[' + item.title + ']]'
+                return itemName.toUpperCase()
+                .indexOf(matchInfo.query.toUpperCase()) == 0
+            });
+
+            callback(data)
+        }
+
+        config.dataCallback = dataCallback
+
+        config.itemTemplate = '<li data-id="{id}">' +
+                '<div><strong class="item-title">{title}</strong></div>' +
+                '</li>'
+        config.outputTemplate = '[[{title}]]<span>&nbsp;</span>'
+
+        myAutocomplete(readyEvent, config)
+        xlsxref.value.parseDocData()
+    }
 };
 
 const doc_logos = computed(() => {
