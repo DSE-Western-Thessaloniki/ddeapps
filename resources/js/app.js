@@ -4,7 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-import Vue from "vue";
+import { createApp, defineAsyncComponent } from "vue";
 
 require("./bootstrap");
 
@@ -19,9 +19,6 @@ window.CKEDITOR_BASEPATH =
     (appUrlEndsWithSlash === false ? "/" : "") +
     appDir.replace("//", "/");
 
-// Add translation capabilities to vue components
-Vue.mixin(require("./trans"));
-
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -33,31 +30,48 @@ Vue.mixin(require("./trans"));
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component("mailmerge-component", () =>
-    import("./components/mailmerge/MailMergeComponent.vue")
-);
-Vue.component("doclogoform", () =>
-    import("./components/mailmerge/DocLogoForm.vue")
-);
-Vue.component("xlsxcomponent", () =>
-    import("./components/mailmerge/XlsxComponent.vue")
-);
-Vue.component("pagepreview", () =>
-    import("./components/mailmerge/PagePreview.vue")
-);
-Vue.component("rolecomponent", () =>
-    import("./components/mailmerge/RoleComponent.vue")
-);
-Vue.component("recipientlinks", () =>
-    import("./components/mailmerge/RecipientLinks.vue")
-);
-
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
-    el: "#app"
-});
+const app = createApp({});
+
+// Add translation capabilities to vue components
+app.mixin(require("./trans"));
+
+app.component(
+    "mailmerge-component",
+    defineAsyncComponent(() =>
+        import("./components/mailmerge/MailMergeComponent.vue")
+    )
+);
+app.component(
+    "doclogoform",
+    defineAsyncComponent(() => import("./components/mailmerge/DocLogoForm.vue"))
+);
+app.component(
+    "xlsxcomponent",
+    defineAsyncComponent(() =>
+        import("./components/mailmerge/XlsxComponent.vue")
+    )
+);
+app.component(
+    "pagepreview",
+    defineAsyncComponent(() => import("./components/mailmerge/PagePreview.vue"))
+);
+app.component(
+    "rolecomponent",
+    defineAsyncComponent(() =>
+        import("./components/mailmerge/RoleComponent.vue")
+    )
+);
+app.component(
+    "recipientlinks",
+    defineAsyncComponent(() =>
+        import("./components/mailmerge/RecipientLinks.vue")
+    )
+);
+
+app.mount("#app");
