@@ -30,7 +30,7 @@
                         title="{{ $doclogo->title }}"
                         logofile="{{ $doclogo->image}}"
                         text="{{ $doclogo->text}}"
-                        active="{{ $doclogo->active}}"
+                        :active="{{ json_encode($doclogo->active) }}"
                         imagespath="{{ env('APP_URL').(str_ends_with(env('APP_URL'), '/') ? 'images/' : '/images/') }}"
                     >
                     </doclogoform>
