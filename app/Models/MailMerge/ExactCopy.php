@@ -20,6 +20,10 @@ class ExactCopy extends Model
         'updated_by', 'created_by',
     ];
 
+    protected $casts = [
+        'active' => 'boolean',
+    ];
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');

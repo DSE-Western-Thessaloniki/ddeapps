@@ -45,13 +45,14 @@
 		"mtxr.sqltools",
 		"mtxr.sqltools-driver-mysql",
 		"tabnine.tabnine-vscode",
-		"octref.vetur",
 		"visualstudioexptteam.vscodeintellicode",
 		"redhat.vscode-yaml",
 		"m1guelpf.better-pest",
 		"ikappas.phpcs",
 		"esbenp.prettier-vscode",
-		"GitHub.vscode-pull-request-github"
+		"GitHub.vscode-pull-request-github",
+		"Vue.volar",
+		"Vue.vscode-typescript-vue-plugin"
 	],
 	"remoteUser": "sail",
 	// "forwardPorts": [],

@@ -5,7 +5,7 @@
         <div v-if="doc_logos.length == 0">
             <div class="alert alert-danger">
                 <ul>
-                <li>{{ __('Cannot continue without creating a logo.') }}</li>
+                    <li>{{ __('Cannot continue without creating a logo.') }}</li>
                 </ul>
             </div><br />
             <a class="btn btn-primary" :href="route_doc_logo_create">
@@ -16,10 +16,10 @@
         <div v-else-if="editors.length == 0">
             <div class="alert alert-danger">
                 <ul>
-                <li>{{ __('Cannot continue without creating an editor.') }}</li>
+                    <li>{{ __('Cannot continue without creating an editor.') }}</li>
                 </ul>
             </div><br />
-            <a class="btn btn-primary" :href="route_doc_editor_create">
+            <a class="btn btn-primary" :href="route_editor_create">
                 <i class="fa-fw fas fa-plus-circle">
                 </i> {{ __('Create Editor') }}
             </a>
@@ -27,7 +27,7 @@
         <div v-else-if="signatures.length == 0">
             <div class="alert alert-danger">
                 <ul>
-                <li>{{ __('Cannot continue without creating a signature.') }}</li>
+                    <li>{{ __('Cannot continue without creating a signature.') }}</li>
                 </ul>
             </div><br />
             <a class="btn btn-primary" :href="route_signature_create">
@@ -38,7 +38,7 @@
         <div v-else-if="exact_copies.length == 0">
             <div class="alert alert-danger">
                 <ul>
-                <li>{{ __('Cannot continue without creating an exact copy.') }}</li>
+                    <li>{{ __('Cannot continue without creating an exact copy.') }}</li>
                 </ul>
             </div><br />
             <a class="btn btn-primary" :href="route_exact_copy_create">
@@ -70,55 +70,45 @@
             <div v-show="step == 1">
                 <div class="card bg-success mb-3">
                     <div class="card-body">
-                    <h5 class="class-title">
-                        {{ __("Select data source") }}
-                    </h5>
-                    <div class="class-text">
-                        {{ __("You can select one or more columns to be used as a recipient list by right clicking on each column.") }}
-                    </div>
+                        <h5 class="class-title">
+                            {{ __("Select data source") }}
+                        </h5>
+                        <div class="class-text">
+                            {{ __("You can select one or more columns to be used as a recipient list by right clicking \
+                                                        on each column.")
+                            }}
+                        </div>
                     </div>
                 </div>
                 <div id="missing-fields" class="card bg-danger mb-3 d-none">
                     <div class="card-body">
-                    <h5 class="class-title">
-                        Σφάλμα!
-                    </h5>
-                    <div class="class-text">
-                        Το αρχείο πρέπει υποχρεωτικά να περιέχει τις στήλες <b>ΑΜ, ΟΝΟΜΑ, ΕΠΩΝΥΜΟ, ΚΛΑΔΟΣ, ΑΦ</b>!
-                    </div>
+                        <h5 class="class-title">
+                            Σφάλμα!
+                        </h5>
+                        <div class="class-text">
+                            Το αρχείο πρέπει υποχρεωτικά να περιέχει τις στήλες <b>ΑΜ, ΟΝΟΜΑ, ΕΠΩΝΥΜΟ, ΚΛΑΔΟΣ, ΑΦ</b>!
+                        </div>
                     </div>
                 </div>
 
-                <xlsxcomponent
-                    ref="xlsxref"
-                    v-on:setmergefields="setmergefields"
-                    v-on:missingfields="missingfields"
-                    :docdata="doc_data"
-                    :docdataheader="doc_data_header"
-                    :mfields="doc_mfields"
-                >
+                <xlsxcomponent ref="xlsx_ref" v-on:setmergefields="setmergefields" v-on:missingfields="missingfields"
+                    :docdata="doc_data" :docdataheader="doc_data_header" :mfields="doc_mfields">
                 </xlsxcomponent>
             </div>
             <div v-show="step == 2">
                 <div class="form-group">
-                    <label for="logo_id">{{ __('Logo')+':' }}</label>
+                    <label for="logo_id">{{ __('Logo') + ':' }}</label>
                     <select class="form-control" id="logo_id" name="logo_id" v-model="logo_selected">
-                        <option v-for="doc_logo in doc_logos"
-                                :key="doc_logo.id"
-                                :value="doc_logo.id"
-                        >
+                        <option v-for="doc_logo in doc_logos" :key="doc_logo.id" :value="doc_logo.id">
                             {{ doc_logo.title }}
                         </option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="editor_id">{{ __('Editor')+':' }}</label>
+                    <label for="editor_id">{{ __('Editor') + ':' }}</label>
                     <select class="form-control" id="editor_id" name="editor_id" v-model="editor_selected">
-                        <option v-for="editor in editors"
-                                :key="editor.id"
-                                :value="editor.id"
-                        >
+                        <option v-for="editor in editors" :key="editor.id" :value="editor.id">
                             {{ editor.title }}
                         </option>
                     </select>
@@ -136,14 +126,15 @@
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
-                            <label for="protocol_num">{{ __('Protocol number')+':' }}</label>
-                            <input type="text" id="protocol_num" name="protocol_num" class="form-control" required v-model="prot_num">
+                            <label for="protocol_num">{{ __('Protocol number') + ':' }}</label>
+                            <input type="text" id="protocol_num" name="protocol_num" class="form-control" required
+                                v-model="prot_num">
                         </div>
                     </div>
 
                     <div class="col">
                         <div class="form-group">
-                            <label for="date">{{ __('Date')+':' }}</label>
+                            <label for="date">{{ __('Date') + ':' }}</label>
                             <input type="date" id="date" name="date" :value="get_date" class="form-control">
                         </div>
                     </div>
@@ -152,52 +143,43 @@
 
             <div v-show="step == 3">
                 <div class="form-group">
-                    <label for="subject">{{ __('Subject')+':' }}</label>
+                    <label for="subject">{{ __('Subject') + ':' }}</label>
                     <textarea id="subject" name="subject" class="form-control" v-model="subject">
                     </textarea>
                 </div>
                 <div class="form-group">
-                    <label for="text">{{ __('Text')+':' }}</label>
+                    <label for="text">{{ __('Text') + ':' }}</label>
                     <textarea id="text" name="text" class="form-control" rows="10" v-model="editorData" hidden>
                     </textarea>
-                    <ckeditor
-                        ref="ckeditor"
-                        v-model="editorData"
-                        :config="editorConfig"
-                        @ready="ckEditorReadyCallback"
-                        @update:modelValue="ckEditorReadyCallback"
-                    />
+                    <ckeditor ref="ckeditor" v-model="editorData" :config="editorConfig" @ready="ckEditorReadyCallback"
+                        @update:modelValue="ckEditorReadyCallback" />
                 </div>
             </div>
 
             <div v-show="step == 4">
                 <div class="form-group">
-                    <label for="exact_copy_id">{{ __('Exact Copy')+':' }}</label>
+                    <label for="exact_copy_id">{{ __('Exact Copy') + ':' }}</label>
                     <select class="form-control" id="exact_copy_id" name="exact_copy_id" v-model="exact_copy_selected">
-                        <option v-for="exact_copy in exact_copies"
-                                :key="exact_copy.id"
-                                :value="exact_copy.id"
-                        >
+                        <option v-for="exact_copy in exact_copies" :key="exact_copy.id" :value="exact_copy.id">
                             {{ exact_copy.title }}
                         </option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="signature_id">{{ __('Signature')+':' }}</label>
+                    <label for="signature_id">{{ __('Signature') + ':' }}</label>
                     <select class="form-control" id="signature_id" name="signature_id" v-model="signature_selected">
-                            <option v-for="signature in signatures"
-                                    :key="signature.id"
-                                    :value="signature.id"
-                            >
-                                {{ signature.title }}
-                            </option>
+                        <option v-for="signature in signatures" :key="signature.id" :value="signature.id">
+                            {{ signature.title }}
+                        </option>
                     </select>
                 </div>
 
                 <div class="form-group form-check">
-                    <input type="checkbox" class="form-check-input" id="files_for_teachers" name="files_for_teachers" v-model="fft">
-                    <label class="form-check-label" for="files_for_teachers">Ετοίμασε αρχείο και για τον εκπαιδευτικό</label>
+                    <input type="checkbox" class="form-check-input" id="files_for_teachers" name="files_for_teachers"
+                        v-model="fft">
+                    <label class="form-check-label" for="files_for_teachers">Ετοίμασε αρχείο και για τον
+                        εκπαιδευτικό</label>
                 </div>
             </div>
 
@@ -205,91 +187,99 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import XlsxComponent from './XlsxComponent.vue';
 import { ref, computed, onMounted, getCurrentInstance } from 'vue';
 import '../../../../public/resources/js/ckeditor/ckeditor.js';
 import CKEditor from '@mayasabha/ckeditor4-vue3';
+import __ from '../../trans';
 
-getCurrentInstance().appContext.app.use(CKEditor);
+getCurrentInstance()?.appContext.app.use(CKEditor);
 
 onMounted(() => {
     console.log('MailMerge mounted');
 })
 
-const props = defineProps({
-    doc_logos_str: String,
-    doc_logos_selected: String,
-    editors_str: String,
-    editors_selected: String,
-    signatures_str: String,
-    signatures_selected: String,
-    exact_copies_str: String,
-    exact_copies_selected: String,
-    protocol_num: String,
-    doc_date: String,
-    doc_subject: String,
-    doc_text: String,
-    doc_data: String,
-    doc_data_header: String,
-    doc_mfields: String,
-    doc_ada: String,
-    route_exact_copy_create: String,
-    route_doc_logo_create: String,
-    route_signature_create: String,
-    route_editor_create: String,
-    route_index: String,
-    func: String,
-    files_for_teachers: String
-});
+const props = defineProps<{
+    doc_logos_str: string,
+    doc_logos_selected: string,
+    editors_str: string,
+    editors_selected: string,
+    signatures_str: string,
+    signatures_selected: string,
+    exact_copies_str: string,
+    exact_copies_selected: string,
+    protocol_num: string,
+    doc_date: string,
+    doc_subject: string,
+    doc_text: string,
+    doc_data: string,
+    doc_data_header: string,
+    doc_mfields: string,
+    doc_ada: string,
+    route_exact_copy_create: string,
+    route_doc_logo_create: string,
+    route_signature_create: string,
+    route_editor_create: string,
+    route_index: string,
+    func: string,
+    files_for_teachers: boolean,
+}>();
 
-const xlsxref = ref();
+const xlsx_ref = ref();
 const step = ref(1);
 const steps = 4;
 const editorData = ref(props.doc_text);
 const editorConfig = {
-    language : 'el',
-    removePlugins : ['stylescombo'],
-    extraPlugins : ['placeholder_select'],
-    placeholder_select : {
+    language: 'el',
+    removePlugins: ['stylescombo'],
+    extraPlugins: ['placeholder_select'],
+    placeholder_select: {
         placeholders: ['Firstname', 'Lastname', 'Email']
     }
 };
-const placeholders = [];
+const placeholders: { id: number; title: string }[] = [];
 const autocomplete = ref({});
 const prot_num = ref(props.protocol_num);
 const subject = ref(props.doc_subject);
-const config = {};
+const config: {
+    textTestCallback?: Function,
+    dataCallback?: Function,
+    itemTemplate?: string,
+    outputTemplate?: string,
+} = {};
 const logo_selected = ref(props.doc_logos_selected);
 const editor_selected = ref(props.editors_selected);
 const signature_selected = ref(props.signatures_selected);
 const exact_copy_selected = ref(props.exact_copies_selected);
 const ada = ref(props.doc_ada);
-const fft = ref(parseInt(props.files_for_teachers));
+const fft = ref(props.files_for_teachers);
 let runCount = 0; // Used to run the ckeditor callback once
 
-const setmergefields = (fields) => {
-    const new_placeholders = new Array()
+const setmergefields = (fields: string[]) => {
+    const new_placeholders: { id: number, title: string }[] = new Array();
     let i = 1
     fields.forEach(function (field) {
-    new_placeholders.push({ id: i, title: field })
-    i++
+        new_placeholders.push({ id: i, title: field })
+        i++
     })
     window.itemsArray = new_placeholders
     editorConfig.placeholder_select.placeholders = fields
+    // @ts-ignore
     CKEDITOR.instances.editor1.config.placeholder_select.placeholders = JSON.parse(JSON.stringify(fields))
+    // @ts-ignore
     CKEDITOR.instances.editor1.ui.instances.placeholder_select.buildList()
 };
 
-const missingfields = (check) => {
+const missingfields = (check: boolean) => {
     if (check) {
-        document.getElementById('missing-fields').classList.remove('d-none')
+        document.getElementById('missing-fields')?.classList.remove('d-none')
     } else {
-        document.getElementById('missing-fields').classList.add('d-none')
+        document.getElementById('missing-fields')?.classList.add('d-none')
     }
 };
 
-const myAutocomplete = (editor, config) => {
+const myAutocomplete = (editor: any, config: any) => {
     // autocomplete.value = new CKEDITOR.plugins.autocomplete(editor, config)
     // Override default getHtmlToInsert to enable rich content output.
     /* this.autocomplete.getHtmlToInsert = function(item) {
@@ -297,13 +287,13 @@ const myAutocomplete = (editor, config) => {
             } */
 };
 
-const ckEditorReadyCallback = (readyEvent) => {
+const ckEditorReadyCallback = (readyEvent: Event) => {
     if (runCount == 0) {
         runCount++;
 
         window.itemsArray = placeholders
 
-        function matchCallback (text, offset) {
+        function matchCallback(text: string, offset: number) {
             const pattern = /\[{2}([A-zΑ-ω]|\])*$/
             const match = text.slice(0, offset)
                 .match(pattern)
@@ -318,21 +308,22 @@ const ckEditorReadyCallback = (readyEvent) => {
             }
         }
 
-        function textTestCallback (range) {
+        function textTestCallback(range: { collapsed: boolean }) {
             if (!range.collapsed) {
                 return null
             }
 
+            // @ts-ignore
             return CKEDITOR.plugins.textMatch.match(range, matchCallback)
         }
 
         config.textTestCallback = textTestCallback
 
-        function dataCallback(matchInfo, callback) {
+        function dataCallback(matchInfo: { query: string }, callback: Function) {
             const data = window.itemsArray.filter(function (item) {
                 const itemName = '[[' + item.title + ']]'
                 return itemName.toUpperCase()
-                .indexOf(matchInfo.query.toUpperCase()) == 0
+                    .indexOf(matchInfo.query.toUpperCase()) == 0
             });
 
             callback(data)
@@ -341,12 +332,12 @@ const ckEditorReadyCallback = (readyEvent) => {
         config.dataCallback = dataCallback
 
         config.itemTemplate = '<li data-id="{id}">' +
-                '<div><strong class="item-title">{title}</strong></div>' +
-                '</li>'
+            '<div><strong class="item-title">{title}</strong></div>' +
+            '</li>'
         config.outputTemplate = '[[{title}]]<span>&nbsp;</span>'
 
         myAutocomplete(readyEvent, config)
-        xlsxref.value.parseDocData()
+        xlsx_ref.value.parseDocData()
     }
 };
 
