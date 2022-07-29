@@ -1,0 +1,42 @@
+{
+	"cSpell.ignoreWords": [
+		"BASEPATH",
+		"Firstname",
+		"Laravel",
+		"Lastname",
+		"borderless",
+		"ckeditor",
+		"ddeapps",
+		"defval",
+		"docdata",
+		"docdataheader",
+		"doclogoform",
+		"firstdraft",
+		"imagespath",
+		"logofile",
+		"madogai",
+		"mailmerge",
+		"mayasabha",
+		"mergefields",
+		"mfields",
+		"missingfields",
+		"pagepreview",
+		"pagezoom",
+		"popperjs",
+		"purgecss",
+		"recipientlinks",
+		"rolecomponent",
+		"setmergefields",
+		"sheetjs",
+		"stylescombo",
+		"vuejs",
+		"xlsxcomponent",
+		"xlsxdata",
+		"ΚΟΙΝ",
+		"Πρωτ"
+	],
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"cSpell.words": [
+		"Αρχικοποίησε"
+	]
+}

@@ -4,13 +4,16 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+import Fuse from "fuse.js";
 import { createApp, defineAsyncComponent } from "vue";
+import "./bootstrap";
 
-require("./bootstrap");
+window.Fuse = Fuse;
 
-window.Fuse = require("fuse.js");
-
-const appUrlEndsWithSlash = process.env.MIX_APP_URL.endsWith("/");
+const appUrlEndsWithSlash =
+    typeof process.env.MIX_APP_URL === "undefined"
+        ? false
+        : process.env.MIX_APP_URL.endsWith("/");
 const appDir = `${
     process.env.MIX_APP_DIR !== "" ? process.env.MIX_APP_DIR + "/" : ""
 }resources/js/ckeditor/`;
@@ -43,8 +46,8 @@ app.mixin(require("./trans"));
 
 app.component(
     "mailmerge-component",
-    defineAsyncComponent(() =>
-        import("./components/mailmerge/MailMergeComponent.vue")
+    defineAsyncComponent(
+        () => import("./components/mailmerge/MailMergeComponent.vue")
     )
 );
 app.component(
@@ -53,8 +56,8 @@ app.component(
 );
 app.component(
     "xlsxcomponent",
-    defineAsyncComponent(() =>
-        import("./components/mailmerge/XlsxComponent.vue")
+    defineAsyncComponent(
+        () => import("./components/mailmerge/XlsxComponent.vue")
     )
 );
 app.component(
@@ -63,14 +66,14 @@ app.component(
 );
 app.component(
     "rolecomponent",
-    defineAsyncComponent(() =>
-        import("./components/mailmerge/RoleComponent.vue")
+    defineAsyncComponent(
+        () => import("./components/mailmerge/RoleComponent.vue")
     )
 );
 app.component(
     "recipientlinks",
-    defineAsyncComponent(() =>
-        import("./components/mailmerge/RecipientLinks.vue")
+    defineAsyncComponent(
+        () => import("./components/mailmerge/RecipientLinks.vue")
     )
 );
 

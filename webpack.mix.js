@@ -22,21 +22,21 @@ if (
     mix.webpackConfig({
         output: {
             publicPath: "/" + process.env.MIX_APP_DIR + "/",
-            chunkFilename: "js/vuejs_code_split/[name].js"
-        }
+            chunkFilename: "js/vuejs_code_split/[name].js",
+        },
     });
 } else {
     mix.webpackConfig({
         output: {
-            chunkFilename: "js/vuejs_code_split/[name].js"
+            chunkFilename: "js/vuejs_code_split/[name].js",
         },
         stats: {
-            children: true
-        }
+            children: true,
+        },
     });
 }
 
-mix.js("resources/js/app.js", "public/js")
+mix.ts("resources/ts/app.ts", "public/js")
     .sass("resources/sass/app.scss", "public/css")
     .vue({ version: 3 })
     .extract()
