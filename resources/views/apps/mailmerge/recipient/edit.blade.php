@@ -26,11 +26,11 @@
                     {!! Form::open(['action' => ['MailMerge\RecipientController@update', $recipient->id],
                     'method' => 'POST']) !!}
 
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label for="name">{{ __('Name') }}</label>
                         <input type="text" id="name" name="name" class="form-control" value="{{$recipient->name}}" required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label for="code">{{ __('Text') }}</label>
                         <input type="text" id="code" name="code" class="form-control" value="{{$recipient->code}}" required>
                     </div>

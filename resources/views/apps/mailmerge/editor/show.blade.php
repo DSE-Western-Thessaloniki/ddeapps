@@ -23,35 +23,35 @@
                     </div><br />
                     @endif
 
-                    <div class="row">
+                    <div class="row mb-3">
                         <div class="col-3">{{ __('Title') }}</div>
                         <div class="col-9 align-self-center">
                             {{ $editor->title }}
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row mb-3">
                         <div class="col-3">{{ __('Address') }}</div>
                         <div class="col-9 align-self-center">
                             {{ $editor->address }}
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row mb-3">
                         <div class="col-3">{{ __('Name') }}</div>
                         <div class="col-9 align-self-center">
                             {{ $editor->name }}
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row mb-3">
                         <div class="col-3">{{ __('Telephone') }}</div>
                         <div class="col-9 align-self-center">
                             {{ $editor->telephone }}
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row mb-3">
                         <div class="col-3">{{ __('Email') }}</div>
                         <div class="col-9 align-self-center">
                             {{ $editor->email }}

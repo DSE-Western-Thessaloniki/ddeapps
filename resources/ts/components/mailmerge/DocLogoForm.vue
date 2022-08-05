@@ -1,34 +1,34 @@
 <template>
     <div class="container">
-        <div class="form-group row">
+        <div class="form-group row mb-3">
             <label for="title" class="col-3 col-form-label">Title</label>
             <div class="col-9 align-self-center">
                 <input type="text" class="form-control" name="title" id="title" v-model="dTitle" required />
             </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row mb-3">
             <label for="image" class="col-3 col-form-label">Image</label>
             <div class="col-9 align-self-center">
                 <input type="text" class="form-control" name="image" id="image" v-model="dLogoFile" />
             </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row mb-3">
             <label for="imagePreview" class="col-3 col-form-label">Image preview:</label>
             <div class="col-9 align-self-center">
                 <img id="imagePreview" v-bind:src="logoFullPath" />
             </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row mb-3">
             <label for="text" class="col-3 col-form-label">Text</label>
             <div class="col-9 align-self-center">
                 <textarea class="form-control text-center" name="text" rows="10" id="text" v-model="dText"></textarea>
             </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row mb-3">
             <label for="active" class="col-3 col-form-label">Active</label>
             <div class="col-9">
                 <div class="form-check">

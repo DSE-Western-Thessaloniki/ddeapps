@@ -26,23 +26,23 @@
                     {!! Form::open(['action' => ['MailMerge\EditorController@update', $editor->id],
                     'method' => 'POST']) !!}
 
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label for="title">{{ __('Title') }}</label>
                         <input type="text" id="title" name="title" class="form-control" value="{{$editor->title}}" required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label for="address">{{ __('Address') }}</label>
                         <input type="text" id="address" name="address" class="form-control" value="{{$editor->address}}">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label for="name">{{ __('Name') }}</label>
                         <input type="text" id="name" name="name" class="form-control" value="{{$editor->name}}">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label for="telephone">{{ __('Telephone') }}</label>
                         <input type="text" id="telephone" name="telephone" class="form-control" value="{{$editor->telephone}}">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label for="email">{{ __('Email') }}</label>
                         <input type="email" id="email" name="email" class="form-control" value="{{$editor->email}}">
                     </div>
