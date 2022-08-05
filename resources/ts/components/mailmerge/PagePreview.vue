@@ -177,7 +177,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, onMounted, computed, Ref } from 'vue';
+import { ref, onMounted, computed, Ref } from 'vue';
 import __ from "../../trans";
 import Fuse from "fuse.js";
 
