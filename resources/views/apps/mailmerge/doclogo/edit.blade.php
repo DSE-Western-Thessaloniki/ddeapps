@@ -35,7 +35,7 @@
                     >
                     </doclogoform>
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <div class="col-2">
                             <a class="btn btn-danger" href="{{ route('apps.mailmerge.doclogo.index') }}">{{ __('Cancel') }}</a>
                         </div>

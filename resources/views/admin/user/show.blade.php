@@ -41,8 +41,8 @@
 
                         <tr>
                             <td>{{ __('E-mail') }}</td>
-                            <td class="text-center">
-                                <pre>{{ $user->email }}</pre>
+                            <td class="text-center  align-middle">
+                                <pre class="mb-0">{{ $user->email }}</pre>
                             </td>
                         </tr>
 
@@ -59,8 +59,8 @@
 
                         <tr>
                             <td>{{ __('Roles') }}</td>
-                            <td>
-                                <ul class="role-list">
+                            <td class="text-center">
+                                <ul class="role-list p-0">
                                     @foreach ($user->roles as $role)
                                     <li>{{ $role->name }}</li>
                                     @endforeach
@@ -71,7 +71,7 @@
                             <td class="col-2">
                                 <a class="btn btn-danger" href="{{ route('admin.user.index') }}">{{ __('Back') }}</a>
                             </td>
-                            <td class="col-10 d-flex justify-content-end">
+                            <td class="col d-flex justify-content-end">
                                 <a class="btn btn-primary" href="{{ route('admin.user.edit', $user->id)}}">{{ __('Edit') }}</a>
                             </td>
                         </tr>

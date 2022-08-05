@@ -1,8 +1,8 @@
 <template>
     <div class="container">
-        <div class="form-group">
-            <input class="form-control-file" type="file" multiple="false" id="sheetjs-input" accept=".xlsx,.xls,.csv"
-                @change="onchange" />
+        <div class="form-group mb-3">
+            <input class="form-control-file mb-3" type="file" multiple="false" id="sheetjs-input"
+                accept=".xlsx,.xls,.csv" @change="onchange" />
             <br />
             <div id="out-table" @contextmenu.prevent="
                 menu.open($event, {
@@ -18,7 +18,7 @@
             data: {
                 item: EventTarget,
                     selected: boolean,
-                                                                                    }
+                                                                                                    }
         }">
             <li v-if="data && data.selected">
                 <a @click.prevent="onClick($event, data.item, 'deselect_column')">{{

@@ -26,15 +26,15 @@
                     {!! Form::open(['action' => ['MailMerge\SignatureController@update', $signature->id],
                     'method' => 'POST']) !!}
 
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label for="title">{{ __('Title') }}</label>
                         <input type="text" id="title" name="title" class="form-control" value="{{$signature->title}}" required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label for="text">{{ __('Text') }}</label>
                         <textarea id="text" name="text" rows="10" class="form-control text-center">{{$signature->text}}</textarea>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <div class="form-check">
                             @if ($signature->active)
                                 <input type="checkbox" class="form-check-input" name="active" id="active" value="1" checked="checked">

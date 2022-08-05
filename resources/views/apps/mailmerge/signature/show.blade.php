@@ -23,21 +23,21 @@
                     </div><br />
                     @endif
 
-                    <div class="row">
+                    <div class="row mb-3">
                         <div class="col-3">{{ __('Title') }}</div>
                         <div class="col-9 align-self-center">
                             {{ $signature->title }}
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row mb-3">
                         <div class="col-3">{{ __('Text') }}</div>
                         <div class="col-9 align-self-center">
                             <pre class="text-center">{{ $signature->text }}</pre>
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row mb-3">
                         <div class="col-3">{{ __('Active') }}</div>
                         <div class="col-9 align-self-center">
                             @if ($signature->active)
