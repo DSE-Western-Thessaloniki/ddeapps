@@ -41,7 +41,7 @@
         "vue-loader": "^17.0.0"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.15.1",
+        "@fortawesome/fontawesome-free": "^6.1.0",
         "@madogai/vue-context": "^7.0.0",
         "@mayasabha/ckeditor4-vue3": "^0.0.5",
         "fuse.js": "^6.4.6",
