@@ -115,12 +115,12 @@ $base64_logo = base64_encode(file_get_contents(__DIR__."/../../../public/images/
                     @if (isset($draft) && $draft)
                         <table class="table table-bordered">
                             <tr>
-                                <td><div class="pb-5">Ο/Η ΣΥΝΤΑΞΑΣ/ΣΑ</div><div><hr class="dotted"></div></td>
-                                <td><div class="pb-5">Ο/Η ΠΡΟΪΣΤΑΜΕΝΟΣ/Η</div><div><hr class="dotted"></div></td>
+                                <td><div class="pb-5">Ο/Η ΣΥΝΤΑΞΑΣ/ΣΑ</div><div><span><small>{{ $editor->name }}</small></span></div></td>
+                                <td><div class="pb-5">Ο/Η ΠΡΟΪΣΤΑΜΕΝΟΣ/Η</div><div><span><small>{{ $exact_copy->title }}</small></span></div></td>
                             </tr>
                             <tr>
-                                <td><hr class="dotted">ΗΜΕΡΟΜΗΝΙΑ</td>
-                                <td><hr class="dotted">ΗΜΕΡΟΜΗΝΙΑ</td>
+                                <td><div>{{ now()->isoFormat('d/M/Y') }}</div><div>ΗΜΕΡΟΜΗΝΙΑ</div></td>
+                                <td><div>{{ now()->isoFormat('d/M/Y') }}</div><div>ΗΜΕΡΟΜΗΝΙΑ</div></td>
                             </tr>
                         </table>
                     @else
