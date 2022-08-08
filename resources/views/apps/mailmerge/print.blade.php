@@ -46,12 +46,12 @@ $base64_logo = base64_encode(file_get_contents(__DIR__."/../../../public/images/
         }
     @endphp
     <div class="page" size="A4">
-        <table class="table table-borderless">
+        <table class="table table-borderless no-border">
             <tr>
                 <td class="w-50">
                     <p class="text-center"><img src="data:image/png;base64,{{ $base64_logo }}" width="50"></p>
                     <p class="text-center">{!! $doc_logo_text_html !!}</p>
-                    <table class="table table-borderless doc-address-col">
+                    <table class="table table-borderless doc-address-col no-border">
                         <tr>
                             <td class="no-wrap pr-1">Ταχ. Διεύθυνση:</td>
                             <td>{{ $editor->address }}</td>
@@ -72,7 +72,7 @@ $base64_logo = base64_encode(file_get_contents(__DIR__."/../../../public/images/
                 </td>
 
                 <td class="w-50">
-                    <table class="table table-borderless doc-recipient-col">
+                    <table class="table table-borderless doc-recipient-col no-border">
                         <tr>
                             <td>
                                 @if($mailmerge->ada)
@@ -109,7 +109,7 @@ $base64_logo = base64_encode(file_get_contents(__DIR__."/../../../public/images/
         <p class="font-weight-bold">Θέμα: «{{ $mailmerge->subject }}»</p>
         <p id="doc_text">{!! $text !!}</p>
 
-        <table class="table table-borderless signature-table">
+        <table class="table table-borderless signature-table no-border">
             <tr>
                 <td class="text-center wd-50">
                     @if (isset($draft) && $draft)

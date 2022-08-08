@@ -58,3 +58,7 @@ table th {
 .preview-toolbar-button span {
     font-size: 0.8em !important;
 }
+
+table.no-border > tbody > tr > td {
+    border-style : hidden!important;
+}
