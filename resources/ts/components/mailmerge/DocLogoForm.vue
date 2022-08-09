@@ -44,11 +44,11 @@
 import { ref, computed } from "vue";
 
 const props = withDefaults(defineProps<{
-    title: string,
-    logofile: string,
+    title?: string,
+    logofile?: string,
     imagespath: string,
-    text: string,
-    active: boolean,
+    text?: string,
+    active?: boolean,
 }>(), {
     logofile: "logo.png",
     active: true,
