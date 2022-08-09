@@ -74,8 +74,8 @@
                             {{ __("Select data source") }}
                         </h5>
                         <div class="class-text">
-                            {{ __("You can select one or more columns to be used as a recipient list by right clicking \
-                                                        on each column.")
+                            {{ __("You can select one or more columns to be used" +
+                                    " as a recipient list by right clicking on each column.")
                             }}
                         </div>
                     </div>
@@ -200,31 +200,35 @@ onMounted(() => {
     console.log('MailMerge mounted');
 })
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
     doc_logos_str: string,
-    doc_logos_selected: string,
+    doc_logos_selected?: string,
     editors_str: string,
-    editors_selected: string,
+    editors_selected?: string,
     signatures_str: string,
-    signatures_selected: string,
+    signatures_selected?: string,
     exact_copies_str: string,
-    exact_copies_selected: string,
-    protocol_num: string,
-    doc_date: string,
-    doc_subject: string,
-    doc_text: string,
-    doc_data: string,
-    doc_data_header: string,
-    doc_mfields: string,
-    doc_ada: string,
+    exact_copies_selected?: string,
+    protocol_num?: string,
+    doc_date?: string,
+    doc_subject?: string,
+    doc_text?: string,
+    doc_data?: string,
+    doc_data_header?: string,
+    doc_mfields?: string,
+    doc_ada?: string,
     route_exact_copy_create: string,
     route_doc_logo_create: string,
     route_signature_create: string,
     route_editor_create: string,
     route_index: string,
     func: string,
-    files_for_teachers: boolean,
-}>();
+    files_for_teachers?: boolean,
+}>(), {
+    doc_data: "",
+    doc_data_header: "",
+    doc_mfields: "",
+});
 
 const xlsx_ref = ref();
 const step = ref(1);
