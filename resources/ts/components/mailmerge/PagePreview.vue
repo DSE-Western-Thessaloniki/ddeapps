@@ -618,7 +618,7 @@ const signature_html = computed(() => {
 });
 
 const progress_style = computed(() => {
-    return 'width: ' + progress + '%;';
+    return 'width: ' + progress.value + '%;';
 });
 
 const print_url_draft = computed(() => {
