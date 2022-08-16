@@ -115,7 +115,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Έλεγχος αποδεκτών αλληλογραφίας</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -159,7 +159,7 @@
                             </table>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Άκυρο</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Άκυρο</button>
                             <button type="button" class="btn btn-primary d-none" id="save_recipients"
                                 @click="saveRecipientsClicked">Αποθήκευση αντιστοίχισης</button>
                             <button type="button" class="btn btn-primary" id="save_mail_merge"
@@ -180,6 +180,7 @@
 import { ref, onMounted, computed, Ref } from 'vue';
 import __ from "../../trans";
 import Fuse from "fuse.js";
+import { Modal } from "bootstrap";
 
 const props = defineProps<{
     editor_address: string,
@@ -384,12 +385,12 @@ const saveMailMergeClicked = () => {
     $('#save_mail_merge').prop('disabled', true);
 
     // Εμφάνισε το modal
-    $('#myModal').modal({
+    const myModal = new Modal('#myModal', {
         backdrop: 'static',
         keyboard: false,
         focus: true,
     });
-    $('#myModal').modal("show");
+    myModal.show();
 
     let recipients: App.Models.Recipient[] = [];
     let unknown = 0;
