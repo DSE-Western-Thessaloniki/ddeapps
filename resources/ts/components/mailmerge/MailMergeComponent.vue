@@ -177,7 +177,7 @@
 
                 <div class="form-group form-check mb-3">
                     <input type="checkbox" class="form-check-input" id="files_for_teachers" name="files_for_teachers"
-                        v-model="fft">
+                        v-model="fft" value="1">
                     <label class="form-check-label" for="files_for_teachers">Ετοίμασε αρχείο και για τον
                         εκπαιδευτικό</label>
                 </div>

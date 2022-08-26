@@ -167,7 +167,7 @@ class MailMergeController extends Controller
             'editor_id' => 'numeric|required',
             'exact_copy_id' => 'numeric|required',
             'signature_id' => 'numeric|required',
-            'ada' => 'string|max:255',
+            'ada' => 'nullable|string|max:255',
             'date' => 'date',
             'subject' => 'string|max:65535',
             'text' => 'string|max:65535',
