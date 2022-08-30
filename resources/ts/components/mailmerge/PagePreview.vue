@@ -115,9 +115,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Έλεγχος αποδεκτών αλληλογραφίας</h5>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" />
                     </div>
                     <div class="modal-body">
                         <p>Γίνεται έλεγχος των αποδεκτών της αλληλογραφίας σας. Μόλις ολοκληρωθεί ο έλεγχος θα
@@ -144,8 +142,8 @@
                                         :class="unknown_recipient.color">
                                         <td>{{ unknown_recipient.name }}</td>
                                         <td><i v-if="unknown_recipient.icon" :class="unknown_recipient.icon"></i>{{
-                                                unknown_recipient.percentage
-                                        }}%
+                                            unknown_recipient.percentage
+                                            }}%
                                         </td>
                                         <td>
                                             <select name='recipient' @change='recipientSelectorChanged'
