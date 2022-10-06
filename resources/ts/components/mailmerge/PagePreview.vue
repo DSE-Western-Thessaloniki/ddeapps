@@ -6,14 +6,14 @@
             <div class="btn-toolbar mb-3" role="toolbar" aria-label="Preview toolbar">
                 <div class="btn-group btn-group-lg mr-2" role="group" aria-label="First group">
                     <button role="button" class="btn btn-dark btn-label" aria-disabled="true"><span
-                            class="align-middle">{{ __('Zoom') }}:</span></button>
+                            class="align-middle">{{  __('Zoom')  }}:</span></button>
                     <select class="btn btn-dark    " name="pagezoom" v-on:change="setZoom">
                         <option v-for="zoom in zoomLevel" :value="zoom" :key="zoom" :selected="zoom == '70%'">
-                            {{ zoom }}
+                            {{  zoom  }}
                         </option>
                     </select>
                     <button role="button" class="btn btn-dark btn-label" aria-disabled="true"><span
-                            class="align-middle">{{ __('Record') }}:</span></button>
+                            class="align-middle">{{  __('Record')  }}:</span></button>
                     <button class="btn btn-dark" aria-disabled="true" @click="leftArrowClicked"><i
                             class="fa fa-arrow-left"></i></button>
                     <button role="button" class="btn btn-dark" aria-disabled="true" id="current_record"
@@ -53,19 +53,19 @@
                         <table class="table table-borderless doc-address-col">
                             <tr>
                                 <td class="no-wrap pr-1">Ταχ. Διεύθυνση:</td>
-                                <td>{{ editor_address }}</td>
+                                <td>{{  editor_address  }}</td>
                             </tr>
                             <tr>
                                 <td>Πληροφορίες:</td>
-                                <td>{{ editor_name }}</td>
+                                <td>{{  editor_name  }}</td>
                             </tr>
                             <tr>
                                 <td>Τηλέφωνο:</td>
-                                <td>{{ editor_telephone }}</td>
+                                <td>{{  editor_telephone  }}</td>
                             </tr>
                             <tr>
                                 <td>Email:</td>
-                                <td>{{ editor_email }}</td>
+                                <td>{{  editor_email  }}</td>
                             </tr>
                         </table>
                     </td>
@@ -73,9 +73,9 @@
                         <table class="table table-borderless doc-recipient-col">
                             <tr>
                                 <td>
-                                    <p class="text-right" v-if="props.doc_ada"><b>ΑΔΑ: {{ doc_ada }}</b></p>
-                                    <p class="text-right">Θεσσαλονίκη, {{ doc_date }}<br />
-                                        Αρ. Πρωτ.: {{ protocol_num }}</p>
+                                    <p class="text-right" v-if="props.doc_ada"><b>ΑΔΑ: {{  doc_ada  }}</b></p>
+                                    <p class="text-right">Θεσσαλονίκη, {{  doc_date  }}<br />
+                                        Αρ. Πρωτ.: {{  protocol_num  }}</p>
                                 </td>
                             </tr>
                             <tr>
@@ -98,7 +98,7 @@
                 </tr>
             </table>
 
-            <p class="font-weight-bold">Θέμα: «{{ doc_subject }}»</p>
+            <p class="font-weight-bold" style="text-align:justify">Θέμα: «{{  doc_subject  }}»</p>
             <p id="doc_text"></p>
 
             <table class="table table-borderless signature-table">
@@ -122,7 +122,7 @@
                             ενεργοποιηθεί το κουμπί της λήψης.</p>
                         <div class="progress">
                             <div class="progress-bar" role="progressbar" :style="progress_style"
-                                :aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">{{ progress }}%</div>
+                                :aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">{{  progress  }}%</div>
                         </div>
                         <div id="error_msg"></div>
                         <br />
@@ -140,16 +140,16 @@
                                 <tbody>
                                     <tr v-for="unknown_recipient in unknown_recipients" :key="unknown_recipient.name"
                                         :class="unknown_recipient.color">
-                                        <td>{{ unknown_recipient.name }}</td>
+                                        <td>{{  unknown_recipient.name  }}</td>
                                         <td><i v-if="unknown_recipient.icon" :class="unknown_recipient.icon"></i>{{
-                                            unknown_recipient.percentage
+                                             unknown_recipient.percentage
                                             }}%
                                         </td>
                                         <td>
                                             <select name='recipient' @change='recipientSelectorChanged'
                                                 v-model="ur_selected[unknown_recipient.name]">
                                                 <option v-for="ur_option in ur_options" :key="ur_option.value"
-                                                    :value="ur_option.value">{{ ur_option.name }}</option>
+                                                    :value="ur_option.value">{{  ur_option.name  }}</option>
                                             </select>
                                         </td>
                                     </tr>
