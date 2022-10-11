@@ -200,21 +200,21 @@ onMounted(() => {
 
 const props = withDefaults(defineProps<{
     doc_logos_str: string,
-    doc_logos_selected?: string,
+    doc_logos_selected?: string | null,
     editors_str: string,
-    editors_selected?: string,
+    editors_selected?: string | null,
     signatures_str: string,
-    signatures_selected?: string,
+    signatures_selected?: string | null,
     exact_copies_str: string,
-    exact_copies_selected?: string,
-    protocol_num?: string,
-    doc_date?: string,
-    doc_subject?: string,
-    doc_text?: string,
-    doc_data?: string,
-    doc_data_header?: string,
-    doc_mfields?: string,
-    doc_ada?: string,
+    exact_copies_selected?: string | null,
+    protocol_num?: string | null,
+    doc_date?: string | null,
+    doc_subject?: string | null,
+    doc_text?: string | null,
+    doc_data?: string | null,
+    doc_data_header?: string | null,
+    doc_mfields?: string | null,
+    doc_ada?: string | null,
     route_exact_copy_create: string,
     route_doc_logo_create: string,
     route_signature_create: string,
@@ -231,7 +231,7 @@ const props = withDefaults(defineProps<{
 const xlsx_ref = ref();
 const step = ref(1);
 const steps = 4;
-const editorData = ref(props.doc_text);
+const editorData = ref(props.doc_text ?? "");
 const editorConfig = {
     language: 'el',
     removePlugins: ['stylescombo'],
@@ -243,7 +243,7 @@ const editorConfig = {
 const placeholders: { id: number; title: string }[] = [];
 const autocomplete = ref({});
 const prot_num = ref(props.protocol_num);
-const subject = ref(props.doc_subject);
+const subject = ref(props.doc_subject ?? "");
 const config: {
     textTestCallback?: Function,
     dataCallback?: Function,

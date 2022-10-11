@@ -22,12 +22,12 @@
         }">
             <li v-if="data && data.selected">
                 <a @click.prevent="onClick($event, data.item, 'deselect_column')">{{
-                        __("Remove column from recipient list")
+                __("Remove column from recipient list")
                 }}</a>
             </li>
             <li v-else>
                 <a @click.prevent="onClick($event, data.item, 'select_column')">{{
-                        __("Select column as recipient list")
+                __("Select column as recipient list")
                 }}</a>
             </li>
         </vue-context>
@@ -51,9 +51,9 @@ import * as XLSX from "xlsx";
 import __ from "../../trans";
 
 const props = defineProps<{
-    docdata: string,
-    docdataheader: string,
-    mfields: string
+    docdata: string | null,
+    docdataheader: string | null,
+    mfields: string | null
 }>();
 
 const emit = defineEmits(["missingfields", "setmergefields"]);
@@ -190,11 +190,12 @@ const toggleColorSelectedCol = (col: string) => {
 };
 
 const parseDocData = () => {
-    if (typeof props.docdata !== "undefined") {
+    if (typeof props.docdata !== "undefined" &&
+        props.docdata !== null) {
         if (props.docdata != "") {
-            xlsxdata.value = JSON.parse(props.docdata);
-            xlsxdata_header.value = JSON.parse(props.docdataheader);
-            selected_cols.value = JSON.parse(props.mfields);
+            xlsxdata.value = JSON.parse(props.docdata ?? "");
+            xlsxdata_header.value = JSON.parse(props.docdataheader ?? "");
+            selected_cols.value = JSON.parse(props.mfields ?? "");
             const workSheet = XLSX.utils.json_to_sheet(xlsxdata.value, {
                 header: xlsxdata_header.value,
             });
