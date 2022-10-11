@@ -49,7 +49,7 @@
         <div v-else>
 
             <!-- All OK, present the form -->
-            <div class="form-group row mb-3">
+            <div class="row mb-3">
                 <div class="col-2 mr-auto">
                     <a class="btn btn-danger" id="Cancel" :href="route_index">{{ __('Cancel') }}</a>
                 </div>
@@ -58,13 +58,15 @@
                 </div>
             </div>
 
-            <div class="form-group justify-content-center h1 row mb-3">
-                <a class="fas fa-fw fa-arrow-left col-auto" v-show="step > 1" v-on:click="step -= 1" href="#"></a>
+            <div class="justify-content-center h1 row mb-3">
+                <a class="fas fa-fw fa-arrow-left col-auto text-decoration-none" v-show="step > 1"
+                    v-on:click="step -= 1" href="#"></a>
                 <span v-for="i in steps" :key="i" class="col-auto">
-                    <i v-show="step != i" class="fas fa-fw fa-square"></i>
-                    <i v-show="step == i" class="far fa-fw fa-square"></i>
+                    <i v-show="step != i" class="fas fa-fw fa-square" @click="step=i"></i>
+                    <i v-show="step == i" class="far fa-fw fa-square" @click="step=i"></i>
                 </span>
-                <a class="fas fa-fw fa-arrow-right col-auto" v-show="step < steps" v-on:click="step += 1" href="#"></a>
+                <a class="fas fa-fw fa-arrow-right col-auto text-decoration-none" v-show="step < steps"
+                    v-on:click="step += 1" href="#"></a>
             </div>
 
             <div v-show="step == 1">
@@ -75,7 +77,7 @@
                         </h5>
                         <div class="class-text">
                             {{ __("You can select one or more columns to be used" +
-                                    " as a recipient list by right clicking on each column.")
+                            " as a recipient list by right clicking on each column.")
                             }}
                         </div>
                     </div>
@@ -96,36 +98,32 @@
                 </xlsxcomponent>
             </div>
             <div v-show="step == 2">
-                <div class="form-group mb-3">
-                    <label for="logo_id">{{ __('Logo') + ':' }}</label>
-                    <select class="form-control" id="logo_id" name="logo_id" v-model="logo_selected">
+                <div class="mb-3">
+                    <label for="logo_id" class="form-label">{{ __('Logo') + ':' }}</label>
+                    <select class="form-select" id="logo_id" name="logo_id" v-model="logo_selected">
                         <option v-for="doc_logo in doc_logos" :key="doc_logo.id" :value="doc_logo.id">
                             {{ doc_logo.title }}
                         </option>
                     </select>
                 </div>
 
-                <div class="form-group mb-3">
-                    <label for="editor_id">{{ __('Editor') + ':' }}</label>
-                    <select class="form-control" id="editor_id" name="editor_id" v-model="editor_selected">
+                <div class="mb-3">
+                    <label for="editor_id" class="form-label">{{ __('Editor') + ':' }}</label>
+                    <select class="form-select" id="editor_id" name="editor_id" v-model="editor_selected">
                         <option v-for="editor in editors" :key="editor.id" :value="editor.id">
                             {{ editor.title }}
                         </option>
                     </select>
                 </div>
 
-                <div class="form-row mb-3">
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="ada">ΑΔΑ:</label>
-                            <input type="text" id="ada" name="ada" class="form-control" v-model="ada">
-                        </div>
-                    </div>
+                <div class="mb-3">
+                    <label for="ada" class="form-label">ΑΔΑ:</label>
+                    <input type="text" id="ada" name="ada" class="form-control" v-model="ada">
                 </div>
 
-                <div class="form-row">
+                <div class="row">
                     <div class="col">
-                        <div class="form-group mb-3">
+                        <div class="mb-3">
                             <label for="protocol_num">{{ __('Protocol number') + ':' }}</label>
                             <input type="text" id="protocol_num" name="protocol_num" class="form-control" required
                                 v-model="prot_num">
@@ -133,7 +131,7 @@
                     </div>
 
                     <div class="col">
-                        <div class="form-group mb-3">
+                        <div class="mb-3">
                             <label for="date">{{ __('Date') + ':' }}</label>
                             <input type="date" id="date" name="date" :value="get_date" class="form-control">
                         </div>
@@ -142,12 +140,12 @@
             </div>
 
             <div v-show="step == 3">
-                <div class="form-group mb-3">
+                <div class="mb-3">
                     <label for="subject">{{ __('Subject') + ':' }}</label>
                     <textarea id="subject" name="subject" class="form-control" v-model="subject">
                     </textarea>
                 </div>
-                <div class="form-group mb-3">
+                <div class="mb-3">
                     <label for="text">{{ __('Text') + ':' }}</label>
                     <textarea id="text" name="text" class="form-control" rows="10" v-model="editorData" hidden>
                     </textarea>
@@ -157,25 +155,25 @@
             </div>
 
             <div v-show="step == 4">
-                <div class="form-group mb-3">
-                    <label for="exact_copy_id">{{ __('Exact Copy') + ':' }}</label>
-                    <select class="form-control" id="exact_copy_id" name="exact_copy_id" v-model="exact_copy_selected">
+                <div class="mb-3">
+                    <label for="exact_copy_id" class="form-label">{{ __('Exact Copy') + ':' }}</label>
+                    <select class="form-select" id="exact_copy_id" name="exact_copy_id" v-model="exact_copy_selected">
                         <option v-for="exact_copy in exact_copies" :key="exact_copy.id" :value="exact_copy.id">
                             {{ exact_copy.title }}
                         </option>
                     </select>
                 </div>
 
-                <div class="form-group mb-3">
-                    <label for="signature_id">{{ __('Signature') + ':' }}</label>
-                    <select class="form-control" id="signature_id" name="signature_id" v-model="signature_selected">
+                <div class="mb-3">
+                    <label for="signature_id" class="form-label">{{ __('Signature') + ':' }}</label>
+                    <select class="form-select" id="signature_id" name="signature_id" v-model="signature_selected">
                         <option v-for="signature in signatures" :key="signature.id" :value="signature.id">
                             {{ signature.title }}
                         </option>
                     </select>
                 </div>
 
-                <div class="form-group form-check mb-3">
+                <div class="form-check mb-3">
                     <input type="checkbox" class="form-check-input" id="files_for_teachers" name="files_for_teachers"
                         v-model="fft" value="1">
                     <label class="form-check-label" for="files_for_teachers">Ετοίμασε αρχείο και για τον
