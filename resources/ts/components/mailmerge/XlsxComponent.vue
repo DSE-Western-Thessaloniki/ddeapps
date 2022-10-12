@@ -4,6 +4,10 @@
             <input class="form-control-file mb-3" type="file" multiple="false" id="sheetjs-input"
                 accept=".xlsx,.xls,.csv" @change="onchange" />
             <br />
+            <button type="button" class="btn btn-primary mb-3" v-show="xlsxdata.length" @click="download_xlsx">
+                Λήψη ανεβασμένου αρχείου
+            </button>
+            <br />
             <div id="out-table" @contextmenu.prevent="
                 menu.open($event, {
                     item: $event.target,
@@ -262,6 +266,12 @@ const getDataHeader = computed(() => {
 const getMergeFields = computed(() => {
     return JSON.stringify(selected_cols.value);
 });
+
+const download_xlsx = () => {
+    let wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(xlsxdata.value));
+    XLSX.writeFile(wb, 'data.xlsx');
+}
 
 defineExpose({
     parseDocData,
