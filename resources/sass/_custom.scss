@@ -62,3 +62,7 @@ table th {
 table.no-border > tbody > tr > td {
     border-style : hidden!important;
 }
+
+.show-pointer {
+    cursor: pointer;
+}

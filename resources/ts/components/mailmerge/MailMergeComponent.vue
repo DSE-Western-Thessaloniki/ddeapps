@@ -61,12 +61,14 @@
             <div class="justify-content-center h1 row mb-3">
                 <a class="fas fa-fw fa-arrow-left col-auto text-decoration-none" v-show="step > 1"
                     v-on:click="step -= 1" href="#"></a>
+                <i class="fas fa-fw fa-arrow-left col-auto" v-show="step===1"></i>
                 <span v-for="i in steps" :key="i" class="col-auto">
-                    <i v-show="step != i" class="fas fa-fw fa-square" @click="step=i"></i>
+                    <i v-show="step != i" class="fas fa-fw fa-square show-pointer" @click="step=i"></i>
                     <i v-show="step == i" class="far fa-fw fa-square" @click="step=i"></i>
                 </span>
                 <a class="fas fa-fw fa-arrow-right col-auto text-decoration-none" v-show="step < steps"
                     v-on:click="step += 1" href="#"></a>
+                <i class="fas fa-fw fa-arrow-right col-auto" v-show="step===steps"></i>
             </div>
 
             <div v-show="step == 1">
