@@ -132,11 +132,11 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <div>{{ now()->isoFormat('d/M/Y') }}</div>
+                                            <div>{{ now()->isoFormat('D/M/Y') }}</div>
                                             <div>ΗΜΕΡΟΜΗΝΙΑ</div>
                                         </td>
                                         <td>
-                                            <div>{{ now()->isoFormat('d/M/Y') }}</div>
+                                            <div>{{ now()->isoFormat('D/M/Y') }}</div>
                                             <div>ΗΜΕΡΟΜΗΝΙΑ</div>
                                         </td>
                                     </tr>
