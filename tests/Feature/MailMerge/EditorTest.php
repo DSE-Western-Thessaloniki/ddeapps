@@ -6,7 +6,7 @@ use App\Role;
 use App\User;
 use Database\Seeders\OptionSeeder;
 
-use function Pest\Faker\faker;
+use function Pest\Faker\fake;
 
 beforeEach(function () {
     $this->seed(OptionSeeder::class);
@@ -94,11 +94,11 @@ it('can create an editor as admin', function () {
     $this->actingAs($user)->get(route('apps.mailmerge.editor.create'))->assertOk();
 
     $editor_data = [
-        'title' => faker()->sentence(),
-        'address' => faker()->address(),
-        'name' => faker()->firstName().' '.faker()->lastName(),
-        'telephone' => faker()->numerify('##########'),
-        'email' => faker()->email(),
+        'title' => fake()->sentence(),
+        'address' => fake()->address(),
+        'name' => fake()->firstName().' '.fake()->lastName(),
+        'telephone' => fake()->numerify('##########'),
+        'email' => fake()->email(),
         'updated_by' => $user->id,
         'created_by' => $user->id,
     ];
@@ -117,11 +117,11 @@ it('cannot create an editor as user', function () {
     $this->actingAs($user)->get(route('apps.mailmerge.editor.create'))->assertForbidden();
 
     $this->actingAs($user)->post(route('apps.mailmerge.editor.store', [
-        'title' => faker()->sentence(),
-        'address' => faker()->address(),
-        'name' => faker()->firstName().' '.faker()->lastName(),
-        'telephone' => faker()->numerify('##########'),
-        'email' => faker()->email(),
+        'title' => fake()->sentence(),
+        'address' => fake()->address(),
+        'name' => fake()->firstName().' '.fake()->lastName(),
+        'telephone' => fake()->numerify('##########'),
+        'email' => fake()->email(),
         'updated_by' => $user->id,
         'created_by' => $user->id,
     ]))->assertForbidden();
@@ -136,11 +136,11 @@ it('cannot create an editor as user with role EditorRead', function () {
     $this->actingAs($user)->get(route('apps.mailmerge.editor.create'))->assertForbidden();
 
     $this->actingAs($user)->post(route('apps.mailmerge.editor.store', [
-        'title' => faker()->sentence(),
-        'address' => faker()->address(),
-        'name' => faker()->firstName().' '.faker()->lastName(),
-        'telephone' => faker()->numerify('##########'),
-        'email' => faker()->email(),
+        'title' => fake()->sentence(),
+        'address' => fake()->address(),
+        'name' => fake()->firstName().' '.fake()->lastName(),
+        'telephone' => fake()->numerify('##########'),
+        'email' => fake()->email(),
         'updated_by' => $user->id,
         'created_by' => $user->id,
     ]))->assertForbidden();
@@ -155,11 +155,11 @@ it('can create an editor as user with role EditorWrite or MailMergeAdmin', funct
     $this->actingAs($user)->get(route('apps.mailmerge.editor.create'))->assertOk();
 
     $editor_data = [
-        'title' => faker()->sentence(),
-        'address' => faker()->address(),
-        'name' => faker()->firstName().' '.faker()->lastName(),
-        'telephone' => faker()->numerify('##########'),
-        'email' => faker()->email(),
+        'title' => fake()->sentence(),
+        'address' => fake()->address(),
+        'name' => fake()->firstName().' '.fake()->lastName(),
+        'telephone' => fake()->numerify('##########'),
+        'email' => fake()->email(),
         'updated_by' => $user->id,
         'created_by' => $user->id,
     ];
@@ -177,11 +177,11 @@ it('can create an editor as user with role EditorWrite or MailMergeAdmin', funct
     $this->actingAs($user)->get(route('apps.mailmerge.editor.create'))->assertOk();
 
     $editor_data = [
-        'title' => faker()->sentence(),
-        'address' => faker()->address(),
-        'name' => faker()->firstName().' '.faker()->lastName(),
-        'telephone' => faker()->numerify('##########'),
-        'email' => faker()->email(),
+        'title' => fake()->sentence(),
+        'address' => fake()->address(),
+        'name' => fake()->firstName().' '.fake()->lastName(),
+        'telephone' => fake()->numerify('##########'),
+        'email' => fake()->email(),
         'updated_by' => $user->id,
         'created_by' => $user->id,
     ];

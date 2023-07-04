@@ -12,7 +12,7 @@ use App\Role;
 use App\User;
 use Illuminate\Database\Seeder;
 
-use function Pest\Faker\faker;
+use function Pest\Faker\fake;
 
 class TestSeeder extends Seeder
 {
@@ -21,9 +21,9 @@ class TestSeeder extends Seeder
     {
         $recipients = Recipient::all();
         $fields = ['ΑΜ', 'ΟΝΟΜΑ', 'ΕΠΩΝΥΜΟ', 'ΚΛΑΔΟΣ', 'ΑΦ', 'ΠΑΡΑΛΗΠΤΗΣ'];
-        $field_count = faker()->randomDigitNotNull();
+        $field_count = fake()->randomDigitNotNull();
         for ($i = 0; $i < $field_count; $i++) {
-            array_push($fields, faker()->word());
+            array_push($fields, fake()->word());
         }
         $field_count++;
         $xlsxdata_header = json_encode($fields);
@@ -35,15 +35,15 @@ class TestSeeder extends Seeder
                 if ($column === "ΠΑΡΑΛΗΠΤΗΣ") {
                     $row[$column] = $recipient->name;
                 } else if ($column === "ΕΠΩΝΥΜΟ") {
-                    $row[$column] = faker()->lastName();
+                    $row[$column] = fake()->lastName();
                 } else if ($column === "ΟΝΟΜΑ") {
-                    $row[$column] = faker()->name();
+                    $row[$column] = fake()->name();
                 } else if ($column === "ΚΛΑΔΟΣ") {
-                    $row[$column] = 'ΠΕ'.faker()->randomNumber(2);
+                    $row[$column] = 'ΠΕ'.fake()->randomNumber(2);
                 } else if ($column === "ΑΜ") {
-                    $row[$column] = faker()->randomNumber();
+                    $row[$column] = fake()->randomNumber();
                 } else {
-                    $row[$column] = faker()->word();
+                    $row[$column] = fake()->word();
                 }
             }
             array_push($data, $row);

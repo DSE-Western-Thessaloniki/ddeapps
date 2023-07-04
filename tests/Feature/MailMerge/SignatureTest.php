@@ -6,7 +6,7 @@ use App\Role;
 use App\User;
 use Database\Seeders\OptionSeeder;
 
-use function Pest\Faker\faker;
+use function Pest\Faker\fake;
 
 beforeEach(function () {
     $this->seed(OptionSeeder::class);
@@ -101,10 +101,10 @@ it('can create a signature as admin', function () {
 
     $this->actingAs($user)->get(route('apps.mailmerge.signature.create'))->assertOk();
 
-    $name = faker()->name().' '.faker()->lastName();
+    $name = fake()->name().' '.fake()->lastName();
     $signature_data = [
         'title' => $name,
-        'text' => $name."\n\n".implode(' ', faker()->words(2)),
+        'text' => $name."\n\n".implode(' ', fake()->words(2)),
         'active' => true,
         'updated_by' => $user->id,
         'created_by' => $user->id,
@@ -123,10 +123,10 @@ it('cannot create a signature as user', function () {
 
     $this->actingAs($user)->get(route('apps.mailmerge.signature.create'))->assertForbidden();
 
-    $name = faker()->name().' '.faker()->lastName();
+    $name = fake()->name().' '.fake()->lastName();
     $this->actingAs($user)->post(route('apps.mailmerge.signature.store', [
         'title' => $name,
-        'text' => $name."\n\n".implode(' ', faker()->words(2)),
+        'text' => $name."\n\n".implode(' ', fake()->words(2)),
         'active' => true,
         'updated_by' => $user->id,
         'created_by' => $user->id,
@@ -141,10 +141,10 @@ it('cannot create a signature as user with role SignatureRead', function () {
 
     $this->actingAs($user)->get(route('apps.mailmerge.signature.create'))->assertForbidden();
 
-    $name = faker()->name().' '.faker()->lastName();
+    $name = fake()->name().' '.fake()->lastName();
     $this->actingAs($user)->post(route('apps.mailmerge.signature.store', [
         'title' => $name,
-        'text' => $name."\n\n".implode(' ', faker()->words(2)),
+        'text' => $name."\n\n".implode(' ', fake()->words(2)),
         'active' => true,
         'updated_by' => $user->id,
         'created_by' => $user->id,
@@ -159,10 +159,10 @@ it('can create a signature as user with role SignatureWrite or MailMergeAdmin', 
 
     $this->actingAs($user)->get(route('apps.mailmerge.signature.create'))->assertOk();
 
-    $name = faker()->name().' '.faker()->lastName();
+    $name = fake()->name().' '.fake()->lastName();
     $signature_data = [
         'title' => $name,
-        'text' => $name."\n\n".implode(' ', faker()->words(2)),
+        'text' => $name."\n\n".implode(' ', fake()->words(2)),
         'active' => true,
         'updated_by' => $user->id,
         'created_by' => $user->id,
@@ -180,10 +180,10 @@ it('can create a signature as user with role SignatureWrite or MailMergeAdmin', 
 
     $this->actingAs($user)->get(route('apps.mailmerge.signature.create'))->assertOk();
 
-    $name = faker()->name().' '.faker()->lastName();
+    $name = fake()->name().' '.fake()->lastName();
     $signature_data = [
         'title' => $name,
-        'text' => $name."\n\n".implode(' ', faker()->words(2)),
+        'text' => $name."\n\n".implode(' ', fake()->words(2)),
         'active' => true,
         'updated_by' => $user->id,
         'created_by' => $user->id,
@@ -202,7 +202,7 @@ it('cannot create a signature as admin', function ($title, $text, $active, $erro
 
     $this->actingAs($user)->get(route('apps.mailmerge.signature.create'))->assertOk();
 
-    $name = faker()->name().' '.faker()->lastName();
+    $name = fake()->name().' '.fake()->lastName();
     $signature_data = [
         'title' => $title,
         'text' => $text,

@@ -6,7 +6,7 @@ use App\Role;
 use App\User;
 use Database\Seeders\OptionSeeder;
 
-use function Pest\Faker\faker;
+use function Pest\Faker\fake;
 
 beforeEach(function () {
     $this->seed(OptionSeeder::class);
@@ -94,9 +94,9 @@ it('can create a logo as admin', function () {
     $this->actingAs($user)->get(route('apps.mailmerge.doclogo.create'))->assertOk();
 
     $logo_data = [
-        'title' => faker()->sentence(),
-        'text' => str_replace('. ', "\n", faker()->text()),
-        'image' => faker()->word().'.jpg',
+        'title' => fake()->sentence(),
+        'text' => str_replace('. ', "\n", fake()->text()),
+        'image' => fake()->word().'.jpg',
         'active' => true,
         'updated_by' => $user->id,
         'created_by' => $user->id,
@@ -116,9 +116,9 @@ it('cannot create a logo as user', function () {
     $this->actingAs($user)->get(route('apps.mailmerge.doclogo.create'))->assertForbidden();
 
     $this->actingAs($user)->post(route('apps.mailmerge.doclogo.store', [
-        'title' => faker()->sentence(),
-        'text' => str_replace('. ', "\n", faker()->text()),
-        'image' => faker()->word().'.jpg',
+        'title' => fake()->sentence(),
+        'text' => str_replace('. ', "\n", fake()->text()),
+        'image' => fake()->word().'.jpg',
         'active' => true,
         'updated_by' => $user->id,
         'created_by' => $user->id,
@@ -134,9 +134,9 @@ it('cannot create a logo as user with role DocLogoRead', function () {
     $this->actingAs($user)->get(route('apps.mailmerge.doclogo.create'))->assertForbidden();
 
     $this->actingAs($user)->post(route('apps.mailmerge.doclogo.store', [
-        'title' => faker()->sentence(),
-        'text' => str_replace('. ', "\n", faker()->text()),
-        'image' => faker()->word().'.jpg',
+        'title' => fake()->sentence(),
+        'text' => str_replace('. ', "\n", fake()->text()),
+        'image' => fake()->word().'.jpg',
         'active' => true,
         'updated_by' => $user->id,
         'created_by' => $user->id,
@@ -152,9 +152,9 @@ it('can create a logo as user with role DocLogoWrite or MailMergeAdmin', functio
     $this->actingAs($user)->get(route('apps.mailmerge.doclogo.create'))->assertOk();
 
     $logo_data = [
-        'title' => faker()->sentence(),
-        'text' => str_replace('. ', "\n", faker()->text()),
-        'image' => faker()->word().'.jpg',
+        'title' => fake()->sentence(),
+        'text' => str_replace('. ', "\n", fake()->text()),
+        'image' => fake()->word().'.jpg',
         'active' => true,
         'updated_by' => $user->id,
         'created_by' => $user->id,
@@ -173,9 +173,9 @@ it('can create a logo as user with role DocLogoWrite or MailMergeAdmin', functio
     $this->actingAs($user)->get(route('apps.mailmerge.doclogo.create'))->assertOk();
 
     $logo_data = [
-        'title' => faker()->sentence(),
-        'text' => str_replace('. ', "\n", faker()->text()),
-        'image' => faker()->word().'.jpg',
+        'title' => fake()->sentence(),
+        'text' => str_replace('. ', "\n", fake()->text()),
+        'image' => fake()->word().'.jpg',
         'active' => true,
         'updated_by' => $user->id,
         'created_by' => $user->id,

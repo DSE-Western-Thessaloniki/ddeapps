@@ -6,7 +6,7 @@ use App\Role;
 use App\User;
 use Database\Seeders\OptionSeeder;
 
-use function Pest\Faker\faker;
+use function Pest\Faker\fake;
 
 beforeEach(function () {
     $this->seed(OptionSeeder::class);
@@ -102,8 +102,8 @@ it('can create an recipient as admin', function () {
     $this->actingAs($user)->get(route('apps.mailmerge.recipient.create'))->assertOk();
 
     $recipient_data = [
-        'name' => faker()->firstName().' '.faker()->lastName(),
-        'code' => faker()->numerify('#######'),
+        'name' => fake()->firstName().' '.fake()->lastName(),
+        'code' => fake()->numerify('#######'),
         'updated_by' => $user->id,
         'created_by' => $user->id,
     ];
@@ -122,8 +122,8 @@ it('cannot create an recipient as user', function () {
     $this->actingAs($user)->get(route('apps.mailmerge.recipient.create'))->assertForbidden();
 
     $this->actingAs($user)->post(route('apps.mailmerge.recipient.store', [
-        'name' => faker()->firstName().' '.faker()->lastName(),
-        'code' => faker()->numerify('#######'),
+        'name' => fake()->firstName().' '.fake()->lastName(),
+        'code' => fake()->numerify('#######'),
         'updated_by' => $user->id,
         'created_by' => $user->id,
     ]))->assertForbidden();
@@ -138,8 +138,8 @@ it('cannot create an recipient as user with role RecipientRead', function () {
     $this->actingAs($user)->get(route('apps.mailmerge.recipient.create'))->assertForbidden();
 
     $this->actingAs($user)->post(route('apps.mailmerge.recipient.store', [
-        'name' => faker()->firstName().' '.faker()->lastName(),
-        'code' => faker()->numerify('#######'),
+        'name' => fake()->firstName().' '.fake()->lastName(),
+        'code' => fake()->numerify('#######'),
         'updated_by' => $user->id,
         'created_by' => $user->id,
     ]))->assertForbidden();
@@ -154,8 +154,8 @@ it('can create an recipient as user with role RecipientWrite or MailMergeAdmin',
     $this->actingAs($user)->get(route('apps.mailmerge.recipient.create'))->assertOk();
 
     $recipient_data = [
-        'name' => faker()->firstName().' '.faker()->lastName(),
-        'code' => faker()->numerify('#######'),
+        'name' => fake()->firstName().' '.fake()->lastName(),
+        'code' => fake()->numerify('#######'),
         'updated_by' => $user->id,
         'created_by' => $user->id,
     ];
@@ -173,8 +173,8 @@ it('can create an recipient as user with role RecipientWrite or MailMergeAdmin',
     $this->actingAs($user)->get(route('apps.mailmerge.recipient.create'))->assertOk();
 
     $recipient_data = [
-        'name' => faker()->firstName().' '.faker()->lastName(),
-        'code' => faker()->numerify('#######'),
+        'name' => fake()->firstName().' '.fake()->lastName(),
+        'code' => fake()->numerify('#######'),
         'updated_by' => $user->id,
         'created_by' => $user->id,
     ];
@@ -497,22 +497,22 @@ it('can store many recipients as admin', function () {
     $many_recipients_data = [
         'many' => [
             [
-                'name' => faker()->firstName().' '.faker()->lastName(),
-                'code' => faker()->numerify('#######'),
+                'name' => fake()->firstName().' '.fake()->lastName(),
+                'code' => fake()->numerify('#######'),
                 'link' => $recipient->name,
                 'updated_by' => $user->id,
                 'created_by' => $user->id,
             ],
             [
-                'name' => faker()->firstName().' '.faker()->lastName(),
-                'code' => faker()->numerify('#######'),
+                'name' => fake()->firstName().' '.fake()->lastName(),
+                'code' => fake()->numerify('#######'),
                 'link' => $recipient->name,
                 'updated_by' => $user->id,
                 'created_by' => $user->id,
             ],
             [
-                'name' => faker()->firstName().' '.faker()->lastName(),
-                'code' => faker()->numerify('#######'),
+                'name' => fake()->firstName().' '.fake()->lastName(),
+                'code' => fake()->numerify('#######'),
                 'link' => $recipient->name,
                 'updated_by' => $user->id,
                 'created_by' => $user->id,
@@ -538,22 +538,22 @@ it('cannot store many recipients as user with and without RecipientRead', functi
     $many_recipients_data = [
         'many' => [
             [
-                'name' => faker()->firstName().' '.faker()->lastName(),
-                'code' => faker()->numerify('#######'),
+                'name' => fake()->firstName().' '.fake()->lastName(),
+                'code' => fake()->numerify('#######'),
                 'link' => $recipient->name,
                 'updated_by' => $user->id,
                 'created_by' => $user->id,
             ],
             [
-                'name' => faker()->firstName().' '.faker()->lastName(),
-                'code' => faker()->numerify('#######'),
+                'name' => fake()->firstName().' '.fake()->lastName(),
+                'code' => fake()->numerify('#######'),
                 'link' => $recipient->name,
                 'updated_by' => $user->id,
                 'created_by' => $user->id,
             ],
             [
-                'name' => faker()->firstName().' '.faker()->lastName(),
-                'code' => faker()->numerify('#######'),
+                'name' => fake()->firstName().' '.fake()->lastName(),
+                'code' => fake()->numerify('#######'),
                 'link' => $recipient->name,
                 'updated_by' => $user->id,
                 'created_by' => $user->id,
@@ -588,22 +588,22 @@ it('can store many recipients as user with role RecipientWrite or MailMergeAdmin
     $many_recipients_data = [
         'many' => [
             [
-                'name' => faker()->firstName().' '.faker()->lastName(),
-                'code' => faker()->numerify('#######'),
+                'name' => fake()->firstName().' '.fake()->lastName(),
+                'code' => fake()->numerify('#######'),
                 'link' => $recipient->name,
                 'updated_by' => $user->id,
                 'created_by' => $user->id,
             ],
             [
-                'name' => faker()->firstName().' '.faker()->lastName(),
-                'code' => faker()->numerify('#######'),
+                'name' => fake()->firstName().' '.fake()->lastName(),
+                'code' => fake()->numerify('#######'),
                 'link' => $recipient->name,
                 'updated_by' => $user->id,
                 'created_by' => $user->id,
             ],
             [
-                'name' => faker()->firstName().' '.faker()->lastName(),
-                'code' => faker()->numerify('#######'),
+                'name' => fake()->firstName().' '.fake()->lastName(),
+                'code' => fake()->numerify('#######'),
                 'link' => $recipient->name,
                 'updated_by' => $user->id,
                 'created_by' => $user->id,
@@ -623,22 +623,22 @@ it('can store many recipients as user with role RecipientWrite or MailMergeAdmin
     $many_recipients_data = [
         'many' => [
             [
-                'name' => faker()->firstName().' '.faker()->lastName(),
-                'code' => faker()->numerify('#######'),
+                'name' => fake()->firstName().' '.fake()->lastName(),
+                'code' => fake()->numerify('#######'),
                 'link' => $recipient->name,
                 'updated_by' => $user->id,
                 'created_by' => $user->id,
             ],
             [
-                'name' => faker()->firstName().' '.faker()->lastName(),
-                'code' => faker()->numerify('#######'),
+                'name' => fake()->firstName().' '.fake()->lastName(),
+                'code' => fake()->numerify('#######'),
                 'link' => $recipient->name,
                 'updated_by' => $user->id,
                 'created_by' => $user->id,
             ],
             [
-                'name' => faker()->firstName().' '.faker()->lastName(),
-                'code' => faker()->numerify('#######'),
+                'name' => fake()->firstName().' '.fake()->lastName(),
+                'code' => fake()->numerify('#######'),
                 'link' => $recipient->name,
                 'updated_by' => $user->id,
                 'created_by' => $user->id,
@@ -663,22 +663,22 @@ it('can delete linked recipients as admin', function () {
     $many_recipients_data = [
         'many' => [
             [
-                'name' => faker()->firstName().' '.faker()->lastName(),
-                'code' => faker()->numerify('#######'),
+                'name' => fake()->firstName().' '.fake()->lastName(),
+                'code' => fake()->numerify('#######'),
                 'link' => $recipient->name,
                 'updated_by' => $user->id,
                 'created_by' => $user->id,
             ],
             [
-                'name' => faker()->firstName().' '.faker()->lastName(),
-                'code' => faker()->numerify('#######'),
+                'name' => fake()->firstName().' '.fake()->lastName(),
+                'code' => fake()->numerify('#######'),
                 'link' => $recipient->name,
                 'updated_by' => $user->id,
                 'created_by' => $user->id,
             ],
             [
-                'name' => faker()->firstName().' '.faker()->lastName(),
-                'code' => faker()->numerify('#######'),
+                'name' => fake()->firstName().' '.fake()->lastName(),
+                'code' => fake()->numerify('#######'),
                 'link' => $recipient->name,
                 'updated_by' => $user->id,
                 'created_by' => $user->id,

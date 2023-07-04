@@ -39,7 +39,7 @@ class HomeController extends Controller
     {
         $request->validate([
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'cur_password' => ['required', 'password'],
+            'cur_password' => ['required', 'current_password'],
         ]);
 
         $user = User::find(Auth::user()->id);

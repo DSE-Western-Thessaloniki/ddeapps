@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-use function Pest\Faker\faker;
+use function Pest\Faker\fake;
 
 /*
 |--------------------------------------------------------------------------
@@ -127,9 +127,9 @@ function test_create_mailmerge_with_data_for_user(User $user): MailMerge
         ]);
 
     $fields = ['ΑΜ', 'ΟΝΟΜΑ', 'ΕΠΩΝΥΜΟ', 'ΚΛΑΔΟΣ', 'ΑΦ', 'ΠΑΡΑΛΗΠΤΗΣ'];
-    $field_count = faker()->randomDigitNotNull();
+    $field_count = fake()->randomDigitNotNull();
     for ($i = 0; $i < $field_count; $i++) {
-        array_push($fields, faker()->word());
+        array_push($fields, fake()->word());
     }
     $field_count++;
     $xlsxdata_header = json_encode($fields);
@@ -141,15 +141,15 @@ function test_create_mailmerge_with_data_for_user(User $user): MailMerge
             if ($column === "ΠΑΡΑΛΗΠΤΗΣ") {
                 $row[$column] = $recipient->name;
             } elseif ($column === "ΕΠΩΝΥΜΟ") {
-                $row[$column] = faker()->lastName();
+                $row[$column] = fake()->lastName();
             } elseif ($column === "ΟΝΟΜΑ") {
-                $row[$column] = faker()->name();
+                $row[$column] = fake()->name();
             } elseif ($column === "ΚΛΑΔΟΣ") {
-                $row[$column] = 'ΠΕ'.faker()->randomNumber(2);
+                $row[$column] = 'ΠΕ'.fake()->randomNumber(2);
             } elseif ($column === "ΑΜ") {
-                $row[$column] = faker()->randomNumber();
+                $row[$column] = fake()->randomNumber();
             } else {
-                $row[$column] = faker()->word();
+                $row[$column] = fake()->word();
             }
         }
         array_push($data, $row);
