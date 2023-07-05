@@ -15,7 +15,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN docker-php-ext-install pdo_mysql
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends git default-mysql-client gnupg gosu curl ca-certificates zip unzip sqlite3 \
+    && apt-get install -y --no-install-recommends git default-mysql-client gnupg gosu curl ca-certificates zip unzip sqlite3 ssh \
     && curl -sLS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer \
     && curl -sLS https://deb.nodesource.com/setup_$NODE_VERSION.x | bash - \
     && apt-get install -y nodejs \
