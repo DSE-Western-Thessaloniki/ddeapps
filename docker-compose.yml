@@ -15,14 +15,14 @@ services:
       XDEBUG_CONFIG: "${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}"
     volumes:
       - "/etc/timezone:/etc/timezone:ro"
-      - ".:/var/www/html/app"
+      - ".:/var/www/html"
       - type: bind
-        source: ./php/conf/php.ini
+        source: ./docker/php/conf/php.ini
         target: /usr/local/etc/php/conf.d/zzz-custom.ini
       - type: bind
-        source: ./php/conf/php-fpm.conf
+        source: ./docker/php/conf/php-fpm.conf
         target: /usr/local/etc/php-fpm.d/zzz-docker.conf
-    working_dir: /var/www/html/app/
+    working_dir: /var/www/html
     depends_on:
       - mariadb
     networks:
@@ -39,13 +39,12 @@ services:
       - "${APP_PORT:-80}:8080"
     volumes:
       - "/etc/timezone:/etc/timezone:ro"
-      - "./app:/var/www/html/app:ro"
+      - ".:/var/www/html:ro"
       - "./docker/nginx/nginx.conf:/etc/nginx/nginx.conf"
       - "./docker/nginx/templates:/etc/nginx/templates/"
       - "./docker/nginx/conf.d:/etc/nginx/conf.d"
     environment:
-      - APP_DIRECTORY=${APP_DIRECTORY}
-      - SERVER=${HOST}
+      - SERVER=${HOST:-localhost}
     depends_on:
       - app
     networks:
@@ -69,13 +68,6 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
       retries: 3
       timeout: 5s
-
-  selenium:
-    image: "selenium/standalone-chrome"
-    volumes:
-      - "/dev/shm:/dev/shm"
-    networks:
-      - sail
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
