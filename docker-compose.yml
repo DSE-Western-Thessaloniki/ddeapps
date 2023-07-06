@@ -1,7 +1,7 @@
 # For more information: https://laravel.com/docs/sail
 version: "3"
 services:
-  app:
+  laravel.test:
     build:
       context: "./docker/php"
       dockerfile: Dockerfile
@@ -46,7 +46,7 @@ services:
     environment:
       - SERVER=${HOST:-localhost}
     depends_on:
-      - app
+      - laravel.test
     networks:
       - sail
 
