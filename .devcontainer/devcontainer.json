@@ -2,7 +2,7 @@
 {
     "name": "ddeapps.test Laravel Sail",
     "dockerComposeFile": ["../docker-compose.yml"],
-    "service": "app",
+    "service": "laravel.test",
     "workspaceFolder": "/var/www/html",
     "settings": {},
     "extensions": [
