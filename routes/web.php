@@ -60,6 +60,8 @@ Route::prefix('apps')
                         }
                     );
                     Route::resource('recipient', 'MailMerge\RecipientController');
+                    Route::get('confirm_delete/{mailmerge}', 'MailMerge\MailMergeController@confirmDelete')
+                        ->name('confirm_delete');
                 }
             );
             Route::resource('mailmerge', 'MailMerge\MailMergeController');

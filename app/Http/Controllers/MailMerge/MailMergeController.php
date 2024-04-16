@@ -342,4 +342,11 @@ class MailMergeController extends Controller
         $copy->save();
         return redirect(route('apps.mailmerge.index'))->with('status', __('Mail merge copied!'));
     }
+
+    public function confirmDelete(MailMerge $mailmerge)
+    {
+        $this->authorize('delete', $mailmerge);
+
+        return view('apps.mailmerge.confirm_delete', compact('mailmerge'));
+    }
 }

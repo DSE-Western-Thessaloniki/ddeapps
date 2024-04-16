@@ -61,11 +61,7 @@
                                     </td>
                                     <td>
                                         @can('delete', $mailmerge)
-                                        <form action="{{ route('apps.mailmerge.destroy', $mailmerge->id)}}" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-danger" type="submit">@icon('trash-alt') {{ __('Delete') }}</button>
-                                        </form>
+                                        <a href="{{ route('apps.mailmerge.confirm_delete', $mailmerge->id)}}" class="btn btn-danger">@icon('trash-alt') {{ __('Delete') }}</a>
                                         @endcan
                                     </td>
                                 </tr>
