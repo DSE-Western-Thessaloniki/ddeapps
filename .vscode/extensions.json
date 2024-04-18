@@ -44,6 +44,7 @@
         "esbenp.prettier-vscode",
         "GitHub.vscode-pull-request-github",
         "Vue.volar",
-        "georgykurian.laravel-ide-helper"
+        "georgykurian.laravel-ide-helper",
+        "bmewburn.vscode-intelephense-client"
     ],
 }
