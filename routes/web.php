@@ -62,6 +62,16 @@ Route::prefix('apps')
                     Route::resource('recipient', 'MailMerge\RecipientController');
                     Route::get('confirm_delete/{mailmerge}', 'MailMerge\MailMergeController@confirmDelete')
                         ->name('confirm_delete');
+                    Route::get('upload_files/{mailmerge}', 'MailMerge\MailMergeController@uploadForm')
+                        ->name('upload_form');
+                    Route::post('upload_files/{mailmerge}', 'MailMerge\MailMergeController@uploadFiles')
+                        ->name('upload_files');
+                    Route::get('signed_files/{mailmerge}', 'MailMerge\MailMergeController@signedFiles')
+                        ->name('signed_files');
+                    Route::get('signed_file/{mailmerge}/{filename}', 'MailMerge\MailMergeController@signedFile')
+                        ->name('signed_file');
+                    Route::get('zip/{mailmerge}', 'MailMerge\MailMergeController@getZipFile')
+                        ->name('zip');
                 }
             );
             Route::resource('mailmerge', 'MailMerge\MailMergeController');
