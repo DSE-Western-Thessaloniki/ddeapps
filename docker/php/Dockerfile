@@ -38,6 +38,16 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+RUN apt-get update \
+    && apt-get install -y libzip-dev libpng-dev libonig-dev \
+    && apt-get -y autoremove \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+
+RUN docker-php-ext-install zip gd ctype mbstring
+RUN docker-php-ext-enable zip gd ctype mbstring
+
 WORKDIR /var/www/html
 
 RUN groupadd --force -g $WWWGROUP sail
