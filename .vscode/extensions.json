@@ -43,6 +43,7 @@
         "ikappas.phpcs",
         "esbenp.prettier-vscode",
         "GitHub.vscode-pull-request-github",
-        "Vue.volar"
+        "Vue.volar",
+        "georgykurian.laravel-ide-helper"
     ],
 }
