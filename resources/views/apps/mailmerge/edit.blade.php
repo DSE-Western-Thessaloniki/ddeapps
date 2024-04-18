@@ -23,8 +23,7 @@
                     </div><br />
                     @endif
 
-                    {!! Form::open(['action' => ['MailMerge\MailMergeController@update', $mailmerge->id],
-                                    'method' => 'POST']) !!}
+                    <form method="POST" action="{{ route('apps.mailmerge.update', $mailmerge->id) }}">
 
                         <mailmerge-component
                             doc_logos_str="{{ $doc_logos->toJson() }}"
@@ -52,8 +51,10 @@
                             func="edit"
                         >
                         </mailmerge-component>
-                    {{Form::hidden('_method', 'PUT')}}
-                    {!! Form::close() !!}
+
+                        <input type="hidden" name="_method" value="PUT">
+                        @csrf
+                    </form>
 
                 </div>
             </div>

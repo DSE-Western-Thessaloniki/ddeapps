@@ -24,88 +24,87 @@
                     </div><br />
                     @endif
 
-                    {!! Form::open(['action' => ['UserController@update', $user->id],
-                    'method' => 'POST']) !!}
+                    <form method="POST" action="{{ route('admin.user.update', $user->id) }}">
+                        <div class="form-group row mb-3">
+                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
-                    <div class="form-group row mb-3">
-                        <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+                            <div class="col-md-6">
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $user->name }}" required autocomplete="name" autofocus>
 
-                        <div class="col-md-6">
-                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $user->name }}" required autocomplete="name" autofocus>
-
-                            @error('name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="form-group row mb-3">
-                        <label for="username" class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>
-
-                        <div class="col-md-6">
-                            <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ $user->username }}" required autocomplete="username">
-
-                            @error('username')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="form-group row mb-3">
-                        <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                        <div class="col-md-6">
-                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email }}" required autocomplete="email">
-
-                            @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="form-group row mb-3">
-                        <div class="col-md-4"></div>
-                        <div class="col-md-6 offset-sm-2">
-                            <div class="form-check">
-                            @if ($user->active)
-                                <input type="checkbox" class="form-check-input" name="active" id="active" value="1" checked="checked">
-                            @else
-                                <input type="checkbox" class="form-check-input" name="active" id="active" value="1">
-                            @endif
-                            <label for="active" class="form-check-label">{{ __('Active') }}</label>
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
-                    </div>
 
-                    <div class="form-group row justify-content-center mb-3">
-                        <div class="col-10">
-                            @php
-                            $roles = array();
-                            foreach($user->roles as $role) {
-                                array_push($roles, $role->name);
-                            }
-                            @endphp
-                            <rolecomponent current_roles="{{ json_encode($roles) }}">
-                            </rolecomponent>
-                        </div>
-                    </div>
+                        <div class="form-group row mb-3">
+                            <label for="username" class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>
 
-                    <div class="form-group row mb-3">
-                        <div class="col-2">
-                            <a class="btn btn-danger" href="{{ route('admin.user.index') }}">{{ __('Cancel') }}</a>
+                            <div class="col-md-6">
+                                <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ $user->username }}" required autocomplete="username">
+
+                                @error('username')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                         </div>
-                        <div class="col-10 d-flex justify-content-end">
-                            {{Form::hidden('_method', 'PUT')}}
-                            {{Form::submit(__('Save'), ['class' => 'btn btn-primary'])}}
+
+                        <div class="form-group row mb-3">
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email }}" required autocomplete="email">
+
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                         </div>
-                    </div>
-                    {!! Form::close() !!}
+
+                        <div class="form-group row mb-3">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-6 offset-sm-2">
+                                <div class="form-check">
+                                @if ($user->active)
+                                    <input type="checkbox" class="form-check-input" name="active" id="active" value="1" checked="checked">
+                                @else
+                                    <input type="checkbox" class="form-check-input" name="active" id="active" value="1">
+                                @endif
+                                <label for="active" class="form-check-label">{{ __('Active') }}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row justify-content-center mb-3">
+                            <div class="col-10">
+                                @php
+                                $roles = array();
+                                foreach($user->roles as $role) {
+                                    array_push($roles, $role->name);
+                                }
+                                @endphp
+                                <rolecomponent current_roles="{{ json_encode($roles) }}">
+                                </rolecomponent>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <div class="col-2">
+                                <a class="btn btn-danger" href="{{ route('admin.user.index') }}">{{ __('Cancel') }}</a>
+                            </div>
+                            <div class="col-10 d-flex justify-content-end">
+                                <input type="hidden" name="_method" value="PUT">
+                                <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
+                            </div>
+                        </div>
+                        @csrf
+                    </form>
 
                 </div>
                 @else

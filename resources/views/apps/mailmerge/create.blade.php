@@ -23,26 +23,26 @@
                             </div><br />
                         @endif
 
-                        {!! Form::open(['action' => 'MailMerge\MailMergeController@store', 'method' => 'POST']) !!}
+                        <form method="POST" action="{{ route('apps.mailmerge.store') }}">
+                            <mailmerge-component doc_logos_str="{{ $doc_logos->toJson() }}"
+                                doc_logos_selected="{{ old('logo_id') }}" editors_str="{{ $editors->toJson() }}"
+                                editors_selected="{{ old('editor_id') }}" signatures_str="{{ $signatures->toJson() }}"
+                                signatures_selected="{{ old('signature_id') }}" exact_copies_str="{{ $exact_copies->toJson() }}"
+                                exact_copies_selected="{{ old('exact_copy_id') }}" protocol_num="{{ old('protocol_num') }}"
+                                doc_date="{{ old('date') }}" doc_subject="{{ old('subject') }}"
+                                doc_text="{{ old('text') }}" doc_data="{{ old('xlsxdata') }}"
+                                doc_data_header="{{ old('xlsxdata_header') }}" doc_mfields="{{ old('mergefields') }}"
+                                doc_ada="{{ old('ada') }}"
+                                :files_for_teachers="{{ json_encode(old('files_for_teachers') === '1') }}"
+                                route_doc_logo_create="{{ route('apps.mailmerge.doclogo.create') }}"
+                                route_editor_create="{{ route('apps.mailmerge.editor.create') }}"
+                                route_signature_create="{{ route('apps.mailmerge.signature.create') }}"
+                                route_exact_copy_create="{{ route('apps.mailmerge.exactcopy.create') }}"
+                                route_index="{{ route('apps.mailmerge.index') }}" func="create">
+                            </mailmerge-component>
 
-                        <mailmerge-component doc_logos_str="{{ $doc_logos->toJson() }}"
-                            doc_logos_selected="{{ old('logo_id') }}" editors_str="{{ $editors->toJson() }}"
-                            editors_selected="{{ old('editor_id') }}" signatures_str="{{ $signatures->toJson() }}"
-                            signatures_selected="{{ old('signature_id') }}" exact_copies_str="{{ $exact_copies->toJson() }}"
-                            exact_copies_selected="{{ old('exact_copy_id') }}" protocol_num="{{ old('protocol_num') }}"
-                            doc_date="{{ old('date') }}" doc_subject="{{ old('subject') }}"
-                            doc_text="{{ old('text') }}" doc_data="{{ old('xlsxdata') }}"
-                            doc_data_header="{{ old('xlsxdata_header') }}" doc_mfields="{{ old('mergefields') }}"
-                            doc_ada="{{ old('ada') }}"
-                            :files_for_teachers="{{ json_encode(old('files_for_teachers') === '1') }}"
-                            route_doc_logo_create="{{ route('apps.mailmerge.doclogo.create') }}"
-                            route_editor_create="{{ route('apps.mailmerge.editor.create') }}"
-                            route_signature_create="{{ route('apps.mailmerge.signature.create') }}"
-                            route_exact_copy_create="{{ route('apps.mailmerge.exactcopy.create') }}"
-                            route_index="{{ route('apps.mailmerge.index') }}" func="create">
-                        </mailmerge-component>
-
-                        {!! Form::close() !!}
+                            @csrf
+                        </form>
 
                     </div>
                 </div>

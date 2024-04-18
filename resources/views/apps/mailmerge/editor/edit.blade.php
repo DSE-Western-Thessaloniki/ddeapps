@@ -23,40 +23,41 @@
                     </div><br />
                     @endif
 
-                    {!! Form::open(['action' => ['MailMerge\EditorController@update', $editor->id],
-                    'method' => 'POST']) !!}
+                    <form method="post" action="{{ route('apps.mailmerge.editor.update', $editor->id) }}">
 
-                    <div class="form-group mb-3">
-                        <label for="title">{{ __('Title') }}</label>
-                        <input type="text" id="title" name="title" class="form-control" value="{{$editor->title}}" required>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="address">{{ __('Address') }}</label>
-                        <input type="text" id="address" name="address" class="form-control" value="{{$editor->address}}">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="name">{{ __('Name') }}</label>
-                        <input type="text" id="name" name="name" class="form-control" value="{{$editor->name}}">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="telephone">{{ __('Telephone') }}</label>
-                        <input type="text" id="telephone" name="telephone" class="form-control" value="{{$editor->telephone}}">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="email">{{ __('Email') }}</label>
-                        <input type="email" id="email" name="email" class="form-control" value="{{$editor->email}}">
-                    </div>
+                        <div class="form-group mb-3">
+                            <label for="title">{{ __('Title') }}</label>
+                            <input type="text" id="title" name="title" class="form-control" value="{{$editor->title}}" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="address">{{ __('Address') }}</label>
+                            <input type="text" id="address" name="address" class="form-control" value="{{$editor->address}}">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="name">{{ __('Name') }}</label>
+                            <input type="text" id="name" name="name" class="form-control" value="{{$editor->name}}">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="telephone">{{ __('Telephone') }}</label>
+                            <input type="text" id="telephone" name="telephone" class="form-control" value="{{$editor->telephone}}">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="email">{{ __('Email') }}</label>
+                            <input type="email" id="email" name="email" class="form-control" value="{{$editor->email}}">
+                        </div>
 
-                    <div class="form-group row">
-                        <div class="col-2">
-                            <a class="btn btn-danger" href="{{ route('apps.mailmerge.editor.index') }}">{{ __('Cancel') }}</a>
+                        <div class="form-group row">
+                            <div class="col-2">
+                                <a class="btn btn-danger" href="{{ route('apps.mailmerge.editor.index') }}">{{ __('Cancel') }}</a>
+                            </div>
+                            <div class="col-10 d-flex justify-content-end">
+                                <input type="hidden" name="_method" value="PUT">
+                                <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
+                            </div>
                         </div>
-                        <div class="col-10 d-flex justify-content-end">
-                            {{Form::hidden('_method', 'PUT')}}
-                            {{Form::submit(__('Save'), ['class' => 'btn btn-primary'])}}
-                        </div>
-                    </div>
-                    {!! Form::close() !!}
+
+                        @csrf
+                    </form>
 
                 </div>
             </div>
