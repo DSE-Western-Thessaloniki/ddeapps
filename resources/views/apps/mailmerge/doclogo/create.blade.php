@@ -23,19 +23,20 @@
                     </div><br />
                     @endif
 
-                    {!! Form::open(['action' => 'MailMerge\DocLogoController@store',
-                    'method' => 'POST']) !!}
+                    <form method="post" action="{{ route('apps.mailmerge.doclogo.store') }}">
 
-                    <doclogoform imagespath="{{ env('APP_URL').'/images/' }}"></doclogoform>
-                    <div class="form-group row">
-                        <div class="col-2">
-                            <a class="btn btn-danger" href="{{ route('apps.mailmerge.doclogo.index') }}">{{ __('Cancel')}}</a>
+                        <doclogoform imagespath="{{ env('APP_URL').'/images/' }}"></doclogoform>
+                        <div class="form-group row">
+                            <div class="col-2">
+                                <a class="btn btn-danger" href="{{ route('apps.mailmerge.doclogo.index') }}">{{ __('Cancel')}}</a>
+                            </div>
+                            <div class="col-10 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary">{{ __('Save')}}</button>
+                            </div>
                         </div>
-                        <div class="col-10 d-flex justify-content-end">
-                            {{Form::submit(__('Save'), ['class' => 'btn btn-primary'])}}
-                        </div>
-                    </div>
-                    {!! Form::close() !!}
+
+                        @csrf
+                    </form>
 
                 </div>
             </div>

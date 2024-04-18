@@ -23,36 +23,37 @@
                     </div><br />
                     @endif
 
-                    {!! Form::open(['action' => 'MailMerge\ExactCopyController@store',
-                    'method' => 'POST']) !!}
+                    <form method="post" action="{{ route('apps.mailmerge.exactcopy.store') }}">
 
-                    <div class="form-group mb-3">
-                        <label for="title">{{ __('Title') }}</label>
-                        <input type="text" id="title" name="title" class="form-control" value="{{ old('title') }}" required>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="text">{{ __('Text') }}</label>
-                        <textarea id="text" name="text" class="form-control text-center" rows="10">{{ old('text') }}</textarea>
-                    </div>
-                    <div class="form-group mb-3">
-                        <div class="form-check">
-                            @if((null == old('active')) || old('active'))
-                                <input type="checkbox" class="form-check-input" name="active" id="active" value="1" checked="checked">
-                            @else
-                                <input type="checkbox" class="form-check-input" name="active" id="active" value="1">
-                            @endif
-                            <label for="active" class="form-check-label">Active</label>
+                        <div class="form-group mb-3">
+                            <label for="title">{{ __('Title') }}</label>
+                            <input type="text" id="title" name="title" class="form-control" value="{{ old('title') }}" required>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-2">
-                            <a class="btn btn-danger" href="{{ route('apps.mailmerge.exactcopy.index') }}">{{ __('Cancel')}}</a>
+                        <div class="form-group mb-3">
+                            <label for="text">{{ __('Text') }}</label>
+                            <textarea id="text" name="text" class="form-control text-center" rows="10">{{ old('text') }}</textarea>
                         </div>
-                        <div class="col-10 d-flex justify-content-end">
-                            {{Form::submit(__('Save'), ['class' => 'btn btn-primary'])}}
+                        <div class="form-group mb-3">
+                            <div class="form-check">
+                                @if((null == old('active')) || old('active'))
+                                    <input type="checkbox" class="form-check-input" name="active" id="active" value="1" checked="checked">
+                                @else
+                                    <input type="checkbox" class="form-check-input" name="active" id="active" value="1">
+                                @endif
+                                <label for="active" class="form-check-label">Active</label>
+                            </div>
                         </div>
-                    </div>
-                    {!! Form::close() !!}
+                        <div class="form-group row">
+                            <div class="col-2">
+                                <a class="btn btn-danger" href="{{ route('apps.mailmerge.exactcopy.index') }}">{{ __('Cancel')}}</a>
+                            </div>
+                            <div class="col-10 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary">{{ __('Save')}}</button>
+                            </div>
+                        </div>
+
+                        @csrf
+                    </form>
 
                 </div>
             </div>

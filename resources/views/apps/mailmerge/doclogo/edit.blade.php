@@ -23,28 +23,29 @@
                     </div><br />
                     @endif
 
-                    {!! Form::open(['action' => ['MailMerge\DocLogoController@update', $doclogo->id],
-                    'method' => 'POST']) !!}
+                    <form method="post" action="{{ route('apps.mailmerge.doclogo.update', $doclogo->id) }}">
 
-                    <doclogoform
-                        title="{{ $doclogo->title }}"
-                        logofile="{{ $doclogo->image}}"
-                        text="{{ $doclogo->text}}"
-                        :active="{{ json_encode($doclogo->active) }}"
-                        imagespath="{{ env('APP_URL').(str_ends_with(env('APP_URL'), '/') ? 'images/' : '/images/') }}"
-                    >
-                    </doclogoform>
+                        <doclogoform
+                            title="{{ $doclogo->title }}"
+                            logofile="{{ $doclogo->image}}"
+                            text="{{ $doclogo->text}}"
+                            :active="{{ json_encode($doclogo->active) }}"
+                            imagespath="{{ env('APP_URL').(str_ends_with(env('APP_URL'), '/') ? 'images/' : '/images/') }}"
+                        >
+                        </doclogoform>
 
-                    <div class="form-group row mb-3">
-                        <div class="col-2">
-                            <a class="btn btn-danger" href="{{ route('apps.mailmerge.doclogo.index') }}">{{ __('Cancel') }}</a>
+                        <div class="form-group row mb-3">
+                            <div class="col-2">
+                                <a class="btn btn-danger" href="{{ route('apps.mailmerge.doclogo.index') }}">{{ __('Cancel') }}</a>
+                            </div>
+                            <div class="col-10 d-flex justify-content-end">
+                                <input type="hidden" name="_method" value="PUT">
+                                <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
+                            </div>
                         </div>
-                        <div class="col-10 d-flex justify-content-end">
-                            {{Form::hidden('_method', 'PUT')}}
-                            {{Form::submit(__('Save'), ['class' => 'btn btn-primary'])}}
-                        </div>
-                    </div>
-                    {!! Form::close() !!}
+
+                        @csrf
+                    </form>
 
                 </div>
             </div>

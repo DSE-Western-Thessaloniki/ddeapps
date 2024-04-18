@@ -23,26 +23,27 @@
                     </div><br />
                     @endif
 
-                    {!! Form::open(['action' => 'MailMerge\RecipientController@store',
-                    'method' => 'POST']) !!}
+                    <form method="post" action="{{ route('apps.mailmerge.recipient.store') }}">
 
-                    <div class="form-group mb-3">
-                        <label for="name">{{ __('Name') }}</label>
-                        <input type="text" id="name" name="name" class="form-control" value="{{ old('name') }}" required>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="code">{{ __('Code') }}</label>
-                        <input type="text" id="code" name="code" class="form-control" value="{{ old('code') }}" required>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-2">
-                            <a class="btn btn-danger" href="{{ route('apps.mailmerge.recipient.index') }}">{{ __('Cancel')}}</a>
+                        <div class="form-group mb-3">
+                            <label for="name">{{ __('Name') }}</label>
+                            <input type="text" id="name" name="name" class="form-control" value="{{ old('name') }}" required>
                         </div>
-                        <div class="col-10 d-flex justify-content-end">
-                            {{Form::submit(__('Save'), ['class' => 'btn btn-primary'])}}
+                        <div class="form-group mb-3">
+                            <label for="code">{{ __('Code') }}</label>
+                            <input type="text" id="code" name="code" class="form-control" value="{{ old('code') }}" required>
                         </div>
-                    </div>
-                    {!! Form::close() !!}
+                        <div class="form-group row">
+                            <div class="col-2">
+                                <a class="btn btn-danger" href="{{ route('apps.mailmerge.recipient.index') }}">{{ __('Cancel')}}</a>
+                            </div>
+                            <div class="col-10 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary">{{ __('Save')}}</button>
+                            </div>
+                        </div>
+
+                        @csrf
+                    </form>
 
                 </div>
             </div>
