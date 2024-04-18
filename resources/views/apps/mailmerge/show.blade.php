@@ -51,6 +51,8 @@ $date = new DateTime($mailmerge->date);
                         recipient_list_url="{{ route('apps.mailmerge.recipient.list') }}"
                         edit_mailmerge_url="{{ route('apps.mailmerge.edit', ['mailmerge' => $mailmerge->id]) }}"
                         store_many_url="{{ route('apps.mailmerge.recipient.storeMany') }}"
+                        upload_url="{{ route('apps.mailmerge.upload_form', ['mailmerge' => $mailmerge->id]) }}"
+                        signed_url="{{ route('apps.mailmerge.signed_files', ['mailmerge' => $mailmerge->id]) }}"
                         app_url={{ env('APP_URL') }}
                         :files_for_teachers={{ json_encode($mailmerge->files_for_teachers) }}
                     >

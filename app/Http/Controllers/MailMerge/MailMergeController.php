@@ -10,6 +10,8 @@ use PDF;
 use ZipArchive;
 use App\Http\Controllers\Controller;
 use App\Services\StringConverter;
+use DateTime;
+use Storage;
 
 class MailMergeController extends Controller
 {
@@ -348,5 +350,84 @@ class MailMergeController extends Controller
         $this->authorize('delete', $mailmerge);
 
         return view('apps.mailmerge.confirm_delete', compact('mailmerge'));
+    }
+
+    public function uploadForm(MailMerge $mailmerge)
+    {
+        $this->authorize('create', MailMerge::class);
+
+        return view('apps.mailmerge.upload_form', compact('mailmerge'));
+    }
+
+    public function uploadFiles(Request $request, MailMerge $mailmerge)
+    {
+        $this->authorize('update', $mailmerge);
+
+        /** @var \Illuminate\Http\UploadedFile $file */
+        foreach ($request->file('signed') as $file) {
+            if (
+                $file->getMimeType() !== 'application/pdf' ||
+                false === $file->storeAs("signed/$mailmerge->id", $file->getClientOriginalName())
+            ) {
+                return redirect(route('apps.mailmerge.upload_form', $mailmerge->id))
+                    ->with('status', __('Failed to upload signed file') . ' ' . $file->getClientOriginalName());
+            }
+        }
+
+        return redirect(route('apps.mailmerge.show', $mailmerge->id))->with('status', __('Signed documents uploaded!'));
+    }
+
+    public function signedFiles(MailMerge $mailmerge)
+    {
+        $this->authorize('view', $mailmerge);
+
+        $files = Storage::files("signed/$mailmerge->id");
+
+        return view('apps.mailmerge.signed_files', compact('mailmerge', 'files'));
+    }
+
+    public function signedFile(MailMerge $mailmerge, string $filename)
+    {
+        $this->authorize('view', $mailmerge);
+
+        if (!Storage::exists("signed/$mailmerge->id/$filename")) {
+            abort(404);
+        }
+
+        return Storage::download("signed/$mailmerge->id/$filename");
+    }
+
+    public function getZipFile(Request $request, MailMerge $mailmerge)
+    {
+        $this->authorize('view', $mailmerge);
+
+        // Cleanup temporary files
+        $oldFiles = Storage::allFiles("tmp/user/{$request->user()->id}");
+        foreach ($oldFiles as $file) {
+            Storage::delete($file);
+        }
+
+        $files = Storage::allFiles("signed/$mailmerge->id");
+        if (!$files) {
+            abort(404);
+        }
+
+        $now = DateTime::createFromFormat('U.u', microtime(true));
+        $zip = new ZipArchive;
+        $zip_path = "/tmp/user/{$request->user()->id}/";
+        Storage::makeDirectory($zip_path);
+        $zip_name = $now->format('YmdHisu') . ".zip";
+        $zip->open(storage_path('app') . $zip_path . $zip_name, ZipArchive::CREATE);
+
+        foreach ($files as $file) {
+            $filename = basename($file);
+            $file_path = storage_path('app') . "/signed/{$mailmerge->id}/{$filename}";
+
+            $zip->addFile($file_path, $filename);
+            $zip->setCompressionName($filename, ZipArchive::CM_STORE);
+        }
+
+        $zip->close();
+        return response()->download(storage_path('app') . $zip_path . $zip_name);
     }
 }
