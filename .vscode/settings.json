@@ -37,6 +37,13 @@
 	],
 	"typescript.tsdk": "node_modules/typescript/lib",
 	"cSpell.words": [
+		"colspan",
+		"endcan",
+		"endforelse",
+		"forelse",
+		"mailmerges",
+		"tbody",
+		"thead",
 		"Αρχικοποίησε"
 	]
 }
