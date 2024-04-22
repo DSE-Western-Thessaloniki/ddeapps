@@ -10,16 +10,13 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset(mix('js/manifest.js')) }}" defer></script>
-    <script src="{{ asset(mix('js/vendor.js')) }}" defer></script>
-    <script src="{{ asset(mix('js/app.js')) }}" defer></script>
+    @vite(['resources/sass/app.scss', 'resources/ts/app.ts'])
     <script>
         window._locale = '{{ app()->getLocale() }}';
         window._translations = {!! cache('translations') !!};
     </script>
 
     <!-- Styles -->
-    <link href="{{ asset(mix('css/app.css')) }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">

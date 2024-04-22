@@ -5,20 +5,22 @@
  */
 
 import Fuse from "fuse.js";
-import { createApp, defineAsyncComponent } from "vue";
+import { createApp, defineAsyncComponent } from "vue/dist/vue.esm-bundler";
 import "./bootstrap";
 
 window.Fuse = Fuse;
 
 const appUrlEndsWithSlash =
-    typeof process.env.MIX_APP_URL === "undefined"
+    typeof import.meta.env.VITE_APP_URL === "undefined"
         ? false
-        : process.env.MIX_APP_URL.endsWith("/");
+        : import.meta.env.VITE_APP_URL.endsWith("/");
 const appDir = `${
-    process.env.MIX_APP_DIR !== "" ? process.env.MIX_APP_DIR + "/" : ""
+    import.meta.env.VITE_APP_DIR !== ""
+        ? import.meta.env.VITE_APP_DIR + "/"
+        : ""
 }resources/js/ckeditor/`;
 window.CKEDITOR_BASEPATH =
-    process.env.MIX_APP_URL +
+    import.meta.env.VITE_APP_URL +
     (appUrlEndsWithSlash === false ? "/" : "") +
     appDir.replace("//", "/");
 
@@ -42,7 +44,7 @@ window.CKEDITOR_BASEPATH =
 const app = createApp({});
 
 // Add translation capabilities to vue components
-app.mixin(require("./trans"));
+app.mixin(import("./trans"));
 
 app.component(
     "mailmerge-component",
