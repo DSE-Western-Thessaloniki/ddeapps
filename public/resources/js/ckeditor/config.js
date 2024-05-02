@@ -8,6 +8,8 @@ CKEDITOR.editorConfig = function (config) {
     // config.language = 'fr';
     // config.uiColor = '#AADC6E';
     config.indentation = "30px";
+    config.entities = false;
+    config.entities_greek = false;
     // config.disallowedContent = 'span{font,font-size,font-family}';
     config.autosave = {
         saveDetectionSelectors: "a[id*='Cancel'],button[id*='Save']",
