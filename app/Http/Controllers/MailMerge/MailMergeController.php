@@ -381,7 +381,7 @@ class MailMergeController extends Controller
     {
         $this->authorize('view', $mailmerge);
 
-        $files = Storage::files("signed/$mailmerge->id");
+        $files = $mailmerge->signedFiles();
 
         return view('apps.mailmerge.signed_files', compact('mailmerge', 'files'));
     }
