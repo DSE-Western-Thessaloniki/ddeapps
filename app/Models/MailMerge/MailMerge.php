@@ -5,6 +5,7 @@ namespace App\Models\MailMerge;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Storage;
 
 class MailMerge extends Model
 {
@@ -67,5 +68,10 @@ class MailMerge extends Model
     public function signature()
     {
         return $this->belongsTo(Signature::class, 'signature_id');
+    }
+
+    public function signedFiles(): array
+    {
+        return Storage::files("signed/{$this->id}");
     }
 }
