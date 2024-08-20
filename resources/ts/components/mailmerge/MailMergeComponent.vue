@@ -394,6 +394,7 @@ const editorConfig = {
     scayt_autoStartup: true,
     entities: false,
     entities_greek: false,
+    versionCheck: false,
 };
 const placeholders: { id: number; title: string }[] = [];
 const autocomplete = ref({});
