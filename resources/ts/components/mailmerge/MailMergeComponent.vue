@@ -395,6 +395,7 @@ const editorConfig = {
     entities: false,
     entities_greek: false,
     versionCheck: false,
+    forcePasteAsPlainText: true,
 };
 const placeholders: { id: number; title: string }[] = [];
 const autocomplete = ref({});
