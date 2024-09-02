@@ -259,7 +259,7 @@
                     >
                     </textarea>
                     <ckeditor
-                        ref="ckeditor"
+                        ref="editorRef"
                         v-model="editorData"
                         :config="editorConfig"
                         @ready="ckEditorReadyCallback"
@@ -331,10 +331,10 @@
 import XlsxComponent from "./XlsxComponent.vue";
 import { ref, computed, onMounted, getCurrentInstance } from "vue";
 import "../../../../public/resources/js/ckeditor/ckeditor.js";
-import CKEditor from "@mayasabha/ckeditor4-vue3";
+import Editor from "@mayasabha/ckeditor4-vue3";
 import __ from "../../trans";
 
-getCurrentInstance()?.appContext.app.use(CKEditor);
+getCurrentInstance()?.appContext.app.use(Editor);
 
 onMounted(() => {
     console.log("MailMerge mounted");
@@ -376,18 +376,18 @@ const props = withDefaults(
 const xlsx_ref = ref();
 const step = ref(1);
 const steps = 4;
+const editorRef = ref<typeof Editor | null>(null);
 const editorData = ref(props.doc_text ?? "");
 const editorConfig = {
     language: "el",
-    removePlugins: [
-        "stylescombo",
-        "forms",
+    removePlugins: ["stylescombo", "forms", "exportpdf", "div", "bidi"],
+    extraPlugins: [
+        "autocomplete",
         "placeholder",
-        "exportpdf",
-        "div",
-        "bidi",
+        "placeholder_select",
+        "textmatch",
+        "font",
     ],
-    extraPlugins: ["placeholder_select", "font"],
     placeholder_select: {
         placeholders: ["Firstname", "Lastname", "Email"],
     },
@@ -440,14 +440,18 @@ const missingfields = (check: boolean) => {
 };
 
 const myAutocomplete = (editor: any, config: any) => {
-    // autocomplete.value = new CKEDITOR.plugins.autocomplete(editor, config)
+    autocomplete.value = new CKEDITOR.plugins.autocomplete(
+        window.CKEDITOR.instances.editor1,
+        config
+    );
     // Override default getHtmlToInsert to enable rich content output.
-    /* this.autocomplete.getHtmlToInsert = function(item) {
-                return config.outputTemplate.output(item);
-            } */
+    autocomplete.value.getHtmlToInsert = function (item) {
+        return this.outputTemplate.output(item);
+    };
 };
 
 const ckEditorReadyCallback = (readyEvent: Event) => {
+    console.log(readyEvent);
     if (runCount == 0) {
         runCount++;
 
