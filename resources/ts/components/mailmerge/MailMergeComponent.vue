@@ -451,7 +451,6 @@ const myAutocomplete = (editor: any, config: any) => {
 };
 
 const ckEditorReadyCallback = (readyEvent: Event) => {
-    console.log(readyEvent);
     if (runCount == 0) {
         runCount++;
 
