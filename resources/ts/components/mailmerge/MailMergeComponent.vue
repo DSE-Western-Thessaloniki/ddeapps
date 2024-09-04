@@ -85,7 +85,7 @@
                 <a
                     class="fas fa-fw fa-arrow-left col-auto text-decoration-none"
                     v-show="step > 1"
-                    v-on:click="step -= 1"
+                    v-on:click="changeToStep(step - 1)"
                     href="#"
                 ></a>
                 <i
@@ -96,18 +96,18 @@
                     <i
                         v-show="step != i"
                         class="fas fa-fw fa-square show-pointer"
-                        @click="step = i"
+                        @click="changeToStep(i)"
                     ></i>
                     <i
                         v-show="step == i"
                         class="far fa-fw fa-square"
-                        @click="step = i"
+                        @click="changeToStep(i)"
                     ></i>
                 </span>
                 <a
                     class="fas fa-fw fa-arrow-right col-auto text-decoration-none"
                     v-show="step < steps"
-                    v-on:click="step += 1"
+                    v-on:click="changeToStep(step + 1)"
                     href="#"
                 ></a>
                 <i
@@ -132,7 +132,11 @@
                         </div>
                     </div>
                 </div>
-                <div id="missing-fields" class="card bg-danger mb-3 d-none">
+                <div
+                    id="missing-fields"
+                    class="card bg-danger mb-3"
+                    v-if="missingfields"
+                >
                     <div class="card-body">
                         <h5 class="class-title">Σφάλμα!</h5>
                         <div class="class-text">
@@ -145,7 +149,7 @@
                 <xlsxcomponent
                     ref="xlsx_ref"
                     v-on:setmergefields="setmergefields"
-                    v-on:missingfields="missingfields"
+                    v-on:missingfields="setMissingfields"
                     :docdata="doc_data"
                     :docdataheader="doc_data_header"
                     :mfields="doc_mfields"
@@ -431,12 +435,13 @@ const setmergefields = (fields: string[]) => {
     CKEDITOR.instances.editor1.ui.instances.placeholder_select.buildList();
 };
 
-const missingfields = (check: boolean) => {
-    if (check) {
-        document.getElementById("missing-fields")?.classList.remove("d-none");
-    } else {
-        document.getElementById("missing-fields")?.classList.add("d-none");
-    }
+const missingfields = ref(false);
+
+const setMissingfields = (value: boolean) => (missingfields.value = value);
+
+const changeToStep = (value: number) => {
+    if (missingfields.value) return;
+    step.value = value;
 };
 
 const myAutocomplete = (editor: any, config: any) => {
