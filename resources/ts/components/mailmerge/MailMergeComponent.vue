@@ -75,7 +75,12 @@
                     v-show="step == steps || func == 'edit'"
                     class="col-10 d-flex justify-content-end"
                 >
-                    <button class="btn btn-primary" id="Save" type="submit">
+                    <button
+                        class="btn btn-primary"
+                        :class="missingfields ? 'disabled' : ''"
+                        id="Save"
+                        type="submit"
+                    >
                         {{ __("Save") }}
                     </button>
                 </div>
