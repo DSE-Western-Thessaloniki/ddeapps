@@ -2,20 +2,20 @@
 
 @section('content')
     @php
-    // Prepare printing
-    $doc_logo_text_html = preg_replace(
-        '/\n/',
-        '<br/>
+        // Prepare printing
+        $doc_logo_text_html = preg_replace(
+            '/\n/',
+            '<br/>
     ',
-        $doc_logo->text,
-    );
-    $exact_copy_text_html = preg_replace('/\n/', '<br/>', $exact_copy->text);
-    $signature_text_html = preg_replace('/\n/', '<br/>', $signature->text);
-    $date = new DateTime($mailmerge->date);
-    $xlsxdata = json_decode($mailmerge->xlsxdata, true);
-    $recipient_fields = json_decode($mailmerge->mergefields, true);
-    $base64_logo = base64_encode(file_get_contents(__DIR__ . '/../../../public/images/' . $doc_logo->image));
-    //$base64_logo = '';
+            $doc_logo->text,
+        );
+        $exact_copy_text_html = preg_replace('/\n/', '<br/>', $exact_copy->text);
+        $signature_text_html = preg_replace('/\n/', '<br/>', $signature->text);
+        $date = new DateTime($mailmerge->date);
+        $xlsxdata = json_decode($mailmerge->xlsxdata, true);
+        $recipient_fields = json_decode($mailmerge->mergefields, true);
+        $base64_logo = base64_encode(file_get_contents(__DIR__ . '/../../../public/images/' . $doc_logo->image));
+        //$base64_logo = '';
     @endphp
 
     <div class="container">
@@ -29,7 +29,11 @@
                     if (isset($record[$match])) {
                         $text = str_replace('[[' . $match . ']]', $record[$match], $text);
                     } else {
-                        $text = str_replace('[[' . $match . ']]', "<b style='background-color:red; color:white;'>[Δεν βρέθηκε το πεδίο '$match'!]</b>", $text);
+                        $text = str_replace(
+                            '[[' . $match . ']]',
+                            "<b style='background-color:red; color:white;'>[Δεν βρέθηκε το πεδίο '$match'!]</b>",
+                            $text,
+                        );
                     }
                 }
 
@@ -132,11 +136,11 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <div>{{ now()->isoFormat('D/M/Y') }}</div>
+                                            <div>{{ $date->format('d/m/Y') }}</div>
                                             <div>ΗΜΕΡΟΜΗΝΙΑ</div>
                                         </td>
                                         <td>
-                                            <div>{{ now()->isoFormat('D/M/Y') }}</div>
+                                            <div>{{ $date->format('d/m/Y') }}</div>
                                             <div>ΗΜΕΡΟΜΗΝΙΑ</div>
                                         </td>
                                     </tr>
