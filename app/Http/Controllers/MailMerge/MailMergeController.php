@@ -279,7 +279,7 @@ class MailMergeController extends Controller
         $zip_name = '/tmp/'.$mailmerge->protocol_num.'-'.date('YmdHis').'.zip';
         $zip = new ZipArchive;
         $zip->open($zip_name, ZipArchive::CREATE);
-        foreach ($xlsxdata as $record) {
+        foreach ($xlsxdata as $key => $record) {
             $data = array('id', 'editor', 'exact_copy', 'signature', 'doc_logo', 'record');
             $pdf = PDF::loadView('apps.mailmerge.save', compact('mailmerge', $data))
                 ->setOptions(
@@ -294,7 +294,7 @@ class MailMergeController extends Controller
                 );
             $field_array = json_decode($mailmerge->mergefields);
             $file = $pdf->output();
-            $filename = $mailmerge->protocol_num." ".$record['ΑΜ']." ";
+            $filename = $mailmerge->protocol_num." ".$record['ΑΜ']." ".($key + 1)." ";
             foreach ($field_array as $mergefield) {
                 $recipient_name = $record[$mergefield];
                 if ($recipient_name != "") {
