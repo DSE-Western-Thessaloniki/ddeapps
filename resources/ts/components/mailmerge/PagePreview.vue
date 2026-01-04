@@ -643,10 +643,18 @@ const saveMailMergeClicked = () => {
                             .includes(String(item[field])) &&
                         !recipients
                             .map((x) => x.name)
-                            .includes(
-                                String(item[field])
-                                    .normalize("NFD")
-                                    .replace(/[\u0300-\u036f]/g, "")
+                            .find(
+                                (name) =>
+                                    Intl.Collator("el-GR", {
+                                        sensitivity: "base",
+                                    }).compare(
+                                        name
+                                            .normalize("NFD")
+                                            .replace(/[\u0300-\u036f]/g, ""),
+                                        String(item[field])
+                                            .normalize("NFD")
+                                            .replace(/[\u0300-\u036f]/g, "")
+                                    ) === 0
                             ) &&
                         !unknown_recipients.value
                             .map((x) => x.name)
