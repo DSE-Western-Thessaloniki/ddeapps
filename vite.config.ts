@@ -56,5 +56,8 @@ export default defineConfig(({ mode }) => {
                 // ziggy: path.resolve(__dirname, "vendor/tightenco/ziggy/src/js"),
             },
         },
+        server: {
+            host: "0.0.0.0",
+        },
     };
 });
