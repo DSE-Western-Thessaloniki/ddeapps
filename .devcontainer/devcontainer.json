@@ -6,8 +6,10 @@
     ],
     "service": "laravel.test",
     "workspaceFolder": "/var/www/html",
-    "remoteUser": "sail"
-    // "forwardPorts": [],
+    "remoteUser": "sail",
+    "forwardPorts": [
+        5173
+    ],
     // "runServices": [],
     // "postCreateCommand": "apt-get update && apt-get install -y curl",
     // "shutdownAction": "none",
