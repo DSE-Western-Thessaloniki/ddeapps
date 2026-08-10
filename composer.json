@@ -10,27 +10,25 @@
     "require": {
         "php": "^8.0",
         "barryvdh/laravel-snappy": "^1.0",
-        "doctrine/dbal": "^3.0",
         "guzzlehttp/guzzle": "^7.0.1",
-        "laravel/framework": "^10.0",
-        "laravel/tinker": "^2.0",
+        "laravel/framework": "^11.55",
         "laravel/ui": "^4.0",
         "maatwebsite/excel": "^3.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
-        "barryvdh/laravel-ide-helper": "^2.13",
-        "beyondcode/laravel-query-detector": "^1.5",
+        "barryvdh/laravel-ide-helper": "^3.0",
+        "beyondcode/laravel-query-detector": "^2.3",
         "fakerphp/faker": "^1.13",
         "laravel/boost": "^1.8",
-        "laravel/dusk": "^7.0",
+        "laravel/dusk": "^8.0",
         "laravel/pint": "^1.30",
         "laravel/sail": "^1.11",
         "mockery/mockery": "^1.3.1",
-        "nunomaduro/collision": "^7.0",
-        "pestphp/pest": "^2.0",
-        "pestphp/pest-plugin-faker": "^2.0",
-        "pestphp/pest-plugin-laravel": "^2.0",
+        "nunomaduro/collision": "^8.1",
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-faker": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.0",
         "phpstan/phpstan": "^2.2",
         "rector/rector": "^2.6",
         "spatie/laravel-ignition": "^2.0",
@@ -42,11 +40,6 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true
-        },
-        "policy": {
-            "advisories": {
-                "block": false
-            }
         }
     },
     "extra": {
