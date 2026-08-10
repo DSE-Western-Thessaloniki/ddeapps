@@ -10,7 +10,6 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
 class SetupController extends Controller
@@ -85,7 +84,7 @@ class SetupController extends Controller
         $first_run->save();
 
         if ($request->wantsJson()) {
-            return new Response('', 201);
+            return response('', 201);
         } else {
             Auth::login($user);
 

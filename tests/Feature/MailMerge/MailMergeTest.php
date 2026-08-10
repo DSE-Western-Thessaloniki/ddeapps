@@ -8,26 +8,26 @@ use Database\Seeders\OptionSeeder;
 
 use function Pest\Faker\fake;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->seed(OptionSeeder::class);
     $option = Option::where('name', 'first_run')->first();
     $option->value = 0;
     $option->save();
 });
 
-it('can access the mail merge panel as admin', function () {
+it('can access the mail merge panel as admin', function (): void {
     $user = User::factory()->admin()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.index'))->assertOk();
 });
 
-it('cannot access the mail merge panel as user', function () {
+it('cannot access the mail merge panel as user', function (): void {
     $user = User::factory()->user()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.index'))->assertForbidden();
 });
 
-it('can access the mail merge panel as user with role MailMergeRead, MailMergeWrite or MailMergeAdmin', function () {
+it('can access the mail merge panel as user with role MailMergeRead, MailMergeWrite or MailMergeAdmin', function (): void {
     $user = User::factory()->user()->create();
     $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeRead']));
 
@@ -44,7 +44,7 @@ it('can access the mail merge panel as user with role MailMergeRead, MailMergeWr
     $this->actingAs($user)->get(route('apps.mailmerge.index'))->assertOk();
 });
 
-it('can access a mail merge as admin', function () {
+it('can access a mail merge as admin', function (): void {
     $admin = User::factory()->admin()->create();
     $mailMerge = test_create_mailmerge_for_user($admin);
 
@@ -53,7 +53,7 @@ it('can access a mail merge as admin', function () {
         ->assertOk();
 });
 
-it('cannot access a mail merge as user', function () {
+it('cannot access a mail merge as user', function (): void {
     $admin = User::factory()->admin()->create();
     $mailMerge = test_create_mailmerge_for_user($admin);
     $user = User::factory()->user()->create();
@@ -61,7 +61,7 @@ it('cannot access a mail merge as user', function () {
     $this->actingAs($user)->get(route('apps.mailmerge.show', $mailMerge))->assertForbidden();
 });
 
-it('can access a mail merge as user with role MailMergeRead, MailMergeWrite or MailMergeAdmin', function () {
+it('can access a mail merge as user with role MailMergeRead, MailMergeWrite or MailMergeAdmin', function (): void {
     $admin = User::factory()->admin()->create();
     $mailMerge = test_create_mailmerge_for_user($admin);
 
@@ -87,7 +87,7 @@ it('can access a mail merge as user with role MailMergeRead, MailMergeWrite or M
         ->assertOk();
 });
 
-it('can create a mail merge as admin', function () {
+it('can create a mail merge as admin', function (): void {
     $user = User::factory()->admin()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.create'))->assertOk();
@@ -119,7 +119,7 @@ it('can create a mail merge as admin', function () {
     $this->assertDatabaseHas('mail_merges', $mailMerge_data);
 });
 
-it('cannot create a mail merge as user', function () {
+it('cannot create a mail merge as user', function (): void {
     $user = User::factory()->user()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.create'))->assertForbidden();
@@ -137,7 +137,7 @@ it('cannot create a mail merge as user', function () {
     $this->assertDatabaseCount('mail_merges', 0);
 });
 
-it('cannot create a mail merge as user with role MailMergeRead', function () {
+it('cannot create a mail merge as user with role MailMergeRead', function (): void {
     $user = User::factory()->user()->create();
     $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeRead']));
 
@@ -156,7 +156,7 @@ it('cannot create a mail merge as user with role MailMergeRead', function () {
     $this->assertDatabaseCount('mail_merges', 0);
 });
 
-it('can create a mail merge as user with role MailMergeWrite or MailMergeAdmin', function () {
+it('can create a mail merge as user with role MailMergeWrite or MailMergeAdmin', function (): void {
     $user = User::factory()->user()->create();
     $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeWrite']));
 
@@ -220,7 +220,7 @@ it('can create a mail merge as user with role MailMergeWrite or MailMergeAdmin',
     $this->assertDatabaseHas('mail_merges', $mailMerge_data);
 });
 
-it('cannot create a mail merge as admin', function ($protocol_num, $date, $subject, $text, $ada, $files_for_teachers, $errors) {
+it('cannot create a mail merge as admin', function ($protocol_num, $date, $subject, $text, $ada, $files_for_teachers, $errors): void {
     $user = User::factory()->admin()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.create'))->assertOk();
@@ -253,7 +253,7 @@ it('cannot create a mail merge as admin', function ($protocol_num, $date, $subje
     $this->assertDatabaseMissing('mail_merges', $mailMerge_data);
 })->with('invalid_mail_merge_data');
 
-it('can update a mail merge as admin', function () {
+it('can update a mail merge as admin', function (): void {
     $user = User::factory()->admin()->create();
 
     [$doclogo, $editor, $exact_copy, $signature] = test_prepare_mailmerge_for_user($user);
@@ -305,7 +305,7 @@ it('can update a mail merge as admin', function () {
     $this->assertDatabaseHas('mail_merges', $mailMerge_data);
 });
 
-it('cannot update a mail merge as user', function () {
+it('cannot update a mail merge as user', function (): void {
     $admin = User::factory()->admin()->create();
     [$doclogo, $editor, $exact_copy, $signature] = test_prepare_mailmerge_for_user($admin);
     $mailMerge = MailMerge::factory()->create([
@@ -355,7 +355,7 @@ it('cannot update a mail merge as user', function () {
     $this->assertDatabaseMissing('mail_merges', $mailMerge_data);
 });
 
-it('cannot update a mail merge as user with role MailMergeRead', function () {
+it('cannot update a mail merge as user with role MailMergeRead', function (): void {
     $admin = User::factory()->admin()->create();
     [$doclogo, $editor, $exact_copy, $signature] = test_prepare_mailmerge_for_user($admin);
     $mailMerge = MailMerge::factory()->create([
@@ -406,7 +406,7 @@ it('cannot update a mail merge as user with role MailMergeRead', function () {
     $this->assertDatabaseMissing('mail_merges', $mailMerge_data);
 });
 
-it('can update a mail merge as user with role MailMergeWrite or MailMergeAdmin', function () {
+it('can update a mail merge as user with role MailMergeWrite or MailMergeAdmin', function (): void {
     $admin = User::factory()->admin()->create();
     [$doclogo, $editor, $exact_copy, $signature] = test_prepare_mailmerge_for_user($admin);
     $mailMerge = MailMerge::factory()->create([
@@ -535,7 +535,7 @@ it('can update a mail merge as user with role MailMergeWrite or MailMergeAdmin',
     $this->assertDatabaseHas('mail_merges', $mailMerge_data);
 });
 
-it('cannot update a mail merge as admin', function ($protocol_num, $date, $subject, $text, $ada, $files_for_teachers, $errors) {
+it('cannot update a mail merge as admin', function ($protocol_num, $date, $subject, $text, $ada, $files_for_teachers, $errors): void {
     $user = User::factory()->admin()->create();
     [$doclogo, $editor, $exact_copy, $signature] = test_prepare_mailmerge_for_user($user);
     $mailMerge = MailMerge::factory()->create([
@@ -588,7 +588,7 @@ it('cannot update a mail merge as admin', function ($protocol_num, $date, $subje
     $this->assertDatabaseMissing('mail_merges', $mailMerge_data);
 })->with('invalid_mail_merge_data');
 
-it('can delete a mail merge as admin', function () {
+it('can delete a mail merge as admin', function (): void {
     $user = User::factory()->admin()->create();
     [$doclogo, $editor, $exact_copy, $signature] = test_prepare_mailmerge_for_user($user);
     $mailMerge = MailMerge::factory()->create([
@@ -618,7 +618,7 @@ it('can delete a mail merge as admin', function () {
     $this->assertDatabaseCount('mail_merges', 0);
 });
 
-it('cannot delete a mail merge as user', function () {
+it('cannot delete a mail merge as user', function (): void {
     $user = User::factory()->user()->create();
     [$doclogo, $editor, $exact_copy, $signature] = test_prepare_mailmerge_for_user($user);
     $mailMerge = MailMerge::factory()->create([
@@ -645,7 +645,7 @@ it('cannot delete a mail merge as user', function () {
     $this->assertModelExists($mailMerge);
 });
 
-it('cannot delete a mail merge as user with role MailMergeRead', function () {
+it('cannot delete a mail merge as user with role MailMergeRead', function (): void {
     $user = User::factory()->user()->create();
     $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeRead']));
     [$doclogo, $editor, $exact_copy, $signature] = test_prepare_mailmerge_for_user($user);
@@ -673,7 +673,7 @@ it('cannot delete a mail merge as user with role MailMergeRead', function () {
     $this->assertModelExists($mailMerge);
 });
 
-it('can delete a mail merge as user with role MailMergeWrite or MailMergeAdmin', function () {
+it('can delete a mail merge as user with role MailMergeWrite or MailMergeAdmin', function (): void {
     $admin = User::factory()->admin()->create();
     [$doclogo, $editor, $exact_copy, $signature] = test_prepare_mailmerge_for_user($admin);
     $mailMerge = MailMerge::factory()->create([
@@ -741,7 +741,7 @@ it('can delete a mail merge as user with role MailMergeWrite or MailMergeAdmin',
     $this->assertDatabaseCount('mail_merges', 0);
 });
 
-it('can copy a mail merge as admin', function () {
+it('can copy a mail merge as admin', function (): void {
     $admin = User::factory()->admin()->create();
     $mailMerge = test_create_mailmerge_for_user($admin);
 
@@ -753,7 +753,7 @@ it('can copy a mail merge as admin', function () {
     $this->assertDatabaseCount('mail_merges', 2);
 });
 
-it('cannot copy a mail merge as user', function () {
+it('cannot copy a mail merge as user', function (): void {
     $admin = User::factory()->admin()->create();
     $mailMerge = test_create_mailmerge_for_user($admin);
     $user = User::factory()->user()->create();
@@ -763,7 +763,7 @@ it('cannot copy a mail merge as user', function () {
     $this->assertDatabaseCount('mail_merges', 1);
 });
 
-it('cannot copy a mail merge as user with role MailMergeRead', function () {
+it('cannot copy a mail merge as user with role MailMergeRead', function (): void {
     $admin = User::factory()->admin()->create();
     $mailMerge = test_create_mailmerge_for_user($admin);
     $user = User::factory()->user()->create();
@@ -774,7 +774,7 @@ it('cannot copy a mail merge as user with role MailMergeRead', function () {
     $this->assertDatabaseCount('mail_merges', 1);
 });
 
-it('can copy a mail merge as user with role MailMergeWrite or MailMergeAdmin', function () {
+it('can copy a mail merge as user with role MailMergeWrite or MailMergeAdmin', function (): void {
     $admin = User::factory()->admin()->create();
     $mailMerge = test_create_mailmerge_for_user($admin);
 

@@ -5,14 +5,14 @@ namespace App\Http\Controllers\MailMerge;
 use App\Http\Controllers\Controller;
 use App\Models\MailMerge\MailMerge;
 use App\Services\StringConverter;
+use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use PDF;
-use Storage;
+use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 
 class MailMergeController extends Controller

@@ -8,26 +8,26 @@ use Database\Seeders\OptionSeeder;
 
 use function Pest\Faker\fake;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->seed(OptionSeeder::class);
     $option = Option::where('name', 'first_run')->first();
     $option->value = 0;
     $option->save();
 });
 
-it('can access the mailmerge recipient panel as admin', function () {
+it('can access the mailmerge recipient panel as admin', function (): void {
     $user = User::factory()->admin()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.recipient.index'))->assertOk();
 });
 
-it('cannot access the mailmerge recipient panel as user', function () {
+it('cannot access the mailmerge recipient panel as user', function (): void {
     $user = User::factory()->user()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.recipient.index'))->assertForbidden();
 });
 
-it('can access the mailmerge recipient panel as user with role RecipientRead, RecipientWrite or MailMergeAdmin', function () {
+it('can access the mailmerge recipient panel as user with role RecipientRead, RecipientWrite or MailMergeAdmin', function (): void {
     $user = User::factory()->user()->create();
     $user->roles()->attach(Role::factory()->create(['name' => 'RecipientRead']));
 
@@ -44,7 +44,7 @@ it('can access the mailmerge recipient panel as user with role RecipientRead, Re
     $this->actingAs($user)->get(route('apps.mailmerge.recipient.index'))->assertOk();
 });
 
-it('can access an recipient as admin', function () {
+it('can access an recipient as admin', function (): void {
     $admin = User::factory()->admin()->create();
     $recipient = Recipient::factory()->create([
         'created_by' => $admin->id,
@@ -56,7 +56,7 @@ it('can access an recipient as admin', function () {
         ->assertRedirect(route('apps.mailmerge.recipient.index'));
 });
 
-it('cannot access an recipient as user', function () {
+it('cannot access an recipient as user', function (): void {
     $admin = User::factory()->admin()->create();
     $recipient = Recipient::factory()->create([
         'created_by' => $admin->id,
@@ -67,7 +67,7 @@ it('cannot access an recipient as user', function () {
     $this->actingAs($user)->get(route('apps.mailmerge.recipient.show', $recipient))->assertForbidden();
 });
 
-it('can access an recipient as user with role RecipientRead, RecipientWrite or MailMergeAdmin', function () {
+it('can access an recipient as user with role RecipientRead, RecipientWrite or MailMergeAdmin', function (): void {
     $admin = User::factory()->admin()->create();
     $recipient = Recipient::factory()->create([
         'created_by' => $admin->id,
@@ -96,7 +96,7 @@ it('can access an recipient as user with role RecipientRead, RecipientWrite or M
         ->assertRedirect(route('apps.mailmerge.recipient.index'));
 });
 
-it('can create an recipient as admin', function () {
+it('can create an recipient as admin', function (): void {
     $user = User::factory()->admin()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.recipient.create'))->assertOk();
@@ -116,7 +116,7 @@ it('can create an recipient as admin', function () {
     $this->assertDatabaseHas('recipients', $recipient_data);
 });
 
-it('cannot create an recipient as user', function () {
+it('cannot create an recipient as user', function (): void {
     $user = User::factory()->user()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.recipient.create'))->assertForbidden();
@@ -131,7 +131,7 @@ it('cannot create an recipient as user', function () {
     $this->assertDatabaseCount('recipients', 0);
 });
 
-it('cannot create an recipient as user with role RecipientRead', function () {
+it('cannot create an recipient as user with role RecipientRead', function (): void {
     $user = User::factory()->user()->create();
     $user->roles()->attach(Role::factory()->create(['name' => 'RecipientRead']));
 
@@ -147,7 +147,7 @@ it('cannot create an recipient as user with role RecipientRead', function () {
     $this->assertDatabaseCount('recipients', 0);
 });
 
-it('can create an recipient as user with role RecipientWrite or MailMergeAdmin', function () {
+it('can create an recipient as user with role RecipientWrite or MailMergeAdmin', function (): void {
     $user = User::factory()->user()->create();
     $user->roles()->attach(Role::factory()->create(['name' => 'RecipientWrite']));
 
@@ -187,7 +187,7 @@ it('can create an recipient as user with role RecipientWrite or MailMergeAdmin',
     $this->assertDatabaseHas('recipients', $recipient_data);
 });
 
-it('cannot create an recipient as admin', function ($name, $code, $errors) {
+it('cannot create an recipient as admin', function ($name, $code, $errors): void {
     $user = User::factory()->admin()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.recipient.create'))->assertOk();
@@ -208,7 +208,7 @@ it('cannot create an recipient as admin', function ($name, $code, $errors) {
     $this->assertDatabaseMissing('recipients', $recipient_data);
 })->with('invalid_recipient_data');
 
-it('can update an recipient as admin', function () {
+it('can update an recipient as admin', function (): void {
     $user = User::factory()->admin()->create();
     $recipient = Recipient::factory()->create([
         'created_by' => $user->id,
@@ -233,7 +233,7 @@ it('can update an recipient as admin', function () {
     $this->assertDatabaseHas('recipients', $recipient_data);
 });
 
-it('cannot update an recipient as user', function () {
+it('cannot update an recipient as user', function (): void {
     $admin = User::factory()->admin()->create();
     $recipient = Recipient::factory()->create([
         'created_by' => $admin->id,
@@ -257,7 +257,7 @@ it('cannot update an recipient as user', function () {
     $this->assertDatabaseMissing('recipients', $recipient_data);
 });
 
-it('cannot update an recipient as user with role RecipientRead', function () {
+it('cannot update an recipient as user with role RecipientRead', function (): void {
     $admin = User::factory()->admin()->create();
     $recipient = Recipient::factory()->create([
         'created_by' => $admin->id,
@@ -282,7 +282,7 @@ it('cannot update an recipient as user with role RecipientRead', function () {
     $this->assertDatabaseMissing('recipients', $recipient_data);
 });
 
-it('can update an recipient as user with role RecipientWrite or MailMergeAdmin', function () {
+it('can update an recipient as user with role RecipientWrite or MailMergeAdmin', function (): void {
     $admin = User::factory()->admin()->create();
     $recipient = Recipient::factory()->create([
         'created_by' => $admin->id,
@@ -348,7 +348,7 @@ it('can update an recipient as user with role RecipientWrite or MailMergeAdmin',
     $this->assertDatabaseHas('recipients', $recipient_data);
 });
 
-it('cannot update an recipient as admin', function ($name, $code, $errors) {
+it('cannot update an recipient as admin', function ($name, $code, $errors): void {
     $user = User::factory()->admin()->create();
     $recipient = Recipient::factory()->create([
         'created_by' => $user->id,
@@ -375,7 +375,7 @@ it('cannot update an recipient as admin', function ($name, $code, $errors) {
     $this->assertDatabaseMissing('recipients', $recipient_data);
 })->with('invalid_recipient_data');
 
-it('can delete an recipient as admin', function () {
+it('can delete an recipient as admin', function (): void {
     $user = User::factory()->admin()->create();
     $recipient = Recipient::factory()->create([
         'created_by' => $user->id,
@@ -391,7 +391,7 @@ it('can delete an recipient as admin', function () {
     $this->assertDatabaseCount('recipients', 0);
 });
 
-it('cannot delete an recipient as user', function () {
+it('cannot delete an recipient as user', function (): void {
     $user = User::factory()->user()->create();
     $recipient = Recipient::factory()->create([
         'created_by' => $user->id,
@@ -404,7 +404,7 @@ it('cannot delete an recipient as user', function () {
     $this->assertModelExists($recipient);
 });
 
-it('cannot delete an recipient as user with role RecipientRead', function () {
+it('cannot delete an recipient as user with role RecipientRead', function (): void {
     $user = User::factory()->user()->create();
     $user->roles()->attach(Role::factory()->create(['name' => 'RecipientRead']));
     $recipient = Recipient::factory()->create([
@@ -418,7 +418,7 @@ it('cannot delete an recipient as user with role RecipientRead', function () {
     $this->assertModelExists($recipient);
 });
 
-it('can delete an recipient as user with role RecipientWrite or MailMergeAdmin', function () {
+it('can delete an recipient as user with role RecipientWrite or MailMergeAdmin', function (): void {
     $admin = User::factory()->admin()->create();
     $recipient = Recipient::factory()->create([
         'created_by' => $admin->id,
@@ -458,19 +458,19 @@ it('can delete an recipient as user with role RecipientWrite or MailMergeAdmin',
     $this->assertDatabaseCount('recipients', 0);
 });
 
-it('can access the mailmerge recipient list as admin', function () {
+it('can access the mailmerge recipient list as admin', function (): void {
     $user = User::factory()->admin()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.recipient.list'))->assertOk();
 });
 
-it('cannot access the mailmerge recipient list as user', function () {
+it('cannot access the mailmerge recipient list as user', function (): void {
     $user = User::factory()->user()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.recipient.list'))->assertForbidden();
 });
 
-it('can access the mailmerge recipient list as user with role RecipientRead, RecipientWrite or MailMergeAdmin', function () {
+it('can access the mailmerge recipient list as user with role RecipientRead, RecipientWrite or MailMergeAdmin', function (): void {
     $user = User::factory()->user()->create();
     $user->roles()->attach(Role::factory()->create(['name' => 'RecipientRead']));
 
@@ -487,7 +487,7 @@ it('can access the mailmerge recipient list as user with role RecipientRead, Rec
     $this->actingAs($user)->get(route('apps.mailmerge.recipient.list'))->assertOk();
 });
 
-it('can store many recipients as admin', function () {
+it('can store many recipients as admin', function (): void {
     $user = User::factory()->admin()->create();
     $recipient = Recipient::factory()->create([
         'created_by' => $user->id,
@@ -527,7 +527,7 @@ it('can store many recipients as admin', function () {
     $this->assertDatabaseCount('recipients', 4);
 });
 
-it('cannot store many recipients as user with and without RecipientRead', function () {
+it('cannot store many recipients as user with and without RecipientRead', function (): void {
     $user = User::factory()->user()->create();
 
     $recipient = Recipient::factory()->create([
@@ -576,7 +576,7 @@ it('cannot store many recipients as user with and without RecipientRead', functi
     $this->assertDatabaseCount('recipients', 1);
 });
 
-it('can store many recipients as user with role RecipientWrite or MailMergeAdmin', function () {
+it('can store many recipients as user with role RecipientWrite or MailMergeAdmin', function (): void {
     $user = User::factory()->user()->create();
     $user->roles()->attach(Role::factory()->create(['name' => 'RecipientWrite']));
 
@@ -653,7 +653,7 @@ it('can store many recipients as user with role RecipientWrite or MailMergeAdmin
     $this->assertDatabaseCount('recipients', 7);
 });
 
-it('can delete linked recipients as admin', function () {
+it('can delete linked recipients as admin', function (): void {
     $user = User::factory()->admin()->create();
     $recipient = Recipient::factory()->create([
         'created_by' => $user->id,

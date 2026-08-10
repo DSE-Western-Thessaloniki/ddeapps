@@ -3,7 +3,6 @@
 use App\Providers\AppServiceProvider;
 use App\Providers\EventServiceProvider;
 use App\Providers\RouteServiceProvider;
-use Barryvdh\Snappy\Facades\SnappyPdf;
 use Barryvdh\Snappy\ServiceProvider;
 use Illuminate\Auth\AuthServiceProvider;
 use Illuminate\Auth\Passwords\PasswordResetServiceProvider;
@@ -279,7 +278,6 @@ return [
         'Mail' => Mail::class,
         'Notification' => Notification::class,
         'Password' => Password::class,
-        'PDF' => SnappyPdf::class,
         'Queue' => Queue::class,
         'Redirect' => Redirect::class,
         // 'Redis' => Illuminate\Support\Facades\Redis::class,

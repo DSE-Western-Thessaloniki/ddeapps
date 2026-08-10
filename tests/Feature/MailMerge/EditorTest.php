@@ -8,26 +8,26 @@ use Database\Seeders\OptionSeeder;
 
 use function Pest\Faker\fake;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->seed(OptionSeeder::class);
     $option = Option::where('name', 'first_run')->first();
     $option->value = 0;
     $option->save();
 });
 
-it('can access the mailmerge editor panel as admin', function () {
+it('can access the mailmerge editor panel as admin', function (): void {
     $user = User::factory()->admin()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.editor.index'))->assertOk();
 });
 
-it('cannot access the mailmerge editor panel as user', function () {
+it('cannot access the mailmerge editor panel as user', function (): void {
     $user = User::factory()->user()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.editor.index'))->assertForbidden();
 });
 
-it('can access the mailmerge editor panel as user with role EditorRead, EditorWrite or MailMergeAdmin', function () {
+it('can access the mailmerge editor panel as user with role EditorRead, EditorWrite or MailMergeAdmin', function (): void {
     $user = User::factory()->user()->create();
     $user->roles()->attach(Role::factory()->create(['name' => 'EditorRead']));
 
@@ -44,7 +44,7 @@ it('can access the mailmerge editor panel as user with role EditorRead, EditorWr
     $this->actingAs($user)->get(route('apps.mailmerge.editor.index'))->assertOk();
 });
 
-it('can access an editor as admin', function () {
+it('can access an editor as admin', function (): void {
     $admin = User::factory()->admin()->create();
     $editor = Editor::factory()->create([
         'created_by' => $admin->id,
@@ -54,7 +54,7 @@ it('can access an editor as admin', function () {
     $this->actingAs($admin)->get(route('apps.mailmerge.editor.show', $editor))->assertOk();
 });
 
-it('cannot access an editor as user', function () {
+it('cannot access an editor as user', function (): void {
     $admin = User::factory()->admin()->create();
     $editor = Editor::factory()->create([
         'created_by' => $admin->id,
@@ -65,7 +65,7 @@ it('cannot access an editor as user', function () {
     $this->actingAs($user)->get(route('apps.mailmerge.editor.show', $editor))->assertForbidden();
 });
 
-it('can access an editor as user with role EditorRead, EditorWrite or MailMergeAdmin', function () {
+it('can access an editor as user with role EditorRead, EditorWrite or MailMergeAdmin', function (): void {
     $admin = User::factory()->admin()->create();
     $editor = Editor::factory()->create([
         'created_by' => $admin->id,
@@ -88,7 +88,7 @@ it('can access an editor as user with role EditorRead, EditorWrite or MailMergeA
     $this->actingAs($user)->get(route('apps.mailmerge.editor.show', $editor))->assertOk();
 });
 
-it('can create an editor as admin', function () {
+it('can create an editor as admin', function (): void {
     $user = User::factory()->admin()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.editor.create'))->assertOk();
@@ -111,7 +111,7 @@ it('can create an editor as admin', function () {
     $this->assertDatabaseHas('editors', $editor_data);
 });
 
-it('cannot create an editor as user', function () {
+it('cannot create an editor as user', function (): void {
     $user = User::factory()->user()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.editor.create'))->assertForbidden();
@@ -129,7 +129,7 @@ it('cannot create an editor as user', function () {
     $this->assertDatabaseCount('editors', 0);
 });
 
-it('cannot create an editor as user with role EditorRead', function () {
+it('cannot create an editor as user with role EditorRead', function (): void {
     $user = User::factory()->user()->create();
     $user->roles()->attach(Role::factory()->create(['name' => 'EditorRead']));
 
@@ -148,7 +148,7 @@ it('cannot create an editor as user with role EditorRead', function () {
     $this->assertDatabaseCount('editors', 0);
 });
 
-it('can create an editor as user with role EditorWrite or MailMergeAdmin', function () {
+it('can create an editor as user with role EditorWrite or MailMergeAdmin', function (): void {
     $user = User::factory()->user()->create();
     $user->roles()->attach(Role::factory()->create(['name' => 'EditorWrite']));
 
@@ -194,7 +194,7 @@ it('can create an editor as user with role EditorWrite or MailMergeAdmin', funct
     $this->assertDatabaseHas('editors', $editor_data);
 });
 
-it('cannot create an editor as admin', function ($title, $address, $name, $telephone, $email, $errors) {
+it('cannot create an editor as admin', function ($title, $address, $name, $telephone, $email, $errors): void {
     $user = User::factory()->admin()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.editor.create'))->assertOk();
@@ -218,7 +218,7 @@ it('cannot create an editor as admin', function ($title, $address, $name, $telep
     $this->assertDatabaseMissing('editors', $editor_data);
 })->with('invalid_editor_data');
 
-it('can update an editor as admin', function () {
+it('can update an editor as admin', function (): void {
     $user = User::factory()->admin()->create();
     $editor = Editor::factory()->create([
         'created_by' => $user->id,
@@ -246,7 +246,7 @@ it('can update an editor as admin', function () {
     $this->assertDatabaseHas('editors', $editor_data);
 });
 
-it('cannot update an editor as user', function () {
+it('cannot update an editor as user', function (): void {
     $admin = User::factory()->admin()->create();
     $editor = Editor::factory()->create([
         'created_by' => $admin->id,
@@ -273,7 +273,7 @@ it('cannot update an editor as user', function () {
     $this->assertDatabaseMissing('editors', $editor_data);
 });
 
-it('cannot update an editor as user with role EditorRead', function () {
+it('cannot update an editor as user with role EditorRead', function (): void {
     $admin = User::factory()->admin()->create();
     $editor = Editor::factory()->create([
         'created_by' => $admin->id,
@@ -301,7 +301,7 @@ it('cannot update an editor as user with role EditorRead', function () {
     $this->assertDatabaseMissing('editors', $editor_data);
 });
 
-it('can update an editor as user with role EditorWrite or MailMergeAdmin', function () {
+it('can update an editor as user with role EditorWrite or MailMergeAdmin', function (): void {
     $admin = User::factory()->admin()->create();
     $editor = Editor::factory()->create([
         'created_by' => $admin->id,
@@ -376,7 +376,7 @@ it('can update an editor as user with role EditorWrite or MailMergeAdmin', funct
     $this->assertDatabaseHas('editors', $editor_data);
 });
 
-it('cannot update an editor as admin', function ($title, $address, $name, $telephone, $email, $errors) {
+it('cannot update an editor as admin', function ($title, $address, $name, $telephone, $email, $errors): void {
     $user = User::factory()->admin()->create();
     $editor = Editor::factory()->create([
         'created_by' => $user->id,
@@ -406,7 +406,7 @@ it('cannot update an editor as admin', function ($title, $address, $name, $telep
     $this->assertDatabaseMissing('editors', $editor_data);
 })->with('invalid_editor_data');
 
-it('can delete an editor as admin', function () {
+it('can delete an editor as admin', function (): void {
     $user = User::factory()->admin()->create();
     $editor = Editor::factory()->create([
         'created_by' => $user->id,
@@ -422,7 +422,7 @@ it('can delete an editor as admin', function () {
     $this->assertDatabaseCount('editors', 0);
 });
 
-it('cannot delete an editor as user', function () {
+it('cannot delete an editor as user', function (): void {
     $user = User::factory()->user()->create();
     $editor = Editor::factory()->create([
         'created_by' => $user->id,
@@ -435,7 +435,7 @@ it('cannot delete an editor as user', function () {
     $this->assertModelExists($editor);
 });
 
-it('cannot delete an editor as user with role EditorRead', function () {
+it('cannot delete an editor as user with role EditorRead', function (): void {
     $user = User::factory()->user()->create();
     $user->roles()->attach(Role::factory()->create(['name' => 'EditorRead']));
     $editor = Editor::factory()->create([
@@ -449,7 +449,7 @@ it('cannot delete an editor as user with role EditorRead', function () {
     $this->assertModelExists($editor);
 });
 
-it('can delete an editor as user with role EditorWrite or MailMergeAdmin', function () {
+it('can delete an editor as user with role EditorWrite or MailMergeAdmin', function (): void {
     $admin = User::factory()->admin()->create();
     $editor = Editor::factory()->create([
         'created_by' => $admin->id,

@@ -8,26 +8,26 @@ use Database\Seeders\OptionSeeder;
 
 use function Pest\Faker\fake;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->seed(OptionSeeder::class);
     $option = Option::where('name', 'first_run')->first();
     $option->value = 0;
     $option->save();
 });
 
-it('can access the mailmerge logo panel as admin', function () {
+it('can access the mailmerge logo panel as admin', function (): void {
     $user = User::factory()->admin()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.doclogo.index'))->assertOk();
 });
 
-it('cannot access the mailmerge logo panel as user', function () {
+it('cannot access the mailmerge logo panel as user', function (): void {
     $user = User::factory()->user()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.doclogo.index'))->assertForbidden();
 });
 
-it('can access the mailmerge logo panel as user with role DocLogoRead, DocLogoWrite or MailMergeAdmin', function () {
+it('can access the mailmerge logo panel as user with role DocLogoRead, DocLogoWrite or MailMergeAdmin', function (): void {
     $user = User::factory()->user()->create();
     $user->roles()->attach(Role::factory()->create(['name' => 'DocLogoRead']));
 
@@ -44,7 +44,7 @@ it('can access the mailmerge logo panel as user with role DocLogoRead, DocLogoWr
     $this->actingAs($user)->get(route('apps.mailmerge.doclogo.index'))->assertOk();
 });
 
-it('can access a logo as admin', function () {
+it('can access a logo as admin', function (): void {
     $admin = User::factory()->admin()->create();
     $logo = DocLogo::factory()->create([
         'created_by' => $admin->id,
@@ -54,7 +54,7 @@ it('can access a logo as admin', function () {
     $this->actingAs($admin)->get(route('apps.mailmerge.doclogo.show', $logo))->assertOk();
 });
 
-it('cannot access a logo as user', function () {
+it('cannot access a logo as user', function (): void {
     $admin = User::factory()->admin()->create();
     $logo = DocLogo::factory()->create([
         'created_by' => $admin->id,
@@ -65,7 +65,7 @@ it('cannot access a logo as user', function () {
     $this->actingAs($user)->get(route('apps.mailmerge.doclogo.show', $logo))->assertForbidden();
 });
 
-it('can access a logo as user with role DocLogoRead, DocLogoWrite or MailMergeAdmin', function () {
+it('can access a logo as user with role DocLogoRead, DocLogoWrite or MailMergeAdmin', function (): void {
     $admin = User::factory()->admin()->create();
     $logo = DocLogo::factory()->create([
         'created_by' => $admin->id,
@@ -88,7 +88,7 @@ it('can access a logo as user with role DocLogoRead, DocLogoWrite or MailMergeAd
     $this->actingAs($user)->get(route('apps.mailmerge.doclogo.show', $logo))->assertOk();
 });
 
-it('can create a logo as admin', function () {
+it('can create a logo as admin', function (): void {
     $user = User::factory()->admin()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.doclogo.create'))->assertOk();
@@ -110,7 +110,7 @@ it('can create a logo as admin', function () {
     $this->assertDatabaseHas('doc_logos', $logo_data);
 });
 
-it('cannot create a logo as user', function () {
+it('cannot create a logo as user', function (): void {
     $user = User::factory()->user()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.doclogo.create'))->assertForbidden();
@@ -127,7 +127,7 @@ it('cannot create a logo as user', function () {
     $this->assertDatabaseCount('doc_logos', 0);
 });
 
-it('cannot create a logo as user with role DocLogoRead', function () {
+it('cannot create a logo as user with role DocLogoRead', function (): void {
     $user = User::factory()->user()->create();
     $user->roles()->attach(Role::factory()->create(['name' => 'DocLogoRead']));
 
@@ -145,7 +145,7 @@ it('cannot create a logo as user with role DocLogoRead', function () {
     $this->assertDatabaseCount('doc_logos', 0);
 });
 
-it('can create a logo as user with role DocLogoWrite or MailMergeAdmin', function () {
+it('can create a logo as user with role DocLogoWrite or MailMergeAdmin', function (): void {
     $user = User::factory()->user()->create();
     $user->roles()->attach(Role::factory()->create(['name' => 'DocLogoWrite']));
 
@@ -189,7 +189,7 @@ it('can create a logo as user with role DocLogoWrite or MailMergeAdmin', functio
     $this->assertDatabaseHas('doc_logos', $logo_data);
 });
 
-it('cannot create a logo as admin', function ($title, $text, $image, $active, $errors) {
+it('cannot create a logo as admin', function ($title, $text, $image, $active, $errors): void {
     $user = User::factory()->admin()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.doclogo.create'))->assertOk();
@@ -212,7 +212,7 @@ it('cannot create a logo as admin', function ($title, $text, $image, $active, $e
     $this->assertDatabaseMissing('doc_logos', $logo_data);
 })->with('invalid_logo_data');
 
-it('can update a logo as admin', function () {
+it('can update a logo as admin', function (): void {
     $user = User::factory()->admin()->create();
     $logo = DocLogo::factory()->create([
         'created_by' => $user->id,
@@ -239,7 +239,7 @@ it('can update a logo as admin', function () {
     $this->assertDatabaseHas('doc_logos', $logo_data);
 });
 
-it('cannot update a logo as user', function () {
+it('cannot update a logo as user', function (): void {
     $admin = User::factory()->admin()->create();
     $logo = DocLogo::factory()->create([
         'created_by' => $admin->id,
@@ -265,7 +265,7 @@ it('cannot update a logo as user', function () {
     $this->assertDatabaseMissing('doc_logos', $logo_data);
 });
 
-it('cannot update a logo as user with role DocLogoRead', function () {
+it('cannot update a logo as user with role DocLogoRead', function (): void {
     $admin = User::factory()->admin()->create();
     $logo = DocLogo::factory()->create([
         'created_by' => $admin->id,
@@ -292,7 +292,7 @@ it('cannot update a logo as user with role DocLogoRead', function () {
     $this->assertDatabaseMissing('doc_logos', $logo_data);
 });
 
-it('can update a logo as user with role DocLogoWrite or MailMergeAdmin', function () {
+it('can update a logo as user with role DocLogoWrite or MailMergeAdmin', function (): void {
     $admin = User::factory()->admin()->create();
     $logo = DocLogo::factory()->create([
         'created_by' => $admin->id,
@@ -364,7 +364,7 @@ it('can update a logo as user with role DocLogoWrite or MailMergeAdmin', functio
     $this->assertDatabaseHas('doc_logos', $logo_data);
 });
 
-it('can delete a logo as admin', function () {
+it('can delete a logo as admin', function (): void {
     $user = User::factory()->admin()->create();
     $logo = DocLogo::factory()->create([
         'created_by' => $user->id,
@@ -380,7 +380,7 @@ it('can delete a logo as admin', function () {
     $this->assertDatabaseCount('doc_logos', 0);
 });
 
-it('cannot delete a logo as user', function () {
+it('cannot delete a logo as user', function (): void {
     $user = User::factory()->user()->create();
     $logo = DocLogo::factory()->create([
         'created_by' => $user->id,
@@ -393,7 +393,7 @@ it('cannot delete a logo as user', function () {
     $this->assertModelExists($logo);
 });
 
-it('cannot delete a logo as user with role DocLogoRead', function () {
+it('cannot delete a logo as user with role DocLogoRead', function (): void {
     $user = User::factory()->user()->create();
     $user->roles()->attach(Role::factory()->create(['name' => 'DocLogoRead']));
     $logo = DocLogo::factory()->create([
@@ -407,7 +407,7 @@ it('cannot delete a logo as user with role DocLogoRead', function () {
     $this->assertModelExists($logo);
 });
 
-it('can delete a logo as user with role DocLogoWrite or MailMergeAdmin', function () {
+it('can delete a logo as user with role DocLogoWrite or MailMergeAdmin', function (): void {
     $admin = User::factory()->admin()->create();
     $logo = DocLogo::factory()->create([
         'created_by' => $admin->id,

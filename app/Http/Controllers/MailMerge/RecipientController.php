@@ -174,7 +174,7 @@ class RecipientController extends Controller
 
         $request->whenHas(
             'many',
-            function ($input) {
+            function ($input): void {
                 $recipients = collect();
 
                 foreach ($input as $item) {

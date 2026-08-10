@@ -5,52 +5,52 @@ use App\User;
 use Database\Seeders\OptionSeeder;
 use Database\Seeders\RoleSeeder;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->seed(OptionSeeder::class);
     $option = Option::where('name', 'first_run')->first();
     $option->value = 0;
     $option->save();
 });
 
-it('cannot access the users panel as user', function () {
+it('cannot access the users panel as user', function (): void {
     $user = User::factory()->user()->create();
 
     $this->actingAs($user)->get('/admin/user')->assertForbidden();
 });
 
-it('can access the users panel as admin', function () {
+it('can access the users panel as admin', function (): void {
     $admin = User::factory()->admin()->create();
 
     $this->actingAs($admin)->get('/admin/user')->assertOk();
 });
 
-it('cannot access another user\'s info as user', function () {
+it('cannot access another user\'s info as user', function (): void {
     $user = User::factory()->user()->create();
     $testUser = User::factory()->create();
 
     $this->actingAs($user)->get('/admin/user/'.$testUser->id)->assertForbidden();
 });
 
-it('can access another user\'s info as admin', function () {
+it('can access another user\'s info as admin', function (): void {
     $admin = User::factory()->admin()->create();
     $testUser = User::factory()->create();
 
     $this->actingAs($admin)->get('/admin/user/'.$testUser->id)->assertOk();
 });
 
-it('cannot access it\'s own user info as user', function () {
+it('cannot access it\'s own user info as user', function (): void {
     $user = User::factory()->user()->create();
 
     $this->actingAs($user)->get('/admin/user/'.$user->id)->assertForbidden();
 });
 
-it('can access it\'s own user info as admin', function () {
+it('can access it\'s own user info as admin', function (): void {
     $admin = User::factory()->admin()->create();
 
     $this->actingAs($admin)->get('/admin/user/'.$admin->id)->assertOk();
 });
 
-it('cannot create another user as user', function () {
+it('cannot create another user as user', function (): void {
     $user = User::factory()->user()->create();
 
     $this->actingAs($user)->get('/admin/user/create')->assertForbidden();
@@ -63,7 +63,7 @@ it('cannot create another user as user', function () {
     ])->assertForbidden();
 });
 
-it('can create another user as admin', function () {
+it('can create another user as admin', function (): void {
     $admin = User::factory()->admin()->create();
 
     $this->actingAs($admin)->get('/admin/user/create')->assertOk();
@@ -78,66 +78,66 @@ it('can create another user as admin', function () {
     expect($response->getSession()->only(['status'])['status'])->toBe('User saved!');
 });
 
-it('cannot edit another user\'s info as user', function () {
+it('cannot edit another user\'s info as user', function (): void {
     $user = User::factory()->user()->create();
     $testUser = User::factory()->create();
 
     $this->actingAs($user)->get('/admin/user/'.$testUser->id.'/edit')->assertForbidden();
 });
 
-it('can edit another user\'s info as admin', function () {
+it('can edit another user\'s info as admin', function (): void {
     $admin = User::factory()->admin()->create();
     $testUser = User::factory()->create();
 
     $this->actingAs($admin)->get('/admin/user/'.$testUser->id.'/edit')->assertOk();
 });
 
-it('cannot edit it\'s own user info as user', function () {
+it('cannot edit it\'s own user info as user', function (): void {
     $user = User::factory()->user()->create();
 
     $this->actingAs($user)->get('/admin/user/'.$user->id.'/edit')->assertForbidden();
 });
 
-it('can edit it\'s own user info as admin', function () {
+it('can edit it\'s own user info as admin', function (): void {
     $admin = User::factory()->admin()->create();
 
     $this->actingAs($admin)->get('/admin/user/'.$admin->id.'/edit')->assertOk();
 });
 
-it('cannot edit another user\'s password as user', function () {
+it('cannot edit another user\'s password as user', function (): void {
     $user = User::factory()->user()->create();
     $testUser = User::factory()->create();
 
     $this->actingAs($user)->get('/admin/user/'.$testUser->id.'/password')->assertForbidden();
 });
 
-it('can edit another user\'s password as admin', function () {
+it('can edit another user\'s password as admin', function (): void {
     $admin = User::factory()->admin()->create();
     $testUser = User::factory()->create();
 
     $this->actingAs($admin)->get('/admin/user/'.$testUser->id.'/password')->assertOk();
 });
 
-it('can edit it\'s own password as user', function () {
+it('can edit it\'s own password as user', function (): void {
     $user = User::factory()->user()->create();
 
     $this->actingAs($user)->get('/password')->assertOk();
 });
 
-it('can edit it\'s own password as admin', function () {
+it('can edit it\'s own password as admin', function (): void {
     $admin = User::factory()->admin()->create();
 
     $this->actingAs($admin)->get('/admin/user/'.$admin->id.'/password')->assertOk();
 });
 
-it('cannot delete another user as user', function () {
+it('cannot delete another user as user', function (): void {
     $user = User::factory()->user()->create();
     $testUser = User::factory()->create();
 
     $this->actingAs($user)->delete('/admin/user/'.$testUser->id)->assertForbidden();
 });
 
-it('can delete another user as admin', function () {
+it('can delete another user as admin', function (): void {
     $admin = User::factory()->admin()->create();
     $testUser = User::factory()->create();
 
@@ -146,13 +146,13 @@ it('can delete another user as admin', function () {
     expect($response->getSession()->only(['status'])['status'])->toBe('User deleted!');
 });
 
-it('cannot delete it\'s own user as user', function () {
+it('cannot delete it\'s own user as user', function (): void {
     $user = User::factory()->user()->create();
 
     $this->actingAs($user)->delete('/admin/user/'.$user->id)->assertForbidden();
 });
 
-it('can delete it\'s own user as admin', function () {
+it('can delete it\'s own user as admin', function (): void {
     $admin = User::factory()->admin()->create();
 
     $response = $this->actingAs($admin)->delete('/admin/user/'.$admin->id);
@@ -160,7 +160,7 @@ it('can delete it\'s own user as admin', function () {
     expect($response->getSession()->only(['status'])['status'])->toBe('User deleted!');
 });
 
-it('cannot update another user\'s data as user', function () {
+it('cannot update another user\'s data as user', function (): void {
     $user = User::factory()->user()->create();
     $testUser = User::factory()->create();
 
@@ -171,7 +171,7 @@ it('cannot update another user\'s data as user', function () {
     ])->assertForbidden();
 });
 
-it('can update another user\'s data as admin', function () {
+it('can update another user\'s data as admin', function (): void {
     $admin = User::factory()->admin()->create();
     $testUser = User::factory()->create();
 
@@ -184,7 +184,7 @@ it('can update another user\'s data as admin', function () {
     expect($response->getSession()->only(['status'])['status'])->toBe('User updated!');
 });
 
-it('cannot update it\'s own user data as user', function () {
+it('cannot update it\'s own user data as user', function (): void {
     $user = User::factory()->user()->create();
 
     $response = $this->actingAs($user)->put('/admin/user/'.$user->id, [
@@ -194,7 +194,7 @@ it('cannot update it\'s own user data as user', function () {
     ])->assertForbidden();
 });
 
-it('can update it\'s own user data data as admin', function () {
+it('can update it\'s own user data data as admin', function (): void {
     $admin = User::factory()->admin()->create();
 
     $response = $this->actingAs($admin)->put('/admin/user/'.$admin->id, [
@@ -206,7 +206,7 @@ it('can update it\'s own user data data as admin', function () {
     expect($response->getSession()->only(['status'])['status'])->toBe('User updated!');
 });
 
-it('can change a user\'s password as admin', function () {
+it('can change a user\'s password as admin', function (): void {
     $admin = User::factory()->admin()->create();
     $user = User::factory()->user()->create();
 
@@ -218,7 +218,7 @@ it('can change a user\'s password as admin', function () {
         ->assertSessionHas('status', 'Η αλλαγή του κωδικού ολοκληρώθηκε!');
 });
 
-it('cannot change a user\'s password as user', function () {
+it('cannot change a user\'s password as user', function (): void {
     $user = User::factory()->user()->create();
     $user2 = User::factory()->user()->create();
 
@@ -229,7 +229,7 @@ it('cannot change a user\'s password as user', function () {
     $response->assertForbidden();
 });
 
-it('can change it\'s own password as user', function () {
+it('can change it\'s own password as user', function (): void {
     $user = User::factory()->user()->create();
 
     $response = $this->actingAs($user)->post('/password', [
@@ -241,7 +241,7 @@ it('can change it\'s own password as user', function () {
         ->assertSessionHas('status', 'Η αλλαγή του κωδικού ολοκληρώθηκε!');
 });
 
-it('can change it\'s own password as admin', function () {
+it('can change it\'s own password as admin', function (): void {
     $admin = User::factory()->admin()->create();
 
     $response = $this->actingAs($admin)->post('/admin/user/'.$admin->id.'/password', [
@@ -252,7 +252,7 @@ it('can change it\'s own password as admin', function () {
         ->assertSessionHas('status', 'Η αλλαγή του κωδικού ολοκληρώθηκε!');
 });
 
-it('cannot update it\'s own role as user', function () {
+it('cannot update it\'s own role as user', function (): void {
     $this->seed(RoleSeeder::class);
     $user = User::factory()->user()->create();
 
@@ -264,7 +264,7 @@ it('cannot update it\'s own role as user', function () {
     ])->assertForbidden();
 });
 
-it('can update it\'s own role as admin', function () {
+it('can update it\'s own role as admin', function (): void {
     $this->seed(RoleSeeder::class);
     $admin = User::factory()->admin()->create();
 
@@ -279,7 +279,7 @@ it('can update it\'s own role as admin', function () {
     $this->assertEquals($admin->roles()->where('name', 'User')->count(), 1);
 });
 
-it('cannot login with deactivated account', function () {
+it('cannot login with deactivated account', function (): void {
     $this->seed(RoleSeeder::class);
     $user = User::factory()->user()->create();
     $user->active = 0;

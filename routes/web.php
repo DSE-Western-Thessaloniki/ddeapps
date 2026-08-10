@@ -35,9 +35,9 @@ Route::prefix('apps')
     ->name('apps.')
     ->middleware('auth')
     ->group(
-        function () {
+        function (): void {
             Route::prefix('mailmerge')->name('mailmerge.')->group(
-                function () {
+                function (): void {
                     Route::resource('doclogo', 'MailMerge\DocLogoController');
                     Route::resource('editor', 'MailMerge\EditorController');
                     Route::resource('exactcopy', 'MailMerge\ExactCopyController');
@@ -52,7 +52,7 @@ Route::prefix('apps')
                         ->name('copy');
 
                     Route::prefix('recipient')->name('recipient.')->group(
-                        function () {
+                        function (): void {
                             Route::get('list', 'MailMerge\RecipientController@list')
                                 ->name('list');
                             Route::post('storeMany', 'MailMerge\RecipientController@storeMany')
@@ -81,9 +81,9 @@ Route::prefix('admin')
     ->name('admin.')
     ->middleware('auth')
     ->group(
-        function () {
+        function (): void {
             Route::prefix('user')->name('user.')->group(
-                function () {
+                function (): void {
                     Route::get('/{user}/password', 'UserController@password')->name('password');
                     Route::post('/{user}/password', 'UserController@changePassword')->name('change_password');
                 }
