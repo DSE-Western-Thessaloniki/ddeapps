@@ -1,3 +1,5 @@
+ARG PHP_VERSION
+
 FROM php:${PHP_VERSION:-8.2-fpm-bookworm}
 
 ARG WWWUSER
