@@ -28,17 +28,17 @@ class TranslationServiceProvider extends ServiceProvider
         Cache::rememberForever('translations', function () {
             $translations = collect();
             $locales = array_map(
-                fn($dir) => basename($dir), glob('../resources/lang/*', GLOB_ONLYDIR)
+                fn ($dir) => basename($dir), glob('../resources/lang/*', GLOB_ONLYDIR)
             );
 
             foreach ($locales as $locale) { // supported locales
                 $translations[$locale] = [
-                    'php' => $this->phpTranslations($locale),
+                    'php' => $this->phpTranslations($locale)->toArray(),
                     'json' => $this->jsonTranslations($locale),
                 ];
             }
 
-            return $translations;
+            return $translations->toArray();
         });
     }
 
