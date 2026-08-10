@@ -46,7 +46,7 @@
                 }
                 $recipients = array_unique($recipients);
                 $recipients_text = '';
-                $i = 2;
+                $i = 1;
                 foreach ($recipients as $recipient) {
                     $recipients_text .= $i . '. ' . $recipient . '<br/>';
                     $i++;
@@ -104,11 +104,10 @@
                                             @endif
                                         </p>
                                         <p class="font-weight-bold mb-0">ΚΟΙΝ</p>
-                                        1. ΑΦ @if (isset($record['ΑΦ']))
+                                        <span id="recipient-list">{!! $recipients_text !!}</span>
+                                        {{ $i }}. ΑΦ @if (isset($record['ΑΦ']))
                                             {{ $record['ΑΦ'] }}
                                         @endif
-                                        <br />
-                                        <span id="recipient-list">{!! $recipients_text !!}</span>
                                     </td>
                                 </tr>
                             </table>

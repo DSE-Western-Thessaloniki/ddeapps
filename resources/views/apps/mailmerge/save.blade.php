@@ -2,19 +2,19 @@
 
 @section('content')
     @php
-    // Prepare printing
-    $doc_logo_text_html = preg_replace(
-        '/\n/',
-        '<br/>
+        // Prepare printing
+        $doc_logo_text_html = preg_replace(
+            '/\n/',
+            '<br/>
             ',
-        $doc_logo->text,
-    );
-    $exact_copy_text_html = preg_replace('/\n/', '<br/>', $exact_copy->text);
-    $signature_text_html = preg_replace('/\n/', '<br/>', $signature->text);
-    $date = new DateTime($mailmerge->date);
-    $xlsxdata = json_decode($mailmerge->xlsxdata, true);
-    $recipient_fields = json_decode($mailmerge->mergefields, true);
-    $base64_logo = base64_encode(file_get_contents(__DIR__ . '/../../../public/images/' . $doc_logo->image));
+            $doc_logo->text,
+        );
+        $exact_copy_text_html = preg_replace('/\n/', '<br/>', $exact_copy->text);
+        $signature_text_html = preg_replace('/\n/', '<br/>', $signature->text);
+        $date = new DateTime($mailmerge->date);
+        $xlsxdata = json_decode($mailmerge->xlsxdata, true);
+        $recipient_fields = json_decode($mailmerge->mergefields, true);
+        $base64_logo = base64_encode(file_get_contents(__DIR__ . '/../../../public/images/' . $doc_logo->image));
     @endphp
 
     <div class="container">
@@ -36,7 +36,7 @@
             }
             $recipients = array_unique($recipients);
             $recipients_text = '';
-            $i = 2;
+            $i = 1;
             foreach ($recipients as $recipient) {
                 $recipients_text .= $i . '. ' . $recipient . '<br/>';
                 $i++;
@@ -94,11 +94,10 @@
                                         @endif
                                     </p>
                                     <p class="font-weight-bold mb-0">ΚΟΙΝ</p>
-                                    1. ΑΦ @if (isset($record['ΑΦ']))
+                                    <span id="recipient-list">{!! $recipients_text !!}</span>
+                                    {{ $i }}. ΑΦ @if (isset($record['ΑΦ']))
                                         {{ $record['ΑΦ'] }}
                                     @endif
-                                    <br />
-                                    <span id="recipient-list">{!! $recipients_text !!}</span>
                                 </td>
                             </tr>
                         </table>

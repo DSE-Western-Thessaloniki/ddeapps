@@ -1,364 +1,10 @@
-<template>
-    <div class="container">
-        <!-- Page preview -->
-        <div class="btn-toolbar">
-            <!-- toolbar -->
-            <div
-                class="btn-toolbar mb-3"
-                role="toolbar"
-                aria-label="Preview toolbar"
-            >
-                <div
-                    class="btn-group btn-group-lg mr-2"
-                    role="group"
-                    aria-label="First group"
-                >
-                    <button
-                        role="button"
-                        class="btn btn-dark btn-label"
-                        aria-disabled="true"
-                    >
-                        <span class="align-middle">{{ __("Zoom") }}:</span>
-                    </button>
-                    <select
-                        class="btn btn-dark"
-                        name="pagezoom"
-                        v-on:change="setZoom"
-                    >
-                        <option
-                            v-for="zoom in zoomLevel"
-                            :value="zoom"
-                            :key="zoom"
-                            :selected="zoom == '70%'"
-                        >
-                            {{ zoom }}
-                        </option>
-                    </select>
-                    <button
-                        role="button"
-                        class="btn btn-dark btn-label"
-                        aria-disabled="true"
-                    >
-                        <span class="align-middle">{{ __("Record") }}:</span>
-                    </button>
-                    <button
-                        class="btn btn-dark"
-                        aria-disabled="true"
-                        @click="leftArrowClicked"
-                    >
-                        <i class="fa fa-arrow-left"></i>
-                    </button>
-                    <button
-                        role="button"
-                        class="btn btn-dark"
-                        aria-disabled="true"
-                        id="current_record"
-                        @click="showCurrentRecordInput"
-                    >
-                        <span class="align-middle">1</span>
-                    </button>
-                    <input
-                        type="text"
-                        class="btn-light d-none"
-                        id="current_record_input"
-                        size="3"
-                        @change="currentRecordInputChanged($event)"
-                    />
-                    <button
-                        role="button"
-                        class="btn btn-dark btn-label"
-                        aria-disabled="true"
-                    >
-                        <span class="align-middle">/</span>
-                    </button>
-                    <button
-                        role="button"
-                        class="btn btn-dark btn-label"
-                        aria-disabled="true"
-                        id="last-record"
-                    >
-                        <span class="align-middle">0</span>
-                    </button>
-                    <button
-                        class="btn btn-dark"
-                        aria-disabled="true"
-                        @click="rightArrowClicked"
-                    >
-                        <i class="fa fa-arrow-right"></i>
-                    </button>
-                    <a
-                        :href="edit_mailmerge_url"
-                        class="btn btn-dark preview-toolbar-button"
-                        aria-disabled="true"
-                        data-bs-toggle="tooltip"
-                        data-placement="bottom"
-                        title="Επεξεργασία εγγράφου"
-                        ><i class="fas fa-pencil-alt"></i><br /><span
-                            >Επεξεργασία</span
-                        ></a
-                    >
-                    <a
-                        :href="print_url_draft"
-                        target="_blank"
-                        class="btn btn-dark preview-toolbar-button"
-                        aria-disabled="true"
-                        data-bs-toggle="tooltip"
-                        data-placement="bottom"
-                        title="Εκτύπωση συγχωνευμένων εγγράφων (τρίπτυχο)"
-                        ><i class="fab fa-firstdraft"></i><br /><span
-                            >Τρίπτυχο</span
-                        ></a
-                    >
-                    <a
-                        :href="print_url"
-                        target="_blank"
-                        class="btn btn-dark preview-toolbar-button"
-                        aria-disabled="true"
-                        data-bs-toggle="tooltip"
-                        data-placement="bottom"
-                        title="Εκτύπωση συγχωνευμένων εγγράφων"
-                        ><i class="fas fa-print"></i><br /><span
-                            >Εκτύπωση</span
-                        ></a
-                    >
-                    <button
-                        class="btn btn-dark preview-toolbar-button"
-                        aria-disabled="true"
-                        @click="saveMailMergeClicked"
-                        data-bs-toggle="tooltip"
-                        data-placement="bottom"
-                        title="Αποθήκευση συγχωνευμένων εγγράφων"
-                    >
-                        <i class="fas fa-mail-bulk"></i><br /><span
-                            >Αποθήκευση</span
-                        >
-                    </button>
-                    <a
-                        :href="upload_url"
-                        class="btn btn-dark preview-toolbar-button"
-                        aria-disabled="true"
-                        data-bs-toggle="tooltip"
-                        data-placement="bottom"
-                        title="Ανέβασμα υπογεγραμμένων εγγράφων"
-                        ><i class="fas fa-upload"></i><br /><span
-                            >Ανέβασμα</span
-                        ></a
-                    >
-                    <a
-                        :href="signed_url"
-                        class="btn btn-dark preview-toolbar-button"
-                        aria-disabled="true"
-                        data-bs-toggle="tooltip"
-                        data-placement="bottom"
-                        title="Λήψη υπογεγραμμένων εγγράφων"
-                        ><i class="fas fa-signature"></i><br /><span
-                            >Λήψη</span
-                        ></a
-                    >
-                </div>
-            </div>
-        </div>
-        <div class="page" size="A4">
-            <table class="table table-borderless">
-                <tr>
-                    <td class="w-50">
-                        <p class="text-center">
-                            <img :src="logo_img" width="50" />
-                        </p>
-                        <p class="text-center" v-html="doc_logo_text_html"></p>
-                        <table class="table table-borderless doc-address-col">
-                            <tr>
-                                <td class="no-wrap pr-1">Ταχ. Διεύθυνση:</td>
-                                <td>{{ editor_address }}</td>
-                            </tr>
-                            <tr>
-                                <td>Πληροφορίες:</td>
-                                <td>{{ editor_name }}</td>
-                            </tr>
-                            <tr>
-                                <td>Τηλέφωνο:</td>
-                                <td>{{ editor_telephone }}</td>
-                            </tr>
-                            <tr>
-                                <td>Email:</td>
-                                <td>{{ editor_email }}</td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td class="w-50">
-                        <table class="table table-borderless doc-recipient-col">
-                            <tr>
-                                <td>
-                                    <p class="text-right" v-if="props.doc_ada">
-                                        <b>ΑΔΑ: {{ doc_ada }}</b>
-                                    </p>
-                                    <p class="text-right">
-                                        Θεσσαλονίκη, {{ doc_date }}<br />
-                                        Αρ. Πρωτ.: {{ protocol_num }}
-                                    </p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="align-bottom" id="recipients">
-                                    <p class="font-weight-bold mb-0">ΠΡΟΣ</p>
-                                    <p>
-                                        [[ΕΠΩΝΥΜΟ]] [[ΟΝΟΜΑ]]<br />
-                                        ΚΛΑΔΟΥ: [[ΚΛΑΔΟΣ]]<br />
-                                        <span id="am">Α.Μ.</span>: [[ΑΜ]]<br />
-                                        <span
-                                            v-if="files_for_teachers == false"
-                                        >
-                                            (δια της σχολικής μονάδας)
-                                        </span>
-                                    </p>
-                                    <p class="font-weight-bold mb-0">ΚΟΙΝ</p>
-                                    1. ΑΦ [[ΑΦ]]<br />
-                                    <span id="recipient-list"></span>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
-
-            <p class="font-weight-bold" style="text-align: justify">
-                Θέμα: «{{ doc_subject }}»
-            </p>
-            <p id="doc_text"></p>
-
-            <table class="table table-borderless signature-table">
-                <tr>
-                    <td class="text-center" v-html="exact_copy_html"></td>
-                    <td class="text-center" v-html="signature_html"></td>
-                </tr>
-            </table>
-        </div>
-        <div class="modal" id="myModal" tabindex="-1">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">
-                            Έλεγχος αποδεκτών αλληλογραφίας
-                        </h5>
-                        <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                        />
-                    </div>
-                    <div class="modal-body">
-                        <p>
-                            Γίνεται έλεγχος των αποδεκτών της αλληλογραφίας σας.
-                            Μόλις ολοκληρωθεί ο έλεγχος θα ενεργοποιηθεί το
-                            κουμπί της λήψης.
-                        </p>
-                        <div class="progress">
-                            <div
-                                class="progress-bar"
-                                role="progressbar"
-                                :style="progress_style"
-                                :aria-valuenow="progress"
-                                aria-valuemin="0"
-                                aria-valuemax="100"
-                            >
-                                {{ progress }}%
-                            </div>
-                        </div>
-                        <div id="error_msg"></div>
-                        <br />
-                        <div id="unknown_recipients" class="d-none">
-                            <p>
-                                Οι παρακάτω παραλήπτες δεν βρέθηκαν στο σύστημα
-                                για αντιστοίχιση με κωδικό σχολικής μονάδας.
-                                Παρακαλούμε επιλέξτε από δίπλα αν η σχολική
-                                μονάδα εμφανίζεται με άλλο όνομα.
-                            </p>
-                            <table class="table-striped table-bordered">
-                                <thead>
-                                    <th>Όνομα</th>
-                                    <th>Ποσοστό ταιριάσματος</th>
-                                    <th>Αντιστοίχιση</th>
-                                </thead>
-                                <tbody>
-                                    <tr
-                                        v-for="unknown_recipient in unknown_recipients"
-                                        :key="unknown_recipient.name"
-                                        :class="unknown_recipient.color"
-                                    >
-                                        <td>{{ unknown_recipient.name }}</td>
-                                        <td>
-                                            <i
-                                                v-if="unknown_recipient.icon"
-                                                :class="unknown_recipient.icon"
-                                            ></i
-                                            >{{ unknown_recipient.percentage }}%
-                                        </td>
-                                        <td>
-                                            <select
-                                                name="recipient"
-                                                @change="
-                                                    recipientSelectorChanged
-                                                "
-                                                v-model="
-                                                    ur_selected[
-                                                        unknown_recipient.name
-                                                    ]
-                                                "
-                                            >
-                                                <option
-                                                    v-for="ur_option in ur_options"
-                                                    :key="ur_option.value"
-                                                    :value="ur_option.value"
-                                                >
-                                                    {{ ur_option.name }}
-                                                </option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="modal-footer">
-                            <button
-                                type="button"
-                                class="btn btn-secondary"
-                                data-bs-dismiss="modal"
-                            >
-                                Άκυρο
-                            </button>
-                            <button
-                                type="button"
-                                class="btn btn-primary d-none"
-                                id="save_recipients"
-                                @click="saveRecipientsClicked"
-                            >
-                                Αποθήκευση αντιστοίχισης
-                            </button>
-                            <button
-                                type="button"
-                                class="btn btn-primary"
-                                id="save_mail_merge"
-                                @click="readySaveMailMergeClicked"
-                                disabled
-                            >
-                                <div class="spinner-border" role="status">
-                                    <span class="sr-only">Working...</span>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
 <script setup lang="ts">
 import { ref, onMounted, computed, Ref } from "vue";
-import __ from "../../trans";
 import Fuse from "fuse.js";
 import { Modal } from "bootstrap";
+import PagePreviewToolbar from "./PagePreviewToolbar.vue";
+import PagePreviewDocument from "./PagePreviewDocument.vue";
+import RecipientModal from "./RecipientModal.vue";
 
 const props = defineProps<{
     editor_address: string;
@@ -409,52 +55,65 @@ const setIds = (data: XLSX_JSON[]) => {
         el.id = i;
         i++;
     });
-
     return data;
 };
 
-let records = setIds(JSON.parse(props.xls_data));
-let current_record = 0;
-let recipient_fields = JSON.parse(props.doc_recipient_fields);
-let progress = ref(0);
-let to_select = 0;
-let unknown_recipients: Ref<UnknownRecipient[]> = ref([]);
-let ur_options: Ref<UnknownRecipientOptions[]> = ref([]);
-let ur_selected: Ref<UnknownRecipientSelected> = ref({});
-let rec_text = "";
+const records = ref<XLSX_JSON[]>(setIds(JSON.parse(props.xls_data)));
+const current_record = ref(0);
+const recipient_fields = JSON.parse(props.doc_recipient_fields) as string[];
+const progress = ref(0);
+const to_select = ref(0);
+const unknown_recipients: Ref<UnknownRecipient[]> = ref([]);
+const ur_options: Ref<UnknownRecipientOptions[]> = ref([]);
+const ur_selected: Ref<UnknownRecipientSelected> = ref({});
+const errorMessage = ref("");
+const saveMailMergeReady = ref(false);
+const saveMailMergeLoading = ref(false);
+const saveRecipientsLoading = ref(false);
 
-onMounted(() => {
-    setZoom();
-    getLastRecord();
-    rec_text = $("#recipients").html();
-    showCurrentRecordText();
+const progress_style = computed(() => `width: ${progress.value}%`);
+
+const currentRecordData = computed(
+    () => records.value[current_record.value] ?? ({} as XLSX_JSON),
+);
+const currentRecordDisplay = computed(() => current_record.value + 1);
+const lastRecord = computed(
+    () => records.value[records.value.length - 1]?.id ?? 0,
+);
+
+const zoomLevel = computed(() => {
+    const lvl: string[] = [];
+    for (let i = 10; i <= 100; i += 10) {
+        lvl.push(i + "%");
+    }
+    return lvl;
 });
 
-const setZoom = () => {
-    const transformOrigin = [0, 0];
-    const pagezoom_value = $('select[name="pagezoom"').val();
-    let zoom = 100;
-    if (typeof pagezoom_value === "string") {
-        zoom = parseInt(pagezoom_value);
+const logo_img = computed(() => {
+    return (
+        props.app_url +
+        (props.app_url.endsWith("/") ? "images/" : "/images/") +
+        props.doc_logo_image
+    );
+});
+
+const doc_logo_text_html = computed(() =>
+    props.doc_logo_text.replace(/\n/g, "<br/>"),
+);
+const exact_copy_html = computed(() =>
+    props.exact_copy_text.replace(/\n/g, "<br/>"),
+);
+const signature_html = computed(() =>
+    props.signature_text.replace(/\n/g, "<br/>"),
+);
+const amLabel = computed(() => {
+    const num = String(currentRecordData.value["ΑΜ"] ?? "");
+    const parsed = parseInt(num, 10);
+    if (!num || Number.isNaN(parsed)) {
+        return "Α.Μ.";
     }
-    const element = $("div.page");
-    const property = ["webkit", "moz", "ms", "o"];
-    const scale = "scale(" + zoom / 100 + ")";
-    const originString =
-        transformOrigin[0] * 100 + "% " + transformOrigin[1] * 100 + "%";
-
-    for (let i = 0; i < property.length; i++) {
-        element.css(property[i] + "Transform", scale);
-        element.css(property[i] + "TransformOrigin", originString);
-    }
-
-    element.css("transform", scale);
-    element.css("transformOrigin", originString);
-};
-
-const getLastRecord = () => {
-    $("#last-record span").html(String(records[records.length - 1].id));
-};
+    return parsed < 1000000 ? "Α.Μ." : "Α.Φ.Μ.";
+});
 
 const replaceFields = (text: string) => {
     const pattern = /\[\[.+?\]\]/g;
@@ -466,132 +125,148 @@ const replaceFields = (text: string) => {
         matches.push(result[0]);
     }
 
-    // Για κάθε ετικέτα κάνε αντικατάσταση με την αντίστοιχη τιμή
-    matches.forEach(function (match) {
+    matches.forEach((match) => {
         const field = match.slice(2, match.length - 2);
-        if (typeof records[current_record][field] !== "undefined") {
+        if (typeof currentRecordData.value[field] !== "undefined") {
             text = text.replaceAll(
                 match,
-                String(records[current_record][field])
+                String(currentRecordData.value[field]),
             );
         } else {
             text = text.replaceAll(match, "");
         }
     });
+
     return text;
 };
 
-const showCurrentRecordText = () => {
-    let text = props.doc_text;
-    text = replaceFields(text);
-    $("#doc_text").html(text);
+const docTextHtml = computed(() => replaceFields(props.doc_text));
 
-    text = rec_text;
-    text = replaceFields(text);
-    $("#recipients").html(text);
+const recipientsHtml = computed(() => {
+    const html = [
+        "<p class='font-weight-bold mb-0'>ΠΡΟΣ</p>",
+        "<p>",
+        "[[ΕΠΩΝΥΜΟ]] [[ΟΝΟΜΑ]]<br/>",
+        "ΚΛΑΔΟΥ: [[ΚΛΑΔΟΣ]]<br/>",
+        `<span id='am'>${amLabel.value}</span>: [[ΑΜ]]<br/>`,
+        props.files_for_teachers ? "" : "(δια της σχολικής μονάδας)",
+        "</p>",
+    ].join("");
 
-    if (typeof records[current_record]["ΑΜ"] !== "undefined") {
-        const num = String(records[current_record]["ΑΜ"]);
-        if (parseInt(num) < 1000000) {
-            $("#am").html("Α.Μ.");
-        } else {
-            $("#am").html("Α.Φ.Μ.");
-        }
-    }
+    return replaceFields(html);
+});
 
-    let i = 2;
-    let recipient_list = "";
+const recipientListHtml = computed(() => {
+    let recipient_list = "<p class='font-weight-bold mb-0'>ΚΟΙΝ</p><p>";
     const recipient_list_array: string[] = [];
-    recipient_fields.forEach(function (field: string) {
+    recipient_fields.forEach((field) => {
+        const value = currentRecordData.value[field];
         if (
-            records[current_record][field] != undefined &&
-            records[current_record][field] != "" &&
-            !recipient_list_array.includes(
-                String(records[current_record][field])
-            )
+            value != undefined &&
+            value !== "" &&
+            !recipient_list_array.includes(String(value))
         ) {
-            recipient_list +=
-                i + ". " + records[current_record][field] + "<br/>";
-            recipient_list_array.push(String(records[current_record][field]));
-            i += 1;
+            recipient_list += `${recipient_list_array.length + 1}. ${String(value)}<br/>`;
+            recipient_list_array.push(String(value));
         }
     });
-    $("#recipient-list").html(recipient_list);
+    recipient_list += `${recipient_list_array.length + 1}. ΑΦ ${currentRecordData.value["ΑΦ"] ?? ""}</p>`;
+    return recipient_list;
+});
+
+const setZoom = (zoomValue = "100") => {
+    const zoom = parseInt(String(zoomValue), 10) || 100;
+    const elements = Array.from(
+        document.querySelectorAll<HTMLDivElement>("div.page"),
+    );
+    const scale = `scale(${zoom / 100})`;
+    const originString = `0% 0%`;
+    const styleProperties = [
+        ["transform", scale],
+        ["transform-origin", originString],
+        ["-webkit-transform", scale],
+        ["-webkit-transform-origin", originString],
+        ["-moz-transform", scale],
+        ["-moz-transform-origin", originString],
+        ["-ms-transform", scale],
+        ["-ms-transform-origin", originString],
+        ["-o-transform", scale],
+        ["-o-transform-origin", originString],
+    ];
+
+    elements.forEach((element) => {
+        styleProperties.forEach(([name, value]) => {
+            element.style.setProperty(name, value);
+        });
+    });
 };
 
-const showCurrentRecordInput = () => {
-    $("#current_record").addClass("d-none");
-    $("#current_record_input").removeClass("d-none");
-    $("#current_record_input").focus();
+const handleSetZoom = (event: Event) => {
+    const target = event.target as HTMLSelectElement;
+    setZoom(target?.value ?? "100");
 };
 
-const currentRecordInputChanged = (e: Event) => {
-    if (e.target instanceof HTMLInputElement) {
-        const cur = parseInt(e.target.value);
-        if (cur < 0 || cur > records[records.length - 1].id) {
-            $("#current_record").removeClass("d-none");
-            $("#current_record_input").addClass("d-none");
-        } else {
-            $("#current_record").removeClass("d-none");
-            $("#current_record_input").addClass("d-none");
-            $("#current_record").html(String(cur));
-            current_record = cur - 1;
-            showCurrentRecordText();
-        }
+const changeRecord = (value: number) => {
+    if (value < 1 || value > lastRecord.value) {
+        return;
     }
+    current_record.value = value - 1;
 };
 
 const leftArrowClicked = () => {
-    $("#current_record").removeClass("d-none");
-    $("#current_record_input").addClass("d-none");
-    if (current_record > 0) {
-        current_record--;
-        $("#current_record").html(String(current_record + 1));
-        $("#current_record_input").val(current_record + 1);
-        showCurrentRecordText();
+    if (current_record.value > 0) {
+        current_record.value--;
     }
 };
 
 const rightArrowClicked = () => {
-    $("#current_record").removeClass("d-none");
-    $("#current_record_input").addClass("d-none");
-    if (current_record < records[records.length - 1].id - 1) {
-        current_record++;
-        $("#current_record").html(String(current_record + 1));
-        $("#current_record_input").val(current_record + 1);
-        showCurrentRecordText();
+    if (current_record.value < lastRecord.value - 1) {
+        current_record.value++;
     }
 };
 
+const updateToSelect = () => {
+    to_select.value = Object.values(ur_selected.value).filter(
+        (value) => value === "-1",
+    ).length;
+};
+
 const saveMailMergeClicked = () => {
-    // Αρχικοποίησε τιμές
     progress.value = 0;
-    $("#unknown_recipients").addClass("d-none");
+    errorMessage.value = "";
     unknown_recipients.value = [];
+    ur_options.value = [];
     ur_selected.value = {};
-    $("#save_mail_merge").html(
-        '<div class="spinner-border" role="status"><span class="sr-only">Working...</span></div>'
-    );
-    $("#save_mail_merge").prop("disabled", true);
+    to_select.value = 0;
+    saveMailMergeReady.value = false;
 
-    // Εμφάνισε το modal
-    const myModal = new Modal("#myModal", {
-        backdrop: "static",
-        keyboard: false,
-        focus: true,
-    });
-    myModal.show();
+    const modalElement = document.getElementById("myModal");
+    if (modalElement) {
+        const myModal = new Modal(modalElement, {
+            backdrop: "static",
+            keyboard: false,
+            focus: true,
+        });
+        myModal.show();
+    }
 
-    let recipients: App.Models.Recipient[] = [];
-    let unknown = 0;
+    fetch(props.recipient_list_url, {
+        credentials: "same-origin",
+        headers: {
+            Accept: "application/json",
+        },
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Failed to retrieve recipient list");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            const recipients: App.Models.Recipient[] = data;
+            const max = records.value[records.value.length - 1].id;
 
-    $.get(props.recipient_list_url, function () {})
-        .done(function (data) {
-            recipients = data;
-            const max = records[records.length - 1].id;
-
-            // Φτιάξε το combobox με τους διαθέσιμους παραλήπτες
-            recipients.forEach(function (recipient) {
+            recipients.forEach((recipient) => {
                 if (!recipient.link) {
                     ur_options.value.push({
                         value: recipient.code,
@@ -599,42 +274,27 @@ const saveMailMergeClicked = () => {
                     });
                 }
             });
-            ur_options.value.sort(function (el1, el2) {
-                if (el1.name < el2.name) {
-                    return -1;
-                } else if (el1.name > el2.name) {
-                    return 1;
-                }
-                return 0;
-            });
+
+            ur_options.value.sort((a, b) =>
+                a.name < b.name ? -1 : a.name > b.name ? 1 : 0,
+            );
             ur_options.value.unshift({
                 value: "-1",
                 name: "Παρακαλώ επιλέξτε",
             });
 
-            // Προετοιμασία fuzzy search
-            const options = {
-                // isCaseSensitive: false,
+            const fuse = new Fuse(recipients, {
                 includeScore: true,
-                // shouldSort: true,
-                // includeMatches: false,
-                // findAllMatches: false,
-                // minMatchCharLength: 1,
-                // location: 0,
                 threshold: 0.4,
                 distance: 10,
-                // useExtendedSearch: false,
-                // ignoreLocation: false,
-                // ignoreFieldNorm: false,
                 keys: ["name"],
-            };
-            const fuse = new Fuse(recipients, options);
+            });
 
-            delayedLoop(records, 20, function (item: XLSX_JSON, index: number) {
+            delayedLoop(records.value, 20, (item: XLSX_JSON, index: number) => {
                 const doc_fields = JSON.parse(props.doc_recipient_fields);
                 doc_fields.push("ΑΦ");
-                doc_fields.forEach(function (field: string) {
-                    // Κοιτάει για την τιμή του πεδίου στο όνομα του παραλήπτη
+
+                doc_fields.forEach((field: string) => {
                     if (
                         field !== null &&
                         item[field] != "" &&
@@ -650,31 +310,26 @@ const saveMailMergeClicked = () => {
                                     }).compare(
                                         name
                                             .normalize("NFD")
-                                            .replace(/[\u0300-\u036f]/g, ""),
+                                            .replace(/[̀-ͯ]/g, ""),
                                         String(item[field])
                                             .normalize("NFD")
-                                            .replace(/[\u0300-\u036f]/g, "")
-                                    ) === 0
+                                            .replace(/[̀-ͯ]/g, ""),
+                                    ) === 0,
                             ) &&
                         !unknown_recipients.value
                             .map((x) => x.name)
                             .includes(String(item[field]))
                     ) {
-                        $("#save_recipients").removeClass("d-none");
-                        unknown++;
                         ur_selected.value[item[field]] = "-1";
 
-                        // Fuzzy search
-                        const pattern = item[field];
-                        const results = fuse.search(String(pattern));
+                        const results = fuse.search(String(item[field]));
                         let color = "";
                         let icon = "";
-                        var percentage: number;
+                        let percentage: number;
+
                         if (results.length) {
                             ur_selected.value[item[field]] =
                                 results[0].item.code;
-
-                            // Σημείωσε με χρώμα τα σκορ στον πίνακα
                             if (typeof results[0].score === "undefined") {
                                 color = "bg-danger";
                             } else if (results[0].score < 0.2) {
@@ -685,66 +340,57 @@ const saveMailMergeClicked = () => {
                                 color = "bg-danger";
                             }
 
-                            // Έλεγχος αριθμών
-                            let num1 = String(item[field])
+                            const num1 = String(item[field])
                                 .slice(0, 5)
                                 .match(/\d+/g);
-                            let num2 = results[0].item.name
+                            const num2 = results[0].item.name
                                 .slice(0, 5)
                                 .match(/\d+/g);
-                            let num1_string: string;
-                            let num2_string: string;
-                            num1_string = num1 == null ? "0" : num1[0];
-                            num2_string = num2 == null ? "0" : num2[0];
+                            const num1String = num1 == null ? "0" : num1[0];
+                            const num2String = num2 == null ? "0" : num2[0];
                             percentage =
                                 Math.round(
                                     (1 - parseFloat(String(results[0].score))) *
-                                        10000
+                                        10000,
                                 ) / 100;
+
                             if (
-                                !(
-                                    parseInt(num1_string) ==
-                                    parseInt(num2_string)
-                                )
+                                parseInt(num1String, 10) !==
+                                parseInt(num2String, 10)
                             ) {
                                 icon = "fas fa-exclamation-triangle";
                             }
                         } else {
                             percentage = 0;
                             color = "bg-danger";
-                            to_select++;
+                            to_select.value++;
                         }
 
-                        $("#unknown_recipients").removeClass("d-none");
                         unknown_recipients.value.push({
                             name: String(item[field]),
-                            icon: icon,
-                            color: color,
-                            percentage: percentage,
+                            icon,
+                            color,
+                            percentage,
                         });
                     }
                 });
+
                 update_progress(index + 1, max);
-                if (index + 1 == max) {
-                    $("#save_mail_merge").html("Λήψη");
-                    if (unknown == 0) {
-                        $("#save_mail_merge").prop("disabled", false);
+                if (index + 1 === max) {
+                    if (!unknown_recipients.value.length) {
+                        saveMailMergeReady.value = true;
                     }
                     sort_table();
                 }
             });
         })
-        .fail(function (data) {
-            $("#error_msg").html("Error retrieving recipient list!");
-            $("#error_msg").addClass("alert");
-            $("#error_msg").addClass("alert-danger");
+        .catch(() => {
+            errorMessage.value = "Error retrieving recipient list!";
         });
 };
 
 const sort_table = () => {
-    unknown_recipients.value.sort(function (a, b) {
-        return b.percentage - a.percentage;
-    });
+    unknown_recipients.value.sort((a, b) => b.percentage - a.percentage);
 };
 
 const update_progress = (value: number, max: number) => {
@@ -756,7 +402,7 @@ const delayedLoop = (
     collection: XLSX_JSON[],
     delay: number,
     callback: Function,
-    context: object | null = null
+    context: object | null = null,
 ) => {
     context = context || null;
 
@@ -774,102 +420,133 @@ const delayedLoop = (
     nextIteration();
 };
 
-const saveRecipientsClicked = () => {
-    if (to_select) {
+const saveRecipientsClicked = async () => {
+    if (to_select.value) {
         alert("Παρακαλώ επιλέξτε αντιστοίχιση για όλους τους παραλήπτες!");
-    } else {
-        let element = document.getElementById("save_recipients");
-        if (element instanceof HTMLElement) {
-            element.classList.add("disabled");
+        return;
+    }
+
+    saveRecipientsLoading.value = true;
+
+    const data = unknown_recipients.value.map((recipient) => {
+        const code = ur_selected.value[recipient.name] ?? "-1";
+        const option = ur_options.value.find((item) => item.value === code);
+        return {
+            name: recipient.name,
+            code,
+            link: option?.name ?? "",
+        };
+    });
+
+    const csrfToken =
+        document
+            .querySelector('meta[name="csrf-token"]')
+            ?.getAttribute("content") ?? "";
+
+    try {
+        const response = await fetch(props.store_many_url, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken,
+                Accept: "application/json",
+            },
+            body: JSON.stringify({ many: data }),
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed saving data");
         }
 
-        type NewRecipient = {
-            name: string;
-            code: string;
-            link: string;
-        };
-
-        const data: NewRecipient[] = [];
-        document
-            .querySelectorAll("#unknown_recipients table tr")
-            .forEach((row) => {
-                data.push({
-                    name: (row.children[0] as HTMLElement).innerText,
-                    code: (row.children[2].children[0] as HTMLSelectElement)
-                        .selectedOptions[0].value,
-                    link: (row.children[2].children[0] as HTMLSelectElement)
-                        .selectedOptions[0].innerText,
-                });
-            });
-        $.post({
-            url: props.store_many_url,
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-            },
-            data: { many: data },
-        })
-            .done(function (data) {
-                $("#save_mail_merge").prop("disabled", false);
-            })
-            .fail(function (data) {
-                alert("Failed saving data");
-                $("#save_recipients").removeClass("disabled");
-            });
+        saveMailMergeReady.value = true;
+    } catch (error) {
+        alert("Failed saving data");
+    } finally {
+        saveRecipientsLoading.value = false;
     }
 };
 
-const recipientSelectorChanged = () => {
-    let remaining = 0;
-    for (const [key, value] of Object.entries(ur_selected)) {
-        if (value == -1) {
-            remaining++;
-        }
-    }
-    to_select = remaining;
+const onRecipientSelectorChanged = (payload: {
+    name: string;
+    value: string;
+}) => {
+    ur_selected.value[payload.name] = payload.value;
+    updateToSelect();
 };
 
 const readySaveMailMergeClicked = () => {
-    $("#save_mail_merge").html(
-        '<div class="spinner-border" role="status"><span class="sr-only">Working...</span></div>'
-    );
-    $("#save_mail_merge").prop("disabled", true);
+    saveMailMergeLoading.value = true;
+    saveMailMergeReady.value = false;
     window.location.assign(props.save_mail_merge_url);
-    // $("#save_mail_merge").html("Λήψη");
 };
 
-const zoomLevel = computed(() => {
-    const lvl = [];
-    for (let i = 10; i <= 100; i += 10) {
-        lvl.push(i + "%");
-    }
-    return lvl;
-});
+const saveMailMergeDisabled = computed(
+    () => !saveMailMergeReady.value || saveMailMergeLoading.value,
+);
 
-const logo_img = computed(() => {
-    return (
-        props.app_url +
-        (props.app_url.endsWith("/") ? "images/" : "/images/") +
-        props.doc_logo_image
-    );
-});
-
-const doc_logo_text_html = computed(() => {
-    return props.doc_logo_text.replace(/\n/g, "<br/>");
-});
-
-const exact_copy_html = computed(() => {
-    return props.exact_copy_text.replace(/\n/g, "<br/>");
-});
-
-const signature_html = computed(() => {
-    return props.signature_text.replace(/\n/g, "<br/>");
-});
-
-const progress_style = computed(() => {
-    return "width: " + progress.value + "%;";
-});
+const saveRecipientsDisabled = computed(
+    () => unknown_recipients.value.length === 0 || saveRecipientsLoading.value,
+);
 
 const print_url_draft = computed(() => {
     return props.print_url + "?draft=true";
 });
+
+onMounted(() => {
+    setZoom("70%");
+});
 </script>
+
+<template>
+    <div class="container">
+        <PagePreviewToolbar
+            :zoom-levels="zoomLevel"
+            :current-record="currentRecordDisplay"
+            :last-record="lastRecord"
+            :edit-mailmerge-url="props.edit_mailmerge_url"
+            :print-url-draft="print_url_draft"
+            :print-url="props.print_url"
+            :upload-url="props.upload_url"
+            :signed-url="props.signed_url"
+            @setZoom="handleSetZoom"
+            @leftArrowClicked="leftArrowClicked"
+            @rightArrowClicked="rightArrowClicked"
+            @changeRecord="changeRecord"
+            @saveMailMergeClicked="saveMailMergeClicked"
+        />
+
+        <PagePreviewDocument
+            :logo-img="logo_img"
+            :doc-logo-text-html="doc_logo_text_html"
+            :editor-address="props.editor_address"
+            :editor-name="props.editor_name"
+            :editor-telephone="props.editor_telephone"
+            :editor-email="props.editor_email"
+            :doc-ada="props.doc_ada"
+            :doc-date="props.doc_date"
+            :protocol-num="props.protocol_num"
+            :doc-subject="props.doc_subject"
+            :doc-text-html="docTextHtml"
+            :recipients-html="recipientsHtml"
+            :recipient-list-html="recipientListHtml"
+            :exact-copy-html="exact_copy_html"
+            :signature-html="signature_html"
+        />
+
+        <RecipientModal
+            :progress-style="progress_style"
+            :progress="progress"
+            :error-message="errorMessage"
+            :unknown-recipients="unknown_recipients"
+            :ur-options="ur_options"
+            :ur-selected="ur_selected"
+            :save-mail-merge-ready="saveMailMergeReady"
+            :save-mail-merge-loading="saveMailMergeLoading"
+            :save-recipients-loading="saveRecipientsLoading"
+            @saveRecipientsClicked="saveRecipientsClicked"
+            @readySaveMailMergeClicked="readySaveMailMergeClicked"
+            @recipientSelectorChanged="onRecipientSelectorChanged"
+        />
+    </div>
+</template>
