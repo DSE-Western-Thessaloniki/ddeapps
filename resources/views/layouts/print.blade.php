@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,11 +14,13 @@
     @vite(['resources/sass/app.scss', 'resources/ts/app.ts'])
     <script>
         window._locale = '{{ app()->getLocale() }}';
-        window._translations = {!! cache('translations') !!};
+        window._translations = JSON.parse(`{!! json_encode(cache('translations')) !!}`);
     </script>
 
 </head>
+
 <body>
     @yield('content')
 </body>
+
 </html>
