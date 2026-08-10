@@ -22,6 +22,7 @@ class ExactCopyFactory extends Factory
     public function definition()
     {
         $name = $this->faker->name().' '.$this->faker->lastName();
+
         return [
             'title' => $name,
             'text' => $name."\n\n".implode(' ', $this->faker->words(2)),

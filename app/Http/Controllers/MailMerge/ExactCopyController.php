@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\MailMerge;
 
+use App\Http\Controllers\Controller;
 use App\Models\MailMerge\ExactCopy;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class ExactCopyController extends Controller
@@ -22,18 +23,19 @@ class ExactCopyController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
         $exactcopies = ExactCopy::with('creator')->get();
+
         return view('apps.mailmerge.exactcopy.index')->with('exactcopies', $exactcopies);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -43,15 +45,14 @@ class ExactCopyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
         $request->validate([
-            'title'=>'required|string|max:255',
-            'text'=>'required|string|max:65535',
-            'active'=>'boolean',
+            'title' => 'required|string|max:255',
+            'text' => 'required|string|max:65535',
+            'active' => 'boolean',
         ]);
 
         $exactcopy = new ExactCopy([
@@ -62,14 +63,14 @@ class ExactCopyController extends Controller
             'created_by' => Auth::user()->id,
         ]);
         $exactcopy->save();
+
         return redirect(route('apps.mailmerge.exactcopy.index'))->with('status', __('Exact copy saved!'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\MailMerge\ExactCopy $exactcopy
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(ExactCopy $exactcopy)
     {
@@ -79,8 +80,7 @@ class ExactCopyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\MailMerge\ExactCopy $exactcopy
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(ExactCopy $exactcopy)
     {
@@ -90,16 +90,14 @@ class ExactCopyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\MailMerge\ExactCopy $exactcopy
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, ExactCopy $exactcopy)
     {
         $request->validate([
-            'title'=>'required|string|max:255',
-            'text'=>'required|string|max:65535',
-            'active'=>'boolean',
+            'title' => 'required|string|max:255',
+            'text' => 'required|string|max:65535',
+            'active' => 'boolean',
         ]);
 
         $exactcopy->title = $request->get('title');
@@ -114,8 +112,7 @@ class ExactCopyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\MailMerge\ExactCopy $exactcopy
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(ExactCopy $exactcopy)
     {

@@ -1,15 +1,10 @@
 <?php
 
-use App\Models\MailMerge\DocLogo;
-use App\Models\MailMerge\Editor;
-use App\Models\MailMerge\ExactCopy;
 use App\Models\MailMerge\MailMerge;
-use App\Models\MailMerge\Signature;
 use App\Option;
 use App\Role;
 use App\User;
 use Database\Seeders\OptionSeeder;
-use PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Sign;
 
 use function Pest\Faker\fake;
 
@@ -34,17 +29,17 @@ it('cannot access the mail merge panel as user', function () {
 
 it('can access the mail merge panel as user with role MailMergeRead, MailMergeWrite or MailMergeAdmin', function () {
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeRead']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeRead']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.index'))->assertOk();
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeWrite']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeWrite']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.index'))->assertOk();
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeAdmin']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeAdmin']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.index'))->assertOk();
 });
@@ -71,21 +66,21 @@ it('can access a mail merge as user with role MailMergeRead, MailMergeWrite or M
     $mailMerge = test_create_mailmerge_for_user($admin);
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeRead']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeRead']));
 
     $this->actingAs($user)
         ->get(route('apps.mailmerge.show', $mailMerge))
         ->assertOk();
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeWrite']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeWrite']));
 
     $this->actingAs($user)
         ->get(route('apps.mailmerge.show', $mailMerge))
         ->assertOk();
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeAdmin']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeAdmin']));
 
     $this->actingAs($user)
         ->get(route('apps.mailmerge.show', $mailMerge))
@@ -144,7 +139,7 @@ it('cannot create a mail merge as user', function () {
 
 it('cannot create a mail merge as user with role MailMergeRead', function () {
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeRead']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeRead']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.create'))->assertForbidden();
 
@@ -163,7 +158,7 @@ it('cannot create a mail merge as user with role MailMergeRead', function () {
 
 it('can create a mail merge as user with role MailMergeWrite or MailMergeAdmin', function () {
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeWrite']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeWrite']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.create'))->assertOk();
 
@@ -194,7 +189,7 @@ it('can create a mail merge as user with role MailMergeWrite or MailMergeAdmin',
     $this->assertDatabaseHas('mail_merges', $mailMerge_data);
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeAdmin']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeAdmin']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.create'))->assertOk();
 
@@ -276,8 +271,8 @@ it('can update a mail merge as admin', function () {
         'xlsxdata_header' => '[]',
         'ada' => fake()->regexify('[A-Z0-9]{10}-[A-Z0-9]{3}'),
         'files_for_teachers' => fake()->boolean(),
-        "created_by" => $user->id,
-        "updated_by" => $user->id,
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
     ]);
     $this->assertModelExists($mailMerge);
     $this->actingAs($user)->get(route('apps.mailmerge.edit', $mailMerge))->assertOk();
@@ -327,8 +322,8 @@ it('cannot update a mail merge as user', function () {
         'xlsxdata_header' => '[]',
         'ada' => fake()->regexify('[A-Z0-9]{10}-[A-Z0-9]{3}'),
         'files_for_teachers' => fake()->boolean(),
-        "created_by" => $admin->id,
-        "updated_by" => $admin->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
     ]);
     $this->assertModelExists($mailMerge);
 
@@ -350,7 +345,7 @@ it('cannot update a mail merge as user', function () {
         'xlsxdata_header' => '[]',
         'ada' => fake()->regexify('[A-Z0-9]{10}-[A-Z0-9]{3}'),
         'files_for_teachers' => fake()->boolean(),
-        "updated_by" => $user->id,
+        'updated_by' => $user->id,
     ];
 
     $response = $this->actingAs($user)
@@ -377,13 +372,13 @@ it('cannot update a mail merge as user with role MailMergeRead', function () {
         'xlsxdata_header' => '[]',
         'ada' => fake()->regexify('[A-Z0-9]{10}-[A-Z0-9]{3}'),
         'files_for_teachers' => fake()->boolean(),
-        "created_by" => $admin->id,
-        "updated_by" => $admin->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
     ]);
     $this->assertModelExists($mailMerge);
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeRead']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeRead']));
     $this->actingAs($user)->get(route('apps.mailmerge.edit', $mailMerge))->assertForbidden();
 
     [$doclogo, $editor, $exact_copy, $signature] = test_prepare_mailmerge_for_user($user);
@@ -401,7 +396,7 @@ it('cannot update a mail merge as user with role MailMergeRead', function () {
         'xlsxdata_header' => '[]',
         'ada' => fake()->regexify('[A-Z0-9]{10}-[A-Z0-9]{3}'),
         'files_for_teachers' => fake()->boolean(),
-        "updated_by" => $user->id,
+        'updated_by' => $user->id,
     ];
 
     $response = $this->actingAs($user)
@@ -428,13 +423,13 @@ it('can update a mail merge as user with role MailMergeWrite or MailMergeAdmin',
         'xlsxdata_header' => '[]',
         'ada' => fake()->regexify('[A-Z0-9]{10}-[A-Z0-9]{3}'),
         'files_for_teachers' => fake()->boolean(),
-        "created_by" => $admin->id,
-        "updated_by" => $admin->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
     ]);
     $this->assertModelExists($mailMerge);
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeWrite']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeWrite']));
 
     // User cannot update a mail merge created by someone else
     $this->actingAs($user)->get(route('apps.mailmerge.edit', $mailMerge))->assertForbidden();
@@ -454,7 +449,7 @@ it('can update a mail merge as user with role MailMergeWrite or MailMergeAdmin',
         'xlsxdata_header' => '[]',
         'ada' => fake()->regexify('[A-Z0-9]{10}-[A-Z0-9]{3}'),
         'files_for_teachers' => fake()->boolean(),
-        "updated_by" => $user->id,
+        'updated_by' => $user->id,
     ];
 
     $response = $this->actingAs($user)
@@ -478,8 +473,8 @@ it('can update a mail merge as user with role MailMergeWrite or MailMergeAdmin',
         'xlsxdata_header' => '[]',
         'ada' => fake()->regexify('[A-Z0-9]{10}-[A-Z0-9]{3}'),
         'files_for_teachers' => fake()->boolean(),
-        "created_by" => $user->id,
-        "updated_by" => $user->id,
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
     ]);
     $this->assertModelExists($mailMerge);
     $this->actingAs($user)->get(route('apps.mailmerge.edit', $mailMerge))->assertOk();
@@ -510,7 +505,7 @@ it('can update a mail merge as user with role MailMergeWrite or MailMergeAdmin',
     $this->assertDatabaseHas('mail_merges', $mailMerge_data);
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeAdmin']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeAdmin']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.edit', $mailMerge))->assertOk();
 
@@ -610,8 +605,8 @@ it('can delete a mail merge as admin', function () {
         'xlsxdata_header' => '[]',
         'ada' => fake()->regexify('[A-Z0-9]{10}-[A-Z0-9]{3}'),
         'files_for_teachers' => fake()->boolean(),
-        "created_by" => $user->id,
-        "updated_by" => $user->id,
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
     ]);
     $this->assertModelExists($mailMerge);
 
@@ -640,8 +635,8 @@ it('cannot delete a mail merge as user', function () {
         'xlsxdata_header' => '[]',
         'ada' => fake()->regexify('[A-Z0-9]{10}-[A-Z0-9]{3}'),
         'files_for_teachers' => fake()->boolean(),
-        "created_by" => $user->id,
-        "updated_by" => $user->id,
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
     ]);
     $this->assertModelExists($mailMerge);
 
@@ -652,7 +647,7 @@ it('cannot delete a mail merge as user', function () {
 
 it('cannot delete a mail merge as user with role MailMergeRead', function () {
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeRead']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeRead']));
     [$doclogo, $editor, $exact_copy, $signature] = test_prepare_mailmerge_for_user($user);
     $mailMerge = MailMerge::factory()->create([
         'logo_id' => $doclogo->id,
@@ -668,8 +663,8 @@ it('cannot delete a mail merge as user with role MailMergeRead', function () {
         'xlsxdata_header' => '[]',
         'ada' => fake()->regexify('[A-Z0-9]{10}-[A-Z0-9]{3}'),
         'files_for_teachers' => fake()->boolean(),
-        "created_by" => $user->id,
-        "updated_by" => $user->id,
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
     ]);
     $this->assertModelExists($mailMerge);
 
@@ -695,13 +690,13 @@ it('can delete a mail merge as user with role MailMergeWrite or MailMergeAdmin',
         'xlsxdata_header' => '[]',
         'ada' => fake()->regexify('[A-Z0-9]{10}-[A-Z0-9]{3}'),
         'files_for_teachers' => fake()->boolean(),
-        "created_by" => $admin->id,
-        "updated_by" => $admin->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
     ]);
     $this->assertModelExists($mailMerge);
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeWrite']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeWrite']));
 
     // User cannot delete a mail merge created by someone else
     $this->actingAs($user)->delete(route('apps.mailmerge.destroy', $mailMerge))->assertForbidden();
@@ -724,8 +719,8 @@ it('can delete a mail merge as user with role MailMergeWrite or MailMergeAdmin',
         'xlsxdata_header' => '[]',
         'ada' => fake()->regexify('[A-Z0-9]{10}-[A-Z0-9]{3}'),
         'files_for_teachers' => fake()->boolean(),
-        "created_by" => $user->id,
-        "updated_by" => $user->id,
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
     ]);
     $this->assertModelExists($mailMerge2);
     $response = $this->actingAs($user)
@@ -736,7 +731,7 @@ it('can delete a mail merge as user with role MailMergeWrite or MailMergeAdmin',
     $this->assertDatabaseCount('mail_merges', 1);
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeAdmin']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeAdmin']));
 
     $response = $this->actingAs($user)
         ->delete(route('apps.mailmerge.destroy', $mailMerge))
@@ -772,7 +767,7 @@ it('cannot copy a mail merge as user with role MailMergeRead', function () {
     $admin = User::factory()->admin()->create();
     $mailMerge = test_create_mailmerge_for_user($admin);
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeRead']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeRead']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.copy', $mailMerge))->assertForbidden();
 
@@ -784,14 +779,14 @@ it('can copy a mail merge as user with role MailMergeWrite or MailMergeAdmin', f
     $mailMerge = test_create_mailmerge_for_user($admin);
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeWrite']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeWrite']));
 
     $this->actingAs($user)
         ->get(route('apps.mailmerge.show', $mailMerge))
         ->assertOk();
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeAdmin']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeAdmin']));
 
     $this->actingAs($user)
         ->get(route('apps.mailmerge.show', $mailMerge))

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\MailMerge;
 
+use App\Http\Controllers\Controller;
 use App\Models\MailMerge\Signature;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class SignatureController extends Controller
@@ -22,18 +23,19 @@ class SignatureController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
         $signatures = Signature::with('creator')->get();
+
         return view('apps.mailmerge.signature.index')->with('signatures', $signatures);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -43,15 +45,14 @@ class SignatureController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
         $request->validate([
-            'title'=>'string|max:255|required',
-            'text'=>'string|max:65535',
-            'active' => 'boolean'
+            'title' => 'string|max:255|required',
+            'text' => 'string|max:65535',
+            'active' => 'boolean',
         ]);
 
         $signature = new Signature([
@@ -62,14 +63,14 @@ class SignatureController extends Controller
             'created_by' => Auth::user()->id,
         ]);
         $signature->save();
+
         return redirect(route('apps.mailmerge.signature.index'))->with('status', __('Signature saved!'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\MailMerge\Signature $signature
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Signature $signature)
     {
@@ -79,8 +80,7 @@ class SignatureController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\MailMerge\Signature $signature
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(Signature $signature)
     {
@@ -90,16 +90,14 @@ class SignatureController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\MailMerge\Signature $signature
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, Signature $signature)
     {
         $request->validate([
-            'title'=>'string|max:255|required',
-            'text'=>'string|max:65535',
-            'active' => 'boolean'
+            'title' => 'string|max:255|required',
+            'text' => 'string|max:65535',
+            'active' => 'boolean',
         ]);
 
         $signature->title = $request->get('title');
@@ -114,8 +112,7 @@ class SignatureController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\MailMerge\Signature $signature
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Signature $signature)
     {

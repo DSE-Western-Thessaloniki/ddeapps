@@ -3,15 +3,15 @@
 namespace App\Models\MailMerge;
 
 use App\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 class MailMerge extends Model
 {
     use HasFactory;
 
-   /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -33,7 +33,7 @@ class MailMerge extends Model
         'updated_by',
         'created_by',
         'ada',
-        'files_for_teachers'
+        'files_for_teachers',
     ];
 
     protected $casts = [

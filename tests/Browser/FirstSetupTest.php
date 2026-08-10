@@ -2,6 +2,7 @@
 
 use Database\Seeders\OptionSeeder;
 use Laravel\Dusk\Browser;
+
 use function Pest\Faker\fake;
 
 it('shows first run setup', function () {

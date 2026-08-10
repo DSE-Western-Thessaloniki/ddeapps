@@ -29,17 +29,17 @@ it('cannot access the mailmerge signature panel as user', function () {
 
 it('can access the mailmerge signature panel as user with role SignatureRead, SignatureWrite or MailMergeAdmin', function () {
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'SignatureRead']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'SignatureRead']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.signature.index'))->assertOk();
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'SignatureWrite']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'SignatureWrite']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.signature.index'))->assertOk();
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeAdmin']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeAdmin']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.signature.index'))->assertOk();
 });
@@ -75,21 +75,21 @@ it('can access a signature as user with role SignatureRead, SignatureWrite or Ma
     ]);
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'SignatureRead']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'SignatureRead']));
 
     $this->actingAs($user)
         ->get(route('apps.mailmerge.signature.show', $signature))
         ->assertOk();
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'SignatureWrite']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'SignatureWrite']));
 
     $this->actingAs($user)
         ->get(route('apps.mailmerge.signature.show', $signature))
         ->assertOk();
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeAdmin']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeAdmin']));
 
     $this->actingAs($user)
         ->get(route('apps.mailmerge.signature.show', $signature))
@@ -137,7 +137,7 @@ it('cannot create a signature as user', function () {
 
 it('cannot create a signature as user with role SignatureRead', function () {
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'SignatureRead']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'SignatureRead']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.signature.create'))->assertForbidden();
 
@@ -155,7 +155,7 @@ it('cannot create a signature as user with role SignatureRead', function () {
 
 it('can create a signature as user with role SignatureWrite or MailMergeAdmin', function () {
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'SignatureWrite']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'SignatureWrite']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.signature.create'))->assertOk();
 
@@ -176,7 +176,7 @@ it('can create a signature as user with role SignatureWrite or MailMergeAdmin', 
     $this->assertDatabaseHas('signatures', $signature_data);
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeAdmin']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeAdmin']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.signature.create'))->assertOk();
 
@@ -223,8 +223,8 @@ it('cannot create a signature as admin', function ($title, $text, $active, $erro
 it('can update a signature as admin', function () {
     $user = User::factory()->admin()->create();
     $signature = Signature::factory()->create([
-        "created_by" => $user->id,
-        "updated_by" => $user->id,
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
     ]);
     $this->assertModelExists($signature);
     $this->actingAs($user)->get(route('apps.mailmerge.signature.edit', $signature))->assertOk();
@@ -249,8 +249,8 @@ it('can update a signature as admin', function () {
 it('cannot update a signature as user', function () {
     $admin = User::factory()->admin()->create();
     $signature = Signature::factory()->create([
-        "created_by" => $admin->id,
-        "updated_by" => $admin->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
     ]);
     $this->assertModelExists($signature);
 
@@ -274,13 +274,13 @@ it('cannot update a signature as user', function () {
 it('cannot update a signature as user with role SignatureRead', function () {
     $admin = User::factory()->admin()->create();
     $signature = Signature::factory()->create([
-        "created_by" => $admin->id,
-        "updated_by" => $admin->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
     ]);
     $this->assertModelExists($signature);
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'SignatureRead']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'SignatureRead']));
     $this->actingAs($user)->get(route('apps.mailmerge.signature.edit', $signature))->assertForbidden();
 
     $signature_data = [
@@ -300,13 +300,13 @@ it('cannot update a signature as user with role SignatureRead', function () {
 it('can update a signature as user with role SignatureWrite or MailMergeAdmin', function () {
     $admin = User::factory()->admin()->create();
     $signature = Signature::factory()->create([
-        "created_by" => $admin->id,
-        "updated_by" => $admin->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
     ]);
     $this->assertModelExists($signature);
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'SignatureWrite']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'SignatureWrite']));
 
     // User cannot update a signature created by someone else
     $this->actingAs($user)->get(route('apps.mailmerge.signature.edit', $signature))->assertForbidden();
@@ -326,8 +326,8 @@ it('can update a signature as user with role SignatureWrite or MailMergeAdmin', 
 
     // ...but he can update his own signatures
     $signature = Signature::factory()->create([
-        "created_by" => $user->id,
-        "updated_by" => $user->id,
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
     ]);
     $this->assertModelExists($signature);
     $this->actingAs($user)->get(route('apps.mailmerge.signature.edit', $signature))->assertOk();
@@ -347,7 +347,7 @@ it('can update a signature as user with role SignatureWrite or MailMergeAdmin', 
     $this->assertDatabaseHas('signatures', $signature_data);
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeAdmin']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeAdmin']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.signature.edit', $signature))->assertOk();
 
@@ -369,8 +369,8 @@ it('can update a signature as user with role SignatureWrite or MailMergeAdmin', 
 it('cannot update a signature as admin', function ($title, $text, $active, $errors) {
     $user = User::factory()->admin()->create();
     $signature = Signature::factory()->create([
-        "created_by" => $user->id,
-        "updated_by" => $user->id,
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
     ]);
     $this->assertModelExists($signature);
     $this->actingAs($user)->get(route('apps.mailmerge.signature.edit', $signature))->assertOk();
@@ -397,8 +397,8 @@ it('cannot update a signature as admin', function ($title, $text, $active, $erro
 it('can delete a signature as admin', function () {
     $user = User::factory()->admin()->create();
     $signature = Signature::factory()->create([
-        "created_by" => $user->id,
-        "updated_by" => $user->id,
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
     ]);
     $this->assertModelExists($signature);
 
@@ -413,8 +413,8 @@ it('can delete a signature as admin', function () {
 it('cannot delete a signature as user', function () {
     $user = User::factory()->user()->create();
     $signature = Signature::factory()->create([
-        "created_by" => $user->id,
-        "updated_by" => $user->id,
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
     ]);
     $this->assertModelExists($signature);
 
@@ -425,10 +425,10 @@ it('cannot delete a signature as user', function () {
 
 it('cannot delete a signature as user with role SignatureRead', function () {
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'SignatureRead']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'SignatureRead']));
     $signature = Signature::factory()->create([
-        "created_by" => $user->id,
-        "updated_by" => $user->id,
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
     ]);
     $this->assertModelExists($signature);
 
@@ -440,13 +440,13 @@ it('cannot delete a signature as user with role SignatureRead', function () {
 it('can delete a signature as user with role SignatureWrite or MailMergeAdmin', function () {
     $admin = User::factory()->admin()->create();
     $signature = Signature::factory()->create([
-        "created_by" => $admin->id,
-        "updated_by" => $admin->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
     ]);
     $this->assertModelExists($signature);
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'SignatureWrite']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'SignatureWrite']));
 
     // User cannot delete a signature created by someone else
     $this->actingAs($user)->delete(route('apps.mailmerge.signature.destroy', $signature))->assertForbidden();
@@ -455,8 +455,8 @@ it('can delete a signature as user with role SignatureWrite or MailMergeAdmin', 
 
     // ...but he can delete his own signatures
     $signature2 = Signature::factory()->create([
-        "created_by" => $user->id,
-        "updated_by" => $user->id,
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
     ]);
     $this->assertModelExists($signature2);
     $response = $this->actingAs($user)
@@ -467,7 +467,7 @@ it('can delete a signature as user with role SignatureWrite or MailMergeAdmin', 
     $this->assertDatabaseCount('signatures', 1);
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeAdmin']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeAdmin']));
 
     $response = $this->actingAs($user)
         ->delete(route('apps.mailmerge.signature.destroy', $signature))

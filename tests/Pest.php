@@ -7,9 +7,10 @@ use App\Models\MailMerge\MailMerge;
 use App\Models\MailMerge\Recipient;
 use App\Models\MailMerge\Signature;
 use App\User;
-use Illuminate\Database\Eloquent\Factories\Sequence;
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Tests\DuskTestCase;
+use Tests\TestCase;
 
 use function Pest\Faker\fake;
 
@@ -24,8 +25,8 @@ use function Pest\Faker\fake;
 |
 */
 
-uses(Tests\TestCase::class, LazilyRefreshDatabase::class)->in('Feature');
-uses(Tests\DuskTestCase::class, DatabaseMigrations::class)->in('Browser');
+uses(TestCase::class, LazilyRefreshDatabase::class)->in('Feature');
+uses(DuskTestCase::class, DatabaseMigrations::class)->in('Browser');
 
 /*
 |--------------------------------------------------------------------------
@@ -138,15 +139,15 @@ function test_create_mailmerge_with_data_for_user(User $user): MailMerge
     foreach ($recipients as $recipient) {
         $row = [];
         foreach ($fields as $column) {
-            if ($column === "ΠΑΡΑΛΗΠΤΗΣ") {
+            if ($column === 'ΠΑΡΑΛΗΠΤΗΣ') {
                 $row[$column] = $recipient->name;
-            } elseif ($column === "ΕΠΩΝΥΜΟ") {
+            } elseif ($column === 'ΕΠΩΝΥΜΟ') {
                 $row[$column] = fake()->lastName();
-            } elseif ($column === "ΟΝΟΜΑ") {
+            } elseif ($column === 'ΟΝΟΜΑ') {
                 $row[$column] = fake()->name();
-            } elseif ($column === "ΚΛΑΔΟΣ") {
+            } elseif ($column === 'ΚΛΑΔΟΣ') {
                 $row[$column] = 'ΠΕ'.fake()->randomNumber(2);
-            } elseif ($column === "ΑΜ") {
+            } elseif ($column === 'ΑΜ') {
                 $row[$column] = fake()->randomNumber();
             } else {
                 $row[$column] = fake()->word();
@@ -164,7 +165,7 @@ function test_create_mailmerge_with_data_for_user(User $user): MailMerge
             DocLogo::factory()->state([
                 'created_by' => $user->id,
                 'updated_by' => $user->id,
-                'image' => 'logo.png'
+                'image' => 'logo.png',
             ]),
             'logo'
         )

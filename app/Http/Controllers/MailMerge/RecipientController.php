@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\MailMerge\Recipient;
 use App\Services\StringConverter;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class RecipientController extends Controller
@@ -25,18 +26,19 @@ class RecipientController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
         $recipients = Recipient::with('creator')->where('link', '=', '')->get();
+
         return view('apps.mailmerge.recipient.index')->with('recipients', $recipients);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -46,13 +48,12 @@ class RecipientController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'string|max:255|required|unique:recipients',
+            'name' => 'string|max:255|required|unique:recipients',
             'code' => 'string|max:255|required',
         ]);
 
@@ -63,14 +64,14 @@ class RecipientController extends Controller
             'created_by' => Auth::user()->id,
         ]);
         $recipient->save();
+
         return redirect(route('apps.mailmerge.recipient.index'))->with('status', __('Recipient created!'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\MailMerge\Recipient $recipient
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Recipient $recipient)
     {
@@ -80,8 +81,7 @@ class RecipientController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\MailMerge\Recipient $recipient
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(Recipient $recipient)
     {
@@ -91,17 +91,15 @@ class RecipientController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\MailMerge\Recipient $recipient
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, Recipient $recipient)
     {
         $request->validate(
             [
-                'name'=> ['string', 'max:255', 'required',
+                'name' => ['string', 'max:255', 'required',
                     Rule::unique('recipients')->ignore($recipient->id)],
-                'code' => 'string|max:255|required'
+                'code' => 'string|max:255|required',
             ]
         );
 
@@ -129,8 +127,7 @@ class RecipientController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\MailMerge\Recipient $recipient
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Recipient $recipient)
     {
@@ -142,20 +139,20 @@ class RecipientController extends Controller
     /**
      * Return a listing of the resource in json.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function list()
     {
         $this->authorize('viewAny', Recipient::class);
-        $recipients = Recipient::all(['name','code', 'link']);
+        $recipients = Recipient::all(['name', 'code', 'link']);
+
         return response()->json($recipients);
     }
 
     /**
      * Store a newly created list of resources in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function storeMany(Request $request)
     {
@@ -165,13 +162,13 @@ class RecipientController extends Controller
 
         $request->validate(
             [
-                'many.*.name'=>'unique:recipients,name|required|string',
+                'many.*.name' => 'unique:recipients,name|required|string',
                 'many.*.code' => 'required|string',
                 'many.*.link' => 'required|string',
             ]
         );
 
-        if (!$request->has("many")) {
+        if (! $request->has('many')) {
             return response('Wrong post', 500);
         }
 

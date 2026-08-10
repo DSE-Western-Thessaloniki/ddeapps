@@ -4,7 +4,6 @@ use App\Option;
 use App\Role;
 use App\User;
 use Database\Seeders\OptionSeeder;
-use Tests\TestCasManager;
 
 beforeEach(function () {
     $this->seed(OptionSeeder::class);
@@ -71,7 +70,7 @@ test('logout redirects to login', function () {
 
     $response = $this->post('/login', [
         'username' => $user->username,
-        'password' => 'password'
+        'password' => 'password',
     ]);
     $response->assertRedirect(route('home'));
     $response = $this->post('/logout');

@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
-use App\User;
-use App\Role;
 use App\Option;
+use App\Providers\RouteServiceProvider;
+use App\Role;
+use App\User;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 
 class SetupController extends Controller
 {
@@ -45,7 +44,6 @@ class SetupController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -62,7 +60,7 @@ class SetupController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return User
      */
     protected function saveSetup(Request $request)
     {
@@ -90,6 +88,7 @@ class SetupController extends Controller
             return new Response('', 201);
         } else {
             Auth::login($user);
+
             return redirect(RouteServiceProvider::HOME);
         }
     }

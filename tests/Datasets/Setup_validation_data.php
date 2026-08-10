@@ -10,7 +10,7 @@ dataset('setup_validation_data', function () {
                 'password' => '12345678',
                 'password_confirmation' => '12345678',
                 'errors' => ['name'],
-            ]
+            ],
         ],
         [
             'setup' => [
@@ -20,7 +20,7 @@ dataset('setup_validation_data', function () {
                 'password' => '12345678',
                 'password_confirmation' => '12345678',
                 'errors' => ['name'],
-            ]
+            ],
         ],
         [
             'setup' => [
@@ -30,7 +30,7 @@ dataset('setup_validation_data', function () {
                 'password' => '12345678',
                 'password_confirmation' => '12345678',
                 'errors' => 0,
-            ]
+            ],
         ],
         [
             'setup' => [
@@ -40,7 +40,7 @@ dataset('setup_validation_data', function () {
                 'password' => '12345678',
                 'password_confirmation' => '12345678',
                 'errors' => ['email'],
-            ]
+            ],
         ],
         [
             'setup' => [
@@ -50,7 +50,7 @@ dataset('setup_validation_data', function () {
                 'password' => '12345678',
                 'password_confirmation' => '12345678',
                 'errors' => 0,
-            ]
+            ],
         ],
         [
             'setup' => [
@@ -60,7 +60,7 @@ dataset('setup_validation_data', function () {
                 'password' => '12345678',
                 'password_confirmation' => '12345678',
                 'errors' => ['email'],
-            ]
+            ],
         ],
         [
             'setup' => [
@@ -70,7 +70,7 @@ dataset('setup_validation_data', function () {
                 'password' => '12345678',
                 'password_confirmation' => '123456789',
                 'errors' => ['email'],
-            ]
+            ],
         ],
         [
             'setup' => [
@@ -80,7 +80,7 @@ dataset('setup_validation_data', function () {
                 'password' => '12345678',
                 'password_confirmation' => '123456789',
                 'errors' => ['email'],
-            ]
+            ],
         ],
         [
             'setup' => [
@@ -90,7 +90,7 @@ dataset('setup_validation_data', function () {
                 'password' => '12345678',
                 'password_confirmation' => '12345678',
                 'errors' => ['username'],
-            ]
+            ],
         ],
         [
             'setup' => [
@@ -100,7 +100,7 @@ dataset('setup_validation_data', function () {
                 'password' => '12345678',
                 'password_confirmation' => '12345678',
                 'errors' => ['username'],
-            ]
+            ],
         ],
         [
             'setup' => [
@@ -110,7 +110,7 @@ dataset('setup_validation_data', function () {
                 'password' => '12345678',
                 'password_confirmation' => '12345678',
                 'errors' => 0,
-            ]
+            ],
         ],
         [
             'setup' => [
@@ -120,7 +120,7 @@ dataset('setup_validation_data', function () {
                 'password' => '',
                 'password_confirmation' => '',
                 'errors' => ['password'],
-            ]
+            ],
         ],
         [
             'setup' => [
@@ -130,7 +130,7 @@ dataset('setup_validation_data', function () {
                 'password' => '1234567',
                 'password_confirmation' => '1234567',
                 'errors' => ['password'],
-            ]
+            ],
         ],
         [
             'setup' => [
@@ -140,7 +140,7 @@ dataset('setup_validation_data', function () {
                 'password' => '12345678',
                 'password_confirmation' => '12345678',
                 'errors' => 0,
-            ]
+            ],
         ],
         [
             'setup' => [
@@ -150,7 +150,7 @@ dataset('setup_validation_data', function () {
                 'password' => '1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
                 'password_confirmation' => '1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
                 'errors' => ['password'],
-            ]
+            ],
         ],
         [
             'setup' => [
@@ -160,7 +160,7 @@ dataset('setup_validation_data', function () {
                 'password' => '111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
                 'password_confirmation' => '111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
                 'errors' => 0,
-            ]
+            ],
         ],
         [
             'setup' => [
@@ -170,7 +170,7 @@ dataset('setup_validation_data', function () {
                 'password' => '12345678',
                 'password_confirmation' => '12345678',
                 'errors' => 0,
-            ]
+            ],
         ],
         [
             'setup' => [
@@ -180,7 +180,7 @@ dataset('setup_validation_data', function () {
                 'password' => '12345678',
                 'password_confirmation' => '123456789',
                 'errors' => ['email', 'password'],
-            ]
+            ],
         ],
         [
             'setup' => [
@@ -190,7 +190,7 @@ dataset('setup_validation_data', function () {
                 'password' => '12345678',
                 'password_confirmation' => '123456789',
                 'errors' => ['name', 'email', 'password'],
-            ]
+            ],
         ],
         [
             'setup' => [
@@ -200,7 +200,7 @@ dataset('setup_validation_data', function () {
                 'password' => '12345678',
                 'password_confirmation' => '123456789',
                 'errors' => ['name', 'email', 'username', 'password'],
-            ]
+            ],
         ],
     ];
 });

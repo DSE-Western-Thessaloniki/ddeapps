@@ -2,16 +2,16 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use App\Option;
+use Closure;
+use Illuminate\Http\Request;
 
 class FirstRun
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  Request  $request
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -24,14 +24,16 @@ class FirstRun
 
         // If setup didn't run go to /setup
         if ($first_run) {
-            if ($request->path() != 'setup')
+            if ($request->path() != 'setup') {
                 return redirect('/setup');
-        }
-        else {
+            }
+        } else {
             // Site already setup. Redirect to /
-            if ($request->path() == 'setup')
+            if ($request->path() == 'setup') {
                 return redirect('/');
+            }
         }
+
         return $next($request);
     }
 }

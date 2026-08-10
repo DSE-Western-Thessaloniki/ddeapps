@@ -12,7 +12,6 @@ beforeEach(function () {
     $option->save();
 });
 
-
 it('cannot access the users panel as user', function () {
     $user = User::factory()->user()->create();
 
@@ -60,7 +59,7 @@ it('cannot create another user as user', function () {
         'email' => 'test@test.com',
         'username' => 'testUser',
         'password' => 'mySecretPassword',
-        'password_confirmation' => 'mySecretPassword'
+        'password_confirmation' => 'mySecretPassword',
     ])->assertForbidden();
 });
 
@@ -73,7 +72,7 @@ it('can create another user as admin', function () {
         'email' => 'test@test.com',
         'username' => 'testUser',
         'password' => 'mySecretPassword',
-        'password_confirmation' => 'mySecretPassword'
+        'password_confirmation' => 'mySecretPassword',
     ]);
     $response->assertStatus(302);
     expect($response->getSession()->only(['status'])['status'])->toBe('User saved!');
@@ -168,7 +167,7 @@ it('cannot update another user\'s data as user', function () {
     $this->actingAs($user)->put('/admin/user/'.$testUser->id, [
         'name' => 'Test User',
         'email' => 'test@example.com',
-        'username' => 'testUser'
+        'username' => 'testUser',
     ])->assertForbidden();
 });
 
@@ -179,7 +178,7 @@ it('can update another user\'s data as admin', function () {
     $response = $this->actingAs($admin)->put('/admin/user/'.$testUser->id, [
         'name' => 'Test User',
         'email' => 'test@example.com',
-        'username' => 'testUser'
+        'username' => 'testUser',
     ]);
     $response->assertStatus(302);
     expect($response->getSession()->only(['status'])['status'])->toBe('User updated!');
@@ -191,7 +190,7 @@ it('cannot update it\'s own user data as user', function () {
     $response = $this->actingAs($user)->put('/admin/user/'.$user->id, [
         'name' => 'Test User',
         'email' => 'test@example.com',
-        'username' => 'testUser'
+        'username' => 'testUser',
     ])->assertForbidden();
 });
 
@@ -201,7 +200,7 @@ it('can update it\'s own user data data as admin', function () {
     $response = $this->actingAs($admin)->put('/admin/user/'.$admin->id, [
         'name' => 'Test User',
         'email' => 'test@example.com',
-        'username' => 'testUser'
+        'username' => 'testUser',
     ]);
     $response->assertStatus(302);
     expect($response->getSession()->only(['status'])['status'])->toBe('User updated!');
@@ -288,7 +287,7 @@ it('cannot login with deactivated account', function () {
 
     $response = $this->post('/login', [
         'username' => $user->username,
-        'password' => 'password'
+        'password' => 'password',
     ]);
     $response->assertStatus(302)->assertRedirect(route('login'));
     expect($response->getSession()->only(['error'])['error'])->toBe('Ο λογαριασμός σας είναι απενεργοποιημένος.');

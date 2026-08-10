@@ -16,7 +16,6 @@ use function Pest\Faker\fake;
 
 class TestSeeder extends Seeder
 {
-
     public function addMailMergeForUser(User $user)
     {
         $recipients = Recipient::all();
@@ -32,15 +31,15 @@ class TestSeeder extends Seeder
         foreach ($recipients as $recipient) {
             $row = [];
             foreach ($fields as $column) {
-                if ($column === "ΠΑΡΑΛΗΠΤΗΣ") {
+                if ($column === 'ΠΑΡΑΛΗΠΤΗΣ') {
                     $row[$column] = $recipient->name;
-                } else if ($column === "ΕΠΩΝΥΜΟ") {
+                } elseif ($column === 'ΕΠΩΝΥΜΟ') {
                     $row[$column] = fake()->lastName();
-                } else if ($column === "ΟΝΟΜΑ") {
+                } elseif ($column === 'ΟΝΟΜΑ') {
                     $row[$column] = fake()->name();
-                } else if ($column === "ΚΛΑΔΟΣ") {
+                } elseif ($column === 'ΚΛΑΔΟΣ') {
                     $row[$column] = 'ΠΕ'.fake()->randomNumber(2);
-                } else if ($column === "ΑΜ") {
+                } elseif ($column === 'ΑΜ') {
                     $row[$column] = fake()->randomNumber();
                 } else {
                     $row[$column] = fake()->word();
@@ -59,7 +58,7 @@ class TestSeeder extends Seeder
                 DocLogo::factory()->state([
                     'created_by' => $user->id,
                     'updated_by' => $user->id,
-                    'image' => 'logo.png'
+                    'image' => 'logo.png',
                 ]),
                 'logo'
             )
@@ -107,8 +106,8 @@ class TestSeeder extends Seeder
         $admin = User::factory()
             ->hasAttached($admin_role)
             ->create(
-            ['username' => 'admin']
-        );
+                ['username' => 'admin']
+            );
 
         $mail_merge_admins = User::factory()
             ->count(10)
@@ -127,7 +126,7 @@ class TestSeeder extends Seeder
                 'updated_by' => $admin->id,
             ]);
 
-        foreach($mail_merge_admins as $mail_merge_admin) {
+        foreach ($mail_merge_admins as $mail_merge_admin) {
             $this->addMailMergeForUser($mail_merge_admin);
         }
     }

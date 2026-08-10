@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Option;
+use Illuminate\Database\Seeder;
 
 class OptionSeeder extends Seeder
 {
@@ -15,10 +15,10 @@ class OptionSeeder extends Seeder
     public function run()
     {
         $options = [
-            ['name' => 'first_run', 'value' => '1']
+            ['name' => 'first_run', 'value' => '1'],
         ];
 
-        foreach($options as $option) {
+        foreach ($options as $option) {
             Option::create($option);
         }
     }

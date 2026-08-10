@@ -16,7 +16,7 @@ class EditorPolicy
             return true;
         }
         foreach ($user->roles as $role) {
-            if ($role->name == "MailMergeAdmin") {
+            if ($role->name == 'MailMergeAdmin') {
                 return true;
             }
         }
@@ -25,7 +25,6 @@ class EditorPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -39,7 +38,6 @@ class EditorPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\User  $user
      * @param  \App\Editor  $editor
      * @return mixed
      */
@@ -54,7 +52,6 @@ class EditorPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -65,52 +62,48 @@ class EditorPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\User  $user
      * @param  \App\Editor  $editor
      * @return mixed
      */
     public function update(User $user, Editor $editor)
     {
-        return ($user->roles()->where('name', 'EditorWrite')->exists() &&
-                ($editor->creator->id === $user->id));
+        return $user->roles()->where('name', 'EditorWrite')->exists() &&
+                ($editor->creator->id === $user->id);
     }
 
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\User  $user
      * @param  \App\Editor  $editor
      * @return mixed
      */
     public function delete(User $user, Editor $editor)
     {
-        return ($user->roles()->where('name', 'EditorWrite')->exists() &&
-                ($editor->creator->id === $user->id));
+        return $user->roles()->where('name', 'EditorWrite')->exists() &&
+                ($editor->creator->id === $user->id);
     }
 
     /**
      * Determine whether the user can restore the model.
      *
-     * @param  \App\User  $user
      * @param  \App\Editor  $editor
      * @return mixed
      */
     public function restore(User $user, Editor $editor)
     {
-        return ($user->roles()->where('name', 'EditorWrite')->exists() &&
-                ($editor->creator->id === $user->id));
+        return $user->roles()->where('name', 'EditorWrite')->exists() &&
+                ($editor->creator->id === $user->id);
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param  \App\User  $user
      * @param  \App\Editor  $editor
      * @return mixed
      */
     public function forceDelete(User $user, Editor $editor)
     {
-        return ($user->roles()->where('name', 'EditorWrite')->exists() &&
-                ($editor->creator->id === $user->id));
+        return $user->roles()->where('name', 'EditorWrite')->exists() &&
+                ($editor->creator->id === $user->id);
     }
 }

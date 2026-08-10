@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use App\Role;
+use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -25,18 +26,19 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
         $users = User::all();
+
         return view('admin.user.index')->with('users', $users);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -46,8 +48,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -79,8 +80,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\User $user
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(User $user)
     {
@@ -90,8 +90,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\User $user
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(User $user)
     {
@@ -101,9 +100,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User $user
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, User $user)
     {
@@ -120,7 +117,7 @@ class UserController extends Controller
 
         // Update roles
         $roles = DB::table('roles')->get();
-        $new_roles = array();
+        $new_roles = [];
         foreach ($roles as $role) {
             $check = $request->get($role->name);
             if ($check == 1) {
@@ -137,8 +134,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\User $user
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(User $user)
     {
@@ -169,5 +165,4 @@ class UserController extends Controller
         }
         abort(403);
     }
-
 }

@@ -29,17 +29,17 @@ it('cannot access the mailmerge exact copy panel as user', function () {
 
 it('can access the mailmerge exact copy panel as user with role ExactCopyRead, ExactCopyWrite or MailMergeAdmin', function () {
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'ExactCopyRead']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'ExactCopyRead']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.exactcopy.index'))->assertOk();
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'ExactCopyWrite']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'ExactCopyWrite']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.exactcopy.index'))->assertOk();
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeAdmin']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeAdmin']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.exactcopy.index'))->assertOk();
 });
@@ -73,17 +73,17 @@ it('can access an exact copy as user with role ExactCopyRead, ExactCopyWrite or 
     ]);
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'ExactCopyRead']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'ExactCopyRead']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.exactcopy.show', $exactcopy))->assertOk();
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'ExactCopyWrite']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'ExactCopyWrite']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.exactcopy.show', $exactcopy))->assertOk();
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeAdmin']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeAdmin']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.exactcopy.show', $exactcopy))->assertOk();
 });
@@ -129,7 +129,7 @@ it('cannot create an exact copy as user', function () {
 
 it('cannot create an exact copy as user with role ExactCopyRead', function () {
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'ExactCopyRead']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'ExactCopyRead']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.exactcopy.create'))->assertForbidden();
 
@@ -147,7 +147,7 @@ it('cannot create an exact copy as user with role ExactCopyRead', function () {
 
 it('can create an exact copy as user with role ExactCopyWrite or MailMergeAdmin', function () {
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'ExactCopyWrite']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'ExactCopyWrite']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.exactcopy.create'))->assertOk();
 
@@ -168,7 +168,7 @@ it('can create an exact copy as user with role ExactCopyWrite or MailMergeAdmin'
     $this->assertDatabaseHas('exact_copies', $exactcopy_data);
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeAdmin']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeAdmin']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.exactcopy.create'))->assertOk();
 
@@ -214,8 +214,8 @@ it('cannot create an exact copy as admin', function ($title, $text, $active, $er
 it('can update an exact copy as admin', function () {
     $user = User::factory()->admin()->create();
     $exactcopy = ExactCopy::factory()->create([
-        "created_by" => $user->id,
-        "updated_by" => $user->id,
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
     ]);
     $this->assertModelExists($exactcopy);
     $this->actingAs($user)->get(route('apps.mailmerge.exactcopy.edit', $exactcopy))->assertOk();
@@ -223,8 +223,8 @@ it('can update an exact copy as admin', function () {
     // Create a new admin to check that updated_by is updated correctly
     $user = User::factory()->admin()->create();
     $exactcopy_data = [
-        'title' => "This is an updated title",
-        'text' => "Updated text",
+        'title' => 'This is an updated title',
+        'text' => 'Updated text',
         'active' => false,
         'updated_by' => $user->id,
     ];
@@ -240,8 +240,8 @@ it('can update an exact copy as admin', function () {
 it('cannot update an exact copy as user', function () {
     $admin = User::factory()->admin()->create();
     $exactcopy = ExactCopy::factory()->create([
-        "created_by" => $admin->id,
-        "updated_by" => $admin->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
     ]);
     $this->assertModelExists($exactcopy);
 
@@ -249,8 +249,8 @@ it('cannot update an exact copy as user', function () {
     $this->actingAs($user)->get(route('apps.mailmerge.exactcopy.edit', $exactcopy))->assertForbidden();
 
     $exactcopy_data = [
-        'title' => "This is an updated title",
-        'text' => "Updated text",
+        'title' => 'This is an updated title',
+        'text' => 'Updated text',
         'active' => false,
         'updated_by' => $user->id,
     ];
@@ -265,18 +265,18 @@ it('cannot update an exact copy as user', function () {
 it('cannot update an exactcopy as user with role ExactCopyRead', function () {
     $admin = User::factory()->admin()->create();
     $exactcopy = ExactCopy::factory()->create([
-        "created_by" => $admin->id,
-        "updated_by" => $admin->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
     ]);
     $this->assertModelExists($exactcopy);
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'ExactCopyRead']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'ExactCopyRead']));
     $this->actingAs($user)->get(route('apps.mailmerge.exactcopy.edit', $exactcopy))->assertForbidden();
 
     $exactcopy_data = [
-        'title' => "This is an updated title",
-        'text' => "Updated text",
+        'title' => 'This is an updated title',
+        'text' => 'Updated text',
         'active' => false,
         'updated_by' => $user->id,
     ];
@@ -291,20 +291,20 @@ it('cannot update an exactcopy as user with role ExactCopyRead', function () {
 it('can update an exact copy as user with role ExactCopyWrite or MailMergeAdmin', function () {
     $admin = User::factory()->admin()->create();
     $exactcopy = ExactCopy::factory()->create([
-        "created_by" => $admin->id,
-        "updated_by" => $admin->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
     ]);
     $this->assertModelExists($exactcopy);
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'ExactCopyWrite']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'ExactCopyWrite']));
 
     // User cannot update an exactcopy created by someone else
     $this->actingAs($user)->get(route('apps.mailmerge.exactcopy.edit', $exactcopy))->assertForbidden();
 
     $exactcopy_data = [
-        'title' => "This is an updated title",
-        'text' => "Updated text",
+        'title' => 'This is an updated title',
+        'text' => 'Updated text',
         'active' => false,
         'updated_by' => $user->id,
     ];
@@ -317,15 +317,15 @@ it('can update an exact copy as user with role ExactCopyWrite or MailMergeAdmin'
 
     // ...but he can update his own exact copies
     $exactcopy = ExactCopy::factory()->create([
-        "created_by" => $user->id,
-        "updated_by" => $user->id,
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
     ]);
     $this->assertModelExists($exactcopy);
     $this->actingAs($user)->get(route('apps.mailmerge.exactcopy.edit', $exactcopy))->assertOk();
 
     $exactcopy_data = [
-        'title' => "This is an updated title",
-        'text' => "Updated text",
+        'title' => 'This is an updated title',
+        'text' => 'Updated text',
         'active' => false,
         'updated_by' => $user->id,
     ];
@@ -338,13 +338,13 @@ it('can update an exact copy as user with role ExactCopyWrite or MailMergeAdmin'
     $this->assertDatabaseHas('exact_copies', $exactcopy_data);
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeAdmin']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeAdmin']));
 
     $this->actingAs($user)->get(route('apps.mailmerge.exactcopy.edit', $exactcopy))->assertOk();
 
     $exactcopy_data = [
-        'title' => "This is an updated title2",
-        'text' => "Updated text2",
+        'title' => 'This is an updated title2',
+        'text' => 'Updated text2',
         'active' => true,
         'updated_by' => $user->id,
     ];
@@ -360,8 +360,8 @@ it('can update an exact copy as user with role ExactCopyWrite or MailMergeAdmin'
 it('cannot update an exact copy as admin', function ($title, $text, $active, $errors) {
     $user = User::factory()->admin()->create();
     $exactcopy = ExactCopy::factory()->create([
-        "created_by" => $user->id,
-        "updated_by" => $user->id,
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
     ]);
     $this->assertModelExists($exactcopy);
     $this->actingAs($user)->get(route('apps.mailmerge.exactcopy.edit', $exactcopy))->assertOk();
@@ -388,8 +388,8 @@ it('cannot update an exact copy as admin', function ($title, $text, $active, $er
 it('can delete an exact copy as admin', function () {
     $user = User::factory()->admin()->create();
     $exactcopy = ExactCopy::factory()->create([
-        "created_by" => $user->id,
-        "updated_by" => $user->id,
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
     ]);
     $this->assertModelExists($exactcopy);
 
@@ -404,8 +404,8 @@ it('can delete an exact copy as admin', function () {
 it('cannot delete an exact copy as user', function () {
     $user = User::factory()->user()->create();
     $exactcopy = ExactCopy::factory()->create([
-        "created_by" => $user->id,
-        "updated_by" => $user->id,
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
     ]);
     $this->assertModelExists($exactcopy);
 
@@ -416,10 +416,10 @@ it('cannot delete an exact copy as user', function () {
 
 it('cannot delete an exact copy as user with role ExactCopyRead', function () {
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'ExactCopyRead']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'ExactCopyRead']));
     $exactcopy = ExactCopy::factory()->create([
-        "created_by" => $user->id,
-        "updated_by" => $user->id,
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
     ]);
     $this->assertModelExists($exactcopy);
 
@@ -431,13 +431,13 @@ it('cannot delete an exact copy as user with role ExactCopyRead', function () {
 it('can delete an exactcopy as user with role ExactCopyWrite or MailMergeAdmin', function () {
     $admin = User::factory()->admin()->create();
     $exactcopy = ExactCopy::factory()->create([
-        "created_by" => $admin->id,
-        "updated_by" => $admin->id,
+        'created_by' => $admin->id,
+        'updated_by' => $admin->id,
     ]);
     $this->assertModelExists($exactcopy);
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'ExactCopyWrite']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'ExactCopyWrite']));
 
     // User cannot delete an exactcopy created by someone else
     $this->actingAs($user)->delete(route('apps.mailmerge.exactcopy.destroy', $exactcopy))->assertForbidden();
@@ -446,8 +446,8 @@ it('can delete an exactcopy as user with role ExactCopyWrite or MailMergeAdmin',
 
     // ...but he can delete his own exact copies
     $exactcopy2 = ExactCopy::factory()->create([
-        "created_by" => $user->id,
-        "updated_by" => $user->id,
+        'created_by' => $user->id,
+        'updated_by' => $user->id,
     ]);
     $this->assertModelExists($exactcopy2);
     $response = $this->actingAs($user)
@@ -458,7 +458,7 @@ it('can delete an exactcopy as user with role ExactCopyWrite or MailMergeAdmin',
     $this->assertDatabaseCount('exact_copies', 1);
 
     $user = User::factory()->user()->create();
-    $user->roles()->attach(Role::factory()->create(["name" =>'MailMergeAdmin']));
+    $user->roles()->attach(Role::factory()->create(['name' => 'MailMergeAdmin']));
 
     $response = $this->actingAs($user)
         ->delete(route('apps.mailmerge.exactcopy.destroy', $exactcopy))

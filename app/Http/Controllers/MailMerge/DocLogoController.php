@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\MailMerge;
 
-use Illuminate\Http\Request;
-use App\Models\MailMerge\DocLogo;
 use App\Http\Controllers\Controller;
+use App\Models\MailMerge\DocLogo;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class DocLogoController extends Controller
@@ -22,7 +23,7 @@ class DocLogoController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -34,7 +35,7 @@ class DocLogoController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -44,15 +45,14 @@ class DocLogoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
         $request->validate([
-            'title'=>'string|max:255|required',
+            'title' => 'string|max:255|required',
             'text' => 'string|max:65535',
-            'image'=>'string|max:255',
+            'image' => 'string|max:255',
             'active' => 'boolean',
         ]);
 
@@ -65,14 +65,14 @@ class DocLogoController extends Controller
             'created_by' => Auth::user()->id,
         ]);
         $doclogo->save();
+
         return redirect(route('apps.mailmerge.doclogo.index'))->with('status', 'Logo saved!');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\MailMerge\DocLogo $doclogo
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(DocLogo $doclogo)
     {
@@ -82,8 +82,7 @@ class DocLogoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\MailMerge\DocLogo $doclogo
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(DocLogo $doclogo)
     {
@@ -93,14 +92,12 @@ class DocLogoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\MailMerge\DocLogo $doclogo
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, DocLogo $doclogo)
     {
         $request->validate([
-            'title'=>'required',
+            'title' => 'required',
         ]);
 
         $doclogo->title = $request->get('title');
@@ -116,8 +113,7 @@ class DocLogoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\MailMerge\DocLogo $doclogo
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(DocLogo $doclogo)
     {

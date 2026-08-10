@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\MailMerge;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Models\MailMerge\MailMerge;
-use Illuminate\Support\Facades\Auth;
-use PDF;
-use ZipArchive;
 use App\Http\Controllers\Controller;
+use App\Models\MailMerge\MailMerge;
 use App\Services\StringConverter;
 use DateTime;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use PDF;
 use Storage;
+use ZipArchive;
 
 class MailMergeController extends Controller
 {
@@ -28,7 +30,7 @@ class MailMergeController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(Request $request)
     {
@@ -43,6 +45,7 @@ class MailMergeController extends Controller
         } else {
             $mailmerges = MailMerge::with('creator')->orderBy('id', 'desc')->paginate(5);
         }
+
         return view('apps.mailmerge.index')
             ->with('mailmerges', $mailmerges)
             ->with('filter', $filter);
@@ -51,7 +54,7 @@ class MailMergeController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -61,22 +64,21 @@ class MailMergeController extends Controller
         $editors = DB::table('editors')->get();
 
         return view('apps.mailmerge.create')
-                ->with('doc_logos', $doc_logos)
-                ->with('exact_copies', $exact_copies)
-                ->with('signatures', $signatures)
-                ->with('editors', $editors);
+            ->with('doc_logos', $doc_logos)
+            ->with('exact_copies', $exact_copies)
+            ->with('signatures', $signatures)
+            ->with('editors', $editors);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
         $request->validate([
-            'protocol_num'=>'string|max:255|required',
+            'protocol_num' => 'string|max:255|required',
             'logo_id' => 'numeric|required',
             'editor_id' => 'numeric|required',
             'exact_copy_id' => 'numeric|required',
@@ -88,7 +90,7 @@ class MailMergeController extends Controller
             'xlsxdata' => 'string',
             'xlsxdata_headers' => 'string',
             'mergefields' => 'string',
-            'files_for_teachers' => 'boolean'
+            'files_for_teachers' => 'boolean',
         ]);
 
         $signature = new MailMerge([
@@ -104,21 +106,21 @@ class MailMergeController extends Controller
             'xlsxdata' => $request->get('xlsxdata'),
             'xlsxdata_header' => $request->get('xlsxdata_header'),
             'mergefields' => $request->get('mergefields'),
-            'files_for_teachers' => ($request->get('files_for_teachers')  === 'on' ||
-                                     $request->get('files_for_teachers')  === "1" ||
-                                     $request->get('files_for_teachers')  === true) ? true : false,
+            'files_for_teachers' => ($request->get('files_for_teachers') === 'on' ||
+                                     $request->get('files_for_teachers') === '1' ||
+                                     $request->get('files_for_teachers') === true) ? true : false,
             'updated_by' => Auth::user()->id,
             'created_by' => Auth::user()->id,
         ]);
         $signature->save();
+
         return redirect(route('apps.mailmerge.index'))->with('status', __('Mail merge saved!'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\MailMerge\MailMerge $mailmerge
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(MailMerge $mailmerge)
     {
@@ -128,17 +130,16 @@ class MailMergeController extends Controller
         $editor = DB::table('editors')->find($mailmerge->editor_id);
 
         return view('apps.mailmerge.show', compact('mailmerge'))
-                ->with('doc_logo', $doc_logo)
-                ->with('exact_copy', $exact_copy)
-                ->with('signature', $signature)
-                ->with('editor', $editor);
+            ->with('doc_logo', $doc_logo)
+            ->with('exact_copy', $exact_copy)
+            ->with('signature', $signature)
+            ->with('editor', $editor);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\MailMerge\MailMerge $mailmerge
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(MailMerge $mailmerge)
     {
@@ -148,23 +149,21 @@ class MailMergeController extends Controller
         $editors = DB::table('editors')->get();
 
         return view('apps.mailmerge.edit', compact('mailmerge'))
-                ->with('doc_logos', $doc_logos)
-                ->with('exact_copies', $exact_copies)
-                ->with('signatures', $signatures)
-                ->with('editors', $editors);
+            ->with('doc_logos', $doc_logos)
+            ->with('exact_copies', $exact_copies)
+            ->with('signatures', $signatures)
+            ->with('editors', $editors);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\MailMerge\MailMerge $mailmerge
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, MailMerge $mailmerge)
     {
         $request->validate([
-            'protocol_num'=>'string|max:255|required',
+            'protocol_num' => 'string|max:255|required',
             'logo_id' => 'numeric|required',
             'editor_id' => 'numeric|required',
             'exact_copy_id' => 'numeric|required',
@@ -176,7 +175,7 @@ class MailMergeController extends Controller
             'xlsxdata' => 'string',
             'xlsxdata_headers' => 'string',
             'mergefields' => 'string',
-            'files_for_teachers' => 'boolean'
+            'files_for_teachers' => 'boolean',
         ]);
 
         // dd($request->get('files_for_teachers'));
@@ -192,9 +191,9 @@ class MailMergeController extends Controller
         $mailmerge->xlsxdata = $request->get('xlsxdata');
         $mailmerge->xlsxdata_header = $request->get('xlsxdata_header');
         $mailmerge->mergefields = $request->get('mergefields');
-        $mailmerge->files_for_teachers = ($request->get('files_for_teachers')  === 'on' ||
-                                          $request->get('files_for_teachers')  === "1" ||
-                                          $request->get('files_for_teachers')  === true) ? true : false;
+        $mailmerge->files_for_teachers = ($request->get('files_for_teachers') === 'on' ||
+                                          $request->get('files_for_teachers') === '1' ||
+                                          $request->get('files_for_teachers') === true) ? true : false;
         $mailmerge->updated_by = Auth::user()->id;
         $mailmerge->save();
 
@@ -204,8 +203,7 @@ class MailMergeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\MailMerge\MailMerge $mailmerge
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(MailMerge $mailmerge)
     {
@@ -226,22 +224,23 @@ class MailMergeController extends Controller
         $signature = DB::table('signatures')->find($mailmerge->signature_id);
         $editor = DB::table('editors')->find($mailmerge->editor_id);
 
-        $data = array('id', 'editor', 'exact_copy', 'signature', 'doc_logo', 'draft');
+        $data = ['id', 'editor', 'exact_copy', 'signature', 'doc_logo', 'draft'];
         $pdf = PDF::loadView('apps.mailmerge.print', compact('mailmerge', $data))
             ->setOptions(['print-media-type' => true,
-                          'enable-javascript' => false,
-                          'margin-left' => 0,
-                          'margin-right' => 0,
-                          'margin-top' => 0,
-                          'margin-bottom' => 0,
-                          'page-size' => 'A4',
-                          'disable-smart-shrinking' => true,
-                          'quiet' => true,
-                          'log-level' => 'none',
-                          'read-args-from-stdin' => false,
-                          'use-xserver' => false,
-                          'disable-local-file-access' => true]);
-        $filename = "mailmerge-".$mailmerge->protocol_num."-".date('Ymd-His').".pdf";
+                'enable-javascript' => false,
+                'margin-left' => 0,
+                'margin-right' => 0,
+                'margin-top' => 0,
+                'margin-bottom' => 0,
+                'page-size' => 'A4',
+                'disable-smart-shrinking' => true,
+                'quiet' => true,
+                'log-level' => 'none',
+                'read-args-from-stdin' => false,
+                'use-xserver' => false,
+                'disable-local-file-access' => true]);
+        $filename = 'mailmerge-'.$mailmerge->protocol_num.'-'.date('Ymd-His').'.pdf';
+
         return $pdf->inline($filename);
     }
 
@@ -258,11 +257,11 @@ class MailMergeController extends Controller
         $editor = DB::table('editors')->find($mailmerge->editor_id);
 
         return view('apps.mailmerge.print', compact('mailmerge'))
-                ->with('doc_logo', $doc_logo)
-                ->with('exact_copy', $exact_copy)
-                ->with('signature', $signature)
-                ->with('editor', $editor)
-                ->with('draft', $draft);
+            ->with('doc_logo', $doc_logo)
+            ->with('exact_copy', $exact_copy)
+            ->with('signature', $signature)
+            ->with('editor', $editor)
+            ->with('draft', $draft);
     }
 
     public function save(int $id)
@@ -273,56 +272,56 @@ class MailMergeController extends Controller
         $exact_copy = DB::table('exact_copies')->find($mailmerge->exact_copy_id);
         $signature = DB::table('signatures')->find($mailmerge->signature_id);
         $editor = DB::table('editors')->find($mailmerge->editor_id);
-        $recipients = DB::table('recipients')->select("name", "code")->get();
+        $recipients = DB::table('recipients')->select('name', 'code')->get();
 
         $xlsxdata = json_decode($mailmerge->xlsxdata, true);
         $zip_name = '/tmp/'.$mailmerge->protocol_num.'-'.date('YmdHis').'.zip';
         $zip = new ZipArchive;
         $zip->open($zip_name, ZipArchive::CREATE);
         foreach ($xlsxdata as $key => $record) {
-            $data = array('id', 'editor', 'exact_copy', 'signature', 'doc_logo', 'record');
+            $data = ['id', 'editor', 'exact_copy', 'signature', 'doc_logo', 'record'];
             $pdf = PDF::loadView('apps.mailmerge.save', compact('mailmerge', $data))
                 ->setOptions(
                     ['print-media-type' => true,
-                              'enable-javascript' => true,
-                              'margin-left' => 0,
-                              'margin-right' => 0,
-                              'margin-top' => 0,
-                              'margin-bottom' => 0,
-                              'page-size' => 'A4',
-                              'disable-smart-shrinking' => true]
+                        'enable-javascript' => true,
+                        'margin-left' => 0,
+                        'margin-right' => 0,
+                        'margin-top' => 0,
+                        'margin-bottom' => 0,
+                        'page-size' => 'A4',
+                        'disable-smart-shrinking' => true]
                 );
             $field_array = json_decode($mailmerge->mergefields);
             $file = $pdf->output();
-            $filename = $mailmerge->protocol_num." ".$record['ΑΜ']." ".($key + 1)." ";
+            $filename = $mailmerge->protocol_num.' '.$record['ΑΜ'].' '.($key + 1).' ';
             foreach ($field_array as $mergefield) {
                 $recipient_name = $record[$mergefield];
-                if ($recipient_name != "") {
+                if ($recipient_name != '') {
                     $key = array_search(
                         StringConverter::removeAccents($recipient_name),
-                        array_column($recipients->toArray(), "name")
+                        array_column($recipients->toArray(), 'name')
                     );
                     $recipient_code = $recipients->toArray()[$key]->code;
-                    $filename .= $recipient_code." ";
+                    $filename .= $recipient_code.' ';
                 }
             }
 
             // Πέρα από τους παραλήπτες έλεγξε και το πεδίο του ατομικού φακέλου μήπως πρέπει να σταλεί πουθενά
-            if ($record['ΑΦ']!="") {
+            if ($record['ΑΦ'] != '') {
                 $recipient_name = $record['ΑΦ'];
                 $key = array_search(
                     StringConverter::removeAccents($recipient_name),
-                    array_column($recipients->toArray(), "name")
+                    array_column($recipients->toArray(), 'name')
                 );
                 $recipient_code = $recipients->toArray()[$key]->code;
-                $filename .= $recipient_code." ";
+                $filename .= $recipient_code.' ';
             }
 
             if ($mailmerge->files_for_teachers) {
-                $filename .= " AM".$record['ΑΜ'];
+                $filename .= ' AM'.$record['ΑΜ'];
             }
 
-            $filename .= ".pdf";
+            $filename .= '.pdf';
             $zip->addFromString($filename, $file);
             $zip->setCompressionName($filename, ZipArchive::CM_STORE);
         }
@@ -334,14 +333,15 @@ class MailMergeController extends Controller
     /**
      * Make a copy of the resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @return Response
      */
     public function copy(MailMerge $mailmerge)
     {
         $this->authorize('create', MailMerge::class);
         $copy = $mailmerge->replicate();
         $copy->save();
+
         return redirect(route('apps.mailmerge.index'))->with('status', __('Mail merge copied!'));
     }
 
@@ -363,14 +363,14 @@ class MailMergeController extends Controller
     {
         $this->authorize('update', $mailmerge);
 
-        /** @var \Illuminate\Http\UploadedFile $file */
+        /** @var UploadedFile $file */
         foreach ($request->file('signed') as $file) {
             if (
                 $file->getMimeType() !== 'application/pdf' ||
-                false === $file->storeAs("signed/$mailmerge->id", $file->getClientOriginalName())
+                $file->storeAs("signed/$mailmerge->id", $file->getClientOriginalName()) === false
             ) {
                 return redirect(route('apps.mailmerge.upload_form', $mailmerge->id))
-                    ->with('status', __('Failed to upload signed file') . ' ' . $file->getClientOriginalName());
+                    ->with('status', __('Failed to upload signed file').' '.$file->getClientOriginalName());
             }
         }
 
@@ -390,7 +390,7 @@ class MailMergeController extends Controller
     {
         $this->authorize('view', $mailmerge);
 
-        if (!Storage::exists("signed/$mailmerge->id/$filename")) {
+        if (! Storage::exists("signed/$mailmerge->id/$filename")) {
             abort(404);
         }
 
@@ -408,7 +408,7 @@ class MailMergeController extends Controller
         }
 
         $files = Storage::allFiles("signed/$mailmerge->id");
-        if (!$files) {
+        if (! $files) {
             abort(404);
         }
 
@@ -416,18 +416,19 @@ class MailMergeController extends Controller
         $zip = new ZipArchive;
         $zip_path = "/tmp/user/{$request->user()->id}/";
         Storage::makeDirectory($zip_path);
-        $zip_name = $now->format('YmdHisu') . ".zip";
-        $zip->open(storage_path('app') . $zip_path . $zip_name, ZipArchive::CREATE);
+        $zip_name = $now->format('YmdHisu').'.zip';
+        $zip->open(storage_path('app').$zip_path.$zip_name, ZipArchive::CREATE);
 
         foreach ($files as $file) {
             $filename = basename($file);
-            $file_path = storage_path('app') . "/signed/{$mailmerge->id}/{$filename}";
+            $file_path = storage_path('app')."/signed/{$mailmerge->id}/{$filename}";
 
             $zip->addFile($file_path, $filename);
             $zip->setCompressionName($filename, ZipArchive::CM_STORE);
         }
 
         $zip->close();
-        return response()->download(storage_path('app') . $zip_path . $zip_name);
+
+        return response()->download(storage_path('app').$zip_path.$zip_name);
     }
 }

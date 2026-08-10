@@ -1,5 +1,8 @@
 <?php
 
+use BeyondCode\QueryDetector\Outputs\Debugbar;
+use BeyondCode\QueryDetector\Outputs\Log;
+
 return [
     /*
      * Enable or disable the query detection.
@@ -21,10 +24,10 @@ return [
      * the "posts" attribute and the "Post::class", since the relation can get resolved in multiple ways.
      */
     'except' => [
-        //Author::class => [
+        // Author::class => [
         //    Post::class,
         //    'posts',
-        //]
+        // ]
     ],
 
     /*
@@ -63,7 +66,7 @@ return [
      * \BeyondCode\QueryDetector\Outputs\Log::class
      */
     'output' => [
-        \BeyondCode\QueryDetector\Outputs\Debugbar::class,
-        \BeyondCode\QueryDetector\Outputs\Log::class,
-    ]
+        Debugbar::class,
+        Log::class,
+    ],
 ];

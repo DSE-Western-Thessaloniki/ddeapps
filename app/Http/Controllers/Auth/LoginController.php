@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -49,13 +49,12 @@ class LoginController extends Controller
     /**
      * The user has been authenticated.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  mixed  $user
      * @return mixed
      */
     public function authenticated(Request $request, $user)
     {
-        if (!$user->active) {
+        if (! $user->active) {
             Auth::logout();
 
             return redirect()->route('login')->withError('Ο λογαριασμός σας είναι απενεργοποιημένος.');

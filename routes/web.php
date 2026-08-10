@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,7 +49,7 @@ Route::prefix('apps')
                     Route::get('/save/{id}', 'MailMerge\MailMergeController@save')
                         ->name('save');
                     Route::get('/copy/{mailmerge}', 'MailMerge\MailMergeController@copy')
-                    ->name('copy');
+                        ->name('copy');
 
                     Route::prefix('recipient')->name('recipient.')->group(
                         function () {
@@ -77,18 +77,18 @@ Route::prefix('apps')
             Route::resource('mailmerge', 'MailMerge\MailMergeController');
         }
     );
-    Route::prefix('admin')
-        ->name('admin.')
-        ->middleware('auth')
-        ->group(
-            function () {
-                Route::prefix('user')->name('user.')->group(
-                    function () {
-                        Route::get('/{user}/password', 'UserController@password')->name('password');
-                        Route::post('/{user}/password', 'UserController@changePassword')->name('change_password');
-                    }
-                );
-                Route::resource('user', 'UserController');
-                Route::get('/', 'AdminController@index')->name('index');
-            }
-        );
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware('auth')
+    ->group(
+        function () {
+            Route::prefix('user')->name('user.')->group(
+                function () {
+                    Route::get('/{user}/password', 'UserController@password')->name('password');
+                    Route::post('/{user}/password', 'UserController@changePassword')->name('change_password');
+                }
+            );
+            Route::resource('user', 'UserController');
+            Route::get('/', 'AdminController@index')->name('index');
+        }
+    );

@@ -3,8 +3,8 @@
 namespace App\Models\MailMerge;
 
 use App\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Recipient extends Model
 {
@@ -39,9 +39,10 @@ class Recipient extends Model
             ->groupBy('link')
             ->get();
         if ($result->isNotEmpty()) {
-            return($result[0]->links);
+            return $result[0]->links;
         }
-        return('');
+
+        return '';
     }
 
     public function linksJson()
@@ -50,6 +51,7 @@ class Recipient extends Model
             ->select('id', 'name')
             ->where('link', '=', $this->attributes['name'])
             ->get();
-        return(json_encode($result->toArray()));
+
+        return json_encode($result->toArray());
     }
 }

@@ -4,8 +4,8 @@ namespace Database\Factories;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\User;
 use App\Role;
+use App\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -40,7 +40,7 @@ class UserFactory extends Factory
     /**
      * Indicate that the model's email address should be unverified.
      *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     * @return Factory
      */
     public function unverified()
     {
@@ -54,7 +54,7 @@ class UserFactory extends Factory
     /**
      * Indicate that the user is an administrator.
      *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     * @return Factory
      */
     public function admin()
     {
@@ -66,7 +66,7 @@ class UserFactory extends Factory
     /**
      * Indicate that the user is a user.
      *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     * @return Factory
      */
     public function user()
     {

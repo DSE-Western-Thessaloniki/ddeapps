@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Role;
+use Illuminate\Database\Seeder;
 
 class RoleSeeder extends Seeder
 {
@@ -32,7 +32,7 @@ class RoleSeeder extends Seeder
             ['name' => 'MailMergeWrite'],
         ];
 
-        foreach($roles as $role) {
+        foreach ($roles as $role) {
             Role::updateOrCreate($role);
         }
     }

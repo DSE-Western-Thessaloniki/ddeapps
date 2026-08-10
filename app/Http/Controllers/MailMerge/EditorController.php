@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\MailMerge;
 
-use Illuminate\Http\Request;
-use App\Models\MailMerge\Editor;
 use App\Http\Controllers\Controller;
+use App\Models\MailMerge\Editor;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class EditorController extends Controller
@@ -22,18 +23,19 @@ class EditorController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
         $editors = Editor::with('creator')->get();
+
         return view('apps.mailmerge.editor.index')->with('editors', $editors);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -43,17 +45,16 @@ class EditorController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
         $request->validate([
-            'title'=>'string|max:255|required',
-            'address'=>'string|max:255',
-            'name'=>'string|max:255',
-            'telephone'=>'string|max:255',
-            'email'=>'string|max:255',
+            'title' => 'string|max:255|required',
+            'address' => 'string|max:255',
+            'name' => 'string|max:255',
+            'telephone' => 'string|max:255',
+            'email' => 'string|max:255',
         ]);
 
         $editor = new Editor([
@@ -67,14 +68,14 @@ class EditorController extends Controller
         ]);
 
         $editor->save();
+
         return redirect(route('apps.mailmerge.editor.index'))->with('status', __('Editor saved!'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\MailMerge\Editor $editor
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Editor $editor)
     {
@@ -84,8 +85,7 @@ class EditorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\MailMerge\Editor $editor
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(Editor $editor)
     {
@@ -95,18 +95,16 @@ class EditorController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\MailMerge\Editor $editor
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, Editor $editor)
     {
         $request->validate([
-            'title'=>'string|max:255|required',
-            'address'=>'string|max:255',
-            'name'=>'string|max:255',
-            'telephone'=>'string|max:255',
-            'email'=>'string|max:255',
+            'title' => 'string|max:255|required',
+            'address' => 'string|max:255',
+            'name' => 'string|max:255',
+            'telephone' => 'string|max:255',
+            'email' => 'string|max:255',
         ]);
 
         $editor->title = $request->get('title');
@@ -123,8 +121,7 @@ class EditorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\MailMerge\Editor $editor
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Editor $editor)
     {

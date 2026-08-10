@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use phpDocumentor\Reflection\Types\True_;
 
 class CreateDoclogoTable extends Migration
 {
@@ -19,7 +18,7 @@ class CreateDoclogoTable extends Migration
             $table->string('title', 255);
             $table->string('image');
             $table->text('text');
-            $table->boolean('active')->default(True);
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }

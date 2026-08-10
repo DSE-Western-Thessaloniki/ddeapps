@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\ServiceProvider;
 
 class TranslationServiceProvider extends ServiceProvider
 {
@@ -28,7 +28,7 @@ class TranslationServiceProvider extends ServiceProvider
         Cache::rememberForever('translations', function () {
             $translations = collect();
             $locales = array_map(
-                function($dir) {
+                function ($dir) {
                     return basename($dir);
                 }, glob('../resources/lang/*', GLOB_ONLYDIR)
             );

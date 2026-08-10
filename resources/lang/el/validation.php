@@ -150,7 +150,7 @@ return [
     */
 
     'attributes' => [
-        'password' => 'κωδικός'
+        'password' => 'κωδικός',
     ],
 
 ];
