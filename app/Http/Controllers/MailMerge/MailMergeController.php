@@ -181,7 +181,7 @@ class MailMergeController extends Controller
         // dd($request->get('files_for_teachers'));
         $mailmerge->logo_id = $request->get('logo_id');
         $mailmerge->editor_id = $request->get('editor_id');
-        $mailmerge->ada = is_null($request->get('ada')) ? '' : $request->get('ada');
+        $mailmerge->ada = $request->get('ada') ?? '';
         $mailmerge->protocol_num = $request->get('protocol_num');
         $mailmerge->date = $request->get('date');
         $mailmerge->subject = $request->get('subject');

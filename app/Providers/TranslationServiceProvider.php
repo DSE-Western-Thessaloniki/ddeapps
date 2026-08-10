@@ -28,9 +28,7 @@ class TranslationServiceProvider extends ServiceProvider
         Cache::rememberForever('translations', function () {
             $translations = collect();
             $locales = array_map(
-                function ($dir) {
-                    return basename($dir);
-                }, glob('../resources/lang/*', GLOB_ONLYDIR)
+                fn($dir) => basename($dir), glob('../resources/lang/*', GLOB_ONLYDIR)
             );
 
             foreach ($locales as $locale) { // supported locales
