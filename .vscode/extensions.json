@@ -42,6 +42,7 @@
         "GitHub.vscode-pull-request-github",
         "Vue.volar",
         "georgykurian.laravel-ide-helper",
-        "bmewburn.vscode-intelephense-client"
+        "bmewburn.vscode-intelephense-client",
+        "open-southeners.laravel-pint"
     ],
 }
