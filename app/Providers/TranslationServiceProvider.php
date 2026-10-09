@@ -10,55 +10,82 @@ class TranslationServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
     }
 
     /**
      * Bootstrap services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        Cache::rememberForever('translations', function () {
-            $translations = collect();
-            $locales = array_map(
-                fn ($dir) => basename($dir), glob('../resources/lang/*', GLOB_ONLYDIR)
-            );
+        $translations = Cache::get('translations');
 
-            foreach ($locales as $locale) { // supported locales
-                $translations[$locale] = [
-                    'php' => $this->phpTranslations($locale)->toArray(),
-                    'json' => $this->jsonTranslations($locale),
-                ];
-            }
-
-            return $translations->toArray();
-        });
+        if (! is_array($translations) || $translations === []) {
+            Cache::forever('translations', $this->buildTranslations());
+        }
     }
 
-    private function phpTranslations($locale)
+    /**
+     * Build the translations payload for every supported locale.
+     *
+     * @return array<string, array{php: array<string, string|array>, json: array<string, string>}>
+     */
+    private function buildTranslations(): array
     {
-        $path = resource_path("lang/$locale");
+        $translations = [];
+
+        foreach ($this->locales() as $locale) {
+            $translations[$locale] = [
+                'php' => $this->phpTranslations($locale),
+                'json' => $this->jsonTranslations($locale),
+            ];
+        }
+
+        return $translations;
+    }
+
+    /**
+     * Get the supported locales from the lang directory.
+     *
+     * @return array<int, string>
+     */
+    private function locales(): array
+    {
+        return array_map(
+            fn ($dir) => basename($dir), glob(lang_path('/*'), GLOB_ONLYDIR)
+        );
+    }
+
+    /**
+     * Get the group translation files of the given locale.
+     *
+     * @return array<string, string|array>
+     */
+    private function phpTranslations(string $locale): array
+    {
+        $path = lang_path($locale);
 
         return collect(File::allFiles($path))->flatMap(function ($file) use ($locale) {
             $key = ($translation = $file->getBasename('.php'));
 
             return [$key => trans($translation, [], $locale)];
-        });
+        })->toArray();
     }
 
-    private function jsonTranslations($locale)
+    /**
+     * Get the JSON translations of the given locale.
+     *
+     * @return array<string, string>
+     */
+    private function jsonTranslations(string $locale): array
     {
-        $path = resource_path("lang/$locale.json");
+        $path = lang_path("$locale.json");
 
-        if (is_string($path) && is_readable($path)) {
-            return json_decode(file_get_contents($path), true);
+        if (is_readable($path)) {
+            return json_decode(file_get_contents($path), true) ?: [];
         }
 
         return [];

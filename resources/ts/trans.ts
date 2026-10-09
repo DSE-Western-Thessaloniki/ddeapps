@@ -1,46 +1,62 @@
-import _ from "lodash";
+type TranslationValue =
+    | string
+    | TranslationDictionary
+    | NestedTranslationDictionary;
+
+/**
+ * Walk the dot separated segments of the given key inside a translation
+ * dictionary, returning the matching value or null when it is missing.
+ */
+function lookup(
+    dictionary: { [key: string]: TranslationValue },
+    key: string,
+): TranslationValue | { [key: string]: TranslationValue } | null {
+    let current:
+        | TranslationValue
+        | { [key: string]: TranslationValue }
+        | null = dictionary;
+
+    for (const partialKey of key.split(".")) {
+        if (typeof current !== "object" || current === null) {
+            return null;
+        }
+
+        current = current[partialKey] ?? null;
+    }
+
+    return current;
+}
 
 /**
  * Translate the given key.
  */
-export default function __(key: string, replace?: string[]) {
+export default function __(
+    key: string,
+    replace?: Record<string, string>,
+): string {
     let translation: string | null = null;
-    let translationNotFound = true;
-    let translationObject:
-        | NestedTranslationDictionary
-        | TranslationDictionary
-        | string
-        | null = null;
 
     try {
-        let keys = key.split(".");
-        keys.forEach(function (partial_key) {
-            translationObject =
-                window._translations[window._locale].php[partial_key];
-        });
+        const localeTranslations = window._translations?.[window._locale];
 
-        if (typeof translationObject === "string") {
-            translation = translationObject;
-        }
+        if (localeTranslations) {
+            const phpTranslation = lookup(localeTranslations.php, key);
 
-        if (translation) {
-            translationNotFound = false;
+            if (typeof phpTranslation === "string" && phpTranslation !== "") {
+                translation = phpTranslation;
+            } else if (localeTranslations.json?.[key]) {
+                translation = localeTranslations.json[key];
+            }
         }
-    } catch (e) {
-        translation = key;
+    } catch {
+        translation = null;
     }
 
-    if (translationNotFound) {
-        translation = window._translations[window._locale].json[key]
-            ? window._translations[window._locale].json[key]
-            : key;
-    }
+    let result: string = translation ?? key;
 
-    _.forEach(replace, (value, key) => {
-        if (typeof translation === "string") {
-            translation = translation.replace(":" + key, value);
-        }
+    Object.entries(replace ?? {}).forEach(([placeholder, value]) => {
+        result = result.replace(":" + placeholder, value);
     });
 
-    return translation;
+    return result;
 }
