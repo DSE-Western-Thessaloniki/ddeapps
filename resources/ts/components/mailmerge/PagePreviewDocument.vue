@@ -48,23 +48,25 @@ const props = defineProps<{
                 </td>
                 <td class="w-50">
                     <table class="table table-borderless doc-recipient-col">
-                        <tr>
-                            <td>
-                                <p class="text-right" v-if="docAda">
-                                    <b>ΑΔΑ: {{ docAda }}</b>
-                                </p>
-                                <p class="text-right">
-                                    Θεσσαλονίκη, {{ docDate }}<br />
-                                    Αρ. Πρωτ.: {{ protocolNum }}
-                                </p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="align-bottom">
-                                <div v-html="recipientsHtml"></div>
-                                <div v-html="recipientListHtml"></div>
-                            </td>
-                        </tr>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <p class="text-right" v-if="docAda">
+                                        <b>ΑΔΑ: {{ docAda }}</b>
+                                    </p>
+                                    <p class="text-right">
+                                        Θεσσαλονίκη, {{ docDate }}<br />
+                                        Αρ. Πρωτ.: {{ protocolNum }}
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="align-bottom">
+                                    <div v-html="recipientsHtml"></div>
+                                    <div v-html="recipientListHtml"></div>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </td>
             </tr>
@@ -76,10 +78,12 @@ const props = defineProps<{
         <p v-html="docTextHtml"></p>
 
         <table class="table table-borderless signature-table">
-            <tr>
-                <td class="text-center" v-html="exactCopyHtml"></td>
-                <td class="text-center" v-html="signatureHtml"></td>
-            </tr>
+            <tbody>
+                <tr>
+                    <td class="text-center" v-html="exactCopyHtml"></td>
+                    <td class="text-center" v-html="signatureHtml"></td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </template>
