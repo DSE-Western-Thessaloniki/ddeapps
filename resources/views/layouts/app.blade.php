@@ -14,7 +14,7 @@
     @vite(['resources/sass/app.scss', 'resources/ts/app.ts'])
     <script>
         window._locale = '{{ app()->getLocale() }}';
-        window._translations = JSON.parse(`{!! json_encode(cache('translations')) !!}`);
+        window._translations = @json(cache('translations') ?? []);
     </script>
 
     <!-- Styles -->
