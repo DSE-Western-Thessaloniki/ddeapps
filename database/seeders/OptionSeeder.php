@@ -19,6 +19,9 @@ class OptionSeeder extends Seeder
         ];
 
         foreach ($options as $option) {
+            if ($option['name'] === 'first_run' && Option::where('name', 'first_run')->exists()) {
+                continue; // Skip creating the option if it already exists
+            }
             Option::create($option);
         }
     }
