@@ -5,6 +5,7 @@ import { Modal } from "bootstrap";
 import PagePreviewToolbar from "./PagePreviewToolbar.vue";
 import PagePreviewDocument from "./PagePreviewDocument.vue";
 import RecipientModal from "./RecipientModal.vue";
+import { namesMatch } from "./recipientMatch";
 
 const props = defineProps<{
     editor_address: string;
@@ -290,35 +291,23 @@ const saveMailMergeClicked = () => {
                 keys: ["name"],
             });
 
-            delayedLoop(records.value, 20, (item: XLSX_JSON, index: number) => {
-                const doc_fields = JSON.parse(props.doc_recipient_fields);
-                doc_fields.push("ΑΦ");
+            const recipientNames = recipients.map((x) => x.name);
+            const doc_fields = JSON.parse(
+                props.doc_recipient_fields,
+            ) as string[];
+            doc_fields.push("ΑΦ");
 
+            delayedLoop(records.value, 20, (item: XLSX_JSON, index: number) => {
                 doc_fields.forEach((field: string) => {
                     if (
                         field !== null &&
                         item[field] != "" &&
-                        !recipients
-                            .map((x) => x.name)
-                            .includes(String(item[field])) &&
-                        !recipients
-                            .map((x) => x.name)
-                            .find(
-                                (name) =>
-                                    Intl.Collator("el-GR", {
-                                        sensitivity: "base",
-                                    }).compare(
-                                        name
-                                            .normalize("NFD")
-                                            .replace(/[̀-ͯ]/g, ""),
-                                        String(item[field])
-                                            .normalize("NFD")
-                                            .replace(/[̀-ͯ]/g, ""),
-                                    ) === 0,
-                            ) &&
-                        !unknown_recipients.value
-                            .map((x) => x.name)
-                            .includes(String(item[field]))
+                        !recipientNames.some((name) =>
+                            namesMatch(name, String(item[field])),
+                        ) &&
+                        !unknown_recipients.value.some((x) =>
+                            namesMatch(x.name, String(item[field])),
+                        )
                     ) {
                         ur_selected.value[item[field]] = "-1";
 

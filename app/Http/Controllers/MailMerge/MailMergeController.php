@@ -275,10 +275,14 @@ class MailMergeController extends Controller
         $recipients = DB::table('recipients')->select('name', 'code')->get();
 
         $xlsxdata = json_decode($mailmerge->xlsxdata, true);
+        $recipient_code_by_name = [];
+        foreach ($recipients as $recipient) {
+            $recipient_code_by_name[StringConverter::normalizeForComparison($recipient->name)] = $recipient->code;
+        }
         $zip_name = '/tmp/'.$mailmerge->protocol_num.'-'.date('YmdHis').'.zip';
         $zip = new ZipArchive;
         $zip->open($zip_name, ZipArchive::CREATE);
-        foreach ($xlsxdata as $key => $record) {
+        foreach ($xlsxdata as $record_key => $record) {
             $data = ['id', 'editor', 'exact_copy', 'signature', 'doc_logo', 'record'];
             $pdf = PDF::loadView('apps.mailmerge.save', compact('mailmerge', $data))
                 ->setOptions(
@@ -293,28 +297,23 @@ class MailMergeController extends Controller
                 );
             $field_array = json_decode($mailmerge->mergefields);
             $file = $pdf->output();
-            $filename = $mailmerge->protocol_num.' '.$record['ΑΜ'].' '.($key + 1).' ';
+            $filename = $mailmerge->protocol_num.' '.$record['ΑΜ'].' '.($record_key + 1).' ';
             foreach ($field_array as $mergefield) {
                 $recipient_name = $record[$mergefield];
                 if ($recipient_name != '') {
-                    $key = array_search(
-                        StringConverter::removeAccents($recipient_name),
-                        array_column($recipients->toArray(), 'name')
-                    );
-                    $recipient_code = $recipients->toArray()[$key]->code;
-                    $filename .= $recipient_code.' ';
+                    $recipient_code = $recipient_code_by_name[StringConverter::normalizeForComparison($recipient_name)] ?? null;
+                    if ($recipient_code !== null) {
+                        $filename .= $recipient_code.' ';
+                    }
                 }
             }
 
             // Πέρα από τους παραλήπτες έλεγξε και το πεδίο του ατομικού φακέλου μήπως πρέπει να σταλεί πουθενά
             if ($record['ΑΦ'] != '') {
-                $recipient_name = $record['ΑΦ'];
-                $key = array_search(
-                    StringConverter::removeAccents($recipient_name),
-                    array_column($recipients->toArray(), 'name')
-                );
-                $recipient_code = $recipients->toArray()[$key]->code;
-                $filename .= $recipient_code.' ';
+                $recipient_code = $recipient_code_by_name[StringConverter::normalizeForComparison($record['ΑΦ'])] ?? null;
+                if ($recipient_code !== null) {
+                    $filename .= $recipient_code.' ';
+                }
             }
 
             if ($mailmerge->files_for_teachers) {
