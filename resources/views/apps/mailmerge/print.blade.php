@@ -129,8 +129,14 @@
                                             <div><span><small>{{ $editor->name }}</small></span></div>
                                         </td>
                                         <td>
-                                            <div class="pb-5">Ο/Η ΠΡΟΪΣΤΑΜΕΝΟΣ/Η</div>
-                                            <div><span><small>{{ $exact_copy->title }}</small></span></div>
+                                            @if ($exact_copy->draft_text)
+                                                @foreach (explode("\n", $exact_copy->draft_text) as $line)
+                                                    {{ $line }}<br>
+                                                @endforeach
+                                            @else
+                                                <div class="pb-5">Ο/Η ΠΡΟΪΣΤΑΜΕΝΟΣ/Η</div>
+                                                <div><span><small>{{ $exact_copy->title }}</small></span></div>
+                                            @endif
                                         </td>
                                     </tr>
                                     <tr>
