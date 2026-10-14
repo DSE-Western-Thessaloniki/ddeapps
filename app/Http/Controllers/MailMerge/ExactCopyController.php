@@ -52,12 +52,14 @@ class ExactCopyController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'text' => 'required|string|max:65535',
+            'draft_text' => 'required|string|max:65535',
             'active' => 'boolean',
         ]);
 
         $exactcopy = new ExactCopy([
             'title' => $request->get('title'),
             'text' => $request->get('text'),
+            'draft_text' => $request->get('draft_text'),
             'active' => $request->get('active') == 1 ? 1 : 0,
             'updated_by' => Auth::user()->id,
             'created_by' => Auth::user()->id,
@@ -96,12 +98,13 @@ class ExactCopyController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'text' => 'required|string|max:65535',
+            'draft_text' => 'required|string|max:65535',
             'active' => 'boolean',
         ]);
 
         $exactcopy->title = $request->get('title');
         $exactcopy->text = $request->get('text');
+        $exactcopy->draft_text = $request->get('draft_text');
         $exactcopy->active = $request->get('active') == 1 ? 1 : 0;
         $exactcopy->updated_by = Auth::user()->id;
         $exactcopy->save();
