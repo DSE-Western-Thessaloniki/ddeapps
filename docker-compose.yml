@@ -28,6 +28,12 @@ services:
     networks:
       - sail
 
+  gotenberg:
+    image: gotenberg/gotenberg:8
+    restart: unless-stopped
+    networks:
+      - sail
+
   nginx:
     build:
       context: ./docker/nginx

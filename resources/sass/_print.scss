@@ -8,6 +8,14 @@
         padding: 0 !important;
     }
 
+    div.page {
+        box-shadow: none !important; /* <= DISABLES page shadow (would rasterize whole pages in print-to-pdf) */
+    }
+
+    .table {
+        --bs-table-bg: transparent !important; /* <= tables inherit the app's gray body background otherwise */
+    }
+
     .page-break {
         page-break-after: always;
     }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\MailMerge;
 use App\Http\Controllers\Controller;
 use App\Models\MailMerge\MailMerge;
 use App\Services\StringConverter;
-use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -13,6 +12,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Spatie\LaravelPdf\Facades\Pdf;
 use ZipArchive;
 
 class MailMergeController extends Controller
@@ -225,20 +225,9 @@ class MailMergeController extends Controller
         $editor = DB::table('editors')->find($mailmerge->editor_id);
 
         $data = ['id', 'editor', 'exact_copy', 'signature', 'doc_logo', 'draft'];
-        $pdf = PDF::loadView('apps.mailmerge.print', compact('mailmerge', $data))
-            ->setOptions(['print-media-type' => true,
-                'enable-javascript' => false,
-                'margin-left' => 0,
-                'margin-right' => 0,
-                'margin-top' => 0,
-                'margin-bottom' => 0,
-                'page-size' => 'A4',
-                'disable-smart-shrinking' => true,
-                'quiet' => true,
-                'log-level' => 'none',
-                'read-args-from-stdin' => false,
-                'use-xserver' => false,
-                'disable-local-file-access' => true]);
+        $pdf = Pdf::view('apps.mailmerge.print', compact('mailmerge', $data))
+            ->format('a4')
+            ->margins(0, 0, 0, 0);
         $filename = 'mailmerge-'.$mailmerge->protocol_num.'-'.date('Ymd-His').'.pdf';
 
         return $pdf->inline($filename);
@@ -280,19 +269,11 @@ class MailMergeController extends Controller
         $zip->open($zip_name, ZipArchive::CREATE);
         foreach ($xlsxdata as $key => $record) {
             $data = ['id', 'editor', 'exact_copy', 'signature', 'doc_logo', 'record'];
-            $pdf = PDF::loadView('apps.mailmerge.save', compact('mailmerge', $data))
-                ->setOptions(
-                    ['print-media-type' => true,
-                        'enable-javascript' => true,
-                        'margin-left' => 0,
-                        'margin-right' => 0,
-                        'margin-top' => 0,
-                        'margin-bottom' => 0,
-                        'page-size' => 'A4',
-                        'disable-smart-shrinking' => true]
-                );
+            $pdf = Pdf::view('apps.mailmerge.save', compact('mailmerge', $data))
+                ->format('a4')
+                ->margins(0, 0, 0, 0);
             $field_array = json_decode($mailmerge->mergefields);
-            $file = $pdf->output();
+            $file = $pdf->generatePdfContent();
             $filename = $mailmerge->protocol_num.' '.$record['ΑΜ'].' '.($key + 1).' ';
             foreach ($field_array as $mergefield) {
                 $recipient_name = $record[$mergefield];
