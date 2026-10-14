@@ -97,6 +97,7 @@ it('can create an exact copy as admin', function (): void {
     $exactcopy_data = [
         'title' => $name,
         'text' => $name."\n\n".implode(' ', fake()->words(2)),
+        'draft_text' => $name."\n\n".implode(' ', fake()->words(2)),
         'active' => true,
         'updated_by' => $user->id,
         'created_by' => $user->id,
@@ -119,6 +120,7 @@ it('cannot create an exact copy as user', function (): void {
     $this->actingAs($user)->post(route('apps.mailmerge.exactcopy.store', [
         'title' => $name,
         'text' => $name."\n\n".implode(' ', fake()->words(2)),
+        'draft_text' => $name."\n\n".implode(' ', fake()->words(2)),
         'active' => true,
         'updated_by' => $user->id,
         'created_by' => $user->id,
@@ -137,6 +139,7 @@ it('cannot create an exact copy as user with role ExactCopyRead', function (): v
     $this->actingAs($user)->post(route('apps.mailmerge.exactcopy.store', [
         'title' => $name,
         'text' => $name."\n\n".implode(' ', fake()->words(2)),
+        'draft_text' => $name."\n\n".implode(' ', fake()->words(2)),
         'active' => true,
         'updated_by' => $user->id,
         'created_by' => $user->id,
@@ -155,6 +158,7 @@ it('can create an exact copy as user with role ExactCopyWrite or MailMergeAdmin'
     $exactcopy_data = [
         'title' => $name,
         'text' => $name."\n\n".implode(' ', fake()->words(2)),
+        'draft_text' => $name."\n\n".implode(' ', fake()->words(2)),
         'active' => true,
         'updated_by' => $user->id,
         'created_by' => $user->id,
@@ -176,6 +180,7 @@ it('can create an exact copy as user with role ExactCopyWrite or MailMergeAdmin'
     $exactcopy_data = [
         'title' => $name,
         'text' => $name."\n\n".implode(' ', fake()->words(2)),
+        'draft_text' => $name."\n\n".implode(' ', fake()->words(2)),
         'active' => true,
         'updated_by' => $user->id,
         'created_by' => $user->id,
@@ -189,7 +194,7 @@ it('can create an exact copy as user with role ExactCopyWrite or MailMergeAdmin'
     $this->assertDatabaseHas('exact_copies', $exactcopy_data);
 });
 
-it('cannot create an exact copy as admin', function ($title, $text, $active, $errors): void {
+it('cannot create an exact copy as admin', function ($title, $text, $draft_text, $active, $errors): void {
     $user = User::factory()->admin()->create();
 
     $this->actingAs($user)->get(route('apps.mailmerge.exactcopy.create'))->assertOk();
@@ -197,6 +202,7 @@ it('cannot create an exact copy as admin', function ($title, $text, $active, $er
     $exactcopy_data = [
         'title' => $title,
         'text' => $text,
+        'draft_text' => $draft_text,
         'active' => $active,
         'updated_by' => $user->id,
         'created_by' => $user->id,
@@ -225,6 +231,7 @@ it('can update an exact copy as admin', function (): void {
     $exactcopy_data = [
         'title' => 'This is an updated title',
         'text' => 'Updated text',
+        'draft_text' => 'Updated draft text',
         'active' => false,
         'updated_by' => $user->id,
     ];
@@ -251,6 +258,7 @@ it('cannot update an exact copy as user', function (): void {
     $exactcopy_data = [
         'title' => 'This is an updated title',
         'text' => 'Updated text',
+        'draft_text' => 'Updated draft text',
         'active' => false,
         'updated_by' => $user->id,
     ];
@@ -277,6 +285,7 @@ it('cannot update an exactcopy as user with role ExactCopyRead', function (): vo
     $exactcopy_data = [
         'title' => 'This is an updated title',
         'text' => 'Updated text',
+        'draft_text' => 'Updated draft text',
         'active' => false,
         'updated_by' => $user->id,
     ];
@@ -305,6 +314,7 @@ it('can update an exact copy as user with role ExactCopyWrite or MailMergeAdmin'
     $exactcopy_data = [
         'title' => 'This is an updated title',
         'text' => 'Updated text',
+        'draft_text' => 'Updated draft text',
         'active' => false,
         'updated_by' => $user->id,
     ];
@@ -326,6 +336,7 @@ it('can update an exact copy as user with role ExactCopyWrite or MailMergeAdmin'
     $exactcopy_data = [
         'title' => 'This is an updated title',
         'text' => 'Updated text',
+        'draft_text' => 'Updated draft text',
         'active' => false,
         'updated_by' => $user->id,
     ];
@@ -345,6 +356,7 @@ it('can update an exact copy as user with role ExactCopyWrite or MailMergeAdmin'
     $exactcopy_data = [
         'title' => 'This is an updated title2',
         'text' => 'Updated text2',
+        'draft_text' => 'Updated draft text2',
         'active' => true,
         'updated_by' => $user->id,
     ];
@@ -357,7 +369,7 @@ it('can update an exact copy as user with role ExactCopyWrite or MailMergeAdmin'
     $this->assertDatabaseHas('exact_copies', $exactcopy_data);
 });
 
-it('cannot update an exact copy as admin', function ($title, $text, $active, $errors): void {
+it('cannot update an exact copy as admin', function ($title, $text, $draft_text, $active, $errors): void {
     $user = User::factory()->admin()->create();
     $exactcopy = ExactCopy::factory()->create([
         'created_by' => $user->id,
@@ -371,6 +383,7 @@ it('cannot update an exact copy as admin', function ($title, $text, $active, $er
     $exactcopy_data = [
         'title' => $title,
         'text' => $text,
+        'draft_text' => $draft_text,
         'active' => $active,
         'updated_by' => $user->id,
     ];
