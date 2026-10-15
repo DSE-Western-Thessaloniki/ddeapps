@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\MailMerge;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\GenerateMailMergeZip;
 use App\Models\MailMerge\MailMerge;
-use App\Services\StringConverter;
+use App\Models\MailMerge\MailMergeExport;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -253,62 +254,66 @@ class MailMergeController extends Controller
             ->with('draft', $draft);
     }
 
-    public function save(int $id)
+    public function save(Request $request, int $id)
     {
         $mailmerge = MailMerge::find($id);
-        $this->authorize('view', $mailmerge);
-        $doc_logo = DB::table('doc_logos')->find($mailmerge->logo_id);
-        $exact_copy = DB::table('exact_copies')->find($mailmerge->exact_copy_id);
-        $signature = DB::table('signatures')->find($mailmerge->signature_id);
-        $editor = DB::table('editors')->find($mailmerge->editor_id);
-        $recipients = DB::table('recipients')->select('name', 'code')->get();
-
-        $xlsxdata = json_decode($mailmerge->xlsxdata, true);
-        $zip_name = '/tmp/'.$mailmerge->protocol_num.'-'.date('YmdHis').'.zip';
-        $zip = new ZipArchive;
-        $zip->open($zip_name, ZipArchive::CREATE);
-        foreach ($xlsxdata as $key => $record) {
-            $data = ['id', 'editor', 'exact_copy', 'signature', 'doc_logo', 'record'];
-            $pdf = Pdf::view('apps.mailmerge.save', compact('mailmerge', $data))
-                ->format('a4')
-                ->margins(0, 0, 0, 0);
-            $field_array = json_decode($mailmerge->mergefields);
-            $file = $pdf->generatePdfContent();
-            $filename = $mailmerge->protocol_num.' '.$record['ΑΜ'].' '.($key + 1).' ';
-            foreach ($field_array as $mergefield) {
-                $recipient_name = $record[$mergefield];
-                if ($recipient_name != '') {
-                    $key = array_search(
-                        StringConverter::removeAccents($recipient_name),
-                        array_column($recipients->toArray(), 'name')
-                    );
-                    $recipient_code = $recipients->toArray()[$key]->code;
-                    $filename .= $recipient_code.' ';
-                }
-            }
-
-            // Πέρα από τους παραλήπτες έλεγξε και το πεδίο του ατομικού φακέλου μήπως πρέπει να σταλεί πουθενά
-            if ($record['ΑΦ'] != '') {
-                $recipient_name = $record['ΑΦ'];
-                $key = array_search(
-                    StringConverter::removeAccents($recipient_name),
-                    array_column($recipients->toArray(), 'name')
-                );
-                $recipient_code = $recipients->toArray()[$key]->code;
-                $filename .= $recipient_code.' ';
-            }
-
-            if ($mailmerge->files_for_teachers) {
-                $filename .= ' AM'.$record['ΑΜ'];
-            }
-
-            $filename .= '.pdf';
-            $zip->addFromString($filename, $file);
-            $zip->setCompressionName($filename, ZipArchive::CM_STORE);
+        if ($mailmerge === null) {
+            abort(404);
         }
-        $zip->close();
+        $this->authorize('view', $mailmerge);
 
-        return response()->download($zip_name);
+        $records = json_decode($mailmerge->xlsxdata, true) ?? [];
+        $export = MailMergeExport::create([
+            'user_id' => $request->user()->id,
+            'mail_merge_id' => $mailmerge->id,
+            'status' => MailMergeExport::STATUS_PENDING,
+            'total' => count($records),
+            'processed' => 0,
+        ]);
+
+        GenerateMailMergeZip::dispatch($export);
+
+        return response()->json([
+            'export_id' => $export->id,
+            'status' => $export->status,
+            'total' => $export->total,
+            'processed' => $export->processed,
+            'status_url' => route('apps.mailmerge.exports.status', ['export' => $export]),
+            'download_url' => route('apps.mailmerge.exports.download', ['export' => $export]),
+        ], 201);
+    }
+
+    public function exportStatus(Request $request, MailMergeExport $export)
+    {
+        $this->authorize('view', $export);
+
+        return response()->json([
+            'export_id' => $export->id,
+            'status' => $export->status,
+            'total' => $export->total,
+            'processed' => $export->processed,
+            'error' => $export->error,
+            'download_url' => route('apps.mailmerge.exports.download', ['export' => $export]),
+        ]);
+    }
+
+    public function exportDownload(Request $request, MailMergeExport $export)
+    {
+        $this->authorize('view', $export);
+
+        if (! $export->isReady()) {
+            abort(409);
+        }
+
+        if ($export->path === null || ! Storage::exists($export->path)) {
+            abort(404);
+        }
+
+        $filename = $export->mailMerge->protocol_num.'-'.$export->created_at->format('YmdHis').'.zip';
+        $path = Storage::path($export->path);
+        $export->delete();
+
+        return response()->download($path, $filename)->deleteFileAfterSend(true);
     }
 
     /**
