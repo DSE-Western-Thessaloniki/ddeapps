@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('exact_copy', function (Blueprint $table) {
+        Schema::table('exact_copies', function (Blueprint $table) {
             $table->text('draft_text')->nullable()->after('text');
         });
     }
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('exact_copy', function (Blueprint $table) {
+        Schema::table('exact_copies', function (Blueprint $table) {
             $table->dropColumn('draft_text');
         });
     }

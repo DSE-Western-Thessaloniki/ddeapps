@@ -1,13 +1,14 @@
 <?php
 
-dataset('mailmerge_routes', fn() => [
+dataset('mailmerge_routes', fn () => [
     '/apps/mailmerge',
     '/apps/mailmerge/create',
     '/apps/mailmerge/0',
     '/apps/mailmerge/0/edit',
     '/apps/mailmerge/copy/0',
     '/apps/mailmerge/print/0',
-    '/apps/mailmerge/save/0',
+    '/apps/mailmerge/exports/0/status',
+    '/apps/mailmerge/exports/0/download',
     '/apps/mailmerge/show2/0',
     '/apps/mailmerge/doclogo',
     '/apps/mailmerge/doclogo/create',

@@ -25,7 +25,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Blade::directive('icon', fn($expression) => "<i class=\"fas fa-fw fa-{{ $expression }}\"></i>");
+        Blade::directive('icon', fn ($expression) => "<i class=\"fas fa-fw fa-{{ $expression }}\"></i>");
+        Blade::directive('printstyles', fn () => '<?php echo \\App\\Services\\PrintStyles::css(); ?>');
         Paginator::useBootstrap();
     }
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, Ref } from "vue";
+import { ref, onMounted, onUnmounted, computed, Ref } from "vue";
 import Fuse from "fuse.js";
 import { Modal } from "bootstrap";
 import PagePreviewToolbar from "./PagePreviewToolbar.vue";
@@ -70,6 +70,24 @@ const errorMessage = ref("");
 const saveMailMergeReady = ref(false);
 const saveMailMergeLoading = ref(false);
 const saveRecipientsLoading = ref(false);
+const exportStatusText = ref("");
+const exportPollTimer: Ref<number | null> = ref(null);
+const exportPollFailures = ref(0);
+
+type ExportStartResponse = {
+    export_id: number;
+    status_url: string;
+    download_url: string;
+};
+
+type ExportStatusResponse = {
+    export_id: number;
+    status: string;
+    total: number;
+    processed: number;
+    error: string | null;
+    download_url: string;
+};
 
 const progress_style = computed(() => `width: ${progress.value}%`);
 
@@ -234,6 +252,8 @@ const updateToSelect = () => {
 const saveMailMergeClicked = () => {
     progress.value = 0;
     errorMessage.value = "";
+    exportStatusText.value = "";
+    stopExportPolling();
     unknown_recipients.value = [];
     ur_options.value = [];
     ur_selected.value = {};
@@ -475,10 +495,112 @@ const onRecipientSelectorChanged = (payload: {
     updateToSelect();
 };
 
-const readySaveMailMergeClicked = () => {
+const stopExportPolling = () => {
+    if (exportPollTimer.value !== null) {
+        clearInterval(exportPollTimer.value);
+        exportPollTimer.value = null;
+    }
+};
+
+const finishExport = (downloadUrl: string) => {
+    stopExportPolling();
+    progress.value = 100;
+    exportStatusText.value = "";
+    saveMailMergeLoading.value = false;
+
+    const modalElement = document.getElementById("myModal");
+    const modal = modalElement ? Modal.getInstance(modalElement) : null;
+    if (modal) {
+        modal.hide();
+    }
+
+    window.location.assign(downloadUrl);
+};
+
+const failExport = (message: string) => {
+    stopExportPolling();
+    exportStatusText.value = "";
+    errorMessage.value = message;
+    saveMailMergeLoading.value = false;
+    saveMailMergeReady.value = true;
+};
+
+const pollExport = async (
+    statusUrl: string,
+    downloadUrl: string,
+): Promise<void> => {
+    try {
+        const response = await fetch(statusUrl, {
+            credentials: "same-origin",
+            headers: {
+                Accept: "application/json",
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to read export status");
+        }
+
+        const data = (await response.json()) as ExportStatusResponse;
+        exportPollFailures.value = 0;
+        update_progress(data.processed, data.total || 1);
+        exportStatusText.value = `Δημιουργία αρχείου... ${data.processed}/${data.total}`;
+
+        if (data.status === "ready") {
+            finishExport(downloadUrl);
+        } else if (data.status === "failed") {
+            failExport(
+                data.error ?? "Η διαδικασία απέτυχε. Παρακαλώ δοκιμάστε ξανά.",
+            );
+        }
+    } catch (error) {
+        exportPollFailures.value++;
+        if (exportPollFailures.value >= 5) {
+            failExport(
+                "Απώλεια σύνδεσης με τον διακομιστή κατά τη δημιουργία του αρχείου.",
+            );
+        }
+    }
+};
+
+const readySaveMailMergeClicked = async () => {
     saveMailMergeLoading.value = true;
     saveMailMergeReady.value = false;
-    window.location.assign(props.save_mail_merge_url);
+    errorMessage.value = "";
+    progress.value = 0;
+    exportStatusText.value = "";
+    exportPollFailures.value = 0;
+
+    const csrfToken =
+        document
+            .querySelector('meta[name="csrf-token"]')
+            ?.getAttribute("content") ?? "";
+
+    try {
+        const response = await fetch(props.save_mail_merge_url, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken,
+                Accept: "application/json",
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to start export");
+        }
+
+        const data = (await response.json()) as ExportStartResponse;
+
+        exportPollTimer.value = window.setInterval(() => {
+            void pollExport(data.status_url, data.download_url);
+        }, 1000);
+    } catch (error) {
+        failExport(
+            "Η δημιουργία του αρχείου δεν ξεκίνησε. Παρακαλώ δοκιμάστε ξανά.",
+        );
+    }
 };
 
 const saveMailMergeDisabled = computed(
@@ -495,6 +617,10 @@ const print_url_draft = computed(() => {
 
 onMounted(() => {
     setZoom("70%");
+});
+
+onUnmounted(() => {
+    stopExportPolling();
 });
 </script>
 
@@ -538,6 +664,7 @@ onMounted(() => {
             :progress-style="progress_style"
             :progress="progress"
             :error-message="errorMessage"
+            :export-status-text="exportStatusText"
             :unknown-recipients="unknown_recipients"
             :ur-options="ur_options"
             :ur-selected="ur_selected"

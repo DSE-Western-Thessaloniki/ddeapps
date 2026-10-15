@@ -10,8 +10,9 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <style>@printstyles</style>
+
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/ts/app.ts'])
     <script>
         window._locale = '{{ app()->getLocale() }}';
         window._translations = @json(cache('translations') ?? []);

@@ -2,19 +2,12 @@
 
 @section('content')
     @php
-        // Prepare printing
-        $doc_logo_text_html = preg_replace(
-            '/\n/',
-            '<br/>
-            ',
-            $doc_logo->text,
-        );
-        $exact_copy_text_html = preg_replace('/\n/', '<br/>', $exact_copy->text);
-        $signature_text_html = preg_replace('/\n/', '<br/>', $signature->text);
-        $date = new DateTime($mailmerge->date);
-        $xlsxdata = json_decode($mailmerge->xlsxdata, true);
-        $recipient_fields = json_decode($mailmerge->mergefields, true);
-        $base64_logo = base64_encode(file_get_contents(__DIR__ . '/../../../public/images/' . $doc_logo->image));
+        $doc_logo_text_html = $prepared['doc_logo_text_html'];
+        $exact_copy_text_html = $prepared['exact_copy_text_html'];
+        $signature_text_html = $prepared['signature_text_html'];
+        $date = $prepared['date'];
+        $recipient_fields = $prepared['recipient_fields'];
+        $base64_logo = $prepared['base64_logo'];
     @endphp
 
     <div class="container">
