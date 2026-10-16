@@ -30,9 +30,9 @@ WORKDIR /tmp
 
 RUN apt-get update \
     && apt-get install -y xfonts-75dpi \
-    && curl -LO http://security.debian.org/debian-security/pool/updates/main/o/openssl/libssl1.1_1.1.1w-0+deb11u8_amd64.deb \
-    && apt install -y ./libssl1.1_1.1.1w-0+deb11u8_amd64.deb \
-    && rm ./libssl1.1_1.1.1w-0+deb11u8_amd64.deb \
+    && curl -LO http://deb.debian.org/debian/pool/main/o/openssl/libssl1.1_1.1.1w-0+deb11u1_amd64.deb \
+    && apt install -y ./libssl1.1_1.1.1w-0+deb11u1_amd64.deb \
+    && rm ./libssl1.1_1.1.1w-0+deb11u1_amd64.deb \
     && curl -LO https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.bullseye_amd64.deb \
     && apt install -y ./wkhtmltox_0.12.6.1-2.bullseye_amd64.deb \
     && rm ./wkhtmltox_0.12.6.1-2.bullseye_amd64.deb \
