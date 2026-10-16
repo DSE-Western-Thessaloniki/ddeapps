@@ -47,6 +47,10 @@ describe("namesMatch", () => {
         expect(namesMatch("Α Β", "ΑΒ")).toBe(false);
     });
 
+    it("does match with line break instead of space between", () => {
+        expect(namesMatch("Α\nΒ", "Α Β")).toBe(true);
+    });
+
     it("does not match hyphen-less variants", () => {
         expect(namesMatch("ΠΑΠΑΔΟΠΟΥΛΟΣ", "ΠΑΠΑ-ΔΟΠΟΥΛΟΣ")).toBe(false);
     });
