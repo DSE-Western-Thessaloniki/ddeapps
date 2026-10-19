@@ -13,7 +13,6 @@
         "streetsidesoftware.code-spell-checker",
         "streetsidesoftware.code-spell-checker-greek",
         "codestream.codestream",
-        "ikappas.composer",
         "pranaygp.vscode-css-peek",
         "dbaeumer.vscode-eslint",
         "mhutchie.git-graph",
@@ -43,6 +42,7 @@
         "Vue.volar",
         "georgykurian.laravel-ide-helper",
         "bmewburn.vscode-intelephense-client",
-        "open-southeners.laravel-pint"
+        "open-southeners.laravel-pint",
+        "devsense.composer-php-vscode"
     ],
 }
