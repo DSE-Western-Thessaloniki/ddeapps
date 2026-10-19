@@ -1,4 +1,19 @@
 parameters:
-	level: 0
-	paths:
-		- app
+    level: 0
+    paths:
+        - app
+        - bootstrap
+        - config
+        - database
+        - resources
+        - routes
+        - tests
+    parseModelCastsMethod: true
+    excludePaths:
+        - bootstrap/cache
+
+includes:
+    - vendor/pestphp/pest-plugin-phpstan/extension.neon
+    - vendor/larastan/larastan/extension.neon
+    - vendor/nesbot/carbon/extension.neon
+    - vendor/calebdw/fakerstan/extension.neon
