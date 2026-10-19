@@ -98,6 +98,7 @@ class ExactCopyController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'text' => 'required|string|max:65535',
             'draft_text' => 'required|string|max:65535',
             'active' => 'boolean',
         ]);

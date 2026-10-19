@@ -3,7 +3,6 @@
 use App\Providers\AppServiceProvider;
 use App\Providers\EventServiceProvider;
 use App\Providers\RouteServiceProvider;
-use Barryvdh\Snappy\ServiceProvider;
 use Illuminate\Auth\AuthServiceProvider;
 use Illuminate\Auth\Passwords\PasswordResetServiceProvider;
 use Illuminate\Broadcasting\BroadcastServiceProvider;
@@ -227,7 +226,6 @@ return [
         /*
          * Package Service Providers...
          */
-        ServiceProvider::class,
 
         /*
          * Application Service Providers...

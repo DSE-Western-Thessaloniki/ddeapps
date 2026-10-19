@@ -28,6 +28,43 @@ services:
     networks:
       - sail
 
+  gotenberg:
+    image: gotenberg/gotenberg:8
+    restart: unless-stopped
+    networks:
+      - sail
+
+  queue-worker:
+    image: ddeapps-laravel.test
+    build:
+      context: "./docker/php"
+      dockerfile: Dockerfile
+      args:
+        WWWGROUP: ${WWWGROUP}
+        WWWUSER: ${WWWUSER}
+        PHP_VERSION: ${PHP_VERSION}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+      - "laravel.test:host-gateway"
+    environment:
+      XDEBUG_MODE: "${SAIL_XDEBUG_MODE:-off}"
+      XDEBUG_CONFIG: "${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}"
+    volumes:
+      - ".:/var/www/html"
+      - type: bind
+        source: ./docker/php/conf/php.ini
+        target: /usr/local/etc/php/conf.d/zzz-custom.ini
+      - type: bind
+        source: ./docker/php/conf/php-fpm.conf
+        target: /usr/local/etc/php-fpm.d/zzz-docker.conf
+    working_dir: /var/www/html
+    command: php artisan queue:work --tries=1 --sleep=3
+    restart: unless-stopped
+    depends_on:
+      - mariadb
+    networks:
+      - sail
+
   nginx:
     build:
       context: ./docker/nginx
@@ -50,7 +87,7 @@ services:
       - sail
 
   mariadb:
-    image: "mariadb:10"
+    image: "mariadb:11"
     ports:
       - "${FORWARD_DB_PORT:-3306}:3306"
     environment:
@@ -78,6 +115,7 @@ services:
       MYSQL_USERNAME: "${DB_USERNAME}"
       MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
       PMA_HOST: mariadb
+      UPLOAD_LIMIT: 300M
     networks:
       - sail
     depends_on:

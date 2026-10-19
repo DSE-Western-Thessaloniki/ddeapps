@@ -46,8 +46,12 @@ Route::prefix('apps')
                         ->name('print');
                     Route::get('/show2/{id}', 'MailMerge\MailMergeController@show2')
                         ->name('show2');
-                    Route::get('/save/{id}', 'MailMerge\MailMergeController@save')
+                    Route::post('/save/{id}', 'MailMerge\MailMergeController@save')
                         ->name('save');
+                    Route::get('/exports/{export}/status', 'MailMerge\MailMergeController@exportStatus')
+                        ->name('exports.status');
+                    Route::get('/exports/{export}/download', 'MailMerge\MailMergeController@exportDownload')
+                        ->name('exports.download');
                     Route::get('/copy/{mailmerge}', 'MailMerge\MailMergeController@copy')
                         ->name('copy');
 

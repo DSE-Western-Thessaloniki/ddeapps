@@ -5,6 +5,7 @@ const props = defineProps<{
     progressStyle: string;
     progress: number;
     errorMessage: string;
+    exportStatusText: string;
     unknownRecipients: Array<{
         color: string;
         name: string;
@@ -92,6 +93,13 @@ const onRecipientChange = (name: string, event: Event) => {
                             {{ progress }}%
                         </div>
                     </div>
+                    <p
+                        v-if="exportStatusText"
+                        id="export_status"
+                        class="mt-2 mb-0 text-center"
+                    >
+                        {{ exportStatusText }}
+                    </p>
                     <div
                         v-if="errorMessage"
                         id="error_msg"

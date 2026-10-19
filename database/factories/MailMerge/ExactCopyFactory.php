@@ -26,6 +26,7 @@ class ExactCopyFactory extends Factory
         return [
             'title' => $name,
             'text' => $name."\n\n".implode(' ', $this->faker->words(2)),
+            'draft_text' => $name."\n\n".implode(' ', $this->faker->words(2)),
             'active' => true,
             'updated_by' => 1,
             'created_by' => 1,

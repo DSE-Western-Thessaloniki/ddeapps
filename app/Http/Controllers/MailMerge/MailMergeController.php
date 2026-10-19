@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\MailMerge;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\GenerateMailMergeZip;
 use App\Models\MailMerge\MailMerge;
-use App\Services\StringConverter;
-use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
+use App\Models\MailMerge\MailMergeExport;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -13,6 +13,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Spatie\LaravelPdf\Facades\Pdf;
 use ZipArchive;
 
 class MailMergeController extends Controller
@@ -225,20 +226,9 @@ class MailMergeController extends Controller
         $editor = DB::table('editors')->find($mailmerge->editor_id);
 
         $data = ['id', 'editor', 'exact_copy', 'signature', 'doc_logo', 'draft'];
-        $pdf = PDF::loadView('apps.mailmerge.print', compact('mailmerge', $data))
-            ->setOptions(['print-media-type' => true,
-                'enable-javascript' => false,
-                'margin-left' => 0,
-                'margin-right' => 0,
-                'margin-top' => 0,
-                'margin-bottom' => 0,
-                'page-size' => 'A4',
-                'disable-smart-shrinking' => true,
-                'quiet' => true,
-                'log-level' => 'none',
-                'read-args-from-stdin' => false,
-                'use-xserver' => false,
-                'disable-local-file-access' => true]);
+        $pdf = Pdf::view('apps.mailmerge.print', compact('mailmerge', $data))
+            ->format('a4')
+            ->margins(0, 0, 0, 0);
         $filename = 'mailmerge-'.$mailmerge->protocol_num.'-'.date('Ymd-His').'.pdf';
 
         return $pdf->inline($filename);
@@ -264,69 +254,66 @@ class MailMergeController extends Controller
             ->with('draft', $draft);
     }
 
-    public function save(int $id)
+    public function save(Request $request, int $id)
     {
         $mailmerge = MailMerge::find($id);
+        if ($mailmerge === null) {
+            abort(404);
+        }
         $this->authorize('view', $mailmerge);
-        $doc_logo = DB::table('doc_logos')->find($mailmerge->logo_id);
-        $exact_copy = DB::table('exact_copies')->find($mailmerge->exact_copy_id);
-        $signature = DB::table('signatures')->find($mailmerge->signature_id);
-        $editor = DB::table('editors')->find($mailmerge->editor_id);
-        $recipients = DB::table('recipients')->select('name', 'code')->get();
 
-        $xlsxdata = json_decode($mailmerge->xlsxdata, true);
-        $recipient_code_by_name = [];
-        foreach ($recipients as $recipient) {
-            $recipient_code_by_name[StringConverter::normalizeForComparison($recipient->name)] = $recipient->code;
+        $records = json_decode($mailmerge->xlsxdata, true) ?? [];
+        $export = MailMergeExport::create([
+            'user_id' => $request->user()->id,
+            'mail_merge_id' => $mailmerge->id,
+            'status' => MailMergeExport::STATUS_PENDING,
+            'total' => count($records),
+            'processed' => 0,
+        ]);
+
+        GenerateMailMergeZip::dispatch($export);
+
+        return response()->json([
+            'export_id' => $export->id,
+            'status' => $export->status,
+            'total' => $export->total,
+            'processed' => $export->processed,
+            'status_url' => route('apps.mailmerge.exports.status', ['export' => $export]),
+            'download_url' => route('apps.mailmerge.exports.download', ['export' => $export]),
+        ], 201);
+    }
+
+    public function exportStatus(Request $request, MailMergeExport $export)
+    {
+        $this->authorize('view', $export);
+
+        return response()->json([
+            'export_id' => $export->id,
+            'status' => $export->status,
+            'total' => $export->total,
+            'processed' => $export->processed,
+            'error' => $export->error,
+            'download_url' => route('apps.mailmerge.exports.download', ['export' => $export]),
+        ]);
+    }
+
+    public function exportDownload(Request $request, MailMergeExport $export)
+    {
+        $this->authorize('view', $export);
+
+        if (! $export->isReady()) {
+            abort(409);
         }
-        $zip_name = '/tmp/'.$mailmerge->protocol_num.'-'.date('YmdHis').'.zip';
-        $zip = new ZipArchive;
-        $zip->open($zip_name, ZipArchive::CREATE);
-        foreach ($xlsxdata as $record_key => $record) {
-            $data = ['id', 'editor', 'exact_copy', 'signature', 'doc_logo', 'record'];
-            $pdf = PDF::loadView('apps.mailmerge.save', compact('mailmerge', $data))
-                ->setOptions(
-                    ['print-media-type' => true,
-                        'enable-javascript' => true,
-                        'margin-left' => 0,
-                        'margin-right' => 0,
-                        'margin-top' => 0,
-                        'margin-bottom' => 0,
-                        'page-size' => 'A4',
-                        'disable-smart-shrinking' => true]
-                );
-            $field_array = json_decode($mailmerge->mergefields);
-            $file = $pdf->output();
-            $filename = $mailmerge->protocol_num.' '.$record['ΑΜ'].' '.($record_key + 1).' ';
-            foreach ($field_array as $mergefield) {
-                $recipient_name = $record[$mergefield];
-                if ($recipient_name != '') {
-                    $recipient_code = $recipient_code_by_name[StringConverter::normalizeForComparison($recipient_name)] ?? null;
-                    if ($recipient_code !== null) {
-                        $filename .= $recipient_code.' ';
-                    }
-                }
-            }
 
-            // Πέρα από τους παραλήπτες έλεγξε και το πεδίο του ατομικού φακέλου μήπως πρέπει να σταλεί πουθενά
-            if ($record['ΑΦ'] != '') {
-                $recipient_code = $recipient_code_by_name[StringConverter::normalizeForComparison($record['ΑΦ'])] ?? null;
-                if ($recipient_code !== null) {
-                    $filename .= $recipient_code.' ';
-                }
-            }
-
-            if ($mailmerge->files_for_teachers) {
-                $filename .= ' AM'.$record['ΑΜ'];
-            }
-
-            $filename .= '.pdf';
-            $zip->addFromString($filename, $file);
-            $zip->setCompressionName($filename, ZipArchive::CM_STORE);
+        if ($export->path === null || ! Storage::exists($export->path)) {
+            abort(404);
         }
-        $zip->close();
 
-        return response()->download($zip_name);
+        $filename = $export->mailMerge->protocol_num.'-'.$export->created_at->format('YmdHis').'.zip';
+        $path = Storage::path($export->path);
+        $export->delete();
+
+        return response()->download($path, $filename)->deleteFileAfterSend(true);
     }
 
     /**
