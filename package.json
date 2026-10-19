@@ -7,6 +7,7 @@
         "test": "vitest run"
     },
     "devDependencies": {
+        "@laravel/multiplex": "^0.4.5",
         "@types/bootstrap": "^5.2.0",
         "@types/jquery": "^3.5.14",
         "@types/lodash": "^4.14.182",
