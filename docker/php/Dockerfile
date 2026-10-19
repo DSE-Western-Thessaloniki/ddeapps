@@ -45,6 +45,6 @@ RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u $WWWUSER sail
 RUN mkdir -p /var/www/html/storage
 RUN chown -R $WWWUSER:$WWWGROUP /var/www/html/storage /usr/local/etc/php*
 
-USER sail
-
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+USER sail
