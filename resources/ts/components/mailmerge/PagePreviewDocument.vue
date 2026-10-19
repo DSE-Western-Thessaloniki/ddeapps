@@ -29,22 +29,26 @@ const props = defineProps<{
                         </p>
                         <p class="text-center" v-html="docLogoTextHtml"></p>
                         <table class="table table-borderless doc-address-col">
-                            <tr>
-                                <td class="no-wrap pr-1">Ταχ. Διεύθυνση:</td>
-                                <td>{{ editorAddress }}</td>
-                            </tr>
-                            <tr>
-                                <td>Πληροφορίες:</td>
-                                <td>{{ editorName }}</td>
-                            </tr>
-                            <tr>
-                                <td>Τηλέφωνο:</td>
-                                <td>{{ editorTelephone }}</td>
-                            </tr>
-                            <tr>
-                                <td>Email:</td>
-                                <td>{{ editorEmail }}</td>
-                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td class="no-wrap pr-1">
+                                        Ταχ. Διεύθυνση:
+                                    </td>
+                                    <td>{{ editorAddress }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Πληροφορίες:</td>
+                                    <td>{{ editorName }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Τηλέφωνο:</td>
+                                    <td>{{ editorTelephone }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email:</td>
+                                    <td>{{ editorEmail }}</td>
+                                </tr>
+                            </tbody>
                         </table>
                     </td>
                     <td class="w-50">
