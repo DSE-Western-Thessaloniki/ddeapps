@@ -14,7 +14,7 @@ ENV TZ=UTC
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN docker-php-ext-install pdo_mysql
+RUN docker-php-ext-install pdo_mysql pcntl
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends git default-mysql-client gnupg gosu curl ca-certificates zip unzip sqlite3 ssh \
