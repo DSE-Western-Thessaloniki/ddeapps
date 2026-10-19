@@ -115,6 +115,7 @@ services:
       MYSQL_USERNAME: "${DB_USERNAME}"
       MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
       PMA_HOST: mariadb
+      UPLOAD_LIMIT: 300M
     networks:
       - sail
     depends_on:
