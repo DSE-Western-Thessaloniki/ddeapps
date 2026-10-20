@@ -51,7 +51,7 @@
                     <li>
                         {{
                             __(
-                                "Cannot continue without creating an exact copy."
+                                "Cannot continue without creating an exact copy.",
                             )
                         }}
                     </li>
@@ -77,7 +77,7 @@
                 >
                     <button
                         class="btn btn-primary"
-                        :class="missingfields ? 'disabled' : ''"
+                        :class="missingfields.length ? 'disabled' : ''"
                         id="Save"
                         type="submit"
                     >
@@ -131,7 +131,7 @@
                             {{
                                 __(
                                     "You can select one or more columns to be used" +
-                                        " as a recipient list by right clicking on each column."
+                                        " as a recipient list by right clicking on each column.",
                                 )
                             }}
                         </div>
@@ -140,13 +140,14 @@
                 <div
                     id="missing-fields"
                     class="card bg-danger mb-3"
-                    v-if="missingfields"
+                    v-if="missingfields.length"
                 >
                     <div class="card-body">
                         <h5 class="class-title">Σφάλμα!</h5>
                         <div class="class-text">
                             Το αρχείο πρέπει υποχρεωτικά να περιέχει τις στήλες
-                            <b>ΑΜ, ΟΝΟΜΑ, ΕΠΩΝΥΜΟ, ΚΛΑΔΟΣ, ΑΦ</b>!
+                            <b>ΑΜ, ΟΝΟΜΑ, ΕΠΩΝΥΜΟ, ΚΛΑΔΟΣ, ΑΦ</b>! Λείπουν οι
+                            στήλες: <b>{{ missingfields.join(", ") }}</b>
                         </div>
                     </div>
                 </div>
@@ -379,7 +380,7 @@ const props = withDefaults(
         doc_data: "",
         doc_data_header: "",
         doc_mfields: "",
-    }
+    },
 );
 
 const xlsx_ref = ref();
@@ -440,19 +441,19 @@ const setmergefields = (fields: string[]) => {
     CKEDITOR.instances.editor1.ui.instances.placeholder_select.buildList();
 };
 
-const missingfields = ref(false);
+const missingfields = ref<string[]>([]);
 
-const setMissingfields = (value: boolean) => (missingfields.value = value);
+const setMissingfields = (value: string[]) => (missingfields.value = value);
 
 const changeToStep = (value: number) => {
-    if (missingfields.value) return;
+    if (missingfields.value.length > 0) return;
     step.value = value;
 };
 
 const myAutocomplete = (editor: any, config: any) => {
     autocomplete.value = new CKEDITOR.plugins.autocomplete(
         window.CKEDITOR.instances.editor1,
-        config
+        config,
     );
     // Override default getHtmlToInsert to enable rich content output.
     autocomplete.value.getHtmlToInsert = function (item) {
@@ -493,7 +494,7 @@ const ckEditorReadyCallback = (readyEvent: Event) => {
 
         function dataCallback(
             matchInfo: { query: string },
-            callback: Function
+            callback: Function,
         ) {
             const data = window.itemsArray.filter(function (item) {
                 const itemName = "[[" + item.title + "]]";
